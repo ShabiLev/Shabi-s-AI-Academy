@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -iE \"^lighthouse$|^puppeteer\")",
+      "Bash(node -e \"console.log\\(require\\('./node_modules/lighthouse/package.json'\\).version\\)\")",
+      "Bash(node -e \"try{console.log\\(require\\('./node_modules/puppeteer/package.json'\\).version\\)}catch\\(e\\){console.log\\('no puppeteer pkg', e.message\\)}\")",
+      "Bash(node -e \"try{console.log\\(require\\('./node_modules/puppeteer-core/package.json'\\).version\\)}catch\\(e\\){console.log\\('no puppeteer-core', e.message\\)}\")",
+      "Bash(node -e \"console.log\\(Object.keys\\(require\\('./node_modules/lighthouse/package.json'\\).exports || {}\\)\\)\")",
+      "Bash(node -e \"const d=JSON.parse\\(require\\('fs'\\).readFileSync\\(0,'utf8'\\)\\); console.log\\(JSON.stringify\\(d.exports,null,2\\)\\)\")",
+      "Bash(node -e \"const d=require\\('./node_modules/lighthouse/package.json'\\); console.log\\('main:', d.main, 'type:', d.type\\)\")",
+      "Bash(node _lh-flow-test.mjs)",
+      "Bash(node quality/scripts/lighthouse-authenticated-flow.mjs)",
+      "Bash(node quality/scripts/lighthouse-authenticated-flow.mjs --mobile)",
+      "Bash(node -e ' *)",
+      "Bash(powershell -NoProfile -Command \"Get-NetTCPConnection -LocalPort 4173 -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess\")",
+      "Bash(powershell -NoProfile -Command \"Stop-Process -Id 78208 -Force -ErrorAction SilentlyContinue; Write-Output done\")",
+      "Bash(echo \"exit code was: $?\")",
+      "Bash(git add *)",
+      "Bash(rm quality/scripts/lighthouse-puppeteer-login.cjs)",
+      "Bash(rm -f _lhci-test-output -r)",
+      "Bash(rm -rf .lighthouseci)",
+      "Bash(npx playwright *)",
+      "Bash(node -e \"const d=JSON.parse\\(require\\('fs'\\).readFileSync\\('quality/generated/vitest-results.json','utf8'\\)\\); console.log\\('numTotalTests:', d.numTotalTests, 'numFailedTests:', d.numFailedTests\\)\")",
+      "Bash(curl -s http://127.0.0.1:5183/generated/latest-quality-report.json)",
+      "Bash(node _manual-check2.mjs)",
+      "Bash(python3 -c ' *)",
+      "Bash(echo \"last command exit code: $?\")",
+      "Bash(echo \"exit: $?\")",
+      "Bash(powershell -NoProfile -Command \"Get-NetTCPConnection -LocalPort 5183 -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess\")",
+      "Bash(powershell -NoProfile -Command \"Stop-Process -Id 65428 -Force -ErrorAction SilentlyContinue; Write-Output done\")",
+      "Bash(git commit *)"
+    ]
+  }
+}

@@ -23,7 +23,9 @@ function gate(status, message) {
 // ---------- lint ----------
 function collectLint() {
   try {
-    const output = execSync("npx eslint . --format json", { stdio: ["ignore", "pipe", "pipe"] }).toString();
+    const output = execSync("npx eslint . --format json", {
+      stdio: ["ignore", "pipe", "pipe"],
+    }).toString();
     const results = JSON.parse(output);
     const errorCount = results.reduce((sum, r) => sum + r.errorCount, 0);
     return gate(errorCount > 0 ? "failed" : "passed");
@@ -35,7 +37,10 @@ function collectLint() {
       const errorCount = results.reduce((sum, r) => sum + r.errorCount, 0);
       return gate(errorCount > 0 ? "failed" : "passed");
     } catch {
-      return gate("notAvailable", "Could not run eslint to determine lint status.");
+      return gate(
+        "notAvailable",
+        "Could not run eslint to determine lint status.",
+      );
     }
   }
 }
@@ -55,14 +60,23 @@ function collectUnitTests() {
   const status = total === 0 ? "notRun" : failed > 0 ? "failed" : "passed";
   return {
     gate: gate(status),
-    summary: { total, failed, skipped, durationMs: typeof data.testResults?.[0]?.perfStats?.runtime === "number" ? undefined : undefined },
+    summary: {
+      total,
+      failed,
+      skipped,
+      durationMs:
+        typeof data.testResults?.[0]?.perfStats?.runtime === "number"
+          ? undefined
+          : undefined,
+    },
   };
 }
 
 // ---------- coverage ----------
 function collectCoverage() {
   const data = readJsonSafe("coverage/coverage-summary.json");
-  if (!data || !data.total) return { gate: gate("notAvailable"), summary: null };
+  if (!data || !data.total)
+    return { gate: gate("notAvailable"), summary: null };
   const pct = (entry) => Math.round(entry.pct * 100) / 100;
   const statements = pct(data.total.statements);
   const branches = pct(data.total.branches);
@@ -76,7 +90,14 @@ function collectCoverage() {
   const status = belowThreshold ? "failed" : "passed";
   return {
     gate: gate(status),
-    summary: { statements, branches, functions, lines, thresholds: coverageThresholds, status },
+    summary: {
+      statements,
+      branches,
+      functions,
+      lines,
+      thresholds: coverageThresholds,
+      status,
+    },
   };
 }
 
@@ -98,14 +119,21 @@ function flattenSpecs(suites, prefix = "") {
 }
 
 function loadPlaywrightReport(name) {
-  const data = readJsonSafe(path.join(GENERATED_DIR, `playwright-${name}-results.json`));
+  const data = readJsonSafe(
+    path.join(GENERATED_DIR, `playwright-${name}-results.json`),
+  );
   if (!data) return null;
   const specs = flattenSpecs(data.suites);
   const projectNames = new Set();
   for (const { spec } of specs) {
     for (const test of spec.tests ?? []) projectNames.add(test.projectName);
   }
-  return { specs, failed: specs.filter(({ spec }) => !spec.ok).length, total: specs.length, projectNames };
+  return {
+    specs,
+    failed: specs.filter(({ spec }) => !spec.ok).length,
+    total: specs.length,
+    projectNames,
+  };
 }
 
 function collectPlaywright() {
@@ -114,8 +142,16 @@ function collectPlaywright() {
   const a11y = loadPlaywrightReport("a11y");
   const visualReport = loadPlaywrightReport("visual");
 
-  const e2eFast = !fast ? gate("notAvailable") : fast.failed > 0 ? gate("failed") : gate("passed");
-  const e2eFull = !full ? gate("notRun") : full.failed > 0 ? gate("failed") : gate("passed");
+  const e2eFast = !fast
+    ? gate("notAvailable")
+    : fast.failed > 0
+      ? gate("failed")
+      : gate("passed");
+  const e2eFull = !full
+    ? gate("notRun")
+    : full.failed > 0
+      ? gate("failed")
+      : gate("passed");
 
   const accessibility = !a11y
     ? null
@@ -159,7 +195,8 @@ function collectAccessibilityViolations() {
       else if (entry.startsWith("axe-") && entry.endsWith(".json")) {
         const data = readJsonSafe(full);
         for (const violation of data?.violations ?? []) {
-          if (bySeverity[violation.impact] !== undefined) bySeverity[violation.impact] += violation.nodes?.length ?? 1;
+          if (bySeverity[violation.impact] !== undefined)
+            bySeverity[violation.impact] += violation.nodes?.length ?? 1;
         }
       }
     }
@@ -194,7 +231,10 @@ function collectVisualBaselineInfo() {
   } catch {
     /* best effort */
   }
-  return { baselineCount: count, lastBaselineUpdate: latest ? new Date(latest).toISOString() : null };
+  return {
+    baselineCount: count,
+    lastBaselineUpdate: latest ? new Date(latest).toISOString() : null,
+  };
 }
 
 // ---------- Lighthouse ----------
@@ -208,7 +248,12 @@ function collectLighthouse() {
     const manifest = readJsonSafe(manifestPath);
     if (!Array.isArray(manifest)) continue;
     for (const entry of manifest) {
-      const lhr = readJsonSafe(path.join(path.dirname(manifestPath), path.basename(entry.jsonPath ?? "")));
+      const lhr = readJsonSafe(
+        path.join(
+          path.dirname(manifestPath),
+          path.basename(entry.jsonPath ?? ""),
+        ),
+      );
       if (!lhr) continue;
       routes.push({
         route: "/login",
@@ -218,15 +263,20 @@ function collectLighthouse() {
         bestPractices: lhr.categories?.["best-practices"]?.score ?? null,
         seo: lhr.categories?.seo?.score ?? null,
         metrics: {
-          largestContentfulPaintMs: lhr.audits?.["largest-contentful-paint"]?.numericValue,
-          cumulativeLayoutShift: lhr.audits?.["cumulative-layout-shift"]?.numericValue,
-          totalBlockingTimeMs: lhr.audits?.["total-blocking-time"]?.numericValue,
+          largestContentfulPaintMs:
+            lhr.audits?.["largest-contentful-paint"]?.numericValue,
+          cumulativeLayoutShift:
+            lhr.audits?.["cumulative-layout-shift"]?.numericValue,
+          totalBlockingTimeMs:
+            lhr.audits?.["total-blocking-time"]?.numericValue,
         },
       });
     }
   }
   for (const device of ["desktop", "mobile"]) {
-    const summary = readJsonSafe(`quality/generated/lighthouse/authenticated-${device}-summary.json`);
+    const summary = readJsonSafe(
+      `quality/generated/lighthouse/authenticated-${device}-summary.json`,
+    );
     for (const entry of summary ?? []) {
       routes.push({
         route: entry.route,
@@ -240,7 +290,10 @@ function collectLighthouse() {
     }
   }
   if (!routes.length) return { gate: gate("notAvailable"), summary: null };
-  const thresholds = { desktop: lighthouseThresholds.desktop, mobile: lighthouseThresholds.mobile };
+  const thresholds = {
+    desktop: lighthouseThresholds.desktop,
+    mobile: lighthouseThresholds.mobile,
+  };
   const anyFailed = routes.some((r) => {
     const t = thresholds[r.device];
     if (!t) return false;
@@ -264,23 +317,35 @@ function collectGitDiff() {
     return gate("passed");
   } catch (err) {
     if (err.status === undefined) return gate("notAvailable");
-    return gate("failed", "git diff --check reported whitespace or conflict-marker issues.");
+    return gate(
+      "failed",
+      "git diff --check reported whitespace or conflict-marker issues.",
+    );
   }
 }
 
 function main() {
   mkdirSync(GENERATED_DIR, { recursive: true });
 
-  const buildMetadata = readJsonSafe(path.join(GENERATED_DIR, "build-metadata.json"));
+  const buildMetadata = readJsonSafe(
+    path.join(GENERATED_DIR, "build-metadata.json"),
+  );
   const pkg = readJsonSafe("package.json");
 
   const lint = collectLint();
   const build = collectBuild();
   const { gate: unitTestsGate, summary: vitestSummary } = collectUnitTests();
   const { gate: coverageGate, summary: coverageSummary } = collectCoverage();
-  const { e2eFast, e2eFull, accessibility: a11yFromPw, visual: visualFromPw, playwrightSummary } = collectPlaywright();
+  const {
+    e2eFast,
+    e2eFull,
+    accessibility: a11yFromPw,
+    visual: visualFromPw,
+    playwrightSummary,
+  } = collectPlaywright();
   const gitDiff = collectGitDiff();
-  const { gate: performanceGate, summary: performanceSummary } = collectLighthouse();
+  const { gate: performanceGate, summary: performanceSummary } =
+    collectLighthouse();
 
   const violationsBySeverity = collectAccessibilityViolations();
   const accessibility = a11yFromPw
@@ -299,14 +364,17 @@ function main() {
         baselineCount: visualBaselineInfo.baselineCount,
         comparedCount: visualFromPw.comparedCount,
         mismatches: visualFromPw.mismatches,
-        baselineEnvironment: "visual-chromium (Windows local baselines pending Linux CI regeneration)",
+        baselineEnvironment:
+          "visual-chromium (Windows local baselines pending Linux CI regeneration)",
         lastBaselineUpdate: visualBaselineInfo.lastBaselineUpdate,
         status: visualFromPw.status,
       }
     : null;
 
   const visualGate = visual ? gate(visual.status) : gate("notAvailable");
-  const accessibilityGate = accessibility ? gate(accessibility.status) : gate("notAvailable");
+  const accessibilityGate = accessibility
+    ? gate(accessibility.status)
+    : gate("notAvailable");
 
   const gates = {
     lint,
@@ -318,6 +386,10 @@ function main() {
     accessibility: accessibilityGate,
     visual: visualGate,
     performance: performanceGate,
+    manualChecklist: gate(
+      "notRun",
+      "Complete the versioned checklist in QA Center.",
+    ),
     gitDiff,
   };
 
@@ -345,26 +417,56 @@ function main() {
     analyzerSummary: null,
   };
 
-  writeFileSync(path.join(GENERATED_DIR, "latest-quality-report.json"), JSON.stringify(report, null, 2));
+  writeFileSync(
+    path.join(GENERATED_DIR, "latest-quality-report.json"),
+    JSON.stringify(report, null, 2),
+  );
 
   const coverageOut = coverageSummary
     ? { ...coverageSummary, generatedAt: report.generatedAt }
-    : { statements: null, branches: null, functions: null, lines: null, thresholds: coverageThresholds, status: "notAvailable", generatedAt: report.generatedAt };
-  writeFileSync(path.join(GENERATED_DIR, "coverage-summary.json"), JSON.stringify(coverageOut, null, 2));
+    : {
+        statements: null,
+        branches: null,
+        functions: null,
+        lines: null,
+        thresholds: coverageThresholds,
+        status: "notAvailable",
+        generatedAt: report.generatedAt,
+      };
+  writeFileSync(
+    path.join(GENERATED_DIR, "coverage-summary.json"),
+    JSON.stringify(coverageOut, null, 2),
+  );
 
   writeFileSync(
     path.join(GENERATED_DIR, "lighthouse-summary.json"),
-    JSON.stringify({ ...(performanceSummary ?? { routes: [], thresholds: null }), status: performanceGate.status, generatedAt: report.generatedAt }, null, 2),
+    JSON.stringify(
+      {
+        ...(performanceSummary ?? { routes: [], thresholds: null }),
+        status: performanceGate.status,
+        generatedAt: report.generatedAt,
+      },
+      null,
+      2,
+    ),
   );
 
   // Copy into public/ so the running app can fetch it as "the latest local generated
   // result" (see src/pages/QACenterPage.tsx). Never committed — see .gitignore.
   mkdirSync("public/generated", { recursive: true });
-  writeFileSync("public/generated/latest-quality-report.json", JSON.stringify(report, null, 2));
+  writeFileSync(
+    "public/generated/latest-quality-report.json",
+    JSON.stringify(report, null, 2),
+  );
 
   console.log("Wrote quality/generated/latest-quality-report.json");
-  console.log("Copied it to public/generated/latest-quality-report.json for local dev/preview.");
-  console.log("Gates:", Object.fromEntries(Object.entries(gates).map(([k, v]) => [k, v.status])));
+  console.log(
+    "Copied it to public/generated/latest-quality-report.json for local dev/preview.",
+  );
+  console.log(
+    "Gates:",
+    Object.fromEntries(Object.entries(gates).map(([k, v]) => [k, v.status])),
+  );
 }
 
 main();

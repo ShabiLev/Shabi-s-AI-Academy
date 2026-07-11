@@ -2,6 +2,19 @@
 
 All notable changes to this project are documented here following the Keep a Changelog format.
 
+## [0.6.0] - 2026-07-11
+
+### Added
+
+- Twelve-step Agent Builder, browser-local Agent Library, five templates, Blueprint export, and deterministic simulation scenarios
+- Deterministic Agent design-quality score with explicit production-readiness limitations
+- “Anatomy of an Agent” lesson, dashboard Agent metrics, and a searchable bilingual How To guide
+- Explicit `manualChecklist` quality gate with versioned local override semantics
+
+### Fixed
+
+- Lighthouse preview startup now uses HTTP readiness polling and guaranteed cleanup instead of log-pattern detection
+
 ## [0.5.0] - 2026-07-11
 
 ### Added

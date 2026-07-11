@@ -23,6 +23,7 @@ export const qaUi = {
       accessibility: "נגישות",
       visual: "רגרסיה ויזואלית",
       performance: "ביצועים",
+      manualChecklist: "רשימת בדיקה ידנית",
       gitDiff: "בדיקת Git diff",
     },
     gateStatus: {
@@ -125,14 +126,16 @@ export const qaUi = {
     },
     issues: {
       title: "מעקב בעיות פנימי (מקומי בדפדפן)",
-      localNotice: "הרשימה נשמרת בדפדפן זה בלבד ואינה מסונכרנת עם מערכת חיצונית.",
+      localNotice:
+        "הרשימה נשמרת בדפדפן זה בלבד ואינה מסונכרנת עם מערכת חיצונית.",
       create: "בעיה חדשה",
       edit: "עריכה",
       resolve: "סימון כטופל",
       reopen: "פתיחה מחדש",
       delete: "מחיקה",
       deleteConfirmTitle: "מחיקת בעיה?",
-      deleteConfirmDescription: "הפעולה תמחק את הבעיה מהמעקב המקומי ולא ניתן לבטל אותה.",
+      deleteConfirmDescription:
+        "הפעולה תמחק את הבעיה מהמעקב המקומי ולא ניתן לבטל אותה.",
       cancel: "ביטול",
       save: "שמירה",
       required: "שדה חובה",
@@ -239,6 +242,7 @@ export const qaUi = {
       accessibility: "Accessibility",
       visual: "Visual regression",
       performance: "Performance",
+      manualChecklist: "Manual checklist",
       gitDiff: "Git diff check",
     },
     gateStatus: {
@@ -274,9 +278,12 @@ export const qaUi = {
       invalidReport: "The report file is not valid",
       unsupportedSchema: "The report's schema version is not supported",
       generatedAt: "Generated at",
-      staleVersionWarning: "The report's application version does not match the current version.",
-      staleCommitWarning: "The report's commit does not match the current build.",
-      staleOldWarning: "This report is older than the documented threshold and may not reflect the current state.",
+      staleVersionWarning:
+        "The report's application version does not match the current version.",
+      staleCommitWarning:
+        "The report's commit does not match the current build.",
+      staleOldWarning:
+        "This report is older than the documented threshold and may not reflect the current state.",
     },
     tests: {
       vitestLabel: "Vitest",
@@ -341,14 +348,16 @@ export const qaUi = {
     },
     issues: {
       title: "Internal issue register (browser-local)",
-      localNotice: "This list is stored only in this browser and is not synced to any external system.",
+      localNotice:
+        "This list is stored only in this browser and is not synced to any external system.",
       create: "New issue",
       edit: "Edit",
       resolve: "Resolve",
       reopen: "Reopen",
       delete: "Delete",
       deleteConfirmTitle: "Delete this issue?",
-      deleteConfirmDescription: "This removes the issue from the local register and cannot be undone.",
+      deleteConfirmDescription:
+        "This removes the issue from the local register and cannot be undone.",
       cancel: "Cancel",
       save: "Save",
       required: "This field is required",
@@ -359,7 +368,8 @@ export const qaUi = {
       all: "All",
       export: "Export JSON",
       import: "Import JSON",
-      importInvalid: "Some entries in the file were invalid and were not imported",
+      importInvalid:
+        "Some entries in the file were invalid and were not imported",
       importSummary: "Imported {accepted} issues, {rejected} rejected",
       empty: "No issues recorded",
       noResults: "No issues match these filters",
@@ -396,7 +406,8 @@ export const qaUi = {
     },
     checklist: {
       title: "Release readiness checklist",
-      versionNotice: "This checklist applies to version {version} and resets on every version bump.",
+      versionNotice:
+        "This checklist applies to version {version} and resets on every version bump.",
       automatedSection: "Automated gates",
       manualSection: "Manual checks",
       automated: {
@@ -431,6 +442,6 @@ export const qaUi = {
       noneDetected: "No issues detected",
     },
   },
-} as const
+} as const;
 
-export type QaUiLanguage = keyof typeof qaUi
+export type QaUiLanguage = keyof typeof qaUi;

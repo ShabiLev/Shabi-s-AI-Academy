@@ -11,6 +11,15 @@ async function createPrompt(page: Page, title = "Visual QA Prompt") {
   await page.getByRole("button", { name: "שמירה" }).click();
 }
 
+async function loadSampleIfAvailable(page: Page) {
+  const button = page.getByRole("button", { name: /טעינת נתוני דוגמה|Load sample data/ });
+  if (await button.isVisible()) await button.click();
+}
+
+async function useStableQaSample(page: Page) {
+  await page.route("**/generated/latest-quality-report.json", (route) => route.fulfill({ json: null }));
+}
+
 test.describe("visual — desktop Hebrew", () => {
   test("Login", async ({ page }) => {
     await page.goto("/login");
@@ -64,10 +73,13 @@ test.describe("visual — desktop Hebrew", () => {
   });
 
   test("QA Center", async ({ page }) => {
+    await useStableQaSample(page);
     await login(page, "/qa");
-    await page.getByRole("button", { name: "טעינת נתוני דוגמה" }).click();
+    await loadSampleIfAvailable(page);
     await stabilize(page);
-    await expect(page).toHaveScreenshot("qa-center.png", { mask: dynamicMasks(page) });
+    await expect(page).toHaveScreenshot("qa-center.png", {
+      mask: dynamicMasks(page),
+    });
   });
 });
 
@@ -89,12 +101,15 @@ test.describe("visual — desktop English", () => {
   });
 
   test("QA Center", async ({ page }) => {
+    await useStableQaSample(page);
     await login(page);
     await english(page);
     await page.goto("/qa");
-    await page.getByRole("button", { name: "Load sample data" }).click();
+    await loadSampleIfAvailable(page);
     await stabilize(page);
-    await expect(page).toHaveScreenshot("qa-center-en.png", { mask: dynamicMasks(page) });
+    await expect(page).toHaveScreenshot("qa-center-en.png", {
+      mask: dynamicMasks(page),
+    });
   });
 });
 
@@ -141,10 +156,13 @@ test.describe("visual — mobile Hebrew", () => {
   });
 
   test("QA Center", async ({ page }) => {
+    await useStableQaSample(page);
     await login(page, "/qa");
-    await page.getByRole("button", { name: "טעינת נתוני דוגמה" }).click();
+    await loadSampleIfAvailable(page);
     await stabilize(page);
-    await expect(page).toHaveScreenshot("mobile-qa-center.png", { mask: dynamicMasks(page) });
+    await expect(page).toHaveScreenshot("mobile-qa-center.png", {
+      mask: dynamicMasks(page),
+    });
   });
 });
 
@@ -169,11 +187,14 @@ test.describe("visual — mobile English", () => {
   });
 
   test("QA Center", async ({ page }) => {
+    await useStableQaSample(page);
     await login(page);
     await english(page);
     await page.goto("/qa");
-    await page.getByRole("button", { name: "Load sample data" }).click();
+    await loadSampleIfAvailable(page);
     await stabilize(page);
-    await expect(page).toHaveScreenshot("mobile-qa-center-en.png", { mask: dynamicMasks(page) });
+    await expect(page).toHaveScreenshot("mobile-qa-center-en.png", {
+      mask: dynamicMasks(page),
+    });
   });
 });

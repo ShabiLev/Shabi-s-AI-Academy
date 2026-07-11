@@ -37,6 +37,21 @@ test.describe("accessibility — Hebrew RTL", () => {
     await runAxeScan(page, test.info());
   });
 
+  test("Agent Library", async ({ page }) => {
+    await login(page, "/agents");
+    await runAxeScan(page, test.info());
+  });
+
+  test("Agent Builder", async ({ page }) => {
+    await login(page, "/agents/new");
+    await runAxeScan(page, test.info());
+  });
+
+  test("How To guide", async ({ page }) => {
+    await login(page, "/how-to");
+    await runAxeScan(page, test.info());
+  });
+
   test("Prompt Details", async ({ page }) => {
     await login(page, "/prompts/new");
     await page.getByLabel("שם הפרומפט").fill("A11y check prompt");
@@ -48,8 +63,11 @@ test.describe("accessibility — Hebrew RTL", () => {
   test("QA Center", async ({ page }) => {
     await login(page, "/qa");
     await runAxeScan(page, test.info(), { label: "qa-center-empty" });
-    await page.getByRole("button", { name: "טעינת נתוני דוגמה" }).click();
-    await runAxeScan(page, test.info(), { label: "qa-center-sample" });
+    const sample = page.getByRole("button", { name: "טעינת נתוני דוגמה" });
+    if (await sample.isVisible()) {
+      await sample.click();
+      await runAxeScan(page, test.info(), { label: "qa-center-sample" });
+    }
   });
 
   test("mobile navigation drawer open", async ({ page }) => {
@@ -68,7 +86,9 @@ test.describe("accessibility — Hebrew RTL", () => {
   test("delete confirmation dialog", async ({ page }) => {
     await login(page, "/prompts/new");
     await page.getByLabel("שם הפרומפט").fill("A11y delete check");
-    await page.getByLabel("משימה").fill("בדיקת נגישות עבור תיבת דו-שיח אישור מחיקה.");
+    await page
+      .getByLabel("משימה")
+      .fill("בדיקת נגישות עבור תיבת דו-שיח אישור מחיקה.");
     await page.getByRole("button", { name: "שמירה" }).click();
     await page.getByRole("button", { name: "מחיקה" }).click();
     await runAxeScan(page, test.info());

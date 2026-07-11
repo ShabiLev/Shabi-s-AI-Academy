@@ -15,14 +15,22 @@ function isCoverageBelowThreshold(report) {
   if (!coverage) return false;
   if (coverage.status === "failed") return true;
   const t = coverage.thresholds;
-  return coverage.statements < t.statements || coverage.branches < t.branches || coverage.functions < t.functions || coverage.lines < t.lines;
+  return (
+    coverage.statements < t.statements ||
+    coverage.branches < t.branches ||
+    coverage.functions < t.functions ||
+    coverage.lines < t.lines
+  );
 }
 
 function hasSevereAccessibilityViolation(report) {
   if (report.gates.accessibility.status === "failed") return true;
   const a11y = report.accessibility;
   if (!a11y) return false;
-  return a11y.violationsBySeverity.critical > 0 || a11y.violationsBySeverity.serious > 0;
+  return (
+    a11y.violationsBySeverity.critical > 0 ||
+    a11y.violationsBySeverity.serious > 0
+  );
 }
 
 function hasBlockingGateFailure(gates) {
@@ -51,17 +59,36 @@ function computeReleaseStatus(report) {
   return "readyWithWarnings";
 }
 
-const gateNames = ["lint", "unitTests", "coverage", "build", "e2eFast", "e2eFull", "accessibility", "visual", "performance", "gitDiff"];
+const gateNames = [
+  "lint",
+  "unitTests",
+  "coverage",
+  "build",
+  "e2eFast",
+  "e2eFull",
+  "accessibility",
+  "visual",
+  "performance",
+  "manualChecklist",
+  "gitDiff",
+];
 
 function analyze(report) {
   const overallStatus = computeReleaseStatus(report);
-  const failedGates = gateNames.filter((n) => report.gates[n].status === "failed");
-  const warningGates = gateNames.filter((n) => report.gates[n].status === "warning");
+  const failedGates = gateNames.filter(
+    (n) => report.gates[n].status === "failed",
+  );
+  const warningGates = gateNames.filter(
+    (n) =>
+      report.gates[n].status === "warning" ||
+      (n === "manualChecklist" && report.gates[n].status !== "passed"),
+  );
 
   const recommendedActions = [];
   const likelyAffectedAreas = [];
   const addArea = (en, he) => {
-    if (!likelyAffectedAreas.some((a) => a.en === en)) likelyAffectedAreas.push({ en, he });
+    if (!likelyAffectedAreas.some((a) => a.en === en))
+      likelyAffectedAreas.push({ en, he });
   };
 
   if (report.gates.build.status === "failed") {
@@ -72,7 +99,10 @@ function analyze(report) {
     addArea("Build / compilation", "בנייה / קומפילציה");
   }
   if (report.gates.lint.status === "failed") {
-    recommendedActions.push({ en: "Lint failed — resolve reported issues. (Blocks release.)", he: "בדיקת הלינט נכשלה — יש לתקן את הבעיות שדווחו. (חוסם שחרור.)" });
+    recommendedActions.push({
+      en: "Lint failed — resolve reported issues. (Blocks release.)",
+      he: "בדיקת הלינט נכשלה — יש לתקן את הבעיות שדווחו. (חוסם שחרור.)",
+    });
     addArea("Source code quality", "איכות קוד המקור");
   }
   if (report.gates.unitTests.status === "failed") {
@@ -82,7 +112,10 @@ function analyze(report) {
     });
     addArea("Application logic (Vitest)", "לוגיקת האפליקציה (Vitest)");
   }
-  if (report.gates.e2eFast.status === "failed" || report.gates.e2eFull.status === "failed") {
+  if (
+    report.gates.e2eFast.status === "failed" ||
+    report.gates.e2eFull.status === "failed"
+  ) {
     recommendedActions.push({
       en: "End-to-end tests failed — review the failing Playwright scenarios. (Blocks release.)",
       he: "בדיקות קצה-לקצה נכשלו — יש לבדוק את תרחישי ה-Playwright שנכשלו. (חוסם שחרור.)",
@@ -110,21 +143,30 @@ function analyze(report) {
     });
     addArea("Repository diff", "שינויים ברפוזיטורי");
   }
-  if (report.gates.visual.status === "warning" || report.gates.visual.status === "failed") {
+  if (
+    report.gates.visual.status === "warning" ||
+    report.gates.visual.status === "failed"
+  ) {
     recommendedActions.push({
       en: "Visual differences were detected — manual review recommended to confirm they are intentional.",
       he: "זוהו הבדלים ויזואליים — מומלצת בדיקה ידנית לאישור שהשינוי מכוון.",
     });
     addArea("Visual UI", "ממשק ויזואלי");
   }
-  if (report.gates.performance.status === "warning" || report.gates.performance.status === "failed") {
+  if (
+    report.gates.performance.status === "warning" ||
+    report.gates.performance.status === "failed"
+  ) {
     recommendedActions.push({
       en: "Performance is below a target threshold — review recommended before a production release.",
       he: "הביצועים נמוכים מהיעד — מומלצת בדיקה לפני שחרור לייצור.",
     });
     addArea("Performance", "ביצועים");
   }
-  if (report.gates.e2eFull.status === "notRun" || report.gates.e2eFull.status === "notAvailable") {
+  if (
+    report.gates.e2eFull.status === "notRun" ||
+    report.gates.e2eFull.status === "notAvailable"
+  ) {
     recommendedActions.push({
       en: "The full E2E browser matrix has not run — review recommended before a production release.",
       he: "מטריצת ה-E2E המלאה טרם רצה — מומלצת בדיקה לפני שחרור לייצור.",
@@ -135,8 +177,21 @@ function analyze(report) {
     he: "דוח זה נוצר על ידי כלי CI/CLI ואינו יכול לאשר את רשימת הבדיקה הידנית — יש להשלים אותה במרכז ה-QA לפני שחרור לייצור.",
   });
 
-  const gateLabel = { lint: "Lint", unitTests: "Unit tests", coverage: "Coverage", build: "Build", e2eFast: "E2E fast", e2eFull: "E2E full", accessibility: "Accessibility", visual: "Visual regression", performance: "Performance", gitDiff: "Git diff check" };
-  const list = (names) => (names.length ? names.map((n) => gateLabel[n]).join(", ") : "none");
+  const gateLabel = {
+    lint: "Lint",
+    unitTests: "Unit tests",
+    coverage: "Coverage",
+    build: "Build",
+    e2eFast: "E2E fast",
+    e2eFull: "E2E full",
+    accessibility: "Accessibility",
+    visual: "Visual regression",
+    performance: "Performance",
+    manualChecklist: "Manual checklist",
+    gitDiff: "Git diff check",
+  };
+  const list = (names) =>
+    names.length ? names.map((n) => gateLabel[n]).join(", ") : "none";
 
   return {
     overallStatus,
@@ -154,7 +209,9 @@ function main() {
   try {
     report = JSON.parse(readFileSync(REPORT_PATH, "utf8"));
   } catch {
-    console.error(`Could not read ${REPORT_PATH}. Run "npm run quality:collect" first.`);
+    console.error(
+      `Could not read ${REPORT_PATH}. Run "npm run quality:collect" first.`,
+    );
     process.exit(1);
   }
 
@@ -166,7 +223,8 @@ function main() {
   console.log(`\nQuality analysis — ${analyzerSummary.overallStatus}`);
   console.log(analyzerSummary.summaryEn);
   console.log("\nRecommended actions:");
-  for (const action of analyzerSummary.recommendedActions) console.log(`  - ${action.en}`);
+  for (const action of analyzerSummary.recommendedActions)
+    console.log(`  - ${action.en}`);
 
   if (analyzerSummary.overallStatus === "blocked") {
     console.error("\nQuality analysis result: BLOCKED.");

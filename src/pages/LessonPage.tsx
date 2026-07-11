@@ -12,8 +12,19 @@ export function LessonPage() {
     { language, t } = useLanguage(),
     { progress, startLesson, completeLesson, saveDraft } = useCourseProgress();
   useEffect(() => {
-    if (lesson?.available && (!progress.lessons[lesson.id]?.started || progress.lastOpenedLessonId !== lesson.id)) startLesson(lesson.id);
-  }, [lesson?.id, lesson?.available, progress.lastOpenedLessonId, progress.lessons, startLesson]);
+    if (
+      lesson?.available &&
+      (!progress.lessons[lesson.id]?.started ||
+        progress.lastOpenedLessonId !== lesson.id)
+    )
+      startLesson(lesson.id);
+  }, [
+    lesson?.id,
+    lesson?.available,
+    progress.lastOpenedLessonId,
+    progress.lessons,
+    startLesson,
+  ]);
   if (!lesson?.available)
     return (
       <div className="page lesson-not-found">
@@ -130,8 +141,21 @@ export function LessonPage() {
                 rows={8}
               />
               <small>{t("lesson.localDraftNotice")}</small>
-              <Link className="primary-button workshop-link" to="/prompts/new?source=lesson2">{promptUi[language].openWorkshop}</Link>
+              <Link
+                className="primary-button workshop-link"
+                to="/prompts/new?source=lesson2"
+              >
+                {promptUi[language].openWorkshop}
+              </Link>
             </>
+          )}
+          {lesson.id === "anatomy-of-an-agent" && (
+            <Link
+              className="primary-button workshop-link"
+              to="/agents/new?source=lesson-agent"
+            >
+              {language === "he" ? "פתיחת בונה הסוכנים" : "Open Agent Builder"}
+            </Link>
           )}
         </section>
       )}

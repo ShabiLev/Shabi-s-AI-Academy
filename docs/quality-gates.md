@@ -4,18 +4,19 @@ Sprint 5 (v0.5.0) adds an enforced set of quality gates on top of the existing V
 
 ## Gates
 
-| Gate | What it checks | Command |
-| --- | --- | --- |
-| Lint | `eslint .` reports zero errors | `npm run lint` |
-| Unit/Component tests | Vitest suite, zero failures | `npm run test:run` |
-| Coverage | Vitest coverage-v8 vs. enforced thresholds | `npm run test:coverage` |
-| Build | Production build succeeds | `npm run build` |
-| E2E fast | Playwright, Desktop Chromium only | `npm run test:e2e` |
-| E2E full | Playwright, all 5 projects | `npm run test:e2e:full` |
-| Accessibility | axe-core WCAG2A/AA scan, zero unexpected violations | `npm run test:a11y` |
-| Visual regression | Playwright screenshot comparison vs. committed baselines | `npm run test:visual` |
-| Performance | Lighthouse CI vs. desktop/mobile thresholds | `npm run test:performance` |
-| Git diff check | `git diff --check` (whitespace/conflict markers) | part of `validate:release` |
+| Gate                 | What it checks                                                 | Command                    |
+| -------------------- | -------------------------------------------------------------- | -------------------------- |
+| Lint                 | `eslint .` reports zero errors                                 | `npm run lint`             |
+| Unit/Component tests | Vitest suite, zero failures                                    | `npm run test:run`         |
+| Coverage             | Vitest coverage-v8 vs. enforced thresholds                     | `npm run test:coverage`    |
+| Build                | Production build succeeds                                      | `npm run build`            |
+| E2E fast             | Playwright, Desktop Chromium only                              | `npm run test:e2e`         |
+| E2E full             | Playwright, all 5 projects                                     | `npm run test:e2e:full`    |
+| Accessibility        | axe-core WCAG2A/AA scan, zero unexpected violations            | `npm run test:a11y`        |
+| Visual regression    | Playwright screenshot comparison vs. committed baselines       | `npm run test:visual`      |
+| Performance          | Lighthouse CI vs. desktop/mobile thresholds                    | `npm run test:performance` |
+| Manual checklist     | Versioned browser-local review; collected reports use `notRun` | QA Center                  |
+| Git diff check       | `git diff --check` (whitespace/conflict markers)               | part of `validate:release` |
 
 Every gate has five possible states: **Passed**, **Failed**, **Warning**, **Not run**, **Not available**. A missing result is never displayed as Passed — see `docs/qa-center.md`.
 
@@ -25,14 +26,15 @@ Every gate has five possible states: **Passed**, **Failed**, **Warning**, **Not 
 - Thresholds may only stay equal or increase over time — never lowered to paper over a regression.
 - Current thresholds (`quality/config/coverageThresholds.cjs`), matching the Sprint 5 recommended targets:
 
-  | Metric | Threshold | Measured baseline (2026-07-11) |
-  | --- | --- | --- |
-  | Statements | 75% | 95.25% |
-  | Branches | 65% | 83.51% |
-  | Functions | 70% | 80.09% |
-  | Lines | 75% | 95.25% |
+  | Metric     | Threshold | Measured baseline (2026-07-11) |
+  | ---------- | --------- | ------------------------------ |
+  | Statements | 75%       | 95.25%                         |
+  | Branches   | 65%       | 83.51%                         |
+  | Functions  | 70%       | 80.09%                         |
+  | Lines      | 75%       | 95.25%                         |
 
   The baseline was measured on this branch after adding integration tests for previously-uncovered flows (lesson quiz, prompt Builder/Details/Library CRUD, ConfirmDialog, PromptPreview) that predate Sprint 5 — coverage was not raised by excluding code, only by testing more of it.
+
 - Excluded from coverage: test files, `src/main.tsx` (bootstrap), `src/test/**` (setup), and three genuinely type-only files (`src/auth/types.ts`, `src/course/types.ts`, `src/i18n/types.ts` — interfaces/type aliases only, zero runtime statements). Business logic, storage, the quality-report analyzer, and user-facing components are never excluded.
 - Every new domain utility needs unit tests; every fixed bug needs a regression test.
 - A simplified `quality/generated/coverage-summary.json` is produced by `npm run quality:collect` (gitignored — see `quality/README.md`).
@@ -42,11 +44,13 @@ Every gate has five possible states: **Passed**, **Failed**, **Warning**, **Not 
 Implemented in `src/quality/qualityStatus.ts` (the tested source of truth used by the QA Center UI) and mirrored in `quality/scripts/analyze-quality-results.mjs` (a plain-JS copy for the Node CLI/CI context, which cannot import TypeScript directly — see that file's header comment for why, and keep both in sync when the rules change).
 
 **Blocked** if any of:
+
 - Build, lint, unit tests, E2E fast, E2E full, or the Git diff check failed.
 - Coverage is below its enforced threshold.
 - A serious or critical accessibility violation was found (from either the accessibility gate's own status or the scanned violation-severity counts).
 
 **Ready with warnings** if nothing above blocks, and any of:
+
 - Visual regression gate is not `passed` (a mismatch awaits review, or the suite hasn't run).
 - E2E full is not `passed` (including not yet run).
 - Performance gate is not `passed`.

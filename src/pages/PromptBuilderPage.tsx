@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useLanguage } from "../i18n/LanguageContext";
 import { usePromptLibrary } from "../prompts/PromptLibraryContext";
 import { categories, emptyInput, type PromptInput } from "../prompts/types";
@@ -117,6 +117,9 @@ export function PromptBuilderPage() {
     <div className="page prompt-builder-page">
       <header className="page-heading">
         <h1>{existing ? s.edit : s.workshop}</h1>
+        <Link to="/how-to#prompt-builder">
+          {language === "he" ? "עזרה" : "Help"}
+        </Link>
       </header>
       <div className="builder-grid">
         <form className="prompt-form" onSubmit={submit} noValidate>

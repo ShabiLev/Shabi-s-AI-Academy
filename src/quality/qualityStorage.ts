@@ -1,70 +1,93 @@
-import type { IssueSeverity, IssueStatus, IssueType, QaIssue, ReleaseChecklistState } from './types'
+import type {
+  GateStatus,
+  IssueSeverity,
+  IssueStatus,
+  IssueType,
+  QaIssue,
+  ReleaseChecklistState,
+} from "./types";
+import { isChecklistComplete } from "./checklist";
 
-export const QA_ISSUES_STORAGE_KEY = 'shabi-ai-academy.qa-issues.v1'
-export const QA_CHECKLIST_STORAGE_KEY = 'shabi-ai-academy.qa-checklist.v1'
+export const QA_ISSUES_STORAGE_KEY = "shabi-ai-academy.qa-issues.v1";
+export const QA_CHECKLIST_STORAGE_KEY = "shabi-ai-academy.qa-checklist.v1";
 
-const issueTypes: IssueType[] = ['bug', 'accessibility', 'performance', 'visual', 'automation', 'technicalDebt']
-const issueSeverities: IssueSeverity[] = ['critical', 'high', 'medium', 'low']
-const issueStatuses: IssueStatus[] = ['open', 'inProgress', 'resolved', 'acceptedRisk']
+const issueTypes: IssueType[] = [
+  "bug",
+  "accessibility",
+  "performance",
+  "visual",
+  "automation",
+  "technicalDebt",
+];
+const issueSeverities: IssueSeverity[] = ["critical", "high", "medium", "low"];
+const issueStatuses: IssueStatus[] = [
+  "open",
+  "inProgress",
+  "resolved",
+  "acceptedRisk",
+];
 
 export interface QaIssueInput {
-  title: string
-  description: string
-  type: IssueType
-  severity: IssueSeverity
-  owner: string
-  source: string
-  targetVersion?: string
-  relatedRoute?: string
-  relatedTest?: string
-  notes?: string
+  title: string;
+  description: string;
+  type: IssueType;
+  severity: IssueSeverity;
+  owner: string;
+  source: string;
+  targetVersion?: string;
+  relatedRoute?: string;
+  relatedTest?: string;
+  notes?: string;
 }
 
 export function loadIssues(): QaIssue[] {
   try {
-    const raw = localStorage.getItem(QA_ISSUES_STORAGE_KEY)
-    if (!raw) return []
-    const parsed = JSON.parse(raw)
-    return Array.isArray(parsed) ? parsed.filter(isValidIssueShape) : []
+    const raw = localStorage.getItem(QA_ISSUES_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed.filter(isValidIssueShape) : [];
   } catch {
-    return []
+    return [];
   }
 }
 
 function saveIssues(issues: QaIssue[]): void {
   try {
-    localStorage.setItem(QA_ISSUES_STORAGE_KEY, JSON.stringify(issues))
+    localStorage.setItem(QA_ISSUES_STORAGE_KEY, JSON.stringify(issues));
   } catch {
     /* storage unavailable; state stays in memory for this session */
   }
 }
 
 function isValidIssueShape(value: unknown): value is QaIssue {
-  if (typeof value !== 'object' || value === null) return false
-  const v = value as Record<string, unknown>
+  if (typeof value !== "object" || value === null) return false;
+  const v = value as Record<string, unknown>;
   return (
-    typeof v.id === 'string' &&
-    typeof v.title === 'string' &&
-    typeof v.description === 'string' &&
+    typeof v.id === "string" &&
+    typeof v.title === "string" &&
+    typeof v.description === "string" &&
     issueTypes.includes(v.type as IssueType) &&
     issueSeverities.includes(v.severity as IssueSeverity) &&
     issueStatuses.includes(v.status as IssueStatus) &&
-    typeof v.owner === 'string' &&
-    typeof v.source === 'string' &&
-    typeof v.createdAt === 'string' &&
-    typeof v.updatedAt === 'string'
-  )
+    typeof v.owner === "string" &&
+    typeof v.source === "string" &&
+    typeof v.createdAt === "string" &&
+    typeof v.updatedAt === "string"
+  );
 }
 
-export function createIssue(issues: QaIssue[], input: QaIssueInput): { issues: QaIssue[]; created: QaIssue } {
-  const now = new Date().toISOString()
+export function createIssue(
+  issues: QaIssue[],
+  input: QaIssueInput,
+): { issues: QaIssue[]; created: QaIssue } {
+  const now = new Date().toISOString();
   const created: QaIssue = {
     id: crypto.randomUUID(),
     title: input.title,
     description: input.description,
     type: input.type,
     severity: input.severity,
-    status: 'open',
+    status: "open",
     owner: input.owner,
     source: input.source,
     createdAt: now,
@@ -73,104 +96,154 @@ export function createIssue(issues: QaIssue[], input: QaIssueInput): { issues: Q
     relatedRoute: input.relatedRoute,
     relatedTest: input.relatedTest,
     notes: input.notes,
-  }
-  const next = [created, ...issues]
-  saveIssues(next)
-  return { issues: next, created }
+  };
+  const next = [created, ...issues];
+  saveIssues(next);
+  return { issues: next, created };
 }
 
-export function updateIssue(issues: QaIssue[], id: string, patch: Partial<QaIssueInput>): QaIssue[] {
+export function updateIssue(
+  issues: QaIssue[],
+  id: string,
+  patch: Partial<QaIssueInput>,
+): QaIssue[] {
   const next = issues.map((issue) =>
-    issue.id === id ? { ...issue, ...patch, updatedAt: new Date().toISOString() } : issue,
-  )
-  saveIssues(next)
-  return next
+    issue.id === id
+      ? { ...issue, ...patch, updatedAt: new Date().toISOString() }
+      : issue,
+  );
+  saveIssues(next);
+  return next;
 }
 
-export function setIssueStatus(issues: QaIssue[], id: string, status: IssueStatus): QaIssue[] {
-  const next = issues.map((issue) => (issue.id === id ? { ...issue, status, updatedAt: new Date().toISOString() } : issue))
-  saveIssues(next)
-  return next
+export function setIssueStatus(
+  issues: QaIssue[],
+  id: string,
+  status: IssueStatus,
+): QaIssue[] {
+  const next = issues.map((issue) =>
+    issue.id === id
+      ? { ...issue, status, updatedAt: new Date().toISOString() }
+      : issue,
+  );
+  saveIssues(next);
+  return next;
 }
 
 export function deleteIssue(issues: QaIssue[], id: string): QaIssue[] {
-  const next = issues.filter((issue) => issue.id !== id)
-  saveIssues(next)
-  return next
+  const next = issues.filter((issue) => issue.id !== id);
+  saveIssues(next);
+  return next;
 }
 
 export function exportIssuesJson(issues: QaIssue[]): string {
-  return JSON.stringify(issues, null, 2)
+  return JSON.stringify(issues, null, 2);
 }
 
 export interface IssueImportResult {
-  accepted: QaIssue[]
-  rejectedCount: number
+  accepted: QaIssue[];
+  rejectedCount: number;
 }
 
 /** Validates each imported entry independently; malformed entries are dropped, not the whole import. */
 export function parseImportedIssues(value: unknown): IssueImportResult {
-  if (!Array.isArray(value)) return { accepted: [], rejectedCount: 0 }
-  const accepted: QaIssue[] = []
-  let rejectedCount = 0
+  if (!Array.isArray(value)) return { accepted: [], rejectedCount: 0 };
+  const accepted: QaIssue[] = [];
+  let rejectedCount = 0;
   for (const entry of value) {
-    if (isValidIssueShape(entry)) accepted.push(entry)
-    else rejectedCount += 1
+    if (isValidIssueShape(entry)) accepted.push(entry);
+    else rejectedCount += 1;
   }
-  return { accepted, rejectedCount }
+  return { accepted, rejectedCount };
 }
 
-export function mergeImportedIssues(existing: QaIssue[], imported: QaIssue[]): QaIssue[] {
-  const byId = new Map(existing.map((issue) => [issue.id, issue]))
-  for (const issue of imported) byId.set(issue.id, issue)
-  const next = [...byId.values()]
-  saveIssues(next)
-  return next
+export function mergeImportedIssues(
+  existing: QaIssue[],
+  imported: QaIssue[],
+): QaIssue[] {
+  const byId = new Map(existing.map((issue) => [issue.id, issue]));
+  for (const issue of imported) byId.set(issue.id, issue);
+  const next = [...byId.values()];
+  saveIssues(next);
+  return next;
 }
 
 interface ChecklistHistory {
-  [applicationVersion: string]: ReleaseChecklistState
+  [applicationVersion: string]: ReleaseChecklistState;
 }
 
 function loadChecklistHistory(): ChecklistHistory {
   try {
-    const raw = localStorage.getItem(QA_CHECKLIST_STORAGE_KEY)
-    if (!raw) return {}
-    const parsed = JSON.parse(raw)
-    return typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed) ? parsed : {}
+    const raw = localStorage.getItem(QA_CHECKLIST_STORAGE_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    return typeof parsed === "object" &&
+      parsed !== null &&
+      !Array.isArray(parsed)
+      ? parsed
+      : {};
   } catch {
-    return {}
+    return {};
   }
 }
 
 function saveChecklistHistory(history: ChecklistHistory): void {
   try {
-    localStorage.setItem(QA_CHECKLIST_STORAGE_KEY, JSON.stringify(history))
+    localStorage.setItem(QA_CHECKLIST_STORAGE_KEY, JSON.stringify(history));
   } catch {
     /* storage unavailable; state stays in memory for this session */
   }
 }
 
 /** Starts a fresh, empty checklist the first time a given applicationVersion is seen. */
-export function getChecklistForVersion(applicationVersion: string): ReleaseChecklistState {
-  const history = loadChecklistHistory()
+export function getChecklistForVersion(
+  applicationVersion: string,
+): ReleaseChecklistState {
+  const history = loadChecklistHistory();
   return (
     history[applicationVersion] ?? {
       applicationVersion,
       manualChecks: {},
       updatedAt: new Date().toISOString(),
     }
-  )
+  );
 }
 
-export function saveChecklistForVersion(state: ReleaseChecklistState): ReleaseChecklistState {
-  const history = loadChecklistHistory()
-  const next: ReleaseChecklistState = { ...state, updatedAt: new Date().toISOString() }
-  history[state.applicationVersion] = next
-  saveChecklistHistory(history)
-  return next
+export function saveChecklistForVersion(
+  state: ReleaseChecklistState,
+): ReleaseChecklistState {
+  const history = loadChecklistHistory();
+  const next: ReleaseChecklistState = {
+    ...state,
+    updatedAt: new Date().toISOString(),
+  };
+  history[state.applicationVersion] = next;
+  saveChecklistHistory(history);
+  return next;
+}
+
+export function getManualChecklistGateStatus(
+  applicationVersion: string,
+): GateStatus {
+  try {
+    const raw = localStorage.getItem(QA_CHECKLIST_STORAGE_KEY);
+    if (!raw) return "notRun";
+    const history = JSON.parse(raw) as Record<string, unknown>;
+    if (!history || typeof history !== "object" || Array.isArray(history))
+      return "notAvailable";
+    const value = history[applicationVersion];
+    if (value === undefined) return "notRun";
+    if (!value || typeof value !== "object" || Array.isArray(value))
+      return "notAvailable";
+    const checks = (value as ReleaseChecklistState).manualChecks;
+    if (!checks || typeof checks !== "object" || Array.isArray(checks))
+      return "notAvailable";
+    return isChecklistComplete(checks) ? "passed" : "warning";
+  } catch {
+    return "notAvailable";
+  }
 }
 
 export function listChecklistVersions(): string[] {
-  return Object.keys(loadChecklistHistory())
+  return Object.keys(loadChecklistHistory());
 }

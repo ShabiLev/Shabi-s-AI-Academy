@@ -1,12 +1,12 @@
 import { test, expect, login, english, noOverflow } from "../fixtures/academy";
-test("catalog has two available and three Coming soon lessons", async ({
+test("catalog has three available and three Coming soon lessons", async ({
   page,
 }) => {
   await login(page, "/lessons");
   await expect(
     page.getByRole("heading", { name: "יסודות ה-AI" }),
   ).toBeVisible();
-  await expect(page.getByRole("link", { name: "התחלת שיעור" })).toHaveCount(2);
+  await expect(page.getByRole("link", { name: "התחלת שיעור" })).toHaveCount(3);
   await expect(page.getByRole("button", { name: "בקרוב" })).toHaveCount(3);
 });
 test("lessons open, unknown is Not Found, and next/previous work", async ({
@@ -32,7 +32,7 @@ test("opening marks progress and completion updates Dashboard and survives refre
   await login(page, "/lessons/ai-llm-agent");
   await page.getByRole("button", { name: "סימון השיעור כהושלם" }).click();
   await page.goto("/");
-  await expect(page.getByText("50%").first()).toBeVisible();
+  await expect(page.getByText("33%").first()).toBeVisible();
   await page.reload();
   await page.goto("/lessons");
   await expect(page.getByRole("link", { name: "צפייה חוזרת" })).toHaveCount(1);
@@ -42,7 +42,9 @@ test("quiz hides feedback, scores, and retries", async ({ page }) => {
   await expect(page.getByRole("status")).toHaveCount(0);
   await page.getByRole("radio", { name: "הקשר" }).check();
   await page.getByRole("radio", { name: "נכון", exact: true }).check();
-  await page.getByRole("radio", { name: "אימות אנושי ותוצר שניתן לסקור" }).check();
+  await page
+    .getByRole("radio", { name: "אימות אנושי ותוצר שניתן לסקור" })
+    .check();
   await page.getByRole("button", { name: "בדיקת תשובות" }).click();
   await expect(page.getByText(/הציון שלך/)).toBeVisible();
   await page.getByRole("button", { name: "ניסיון נוסף" }).click();

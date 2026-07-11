@@ -74,6 +74,16 @@ export const courseModules: CourseModule[] = [
       "repeatable-ai-workflow",
     ],
   },
+  {
+    id: "agent-foundations",
+    order: 2,
+    title: t("יסודות סוכני AI", "AI Agents Foundations"),
+    description: t(
+      "תכנון סוכן שקוף, מוגבל וניתן לבדיקה לפני חיבור לכלים אמיתיים.",
+      "Design a transparent, bounded, testable agent before connecting real tools.",
+    ),
+    lessonIds: ["anatomy-of-an-agent"],
+  },
 ];
 const common = (
   id: string,
@@ -366,9 +376,77 @@ lesson2.exercise = {
 };
 lesson2.quiz = quiz("prompt");
 lesson2.assignmentDraft = true;
+const lesson3 = common(
+  "anatomy-of-an-agent",
+  "anatomy-of-an-agent",
+  1,
+  25,
+  t("האנטומיה של סוכן", "Anatomy of an Agent"),
+  t(
+    "הגדירו מטרה, כלים, אימות, ניסיונות חוזרים, אישור אנושי ותנאי סיום.",
+    "Define goals, tools, validation, retries, human approval, and completion criteria.",
+  ),
+);
+lesson3.moduleId = "agent-foundations";
+lesson3.learningObjectives = [
+  t(
+    "להבחין בין הוראות, כלים וזיכרון.",
+    "Distinguish instructions, tools, and memory.",
+  ),
+  t(
+    "לתכנן נקודות אימות ואישור אנושי.",
+    "Design validation and human-approval points.",
+  ),
+  t(
+    "להגדיר מתי לנסות שוב ומתי לעצור.",
+    "Define when to retry and when to stop.",
+  ),
+];
+lesson3.sections = [
+  {
+    id: "loop",
+    title: t("לולאת הסוכן", "The agent loop"),
+    paragraphs: [
+      t(
+        "סוכן מקבל מטרה וקלט, מתכנן פעולה, משתמש רק בכלים שהוגדרו, בוחן את התוצאה ומסיים או מנסה שוב לפי מדיניות מפורשת.",
+        "An agent receives a goal and inputs, plans an action, uses only declared tools, validates the result, and finishes or retries under an explicit policy.",
+      ),
+    ],
+    steps: [
+      t("מטרה וקלט", "Goal and inputs"),
+      t("תכנון ופעולה", "Plan and act"),
+      t("אימות", "Validate"),
+      t("סיום או ניסיון חוזר", "Finish or retry"),
+    ],
+  },
+  {
+    id: "safety",
+    title: t("גבולות ואישור", "Boundaries and approval"),
+    paragraphs: [
+      t(
+        "כלי הוא הרשאה, לא רק יכולת. פעולות משנות מצב דורשות נקודת אישור אנושי, תנאי עצירה ותוצר שניתן לסקירה.",
+        "A tool is a permission, not merely a capability. State-changing actions need human approval, stop conditions, and reviewable output.",
+      ),
+      t(
+        "הסימולציה באקדמיה מקומית ודטרמיניסטית; היא אינה מפעילה כלי חיצוני ואינה מוכיחה ביצוע בעולם האמיתי.",
+        "Academy simulation is local and deterministic; it calls no external tool and does not prove real-world execution.",
+      ),
+    ],
+  },
+];
+lesson3.exercise = {
+  id: "build-agent",
+  title: t("תכננו סוכן", "Design an agent"),
+  instructions: t(
+    "בחרו תרחיש, הגדירו תנאי השלמה ועצירה, וציינו היכן נדרש אישור אנושי. לאחר מכן פתחו את בונה הסוכנים.",
+    "Choose a scenario, define completion and stop conditions, and identify human approval points. Then open Agent Builder.",
+  ),
+};
+lesson3.quiz = quiz("agent design");
 export const courseLessons = [
   lesson1,
   lesson2,
+  lesson3,
   common(
     "context-constraints-output",
     "context-constraints-output",

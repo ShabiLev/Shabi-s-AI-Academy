@@ -1,30 +1,128 @@
-export type Language = 'he' | 'en'
+export type Language = "he" | "en";
 
 export type TranslationKey =
-  | 'brand.name' | 'brand.tagline' | 'a11y.skipToContent' | 'a11y.openMenu' | 'a11y.closeMenu'
-  | 'a11y.changeLanguage' | 'a11y.progressLabel' | 'a11y.projectProgressLabel' | 'common.comingSoon' | 'common.minutes' | 'common.beginner'
-  | 'a11y.back' | 'a11y.home' | 'a11y.openProfile' | 'profile.menu'
-  | 'nav.dashboard' | 'nav.lessons' | 'nav.prompts' | 'nav.agents' | 'nav.projects' | 'nav.radar' | 'nav.settings' | 'nav.qa'
-  | 'header.workspace' | 'header.online' | 'header.hebrew' | 'header.english'
-  | 'dashboard.eyebrow' | 'dashboard.welcome' | 'dashboard.level' | 'dashboard.missionLabel' | 'dashboard.mission'
-  | 'dashboard.overallProgress' | 'dashboard.progressPercent' | 'dashboard.lessonsCompleted' | 'dashboard.dailyTime'
-  | 'dashboard.continueLearning' | 'dashboard.lessonNumber' | 'dashboard.lessonTitle' | 'dashboard.continue'
-  | 'dashboard.promptLibrary' | 'dashboard.noPrompts' | 'dashboard.promptDescription' | 'dashboard.openLibrary'
-  | 'dashboard.myAgents' | 'dashboard.noAgents' | 'dashboard.agentsDescription' | 'dashboard.exploreAgents'
-  | 'dashboard.activeProject' | 'dashboard.projectName' | 'dashboard.planning' | 'dashboard.viewProject'
-  | 'dashboard.aiRadar' | 'dashboard.noUpdates' | 'dashboard.radarDescription'
-  | 'pages.lessonsTitle' | 'pages.lessonsDescription' | 'pages.promptsTitle' | 'pages.promptsDescription'
-  | 'pages.agentsTitle' | 'pages.agentsDescription' | 'pages.projectsTitle' | 'pages.projectsDescription'
-  | 'pages.radarTitle' | 'pages.radarDescription' | 'pages.settingsTitle' | 'pages.settingsDescription'
-  | 'pages.futureLabel' | 'pages.futureDescription' | 'pages.qaTitle' | 'pages.qaDescription'
-  | 'settings.languageTitle' | 'settings.languageDescription' | 'settings.hebrew' | 'settings.english' | 'settings.selected'
-  | 'settings.progressTitle' | 'settings.progressDescription' | 'settings.resetProgress' | 'settings.resetConfirm' | 'settings.resetSuccess'
-  | 'course.module' | 'course.progress' | 'course.completedOf' | 'course.minutes' | 'course.objectives' | 'course.exercise' | 'course.solution'
-  | 'course.status.notStarted' | 'course.status.inProgress' | 'course.status.completed' | 'course.status.comingSoon' | 'course.action.start' | 'course.action.continue' | 'course.action.review'
-  | 'course.difficulty.beginner' | 'course.difficulty.intermediate' | 'course.difficulty.advanced'
-  | 'lesson.breadcrumb' | 'lesson.markComplete' | 'lesson.completed' | 'lesson.previous' | 'lesson.next' | 'lesson.notFoundTitle' | 'lesson.notFoundDescription' | 'lesson.assignmentLabel' | 'lesson.localDraftNotice' | 'lesson.tableScrollHint'
-  | 'quiz.title' | 'quiz.submit' | 'quiz.retry' | 'quiz.score' | 'quiz.correct' | 'quiz.incorrect' | 'quiz.answerRequired'
-  | 'auth.login' | 'auth.demoLogin' | 'auth.signOut' | 'auth.description' | 'auth.developmentNotice'
-  | 'footer.version' | 'footer.builtWhileLearning'
+  | "brand.name"
+  | "brand.tagline"
+  | "a11y.skipToContent"
+  | "a11y.openMenu"
+  | "a11y.closeMenu"
+  | "a11y.changeLanguage"
+  | "a11y.progressLabel"
+  | "a11y.projectProgressLabel"
+  | "common.comingSoon"
+  | "common.minutes"
+  | "common.beginner"
+  | "a11y.back"
+  | "a11y.home"
+  | "a11y.openProfile"
+  | "profile.menu"
+  | "nav.dashboard"
+  | "nav.lessons"
+  | "nav.prompts"
+  | "nav.agents"
+  | "nav.projects"
+  | "nav.radar"
+  | "nav.settings"
+  | "nav.qa"
+  | "nav.howTo"
+  | "header.workspace"
+  | "header.online"
+  | "header.hebrew"
+  | "header.english"
+  | "dashboard.eyebrow"
+  | "dashboard.welcome"
+  | "dashboard.level"
+  | "dashboard.missionLabel"
+  | "dashboard.mission"
+  | "dashboard.overallProgress"
+  | "dashboard.progressPercent"
+  | "dashboard.lessonsCompleted"
+  | "dashboard.dailyTime"
+  | "dashboard.continueLearning"
+  | "dashboard.lessonNumber"
+  | "dashboard.lessonTitle"
+  | "dashboard.continue"
+  | "dashboard.promptLibrary"
+  | "dashboard.noPrompts"
+  | "dashboard.promptDescription"
+  | "dashboard.openLibrary"
+  | "dashboard.myAgents"
+  | "dashboard.noAgents"
+  | "dashboard.agentsDescription"
+  | "dashboard.exploreAgents"
+  | "dashboard.activeProject"
+  | "dashboard.projectName"
+  | "dashboard.planning"
+  | "dashboard.viewProject"
+  | "dashboard.aiRadar"
+  | "dashboard.noUpdates"
+  | "dashboard.radarDescription"
+  | "pages.lessonsTitle"
+  | "pages.lessonsDescription"
+  | "pages.promptsTitle"
+  | "pages.promptsDescription"
+  | "pages.agentsTitle"
+  | "pages.agentsDescription"
+  | "pages.projectsTitle"
+  | "pages.projectsDescription"
+  | "pages.radarTitle"
+  | "pages.radarDescription"
+  | "pages.settingsTitle"
+  | "pages.settingsDescription"
+  | "pages.futureLabel"
+  | "pages.futureDescription"
+  | "pages.qaTitle"
+  | "pages.qaDescription"
+  | "settings.languageTitle"
+  | "settings.languageDescription"
+  | "settings.hebrew"
+  | "settings.english"
+  | "settings.selected"
+  | "settings.progressTitle"
+  | "settings.progressDescription"
+  | "settings.resetProgress"
+  | "settings.resetConfirm"
+  | "settings.resetSuccess"
+  | "course.module"
+  | "course.progress"
+  | "course.completedOf"
+  | "course.minutes"
+  | "course.objectives"
+  | "course.exercise"
+  | "course.solution"
+  | "course.status.notStarted"
+  | "course.status.inProgress"
+  | "course.status.completed"
+  | "course.status.comingSoon"
+  | "course.action.start"
+  | "course.action.continue"
+  | "course.action.review"
+  | "course.difficulty.beginner"
+  | "course.difficulty.intermediate"
+  | "course.difficulty.advanced"
+  | "lesson.breadcrumb"
+  | "lesson.markComplete"
+  | "lesson.completed"
+  | "lesson.previous"
+  | "lesson.next"
+  | "lesson.notFoundTitle"
+  | "lesson.notFoundDescription"
+  | "lesson.assignmentLabel"
+  | "lesson.localDraftNotice"
+  | "lesson.tableScrollHint"
+  | "quiz.title"
+  | "quiz.submit"
+  | "quiz.retry"
+  | "quiz.score"
+  | "quiz.correct"
+  | "quiz.incorrect"
+  | "quiz.answerRequired"
+  | "auth.login"
+  | "auth.demoLogin"
+  | "auth.signOut"
+  | "auth.description"
+  | "auth.developmentNotice"
+  | "footer.version"
+  | "footer.builtWhileLearning";
 
-export type Translations = Record<TranslationKey, string>
+export type Translations = Record<TranslationKey, string>;

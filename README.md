@@ -1,100 +1,89 @@
 # Shabi's AI Academy
 
-Shabi's AI Academy is a bilingual learning platform for building practical AI engineering and agent-development skills. Version 0.1.0 establishes the product foundation and a polished first dashboard.
+Shabi's AI Academy is a bilingual learning platform for practical AI engineering and agent-development skills. The current release is **Version 0.2.0**.
 
-## Current features
+## Features
 
-- Responsive command-center dashboard with course progress, current lesson, prompt library, agents, project, and AI radar summaries
-- Hebrew-first bilingual interface with complete English support
-- True RTL/LTR layout switching, including sidebar placement and directional controls
-- Persistent language preference with a safe fallback when browser storage is unavailable
-- Desktop sidebar, accessible mobile navigation drawer, shared header, content shell, and footer
-- Routed, polished foundation pages for lessons, prompt library, agents, projects, radar, and settings
-- Typed static data models and a centralized, typed translation layer
-- Reusable UI primitives including cards, progress bars, buttons, badges, section headers, and empty states
-- Keyboard operation, semantic landmarks, visible focus, reduced-motion support, and accessible progress semantics
+- Responsive command-center dashboard and routed academy sections
+- Hebrew-first interface with complete English support and automatic RTL/LTR direction
+- Settings-based, persistent language selection
+- Mobile menu plus route-aware Home and Back navigation
+- Authentication-ready context, protected routes, Demo Login, profile menu, and sign out
+- Accessible landmarks, keyboard controls, focus indicators, focus-managed overlays, and reduced-motion support
+
+## Demo Login and security
+
+The current Demo Login is only a local development simulation and is not secure production authentication. It stores only a non-sensitive session flag in `sessionStorage`; it does not collect or store passwords, authentication tokens, credentials, or secrets. A production release must replace it with a server-backed identity and session system.
 
 ## Technology stack
 
-- React and TypeScript
-- Vite
-- React Router
-- Tailwind CSS through the official `@tailwindcss/vite` integration
-- Vitest, React Testing Library, and jest-dom
-- ESLint with TypeScript and React Hooks rules
+React, TypeScript, Vite, React Router, Tailwind CSS, Vitest, React Testing Library, and ESLint.
 
 ## Project structure
 
 ```text
 src/
-  components/
-    common/       Reusable UI primitives
-    dashboard/    Dashboard-specific components
-    layout/       Application shell and navigation
-  data/           Typed course and dashboard data
-  i18n/           Language context, types, and translations
-  pages/          Routed application pages
-  styles/         Global design system and responsive styles
-  test/           Shared test setup
-  App.tsx         Routes
-  App.test.tsx    Integration and behavior tests
-  main.tsx        Application entry point
-_legacy/          Preserved original empty vanilla structure
+  auth/          Typed auth context and protected-route boundary
+  components/    Reusable UI, dashboard, and layout components
+  data/          Typed static course data
+  i18n/          Language context and centralized translations
+  pages/         Login and academy routes
+  styles/        Design system and responsive styles
+  test/          Test setup
 ```
 
-## Prerequisites
+## Install and run
 
-- Node.js 20.19+ or 22.12+
-- npm 10+
-
-## Installation
+Requires Node.js 20.19+ or 22.12+ and npm 10+.
 
 ```bash
 npm install
+npm run dev
 ```
 
-## Development commands
+## Quality and production commands
 
 ```bash
-npm run dev        # Start the development server
-npm run preview    # Preview the production build
-npm run lint       # Run ESLint
-npm run test       # Run Vitest in watch mode
-npm run test:run   # Run the test suite once
-```
-
-Open the local URL shown by Vite, usually `http://localhost:5173`.
-
-## Production build
-
-```bash
+npm run lint
+npm run test:run
 npm run build
 npm run preview
 ```
 
-The optimized output is written to `dist/`.
+The optimized build is written to the ignored `dist/` directory.
 
-## Bilingual implementation
+## Bilingual and navigation behavior
 
-Hebrew is the default language. Every interface string lives in `src/i18n/translations.ts` and is constrained by a shared TypeScript key union. `LanguageContext` manages the active language, updates the document's `lang` and `dir` attributes, and saves the preference to local storage. Layout uses CSS logical properties so navigation and alignment move naturally between RTL and LTR.
+Language is selected under Settings and saved locally. `LanguageContext` updates the document `lang` and `dir` immediately. CSS logical properties align the sidebar, menus, and directional icons for Hebrew RTL and English LTR. On mobile, Dashboard shows Menu and its title; other academy routes additionally show Back and Home. Back uses safe internal browser history when available and otherwise returns to Dashboard.
 
-## Accessibility
+## Git workflow
 
-The application includes semantic landmarks, a skip link, accessible navigation labels, keyboard-operable controls, strong focus indicators, progress-bar semantics, sufficient contrast, and reduced-motion handling. The mobile drawer supports Escape, overlay, close-control, and route-selection dismissal while preventing background scrolling.
+Inspect changes, stage intended files, commit with a Conventional Commit message, and push the active branch without rewriting history:
+
+```bash
+git status
+git add .
+git commit -m "type(scope): summary"
+git push origin main
+```
+
+Never commit secrets, local environment files, access tokens, `node_modules`, build output, or coverage output.
+
+## Versioning policy
+
+The project follows semantic versioning. Update `package.json`, the lockfile, visible application metadata, README, and `CHANGELOG.md` together for a release.
 
 ## Current limitations
 
-Version 0.1.0 uses static local data. Lesson content, prompt storage, agent building, live radar updates, authentication, and synchronization are intentionally not implemented yet. There is no backend, database, external translation service, or AI API.
+- Demo Login is development-only and has no backend identity verification.
+- Course content and dashboard data are static.
+- Prompt persistence, agent building, project synchronization, and live radar data are not implemented.
+- Responsive behavior is covered by flexible layouts and automated interaction tests; visual regression testing is not yet configured.
 
 ## Roadmap
 
-1. Expand the lesson catalog and completion tracking.
-2. Add local prompt-library workflows.
-3. Introduce guided agent-design exercises.
-4. Build project milestones and portfolio views.
-5. Add curated AI radar content.
-6. Extend settings and learning preferences.
-
-## Status
-
-Version **0.1.0** — initial React foundation and dashboard complete.
+1. Integrate production authentication with secure server-managed sessions.
+2. Expand lesson content and progress tracking.
+3. Add prompt-library and guided agent-design workflows.
+4. Add project milestones, synchronization, and curated AI radar content.
+5. Add automated cross-browser visual and end-to-end testing.

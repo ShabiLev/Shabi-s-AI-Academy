@@ -1,0 +1,35 @@
+# Changelog
+
+All notable changes to this project are documented here following the Keep a Changelog format.
+
+## [0.2.0] - 2026-07-11
+
+### Added
+
+- Authentication-ready architecture
+- Demo login page
+- Protected routes
+- User profile menu
+- Mobile Home and Back navigation
+- Language selection in Settings
+
+### Changed
+
+- Improved desktop and mobile headers
+- Language selector moved from the header to Settings
+- Responsive behavior improved
+- Hebrew user display name corrected to שבי
+
+### Fixed
+
+- Mobile layout overlap risks
+- Empty placeholder layout region
+- RTL and LTR responsive inconsistencies
+- Unsafe fixed-size layout behavior
+
+## [0.1.0] - 2026-07-09
+
+### Added
+
+- Initial React, TypeScript, Vite application foundation
+- Bilingual dashboard and routed academy sections

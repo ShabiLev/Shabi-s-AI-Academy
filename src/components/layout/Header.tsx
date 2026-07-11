@@ -1,13 +1,36 @@
+import { forwardRef } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Icon } from '../common/Icon'
 import { useLanguage } from '../../i18n/LanguageContext'
-export function Header({ onOpenMenu }: { onOpenMenu: () => void }) {
-  const { language, setLanguage, t } = useLanguage()
-  return <header className="top-header">
-    <button type="button" className="icon-button menu-button" onClick={onOpenMenu} aria-label={t('a11y.openMenu')}><Icon name="menu" /></button>
-    <div className="header-title"><span className="header-pulse" />{t('header.workspace')}</div>
-    <div className="language-switcher" role="group" aria-label={t('a11y.changeLanguage')}>
-      <button type="button" aria-pressed={language === 'he'} onClick={() => setLanguage('he')}>{t('header.hebrew')}</button>
-      <button type="button" aria-pressed={language === 'en'} onClick={() => setLanguage('en')}>{t('header.english')}</button>
-    </div>
-  </header>
+import type { TranslationKey } from '../../i18n/types'
+import { ProfileMenu } from './ProfileMenu'
+
+const routeTitles: Record<string, TranslationKey> = {
+  '/': 'nav.dashboard', '/lessons': 'nav.lessons', '/prompt-library': 'nav.prompts', '/agents': 'nav.agents',
+  '/projects': 'nav.projects', '/radar': 'nav.radar', '/settings': 'nav.settings',
 }
+
+export const Header = forwardRef<HTMLButtonElement, { onOpenMenu: () => void }>(function Header({ onOpenMenu }, menuRef) {
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+  const { direction, t } = useLanguage()
+  const isDashboard = pathname === '/'
+  const title = t(routeTitles[pathname] ?? 'nav.dashboard')
+  const goBack = () => {
+    const historyIndex = (window.history.state as { idx?: number } | null)?.idx
+    if (typeof historyIndex === 'number' && historyIndex > 0) navigate(-1)
+    else navigate('/')
+  }
+
+  return <header className="top-header">
+    <div className="mobile-header-actions">
+      <button ref={menuRef} type="button" className="icon-button menu-button" onClick={onOpenMenu} aria-label={t('a11y.openMenu')}><Icon name="menu" /></button>
+      {!isDashboard && <>
+        <button type="button" className="icon-button mobile-route-button" onClick={goBack} aria-label={t('a11y.back')}><Icon name="arrow" className={direction === 'ltr' ? 'back-icon' : ''} /></button>
+        <button type="button" className="icon-button mobile-route-button" onClick={() => navigate('/')} aria-label={t('a11y.home')}><Icon name="home" /></button>
+      </>}
+    </div>
+    <div className="header-copy"><strong>{title}</strong><span>{t('header.workspace')}</span></div>
+    <div className="header-tools"><span className="compact-status"><span className="status-dot" />{t('header.online')}</span><ProfileMenu /></div>
+  </header>
+})

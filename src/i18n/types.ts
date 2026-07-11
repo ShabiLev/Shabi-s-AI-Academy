@@ -3,6 +3,7 @@ export type Language = 'he' | 'en'
 export type TranslationKey =
   | 'brand.name' | 'brand.tagline' | 'a11y.skipToContent' | 'a11y.openMenu' | 'a11y.closeMenu'
   | 'a11y.changeLanguage' | 'a11y.progressLabel' | 'a11y.projectProgressLabel' | 'common.comingSoon' | 'common.minutes' | 'common.beginner'
+  | 'a11y.back' | 'a11y.home' | 'a11y.openProfile' | 'profile.menu'
   | 'nav.dashboard' | 'nav.lessons' | 'nav.prompts' | 'nav.agents' | 'nav.projects' | 'nav.radar' | 'nav.settings'
   | 'header.workspace' | 'header.online' | 'header.hebrew' | 'header.english'
   | 'dashboard.eyebrow' | 'dashboard.welcome' | 'dashboard.level' | 'dashboard.missionLabel' | 'dashboard.mission'
@@ -16,6 +17,8 @@ export type TranslationKey =
   | 'pages.agentsTitle' | 'pages.agentsDescription' | 'pages.projectsTitle' | 'pages.projectsDescription'
   | 'pages.radarTitle' | 'pages.radarDescription' | 'pages.settingsTitle' | 'pages.settingsDescription'
   | 'pages.futureLabel' | 'pages.futureDescription'
+  | 'settings.languageTitle' | 'settings.languageDescription' | 'settings.hebrew' | 'settings.english' | 'settings.selected'
+  | 'auth.login' | 'auth.demoLogin' | 'auth.signOut' | 'auth.description' | 'auth.developmentNotice'
   | 'footer.version' | 'footer.builtWhileLearning'
 
 export type Translations = Record<TranslationKey, string>

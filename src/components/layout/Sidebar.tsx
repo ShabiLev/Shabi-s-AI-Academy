@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 import { Icon } from '../common/Icon'
 import { useLanguage } from '../../i18n/LanguageContext'
 import { navigationItems } from './navigation'
+import { appMetadata } from '../../config/appMetadata'
 
 export function Sidebar({ mobile = false, onNavigate }: { mobile?: boolean; onNavigate?: () => void }) {
   const { t } = useLanguage()
@@ -10,6 +11,6 @@ export function Sidebar({ mobile = false, onNavigate }: { mobile?: boolean; onNa
     <nav aria-label={t('header.workspace')} className="main-nav">
       {navigationItems.map((item) => <NavLink key={item.to} to={item.to} end={item.end} onClick={onNavigate} className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}><Icon name={item.icon} /><span>{t(item.label)}</span></NavLink>)}
     </nav>
-    <div className="sidebar-system"><span className="status-dot" /><div><strong>{t('header.online')}</strong><span>ACADEMY OS · 0.1.0</span></div></div>
+    <div className="sidebar-system"><span className="status-dot" /><div><strong>{t('header.online')}</strong><span>ACADEMY OS · {appMetadata.version}</span></div></div>
   </div>
 }

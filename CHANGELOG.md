@@ -2,6 +2,36 @@
 
 All notable changes to this project are documented here following the Keep a Changelog format.
 
+## [0.5.0] - 2026-07-11
+
+### Added
+
+- Bilingual QA Center (`/qa`) with a release-status header, all 10 quality gates, test/coverage/accessibility/visual/performance summaries, a known-issues overview, and a deterministic (non-AI) analyzer summary
+- Vitest code coverage via `@vitest/coverage-v8` with enforced, measured thresholds (statements/lines 75%, branches 65%, functions 70%; real baseline ~95/84/80/95%)
+- Playwright accessibility suite (`@axe-core/playwright`, WCAG2A/AA) across 17 scans in Hebrew and English, plus a typed, empty-by-default allowlist policy
+- Deterministic Playwright visual regression (`visual-chromium` project) with 22 baselines across desktop/mobile and Hebrew/English, fixed viewport/locale/timezone/color-scheme/reduced-motion, and a documented Windows-vs-Linux baseline provenance policy
+- Lighthouse CI performance gates against a production build, covering both public (`/login`) and authenticated (Dashboard, QA Center) routes via a custom Lighthouse User Flow script, desktop and mobile profiles
+- Lightweight Playwright performance-smoke checks (no failed requests, no unhandled errors, generous non-flaky interactivity bounds) complementing Lighthouse
+- Machine-readable quality-report pipeline (`quality/scripts/collect-quality-results.mjs`, `analyze-quality-results.mjs`, `write-build-metadata.mjs`) producing `quality/generated/latest-quality-report.json`, never fabricating a "Passed" result for a tool that didn't run
+- Internal, browser-local QA issue register (create/edit/resolve/reopen/filter/search/delete/export/import) and a per-version release-readiness checklist (automated gates + manual checkboxes)
+- Non-sensitive build metadata (app version, commit SHA, branch, build timestamp) injected via Vite `define`, with safe fallbacks when unavailable
+- `docs/quality-gates.md`, `docs/accessibility-testing.md`, `docs/visual-regression.md`, `docs/performance-testing.md`, `docs/manual-qa-checklist.md`, `docs/qa-center.md`, and `quality/README.md`
+- GitHub Actions CI split into `quality-core`, `e2e`, `accessibility`, `visual`, `performance`, and `quality-summary` jobs with diagnostic artifact uploads, plus a manual `workflow_dispatch` job to regenerate canonical Linux visual baselines for review
+
+### Changed
+
+- `docs/testing.md` now documents the full quality-command surface and a permanent rule requiring accessibility/visual/performance/persistence coverage for every future feature or bug fix
+- README documents the new Quality Engineering platform, updated project structure, and updated current-limitations/roadmap sections
+- Bumped `vitest`/`@vitest/coverage-v8` to 3.2.7, resolving a critical upstream advisory in the Vitest UI dev server (unused in this project's scripts, but no longer present regardless)
+
+### Fixed
+
+- Insufficient color contrast on the mobile sidebar's version/status text, found by the new accessibility suite
+- Missing distinction between quality-gate states Passed, Failed, Warning, Not run, and Not available (previously no representation existed at all)
+- Lack of automated WCAG regression coverage
+- Lack of stable, deterministic visual-change detection
+- Lack of enforceable code-coverage thresholds
+
 ## [0.4.0] - 2026-07-11
 
 ### Added

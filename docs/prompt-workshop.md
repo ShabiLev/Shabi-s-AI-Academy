@@ -1,6 +1,6 @@
 # Prompt Workshop
 
-Version 0.4.0 provides a browser-local workspace for designing, reviewing, saving, and organizing professional prompts. No prompt content is uploaded to an API or server.
+Version 0.5.0 provides a browser-local workspace for designing, reviewing, saving, and organizing professional prompts. No prompt content is uploaded to an API or server.
 
 Each prompt stores a stable ID, title, description, language, category ID, tags, structured prompt fields, timestamps, version, and favorite state. Data and filters use `shabi-ai-academy.prompt-library.v1` in localStorage. Invalid records, schema mismatches, malformed JSON, and duplicate IDs are safely rejected or removed.
 

@@ -1,6 +1,6 @@
 # Shabi's AI Academy
 
-Shabi's AI Academy is a bilingual learning platform for practical AI engineering and agent-development skills. The current release is **Version 0.4.0**.
+Shabi's AI Academy is a bilingual learning platform for practical AI engineering and agent-development skills. The current release is **Version 0.5.0**.
 
 ## Features
 
@@ -13,6 +13,8 @@ Shabi's AI Academy is a bilingual learning platform for practical AI engineering
 - Playwright browser regression coverage and GitHub Actions CI
 - Interactive Prompt Workshop with live preview, deterministic structural scoring, samples, and a persistent local Prompt Library
 - Accessible landmarks, keyboard controls, focus indicators, focus-managed overlays, and reduced-motion support
+- Bilingual **QA Center** (`/qa`): quality gates, coverage, accessibility, visual regression, performance, a deterministic (non-AI) analyzer, a browser-local issue register, and a release-readiness checklist
+- Enforced Vitest coverage thresholds, an axe-core accessibility suite, deterministic Playwright visual regression, and Lighthouse CI performance gates — see [docs/quality-gates.md](docs/quality-gates.md)
 
 ## Demo Login and security
 
@@ -27,12 +29,22 @@ React, TypeScript, Vite, React Router, Tailwind CSS, Vitest, React Testing Libra
 ```text
 src/
   auth/          Typed auth context and protected-route boundary
-  components/    Reusable UI, dashboard, and layout components
+  components/    Reusable UI, dashboard, layout, and QA Center components
   data/          Typed static course data
   i18n/          Language context and centralized translations
-  pages/         Login and academy routes
+  pages/         Login, academy routes, and the QA Center page
+  quality/       Quality-report schema, storage, analyzer, and build metadata
   styles/        Design system and responsive styles
   test/          Test setup
+
+quality/
+  config/        Coverage/Lighthouse thresholds, accessibility allowlist (committed)
+  scripts/       Node scripts that collect and analyze quality results
+  generated/     Machine-readable quality reports (gitignored, not committed)
+
+e2e/
+  fixtures/      Shared Playwright helpers (auth, accessibility, visual stabilization)
+  specs/         Functional, accessibility, visual, and performance-smoke specs
 ```
 
 ## Install and run
@@ -49,17 +61,37 @@ npm run dev
 ```bash
 npm run lint
 npm run test:run
+npm run test:coverage
 npm run build
 npm run preview
 npm run test:e2e
 npm run test:e2e:full
+npm run test:a11y
+npm run test:visual
+npm run test:performance
+npm run quality:report
 npm run validate
 npm run validate:full
+npm run validate:quality
+npm run validate:release
 ```
 
 The optimized build is written to the ignored `dist/` directory.
 
-Playwright covers Desktop Chromium, Firefox, WebKit, Pixel 7, and iPhone 14. It starts Vite automatically. Reports are stored in `playwright-report/`; traces, screenshots, and videos in `test-results/`. See `docs/testing.md`.
+Playwright covers Desktop Chromium, Firefox, WebKit, Pixel 7, and iPhone 14, plus dedicated `Accessibility` and `visual-chromium` projects. It starts Vite automatically. Reports are stored in `playwright-report/`; traces, screenshots, and videos in `test-results/`. See `docs/testing.md` and `docs/quality-gates.md`.
+
+## Quality Engineering platform
+
+Version 0.5.0 adds a full quality-engineering layer on top of the existing test suite:
+
+- **Coverage** — Vitest + `@vitest/coverage-v8`, thresholds enforced in CI (`docs/quality-gates.md`)
+- **Accessibility** — `@axe-core/playwright`, WCAG2A/AA, scanned in Hebrew and English (`docs/accessibility-testing.md`)
+- **Visual regression** — deterministic Playwright screenshots against a canonical `visual-chromium` project (`docs/visual-regression.md`)
+- **Performance** — Lighthouse CI against a production build, both public and authenticated routes (`docs/performance-testing.md`)
+- **QA Center** (`/qa`) — a bilingual, honest dashboard over all of the above, plus a deterministic (non-AI) analyzer, a browser-local issue register, and a release-readiness checklist (`docs/qa-center.md`)
+- **Manual QA** — a checklist for what automation does not cover (`docs/manual-qa-checklist.md`)
+
+None of this replaces human judgment: the QA Center never fabricates a "Passed" result, and several checks (keyboard-only navigation, screen readers, zoom, cognitive usability) remain manual by design.
 
 ## Course and local privacy
 
@@ -67,7 +99,9 @@ Course types, bilingual content, and progress live under `src/course`; lesson ro
 
 Progress, scores, last lesson, and prompt draft use `shabi-ai-academy.course-progress.v1` in localStorage. Data is browser-specific and clearing storage removes it. Nothing is uploaded. Settings resets course data without changing authentication or language.
 
-Prompt content, favorites, and filters use `shabi-ai-academy.prompt-library.v1`. Prompt content is stored only in the user's local browser in Version 0.4.0 and is never uploaded to an API or server. Prompts support CRUD, favorites, search, filters, sorting, and UTF-8 TXT/Markdown export. See `docs/prompt-workshop.md`.
+Prompt content, favorites, and filters use `shabi-ai-academy.prompt-library.v1`. Prompt content is stored only in the user's local browser in Version 0.5.0 and is never uploaded to an API or server. Prompts support CRUD, favorites, search, filters, sorting, and UTF-8 TXT/Markdown export. See `docs/prompt-workshop.md`.
+
+The QA Center's internal issue register uses `shabi-ai-academy.qa-issues.v1` and its release checklist uses `shabi-ai-academy.qa-checklist.v1`, both browser-local and never synchronized externally. See `docs/qa-center.md`.
 
 ## Bilingual and navigation behavior
 
@@ -95,7 +129,10 @@ The project follows semantic versioning. Update `package.json`, the lockfile, vi
 - Demo Login is development-only and has no backend identity verification.
 - Course content is local and only the first two lessons are currently available.
 - Prompt persistence, agent building, project synchronization, and live radar data are not implemented.
-- Responsive behavior is covered by flexible layouts and automated interaction tests; visual regression testing is not yet configured.
+- Visual regression baselines were generated on Windows and are labeled non-canonical until regenerated on Linux CI via the `workflow_dispatch` job — see `docs/visual-regression.md`.
+- Lighthouse scores reflect this project's local/CI hardware, not real-user field data — see `docs/performance-testing.md`.
+- The QA Center's issue register and release checklist are browser-local only; they are not a replacement for GitHub Issues/Jira and are not synchronized across machines.
+- Automated accessibility, visual, and performance checks do not replace manual keyboard-only, screen-reader, zoom, or cognitive-usability review — see `docs/manual-qa-checklist.md`.
 
 ## Roadmap
 
@@ -103,4 +140,5 @@ The project follows semantic versioning. Update `package.json`, the lockfile, vi
 2. Expand lesson content and progress tracking.
 3. Add prompt-library and guided agent-design workflows.
 4. Add project milestones, synchronization, and curated AI radar content.
-5. Add automated cross-browser visual and end-to-end testing.
+5. Regenerate and commit canonical Linux visual baselines via the CI `workflow_dispatch` job.
+6. Track coverage/Lighthouse trend history over time (currently a placeholder in the QA Center).

@@ -1,11 +1,15 @@
 import { defineConfig, devices } from "@playwright/test";
 const fullMatrix = Boolean(process.env.PW_FULL);
+// Each suite type writes its own JSON report file (see package.json's PW_REPORT_NAME
+// per script) so a later Playwright invocation never silently overwrites an earlier
+// one's results before quality:collect reads them — see quality/scripts/collect-quality-results.mjs.
+const reportName = process.env.PW_REPORT_NAME || "functional";
 export default defineConfig({
   testDir: "./e2e/specs",
   fullyParallel: true,
   workers: process.env.CI ? 8 : 12,
   retries: process.env.CI ? 2 : 0,
-  reporter: [["list"], ["html", { open: "never" }]],
+  reporter: [["list"], ["html", { open: "never" }], ["json", { outputFile: `quality/generated/playwright-${reportName}-results.json` }]],
   use: {
     baseURL: "http://127.0.0.1:5173",
     screenshot: "only-on-failure",
@@ -19,7 +23,34 @@ export default defineConfig({
     timeout: 120000,
   },
   projects: [
-    { name: "Desktop Chromium", grep: fullMatrix ? /redirects, logs in|Hebrew defaults|catalog has two|Hebrew prompt saves|directional and overflow/ : undefined, use: { ...devices["Desktop Chrome"] } },
+    {
+      name: "Desktop Chromium",
+      grep: fullMatrix ? /redirects, logs in|Hebrew defaults|catalog has two|Hebrew prompt saves|directional and overflow/ : undefined,
+      testIgnore: /(?:accessibility|visual)\.spec\.ts/,
+      use: { ...devices["Desktop Chrome"] },
+    },
+    {
+      name: "Accessibility",
+      testMatch: /accessibility\.spec\.ts/,
+      use: { ...devices["Desktop Chrome"] },
+    },
+    // Canonical visual-regression project: fixed viewport/locale/timezone/color-scheme/
+    // reduced-motion for determinism. snapshotPathTemplate keeps the {platform} token so
+    // Windows-generated baselines (…-win32.png) never silently satisfy a Linux CI
+    // comparison (…-linux.png) — see docs/visual-regression.md.
+    {
+      name: "visual-chromium",
+      testMatch: /visual\.spec\.ts/,
+      snapshotPathTemplate: "e2e/specs/__screenshots__/{projectName}/{testFilePath}/{arg}-{platform}{ext}",
+      use: {
+        ...devices["Desktop Chrome"],
+        viewport: { width: 1280, height: 900 },
+        locale: "he-IL",
+        timezoneId: "Asia/Jerusalem",
+        colorScheme: "dark",
+        reducedMotion: "reduce",
+      },
+    },
     {
       name: "Desktop Firefox",
       testMatch: /responsive\.spec\.ts/,

@@ -8,3 +8,6 @@ blob-report/
 playwright/.cache/
 *.local
 .DS_Store
+.lighthouseci/
+quality/generated/
+public/generated/

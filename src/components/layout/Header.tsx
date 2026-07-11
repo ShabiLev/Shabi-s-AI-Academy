@@ -15,7 +15,7 @@ export const Header = forwardRef<HTMLButtonElement, { onOpenMenu: () => void }>(
   const navigate = useNavigate()
   const { direction, t } = useLanguage()
   const isDashboard = pathname === '/'
-  const title = t(routeTitles[pathname] ?? 'nav.dashboard')
+  const title = t(routeTitles[pathname] ?? (pathname.startsWith('/lessons/') ? 'nav.lessons' : 'nav.dashboard'))
   const goBack = () => {
     const historyIndex = (window.history.state as { idx?: number } | null)?.idx
     if (typeof historyIndex === 'number' && historyIndex > 0) navigate(-1)

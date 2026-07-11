@@ -30,7 +30,7 @@ describe("Shabi's AI Academy", () => {
     const user = userEvent.setup()
     renderApp('/lessons')
     await demoLogin(user)
-    expect(screen.getByRole('heading', { level: 1, name: 'שיעורים' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: 'יסודות ה-AI' })).toBeInTheDocument()
   })
 
   it('redirects authenticated visitors away from Login', async () => {

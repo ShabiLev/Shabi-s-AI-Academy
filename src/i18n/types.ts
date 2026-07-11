@@ -18,6 +18,12 @@ export type TranslationKey =
   | 'pages.radarTitle' | 'pages.radarDescription' | 'pages.settingsTitle' | 'pages.settingsDescription'
   | 'pages.futureLabel' | 'pages.futureDescription'
   | 'settings.languageTitle' | 'settings.languageDescription' | 'settings.hebrew' | 'settings.english' | 'settings.selected'
+  | 'settings.progressTitle' | 'settings.progressDescription' | 'settings.resetProgress' | 'settings.resetConfirm' | 'settings.resetSuccess'
+  | 'course.module' | 'course.progress' | 'course.completedOf' | 'course.minutes' | 'course.objectives' | 'course.exercise' | 'course.solution'
+  | 'course.status.notStarted' | 'course.status.inProgress' | 'course.status.completed' | 'course.status.comingSoon' | 'course.action.start' | 'course.action.continue' | 'course.action.review'
+  | 'course.difficulty.beginner' | 'course.difficulty.intermediate' | 'course.difficulty.advanced'
+  | 'lesson.breadcrumb' | 'lesson.markComplete' | 'lesson.completed' | 'lesson.previous' | 'lesson.next' | 'lesson.notFoundTitle' | 'lesson.notFoundDescription' | 'lesson.assignmentLabel' | 'lesson.localDraftNotice' | 'lesson.tableScrollHint'
+  | 'quiz.title' | 'quiz.submit' | 'quiz.retry' | 'quiz.score' | 'quiz.correct' | 'quiz.incorrect' | 'quiz.answerRequired'
   | 'auth.login' | 'auth.demoLogin' | 'auth.signOut' | 'auth.description' | 'auth.developmentNotice'
   | 'footer.version' | 'footer.builtWhileLearning'
 

@@ -10,10 +10,12 @@ import { PromptLibraryPage } from './pages/PromptLibraryPage'
 import { RadarPage } from './pages/RadarPage'
 import { SettingsPage } from './pages/SettingsPage'
 import { LoginPage } from './pages/LoginPage'
+import { LessonPage } from './pages/LessonPage'
+import { CourseProgressProvider } from './course/CourseProgressContext'
 
 export function App() {
-  return <BrowserRouter><AuthProvider><Routes>
+  return <BrowserRouter><AuthProvider><CourseProgressProvider><Routes>
     <Route path="login" element={<LoginPage />} />
-    <Route element={<ProtectedRoute />}><Route element={<AppLayout />}><Route index element={<DashboardPage />} /><Route path="lessons" element={<LessonsPage />} /><Route path="prompt-library" element={<PromptLibraryPage />} /><Route path="agents" element={<AgentsPage />} /><Route path="projects" element={<ProjectsPage />} /><Route path="radar" element={<RadarPage />} /><Route path="settings" element={<SettingsPage />} /></Route></Route>
-  </Routes></AuthProvider></BrowserRouter>
+    <Route element={<ProtectedRoute />}><Route element={<AppLayout />}><Route index element={<DashboardPage />} /><Route path="lessons" element={<LessonsPage />} /><Route path="lessons/:lessonSlug" element={<LessonPage />} /><Route path="prompt-library" element={<PromptLibraryPage />} /><Route path="agents" element={<AgentsPage />} /><Route path="projects" element={<ProjectsPage />} /><Route path="radar" element={<RadarPage />} /><Route path="settings" element={<SettingsPage />} /></Route></Route>
+  </Routes></CourseProgressProvider></AuthProvider></BrowserRouter>
 }

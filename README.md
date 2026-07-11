@@ -1,6 +1,6 @@
 # Shabi's AI Academy
 
-Shabi's AI Academy is a bilingual learning platform for practical AI engineering and agent-development skills. The current release is **Version 0.2.0**.
+Shabi's AI Academy is a bilingual learning platform for practical AI engineering and agent-development skills. The current release is **Version 0.3.0**.
 
 ## Features
 
@@ -9,6 +9,8 @@ Shabi's AI Academy is a bilingual learning platform for practical AI engineering
 - Settings-based, persistent language selection
 - Mobile menu plus route-aware Home and Back navigation
 - Authentication-ready context, protected routes, Demo Login, profile menu, and sign out
+- Typed course engine with two bilingual lessons, quizzes, exercises, drafts, and local progress
+- Playwright browser regression coverage and GitHub Actions CI
 - Accessible landmarks, keyboard controls, focus indicators, focus-managed overlays, and reduced-motion support
 
 ## Demo Login and security
@@ -48,9 +50,21 @@ npm run lint
 npm run test:run
 npm run build
 npm run preview
+npm run test:e2e
+npm run test:e2e:full
+npm run validate
+npm run validate:full
 ```
 
 The optimized build is written to the ignored `dist/` directory.
+
+Playwright covers Desktop Chromium, Firefox, WebKit, Pixel 7, and iPhone 14. It starts Vite automatically. Reports are stored in `playwright-report/`; traces, screenshots, and videos in `test-results/`. See `docs/testing.md`.
+
+## Course and local privacy
+
+Course types, bilingual content, and progress live under `src/course`; lesson routes use `/lessons/:lessonSlug`. Version 0.3.0 provides “AI, LLM and Agent” and “Anatomy of a Professional Prompt”. Three further lessons are Coming soon and do not affect progress.
+
+Progress, scores, last lesson, and prompt draft use `shabi-ai-academy.course-progress.v1` in localStorage. Data is browser-specific and clearing storage removes it. Nothing is uploaded. Settings resets course data without changing authentication or language.
 
 ## Bilingual and navigation behavior
 
@@ -76,7 +90,7 @@ The project follows semantic versioning. Update `package.json`, the lockfile, vi
 ## Current limitations
 
 - Demo Login is development-only and has no backend identity verification.
-- Course content and dashboard data are static.
+- Course content is local and only the first two lessons are currently available.
 - Prompt persistence, agent building, project synchronization, and live radar data are not implemented.
 - Responsive behavior is covered by flexible layouts and automated interaction tests; visual regression testing is not yet configured.
 

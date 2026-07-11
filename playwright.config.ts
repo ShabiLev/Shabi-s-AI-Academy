@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+const fullMatrix = Boolean(process.env.PW_FULL);
 export default defineConfig({
   testDir: "./e2e/specs",
   fullyParallel: true,
@@ -18,10 +19,30 @@ export default defineConfig({
     timeout: 120000,
   },
   projects: [
-    { name: "Desktop Chromium", use: { ...devices["Desktop Chrome"] } },
-    { name: "Desktop Firefox", testMatch: /responsive\.spec\.ts/, grep: /login 320|dashboard desktop/, use: { ...devices["Desktop Firefox"] } },
-    { name: "Desktop WebKit", testMatch: /responsive\.spec\.ts/, grep: /login 320|dashboard desktop/, use: { ...devices["Desktop Safari"] } },
-    { name: "Mobile Chromium", testMatch: /responsive\.spec\.ts/, grep: /dashboard mobile|lesson mobile/, use: { ...devices["Pixel 7"] } },
-    { name: "Mobile WebKit", testMatch: /responsive\.spec\.ts/, grep: /dashboard mobile|lesson mobile/, use: { ...devices["iPhone 14"] } },
+    { name: "Desktop Chromium", grep: fullMatrix ? /redirects, logs in|Hebrew defaults|catalog has two|Hebrew prompt saves|directional and overflow/ : undefined, use: { ...devices["Desktop Chrome"] } },
+    {
+      name: "Desktop Firefox",
+      testMatch: /responsive\.spec\.ts/,
+      grep: /login 320|dashboard desktop/,
+      use: { ...devices["Desktop Firefox"] },
+    },
+    {
+      name: "Desktop WebKit",
+      testMatch: /responsive\.spec\.ts/,
+      grep: /login 320|dashboard desktop/,
+      use: { ...devices["Desktop Safari"] },
+    },
+    {
+      name: "Mobile Chromium",
+      testMatch: /(?:responsive|prompts)\.spec\.ts/,
+      grep: /dashboard mobile|lesson mobile|directional and overflow/,
+      use: { ...devices["Pixel 7"] },
+    },
+    {
+      name: "Mobile WebKit",
+      testMatch: /(?:responsive|prompts)\.spec\.ts/,
+      grep: /dashboard mobile|lesson mobile|directional and overflow/,
+      use: { ...devices["iPhone 14"] },
+    },
   ],
 });

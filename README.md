@@ -1,6 +1,6 @@
 # Shabi's AI Academy
 
-Shabi's AI Academy is a bilingual learning platform for practical AI engineering and agent-development skills. The current release is **Version 0.3.0**.
+Shabi's AI Academy is a bilingual learning platform for practical AI engineering and agent-development skills. The current release is **Version 0.4.0**.
 
 ## Features
 
@@ -11,6 +11,7 @@ Shabi's AI Academy is a bilingual learning platform for practical AI engineering
 - Authentication-ready context, protected routes, Demo Login, profile menu, and sign out
 - Typed course engine with two bilingual lessons, quizzes, exercises, drafts, and local progress
 - Playwright browser regression coverage and GitHub Actions CI
+- Interactive Prompt Workshop with live preview, deterministic structural scoring, samples, and a persistent local Prompt Library
 - Accessible landmarks, keyboard controls, focus indicators, focus-managed overlays, and reduced-motion support
 
 ## Demo Login and security
@@ -65,6 +66,8 @@ Playwright covers Desktop Chromium, Firefox, WebKit, Pixel 7, and iPhone 14. It 
 Course types, bilingual content, and progress live under `src/course`; lesson routes use `/lessons/:lessonSlug`. Version 0.3.0 provides “AI, LLM and Agent” and “Anatomy of a Professional Prompt”. Three further lessons are Coming soon and do not affect progress.
 
 Progress, scores, last lesson, and prompt draft use `shabi-ai-academy.course-progress.v1` in localStorage. Data is browser-specific and clearing storage removes it. Nothing is uploaded. Settings resets course data without changing authentication or language.
+
+Prompt content, favorites, and filters use `shabi-ai-academy.prompt-library.v1`. Prompt content is stored only in the user's local browser in Version 0.4.0 and is never uploaded to an API or server. Prompts support CRUD, favorites, search, filters, sorting, and UTF-8 TXT/Markdown export. See `docs/prompt-workshop.md`.
 
 ## Bilingual and navigation behavior
 

@@ -2,6 +2,25 @@
 
 All notable changes to this project are documented here following the Keep a Changelog format.
 
+## [0.4.0] - 2026-07-11
+
+### Added
+
+- Interactive Prompt Workshop, live preview, deterministic quality score, four samples, and browser-local Prompt Library
+- Prompt create, edit, duplicate, delete, favorite, search, filters, sorting, TXT/Markdown export, and Lesson 2 integration
+- Prompt Library Vitest and Playwright coverage
+
+### Changed
+
+- Dashboard Prompt Library card now uses stored metrics
+- Prompt Library placeholder replaced by a functional workspace
+- Validation expanded with prompt regression coverage
+
+### Fixed
+
+- Empty generated sections are omitted and malformed storage is handled safely
+- Improved mobile prompt forms and confirmation dialog behavior
+
 ## [0.3.0] - 2026-07-11
 
 ### Added

@@ -6,7 +6,7 @@ import type { TranslationKey } from '../../i18n/types'
 import { ProfileMenu } from './ProfileMenu'
 
 const routeTitles: Record<string, TranslationKey> = {
-  '/': 'nav.dashboard', '/lessons': 'nav.lessons', '/prompt-library': 'nav.prompts', '/agents': 'nav.agents',
+  '/': 'nav.dashboard', '/lessons': 'nav.lessons', '/prompt-library': 'nav.prompts', '/prompts': 'nav.prompts', '/agents': 'nav.agents',
   '/projects': 'nav.projects', '/radar': 'nav.radar', '/settings': 'nav.settings',
 }
 
@@ -15,7 +15,7 @@ export const Header = forwardRef<HTMLButtonElement, { onOpenMenu: () => void }>(
   const navigate = useNavigate()
   const { direction, t } = useLanguage()
   const isDashboard = pathname === '/'
-  const title = t(routeTitles[pathname] ?? (pathname.startsWith('/lessons/') ? 'nav.lessons' : 'nav.dashboard'))
+  const title = t(routeTitles[pathname] ?? (pathname.startsWith('/lessons/') ? 'nav.lessons' : pathname.startsWith('/prompts/') ? 'nav.prompts' : 'nav.dashboard'))
   const goBack = () => {
     const historyIndex = (window.history.state as { idx?: number } | null)?.idx
     if (typeof historyIndex === 'number' && historyIndex > 0) navigate(-1)

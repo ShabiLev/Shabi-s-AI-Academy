@@ -5,6 +5,7 @@ import { useCourseProgress } from "../course/CourseProgressContext";
 import { useLanguage } from "../i18n/LanguageContext";
 import { ProgressBar } from "../components/common/ProgressBar";
 import { Quiz } from "../components/course/Quiz";
+import { promptUi } from "../prompts/uiText";
 export function LessonPage() {
   const { lessonSlug = "" } = useParams(),
     lesson = getLessonBySlug(lessonSlug),
@@ -129,6 +130,7 @@ export function LessonPage() {
                 rows={8}
               />
               <small>{t("lesson.localDraftNotice")}</small>
+              <Link className="primary-button workshop-link" to="/prompts/new?source=lesson2">{promptUi[language].openWorkshop}</Link>
             </>
           )}
         </section>

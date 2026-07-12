@@ -31,10 +31,11 @@
     "catalog:check": "node scripts/check-prompt-catalog.mjs",
     "catalog:update": "node scripts/update-prompt-catalog.mjs",
     "catalog:report": "node scripts/report-prompt-catalog.mjs",
+    "docs:check": "node scripts/check-codex-docs.mjs",
     "validate": "npm run lint && npm run test:run && npm run build && npm run test:e2e",
     "validate:full": "npm run lint && npm run test:run && npm run build && npm run test:e2e:full",
     "validate:quality": "npm run lint && npm run test:run && npm run test:coverage && npm run build && npm run test:e2e && npm run test:a11y",
-    "validate:release": "npm run lint && npm run test:run && npm run test:coverage && npm run build && npm run catalog:check && npm run test:e2e:full && npm run test:a11y && npm run test:visual && npm run test:performance && npm run quality:collect && npm run quality:analyze && git diff --check"
+    "validate:release": "npm run lint && npm run test:run && npm run test:coverage && npm run build && npm run catalog:check && npm run docs:check && npm run test:e2e:full && npm run test:a11y && npm run test:visual && npm run test:performance && npm run quality:collect && npm run quality:analyze && git diff --check"
   },
   "dependencies": {
     "@tailwindcss/vite": "latest",

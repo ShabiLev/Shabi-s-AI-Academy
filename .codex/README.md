@@ -5,7 +5,7 @@
 This directory is the authoritative engineering source of truth for architecture, standards, decisions, and Sprint specifications. It turns product intent into implementable constraints without replacing the application README or CHANGELOG.
 
 - Engineering Kit: **1.0.0**
-- Current application: **0.6.1**
+- Current application: **0.7.0-alpha.1**
 - Planned application: **0.7.0**
 - Active work: **Sprint 7 — Agent Runtime, Starter Agents, Prompt Packs, and Playgrounds**
 

@@ -2,11 +2,11 @@
 
 ## Purpose
 
-Define the planned 0.7.0 execution boundary without implying live AI connectivity.
+Define the 0.7.0-alpha.1 execution boundary without implying live AI connectivity.
 
 ## Current state
 
-Version 0.6.1 has agent blueprints and deterministic simulation, but no provider-backed runtime. Sprint 7 introduces Mock and Dry Run plus local history.
+Version 0.7.0-alpha.1 implements the typed state machine, deterministic MockProvider, Dry Run, approval/retry/cancellation, planned-tool registry, and bounded local history. Live providers remain unavailable.
 
 ## Decision and constraints
 

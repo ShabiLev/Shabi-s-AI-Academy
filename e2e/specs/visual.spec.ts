@@ -131,11 +131,19 @@ test.describe("visual — desktop English", () => {
     await login(page);
     await english(page);
     await page.goto("/prompts/catalog");
-    await page.getByRole("button", { name: "Import to Library" }).first().click();
+    await page
+      .getByRole("button", { name: "Import to Library" })
+      .first()
+      .click();
     await stabilize(page);
-    await expect(page).toHaveScreenshot("imported-prompt-attribution-en.png", { mask: [page.getByText(/Imported:/).locator("..")] });
+    await expect(page).toHaveScreenshot("imported-prompt-attribution-en.png", {
+      mask: [page.getByText(/Imported:/).locator("..")],
+    });
     await page.goto("/prompts/catalog");
-    await page.getByRole("button", { name: "Import another copy" }).first().click();
+    await page
+      .getByRole("button", { name: "Import another copy" })
+      .first()
+      .click();
     await stabilize(page);
     await expect(page).toHaveScreenshot("catalog-duplicate-dialog-en.png");
   });
@@ -240,6 +248,92 @@ test.describe("visual — mobile English", () => {
     await loadSampleIfAvailable(page);
     await stabilize(page);
     await expect(page).toHaveScreenshot("mobile-qa-center-en.png", {
+      mask: dynamicMasks(page),
+    });
+  });
+});
+
+test.describe("visual — Runtime Engine", () => {
+  test("empty and populated history Hebrew", async ({ page }) => {
+    await login(page, "/runs");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("runtime-history-empty.png");
+    await page.getByRole("button", { name: "הרצת Mock מוצלחת" }).click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("runtime-history-populated.png", {
+      mask: dynamicMasks(page),
+    });
+  });
+  test("run details Hebrew", async ({ page }) => {
+    await login(page, "/runs");
+    await page.getByRole("button", { name: "הרצת Mock מוצלחת" }).click();
+    await page.getByRole("link", { name: /Runtime demo: success/ }).click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("runtime-details.png", {
+      mask: dynamicMasks(page),
+    });
+  });
+  test("approval state Hebrew", async ({ page }) => {
+    await login(page, "/runs");
+    await page.getByRole("button", { name: "Mock עם אישור" }).click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("runtime-approval.png", {
+      mask: dynamicMasks(page),
+    });
+  });
+  test("Dry Run Hebrew", async ({ page }) => {
+    await login(page, "/runs");
+    await page.getByRole("button", { name: "Dry Run", exact: true }).click();
+    await page
+      .getByRole("link", { name: /Inspect this local Runtime/ })
+      .click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("runtime-dry-run.png", {
+      mask: dynamicMasks(page),
+    });
+  });
+  test("details and Dry Run English", async ({ page }) => {
+    await login(page);
+    await english(page);
+    await page.goto("/runs");
+    await page.getByRole("button", { name: "Mock success" }).click();
+    await page.getByRole("link", { name: /Runtime demo: success/ }).click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("runtime-details-en.png", {
+      mask: dynamicMasks(page),
+    });
+    await page.goto("/runs");
+    await page.getByRole("button", { name: "Dry Run", exact: true }).click();
+    await page
+      .getByRole("link", { name: /Inspect this local Runtime/ })
+      .click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("runtime-dry-run-en.png", {
+      mask: dynamicMasks(page),
+    });
+  });
+});
+
+test.describe("visual — Runtime mobile Hebrew", () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+  test("history and timeline", async ({ page }) => {
+    await login(page, "/runs");
+    await page.getByRole("button", { name: "הרצת Mock מוצלחת" }).click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("mobile-runtime-history.png", {
+      mask: dynamicMasks(page),
+    });
+    await page.getByRole("link", { name: /Runtime demo: success/ }).click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("mobile-runtime-timeline.png", {
+      mask: dynamicMasks(page),
+    });
+  });
+  test("approval dialog", async ({ page }) => {
+    await login(page, "/runs");
+    await page.getByRole("button", { name: "Mock עם אישור" }).click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("mobile-runtime-approval.png", {
       mask: dynamicMasks(page),
     });
   });

@@ -154,10 +154,12 @@ const master = readFileSync(
 if (kitVersion !== "1.0.0" || !index.includes("Engineering Kit: **1.0.0**"))
   errors.push("Engineering Kit version 1.0.0 is not documented consistently.");
 if (
-  !index.includes("Current application: **0.6.1**") ||
+  !index.includes("Current application: **0.7.0-alpha.1**") ||
   !master.includes("Application baseline: **0.6.1**")
 )
-  errors.push("Application baseline 0.6.1 is not documented consistently.");
+  errors.push(
+    "Current application 0.7.0-alpha.1 or Sprint baseline 0.6.1 is not documented consistently.",
+  );
 if (
   !index.includes("Planned application: **0.7.0**") ||
   !master.includes("Target application: **0.7.0**")

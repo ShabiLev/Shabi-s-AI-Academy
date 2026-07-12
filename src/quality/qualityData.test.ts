@@ -3,7 +3,7 @@ import { computeReportStaleness, sampleQualityReport } from './qualityData'
 
 describe('computeReportStaleness', () => {
   it('flags no staleness for a fresh, matching report', () => {
-    const staleness = computeReportStaleness(sampleQualityReport, '0.6.1', 'sample01', '2026-07-11T12:30:00.000Z')
+    const staleness = computeReportStaleness(sampleQualityReport, '0.7.0-alpha.1', 'sample01', '2026-07-11T12:30:00.000Z')
     expect(staleness).toEqual({ versionMismatch: false, commitMismatch: false, old: false })
   })
 

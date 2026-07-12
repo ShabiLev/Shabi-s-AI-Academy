@@ -22,6 +22,13 @@ export const manualChecklistKeys = [
   "catalogHowTo",
   "catalogPlainText",
   "catalogVisualBaselines",
+  "runtimeHebrew",
+  "runtimeEnglish",
+  "runtimeMobile",
+  "runtimeApproval",
+  "runtimePrivacy",
+  "runtimeVisualBaselines",
+  "runtimeHowTo",
 ] as const;
 
 export type ManualChecklistKey = (typeof manualChecklistKeys)[number];

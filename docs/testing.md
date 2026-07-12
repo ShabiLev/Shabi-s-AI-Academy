@@ -1,5 +1,7 @@
 # Testing strategy
 
+Version 0.7.0-alpha.1 adds Runtime state-machine, provider, Dry Run, approval, retry, cancellation, history, corruption, security, route, RTL/LTR, accessibility, visual, responsive, and performance coverage. Runtime tests use injected clocks/IDs and never wait for backoff or call external services.
+
 Catalog coverage includes metadata/hash validation, search/filter/sort, safe import and duplicate detection, attribution export, responsive RTL/LTR toolbars, accessibility, visual states, and performance smoke navigation. `catalog:check` is part of `validate:release`; `catalog:update` is deliberately excluded.
 
 Vitest and Testing Library provide fast component/integration coverage. Playwright covers browser authentication, language, navigation, responsive behavior, learning flows, accessibility, and visual regression.

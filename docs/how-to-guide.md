@@ -1,3 +1,3 @@
 # How To guide
 
-Version 0.6.1 adds searchable help anchors for the Starter Catalog, imports, duplicate choices, and attribution. My Prompts are editable browser-local records; Starter Catalog entries are bundled, read-only CC0 data. Import is explicit and preserves attribution. The Academy is not affiliated with prompts.chat.
+Version 0.7.0-alpha.1 adds searchable Runtime help for Mock, Dry Run, disabled Live, Run History/details, approvals, retry/cancellation, privacy, and planned tools. Mock output is simulated, Dry Run is a preview, no data is sent externally, and no real tool is executed.

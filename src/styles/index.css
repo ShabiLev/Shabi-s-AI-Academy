@@ -2084,3 +2084,150 @@ footer strong {
     grid-template-columns: 1fr;
   }
 }
+
+/* Runtime Engine */
+.runtime-page,
+.runtime-details {
+  display: grid;
+  gap: var(--space-6);
+}
+.runtime-privacy,
+.runtime-demo {
+  border-inline-start: 3px solid var(--accent);
+  padding-inline-start: var(--space-4);
+}
+.runtime-demo {
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-inline-start: 3px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+.runtime-demo-actions,
+.runtime-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+.runtime-demo-actions button {
+  min-block-size: var(--control-min-height);
+  padding-inline: var(--space-4);
+  border: 1px solid var(--line-bright);
+  border-radius: var(--control-radius);
+  background: rgba(35, 133, 200, 0.12);
+}
+.runtime-demo-actions button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+.runtime-summary {
+  justify-content: space-between;
+}
+.runtime-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: var(--space-4);
+}
+.runtime-card,
+.runtime-facts,
+.runtime-details > section {
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+.runtime-card > div:first-child {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.runtime-status {
+  display: inline-flex;
+  min-block-size: 1.75rem;
+  align-items: center;
+  padding-inline: var(--space-2);
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-weight: 700;
+}
+.status-completed {
+  color: var(--success);
+}
+.status-failed,
+.status-cancelled {
+  color: var(--danger);
+}
+.status-running,
+.status-retrying,
+.status-waitingForApproval {
+  color: var(--warning);
+}
+.runtime-facts dl,
+.runtime-approval dl {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+}
+.runtime-facts dl > div,
+.runtime-approval dl > div {
+  display: grid;
+  grid-template-columns: minmax(7rem, 0.3fr) 1fr;
+  gap: var(--space-3);
+}
+.runtime-facts dt,
+.runtime-approval dt {
+  font-weight: 700;
+}
+.runtime-facts dd,
+.runtime-approval dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.runtime-output {
+  max-inline-size: 100%;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.runtime-timeline {
+  display: grid;
+  gap: var(--space-4);
+  padding-inline-start: var(--space-6);
+}
+.runtime-timeline li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-3);
+  align-items: start;
+}
+.runtime-timeline li > div {
+  display: grid;
+  gap: var(--space-1);
+  min-inline-size: 0;
+}
+.runtime-timeline time,
+.runtime-timeline small {
+  display: block;
+}
+.code-value {
+  direction: ltr;
+  text-align: start;
+}
+@media (max-width: 40rem) {
+  .runtime-demo-actions > button {
+    inline-size: 100%;
+  }
+  .runtime-facts dl > div,
+  .runtime-approval dl > div,
+  .runtime-timeline li {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .runtime-page *,
+  .runtime-details * {
+    scroll-behavior: auto !important;
+  }
+}

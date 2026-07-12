@@ -1,6 +1,8 @@
 # Shabi's AI Academy
 
-Shabi's AI Academy is a bilingual learning platform for practical AI engineering and agent-development skills. The current release is **Version 0.6.1**.
+Shabi's AI Academy is a bilingual learning platform for practical AI engineering and agent-development skills. The current milestone is **Version 0.7.0-alpha.1**.
+
+Sprint 7.1 adds a deterministic browser-local Runtime Engine with Mock and Dry Run modes, explicit approvals, bounded retries, cancellation, and a 50-record Run History. Live providers and external tools remain disabled and no API keys are accepted. See [Runtime documentation](docs/runtime.md).
 
 ## Features
 

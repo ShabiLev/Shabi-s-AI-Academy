@@ -2,11 +2,11 @@
 
 ## Purpose
 
-Define the controlling system shape for Shabi's AI Academy 0.6.1 and the planned 0.7.0 runtime.
+Define the controlling system shape for Shabi's AI Academy 0.7.0-alpha.1 and the planned 0.7.0 completion.
 
 ## Current state
 
-The application is a protected React + TypeScript + Vite single-page application. It provides bilingual lessons, prompt and agent builders, local libraries, a read-only prompt catalog, How To content, and a QA Center. Browser storage is local-first; there is no production backend or live AI provider.
+The application is a protected React + TypeScript + Vite single-page application. It provides bilingual lessons, prompt and agent builders, local libraries, a read-only prompt catalog, a deterministic Mock/Dry Run Runtime with browser-local history, How To content, and a QA Center. There is no production backend or live AI provider.
 
 ## Decision
 

@@ -3,7 +3,7 @@
 Shabi's AI Academy is a bilingual, local-first React learning application for prompts, agents, and quality engineering.
 
 - Stack: React, TypeScript, Vite, React Router, Vitest, Playwright, axe, and Lighthouse.
-- Application baseline: 0.6.1. Active Sprint: Sprint 7 targeting 0.7.0.
+- Released baseline: 0.6.1. Active milestone: Sprint 7.1 at 0.7.0-alpha.1, targeting 0.7.0.
 - Engineering Kit: 1.0.0.
 
 Read in order:

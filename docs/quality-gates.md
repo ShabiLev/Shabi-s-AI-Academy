@@ -1,5 +1,7 @@
 # Quality gates
 
+The Runtime milestone adds focused evidence for state transitions, MockProvider, Dry Run, storage validation, E2E, and accessibility. QA Center labels these as not run until a generated report proves them; Mock availability and Live not configured are capability status, not fabricated CI results.
+
 Sprint 5 (v0.5.0) adds an enforced set of quality gates on top of the existing Vitest/Playwright suite. This document is the reference for what each gate means, how its threshold was chosen, and how the overall release status is computed.
 
 ## Gates

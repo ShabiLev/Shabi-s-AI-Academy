@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import { AuthProvider } from "./auth/AuthContext";
 import { ProtectedRoute } from "./auth/ProtectedRoute";
 import { AppLayout } from "./components/layout/AppLayout";
@@ -23,6 +24,10 @@ import { AgentSimulationPage } from "./pages/AgentSimulationPage";
 import { HowToPage } from "./pages/HowToPage";
 import { PromptCatalogPage } from "./pages/PromptCatalogPage";
 import { PromptCatalogDetailsPage } from "./pages/PromptCatalogDetailsPage";
+import { RuntimeProvider } from "./runtime/RuntimeContext";
+
+const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
+const RunDetailsPage = lazy(() => import("./pages/RunDetailsPage").then((module) => ({ default: module.RunDetailsPage })));
 
 export function App() {
   return (
@@ -31,7 +36,8 @@ export function App() {
         <CourseProgressProvider>
           <PromptLibraryProvider>
             <AgentLibraryProvider>
-              <Routes>
+              <RuntimeProvider>
+                <Routes>
                 <Route path="login" element={<LoginPage />} />
                 <Route element={<ProtectedRoute />}>
                   <Route element={<AppLayout />}>
@@ -76,9 +82,12 @@ export function App() {
                     <Route path="radar" element={<RadarPage />} />
                     <Route path="settings" element={<SettingsPage />} />
                     <Route path="qa" element={<QACenterPage />} />
+                    <Route path="runs" element={<Suspense fallback={null}><RunHistoryPage /></Suspense>} />
+                    <Route path="runs/:runId" element={<Suspense fallback={null}><RunDetailsPage /></Suspense>} />
                   </Route>
                 </Route>
-              </Routes>
+                </Routes>
+              </RuntimeProvider>
             </AgentLibraryProvider>
           </PromptLibraryProvider>
         </CourseProgressProvider>

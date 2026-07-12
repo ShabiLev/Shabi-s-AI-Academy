@@ -1,5 +1,7 @@
 # QA Center
 
+Version 0.7.0-alpha.1 shows Runtime capability status, local run count, and the expected Runtime test areas. Mock Provider is available; Live Provider is intentionally not configured and is not a release failure. The versioned manual checklist adds bilingual, mobile, approval/focus, privacy/retention, visual, and How To review.
+
 A bilingual, protected route (`/qa`, nav item after Settings) that gives an honest view of release quality — never a fabricated "all green" dashboard.
 
 ## Data sources, in priority order
@@ -20,7 +22,7 @@ An invalid or unsupported-schema import shows a controlled error message (`src/q
 ## Sections
 
 - **A. Release header** — application version, computed release status badge, environment, last-validated timestamp, commit SHA / branch (from real Vite-injected build metadata, `src/quality/buildMetadata.ts` — falls back to `local`/`unknown`/`not available`, never a fabricated value).
-- **B. Quality gates** — all 10 gates (`docs/quality-gates.md`) as status badges with both an icon/color *and* text (Passed/Failed/Warning/Not run/Not available in the active language) — never color-only.
+- **B. Quality gates** — all 10 gates (`docs/quality-gates.md`) as status badges with both an icon/color _and_ text (Passed/Failed/Warning/Not run/Not available in the active language) — never color-only.
 - **C. Test summary** — Vitest and Playwright counts (total/failed/skipped, browser-project count).
 - **D. Coverage** — statements/branches/functions/lines vs. thresholds; a trend row explicitly marked "not available yet" (no history is tracked across runs).
 - **E. Accessibility** — scanned-page count, violations by severity, count of documented allowlist entries, manual-review status.

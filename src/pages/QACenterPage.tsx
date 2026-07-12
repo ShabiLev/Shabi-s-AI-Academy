@@ -30,6 +30,7 @@ import {
   isChecklistComplete,
   type ManualChecklistKey,
 } from "../quality/checklist";
+import { useRuntime } from "../runtime/RuntimeContext";
 
 const gateOrder: GateName[] = [
   "lint",
@@ -54,6 +55,7 @@ export function QACenterPage() {
   const { language, t } = useLanguage();
   const ui = language === "he" ? "he" : "en";
   const s = qaUi[ui];
+  const runtime = useRuntime();
   const locale = ui === "he" ? "he-IL" : "en-US";
 
   const [importedText, setImportedText] = useState<string | null>(() =>
@@ -238,6 +240,55 @@ export function QACenterPage() {
             </button>
           )}
         </div>
+      </section>
+
+      <section
+        className="settings-card"
+        aria-labelledby="runtime-quality-title"
+      >
+        <h2 id="runtime-quality-title">
+          {ui === "he" ? "איכות Runtime" : "Runtime quality"}
+        </h2>
+        <p>
+          {ui === "he"
+            ? "הסטטוסים מתארים יכולות זמינות, לא תוצאת CI מומצאת."
+            : "These statuses describe available capabilities, not fabricated CI results."}
+        </p>
+        <ul className="qa-gate-grid">
+          {[
+            "Runtime unit tests",
+            "State-machine tests",
+            "MockProvider tests",
+            "Dry Run tests",
+            "Runtime E2E tests",
+            "Runtime accessibility tests",
+            "Runtime storage validation",
+          ].map((label) => (
+            <li key={label}>
+              <span>{label}</span>
+              <span className="qa-status-badge qa-status-gate-notRun">
+                {s.gateStatus.notRun}
+              </span>
+            </li>
+          ))}
+          <li>
+            <span>Mock Provider</span>
+            <span className="qa-status-badge qa-status-gate-passed">
+              {ui === "he" ? "זמין" : "Available"}
+            </span>
+          </li>
+          <li>
+            <span>Live Provider</span>
+            <span className="qa-status-badge qa-status-gate-warning">
+              {ui === "he" ? "לא מוגדר" : "Not configured"}
+            </span>
+          </li>
+        </ul>
+        <p>
+          {ui === "he"
+            ? `רשומות מקומיות: ${runtime.runs.length}`
+            : `Local records: ${runtime.runs.length}`}
+        </p>
       </section>
 
       <section

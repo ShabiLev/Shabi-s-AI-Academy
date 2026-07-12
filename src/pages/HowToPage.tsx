@@ -102,8 +102,8 @@ export function HowToPage() {
         </h2>
         <p>
           {ui === "he"
-            ? "אין API של AI בגרסה 0.6.1. קטלוג הפרומפטים מובנה לקריאה בלבד; ייבוא יוצר עותק מקומי. אין הפעלה אוטומטית של תוכן חיצוני."
-            : "No AI API is connected in Version 0.6.1. The Prompt Catalog is bundled read-only; importing creates a local copy. External content is never executed automatically."}
+            ? "בגרסה 0.7.0-alpha.1 פלט Mock הוא סימולציה ו-Dry Run הוא תצוגה מקדימה. הרצה חיה מושבתת, מידע אינו נשלח החוצה וכלים חיצוניים אינם מופעלים."
+            : "In Version 0.7.0-alpha.1, Mock output is simulated and Dry Run is a preview. Live Run is disabled, no data is sent externally, and no real tool is executed."}
         </p>
       </section>
     </div>

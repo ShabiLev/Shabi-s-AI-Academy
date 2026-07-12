@@ -16,7 +16,8 @@ Separate released capability, committed delivery, planned direction, and uncommi
 
 ## Committed / in progress
 
-- 0.7.0 — Agent Runtime Foundation, Starter Agents, Prompt Packs, Playgrounds, Learning Journey foundation, Roadmap screen, and automation expansion. Controlled by [Sprint 7](../sprint-7/00-master-spec.md).
+- 0.7.0-alpha.1 — Sprint 7.1 Runtime Engine foundation: deterministic Mock/Dry Run, approvals, retries, cancellation, and browser-local history.
+- 0.7.0 — Remaining Sprint 7 Starter Agents, Prompt Packs, Playgrounds, Learning Journey foundation, Roadmap screen, and automation expansion. Controlled by [Sprint 7](../sprint-7/00-master-spec.md).
 
 ## Planned direction
 

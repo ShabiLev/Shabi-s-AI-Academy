@@ -2,6 +2,30 @@
 
 All notable changes to this project are documented here following the Keep a Changelog format.
 
+## [0.7.0-alpha.1] - 2026-07-12
+
+### Added
+
+- Deterministic Runtime Engine and typed state machine
+- MockProvider and Dry Run generation
+- Provider and planned-tool registries
+- Approval, retry, and cancellation flows
+- Browser-local Run History, Runtime demo, and detail routes
+- Runtime QA Center metrics, How To guidance, and automated regression coverage
+
+### Changed
+
+- Agent architecture now has a reusable execution foundation
+- QA Center now reports Runtime capability and test status
+- Application navigation includes Run History
+
+### Security
+
+- Live execution remains disabled
+- No API keys are accepted or stored
+- No external tools are executed
+- Mock and Dry Run remain browser-local
+
 ## [0.6.1] - 2026-07-12
 
 ### Added

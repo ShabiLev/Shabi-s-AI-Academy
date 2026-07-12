@@ -160,3 +160,42 @@ test.describe("accessibility — English LTR", () => {
     await runAxeScan(page, test.info());
   });
 });
+
+test.describe("accessibility — Runtime Engine", () => {
+  test("Run History Hebrew and mobile filters", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await login(page, "/runs");
+    await runAxeScan(page, test.info(), { label: "runtime-history-he-mobile" });
+  });
+  test("Run History English", async ({ page }) => {
+    await login(page);
+    await english(page);
+    await page.goto("/runs");
+    await runAxeScan(page, test.info(), { label: "runtime-history-en" });
+  });
+  test("Run Details and retry state", async ({ page }) => {
+    await login(page);
+    await english(page);
+    await page.goto("/runs");
+    await page.getByRole("button", { name: "Mock retry", exact: true }).click();
+    await page.getByRole("link", { name: /retryThenSuccess/ }).click();
+    await runAxeScan(page, test.info(), { label: "runtime-details-retry" });
+  });
+  test("Dry Run preview", async ({ page }) => {
+    await login(page);
+    await english(page);
+    await page.goto("/runs");
+    await page.getByRole("button", { name: "Dry Run", exact: true }).click();
+    await page
+      .getByRole("link", { name: /Inspect this local Runtime/ })
+      .click();
+    await runAxeScan(page, test.info(), { label: "runtime-dry-run" });
+  });
+  test("Approval dialog", async ({ page }) => {
+    await login(page);
+    await english(page);
+    await page.goto("/runs");
+    await page.getByRole("button", { name: "Mock approval" }).click();
+    await runAxeScan(page, test.info(), { label: "runtime-approval-dialog" });
+  });
+});

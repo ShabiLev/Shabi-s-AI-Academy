@@ -20,6 +20,7 @@ export type TranslationKey =
   | "nav.lessons"
   | "nav.prompts"
   | "nav.agents"
+  | "nav.runs"
   | "nav.projects"
   | "nav.radar"
   | "nav.settings"

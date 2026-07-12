@@ -61,4 +61,14 @@ test("Lessons, Prompt Builder, and QA Center load without a stuck loading state"
   await expect(page.locator(".catalog-prompt-text")).toBeVisible({
     timeout: 8000,
   });
+
+  await page.goto("/runs");
+  await expect(
+    page.getByRole("heading", { name: "היסטוריית הרצות" }),
+  ).toBeVisible({ timeout: 8000 });
+  await page.getByRole("button", { name: "הרצת Mock מוצלחת" }).click();
+  await page.getByRole("link", { name: /Runtime demo: success/ }).click();
+  await expect(page.locator(".runtime-timeline")).toBeVisible({
+    timeout: 8000,
+  });
 });

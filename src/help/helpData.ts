@@ -23,6 +23,26 @@ const names = [
   ["agent-builder", "Agent Builder", "בונה האייג׳נטים", "/agents/new"],
   ["agent-library", "Agent Library", "ספריית האייג׳נטים", "/agents"],
   ["agent-simulation", "Agent Simulation", "סימולציית אייג׳נט", "/agents"],
+  ["runtime-engine", "What is the Runtime Engine?", "מהו מנוע ההרצה?", "/runs"],
+  ["mock-run", "Mock Run", "הרצת Mock", "/runs"],
+  ["dry-run", "Dry Run", "תצוגת Dry Run", "/runs"],
+  ["live-reserved", "Live Reserved", "הרצה חיה שמורה", "/runs"],
+  ["run-history", "Run History", "היסטוריית הרצות", "/runs"],
+  ["run-details", "Run Details", "פרטי הרצה", "/runs"],
+  ["approval-flow", "Approval Flow", "תהליך אישור", "/runs"],
+  [
+    "retry-cancellation",
+    "Retry and Cancellation",
+    "ניסיון חוזר וביטול",
+    "/runs",
+  ],
+  [
+    "runtime-privacy",
+    "Runtime Storage and Privacy",
+    "אחסון ופרטיות Runtime",
+    "/runs",
+  ],
+  ["planned-tools", "Planned Tools", "כלים מתוכננים", "/runs"],
   ["projects", "Projects", "פרויקטים", "/projects"],
   ["ai-radar", "AI Radar", "רדאר AI", "/radar"],
   ["qa-center", "QA Center", "מרכז QA", "/qa"],
@@ -52,7 +72,25 @@ export const helpSections: HelpSection[] = names.map(
             ? "ייבוא חוזר דורש בחירה: פתיחת העותק הקיים, עותק נוסף או ביטול."
             : id === "catalog-attribution"
               ? "פרומפט שיובא מציג את prompts.chat, רישיון CC0-1.0, תאריך הייבוא והערה שהעותק עשוי להשתנות."
-              : `מדריך מעשי עבור ${he}.`,
+              : id === "runtime-engine"
+                ? "מנוע ההרצה מפעיל סימולציות מקומיות ודטרמיניסטיות בלבד; אין חיבור לספק AI או לכלי חיצוני."
+                : id === "mock-run"
+                  ? "פלט Mock הוא סימולציה צפויה מראש ואינו תשובת מודל AI."
+                  : id === "dry-run"
+                    ? "Dry Run מאמת ומרכיב תצוגה מקדימה בלי להפעיל ספק או כלי."
+                    : id === "live-reserved"
+                      ? "הרצה חיה מושבתת מסיבות אבטחה ואינה מקבלת מפתחות API."
+                      : id === "run-history" || id === "run-details"
+                        ? "היסטוריית ההרצות נשמרת בדפדפן בלבד, מוגבלת ל-50 רשומות וניתנת למחיקה."
+                        : id === "approval-flow"
+                          ? "פעולה מסוכנת מדומה נעצרת עד לאישור מפורש וחדש לכל הרצה."
+                          : id === "retry-cancellation"
+                            ? "ניסיונות חוזרים מוגבלים; ביטול הוא סופי ומתועד בציר הזמן."
+                            : id === "runtime-privacy"
+                              ? "אין להזין מידע רגיש. אחסון פגום נטען כברירת מחדל בטוחה."
+                              : id === "planned-tools"
+                                ? "הכלים הם תיאורי תכנון בלבד: אינם מחוברים ואינם מופעלים."
+                                : `מדריך מעשי עבור ${he}.`,
     summaryEn:
       id === "starter-catalog"
         ? "The Catalog is bundled read-only data; My Prompts are editable browser-local copies."
@@ -62,7 +100,25 @@ export const helpSections: HelpSection[] = names.map(
             ? "A repeat import requires Open existing copy, Import another copy, or Cancel."
             : id === "catalog-attribution"
               ? "Imported details show prompts.chat, CC0-1.0, import date, and that the local copy may change."
-              : `Practical guidance for ${en}.`,
+              : id === "runtime-engine"
+                ? "The Runtime runs deterministic browser-local simulations only; no AI provider or external tool is connected."
+                : id === "mock-run"
+                  ? "Mock output is predictable simulation, not an AI model response."
+                  : id === "dry-run"
+                    ? "Dry Run validates and assembles a preview without executing a provider or tool."
+                    : id === "live-reserved"
+                      ? "Live execution is security-disabled and accepts no API keys."
+                      : id === "run-history" || id === "run-details"
+                        ? "Run History is browser-local, limited to 50 records, and deletable."
+                        : id === "approval-flow"
+                          ? "A simulated risky action pauses for fresh explicit approval on every run."
+                          : id === "retry-cancellation"
+                            ? "Retries are bounded; cancellation is terminal and recorded in the timeline."
+                            : id === "runtime-privacy"
+                              ? "Do not enter sensitive data. Corrupted storage recovers to a safe default."
+                              : id === "planned-tools"
+                                ? "Tools are design-time descriptions only: not connected and never executed."
+                                : `Practical guidance for ${en}.`,
     stepsHe: [
       "פתחו את המסך מהניווט.",
       "בדקו את ההסבר והשלימו את השדות הנדרשים.",

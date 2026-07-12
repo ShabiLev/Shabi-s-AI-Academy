@@ -21,6 +21,8 @@ import { AgentBuilderPage } from "./pages/AgentBuilderPage";
 import { AgentDetailsPage } from "./pages/AgentDetailsPage";
 import { AgentSimulationPage } from "./pages/AgentSimulationPage";
 import { HowToPage } from "./pages/HowToPage";
+import { PromptCatalogPage } from "./pages/PromptCatalogPage";
+import { PromptCatalogDetailsPage } from "./pages/PromptCatalogDetailsPage";
 
 export function App() {
   return (
@@ -45,6 +47,8 @@ export function App() {
                     />
                     <Route path="prompts" element={<PromptLibraryPage />} />
                     <Route path="prompts/new" element={<PromptBuilderPage />} />
+                    <Route path="prompts/catalog" element={<PromptCatalogPage />} />
+                    <Route path="prompts/catalog/:catalogId" element={<PromptCatalogDetailsPage />} />
                     <Route
                       path="prompts/:promptId"
                       element={<PromptDetailsPage />}

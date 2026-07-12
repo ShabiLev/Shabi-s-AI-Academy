@@ -14,6 +14,8 @@ import {
   savePromptState,
 } from "./promptStorage";
 import type { Prompt, PromptFilters, PromptInput, PromptState } from "./types";
+import { importCatalogEntry } from "./catalog/catalogImport";
+import type { CatalogEntry } from "./catalog/types";
 interface Value {
   state: PromptState;
   create: (i: PromptInput) => Prompt;
@@ -24,6 +26,7 @@ interface Value {
   setFilters: (f: Partial<PromptFilters>) => void;
   saveDraft: (d?: Partial<Prompt>) => void;
   get: (id: string) => Prompt | undefined;
+  importFromCatalog: (entry: CatalogEntry) => Prompt;
 }
 const Context = createContext<Value | null>(null);
 export function PromptLibraryProvider({ children }: { children: ReactNode }) {
@@ -83,6 +86,15 @@ export function PromptLibraryProvider({ children }: { children: ReactNode }) {
         mutate((s) => ({ ...s, filters: { ...s.filters, ...f } })),
       saveDraft: (d) => mutate((s) => ({ ...s, draft: d })),
       get: (id) => state.prompts.find((p) => p.id === id),
+      importFromCatalog: (entry) => {
+        const prompt = importCatalogEntry(entry);
+        mutate((current) => ({
+          ...current,
+          prompts: [prompt, ...current.prompts],
+          lastOpenedPromptId: prompt.id,
+        }));
+        return prompt;
+      },
     }),
     [state],
   );

@@ -102,8 +102,8 @@ export function HowToPage() {
         </h2>
         <p>
           {ui === "he"
-            ? "אין API של AI בגרסה 0.6.0. GitHub וכלים חיצוניים אינם מחוברים מתוך היישום. נתוני פרומפטים ואייג׳נטים מקומיים בלבד."
-            : "No AI API is connected in Version 0.6.0. GitHub and external tools are not connected from the application. Prompt and Agent data is local only."}
+            ? "אין API של AI בגרסה 0.6.1. קטלוג הפרומפטים מובנה לקריאה בלבד; ייבוא יוצר עותק מקומי. אין הפעלה אוטומטית של תוכן חיצוני."
+            : "No AI API is connected in Version 0.6.1. The Prompt Catalog is bundled read-only; importing creates a local copy. External content is never executed automatically."}
         </p>
       </section>
     </div>

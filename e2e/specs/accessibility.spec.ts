@@ -37,6 +37,16 @@ test.describe("accessibility — Hebrew RTL", () => {
     await runAxeScan(page, test.info());
   });
 
+  test("Starter Catalog", async ({ page }) => {
+    await login(page, "/prompts/catalog");
+    await runAxeScan(page, test.info());
+  });
+
+  test("Catalog Prompt Details", async ({ page }) => {
+    await login(page, "/prompts/catalog/prompts-chat-sql-query-reviewer");
+    await runAxeScan(page, test.info());
+  });
+
   test("Agent Library", async ({ page }) => {
     await login(page, "/agents");
     await runAxeScan(page, test.info());
@@ -68,6 +78,23 @@ test.describe("accessibility — Hebrew RTL", () => {
       await sample.click();
       await runAxeScan(page, test.info(), { label: "qa-center-sample" });
     }
+  });
+
+  test("Starter Catalog and duplicate dialog", async ({ page }) => {
+    await login(page);
+    await english(page);
+    await page.goto("/prompts/catalog");
+    await runAxeScan(page, test.info(), { label: "catalog-en" });
+    await page
+      .getByRole("button", { name: "Import to Library" })
+      .first()
+      .click();
+    await page.goto("/prompts/catalog");
+    await page
+      .getByRole("button", { name: "Import another copy" })
+      .first()
+      .click();
+    await runAxeScan(page, test.info(), { label: "catalog-duplicate-dialog" });
   });
 
   test("mobile navigation drawer open", async ({ page }) => {

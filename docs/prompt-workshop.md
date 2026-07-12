@@ -1,6 +1,10 @@
 # Prompt Workshop
 
-Version 0.5.0 provides a browser-local workspace for designing, reviewing, saving, and organizing professional prompts. No prompt content is uploaded to an API or server.
+Version 0.6.1 provides a browser-local workspace for designing, reviewing, saving, and organizing professional prompts. The read-only Starter Catalog remains separate until explicit import; personal Prompt content is not uploaded to an API or server.
+
+The Prompt Library uses a shared page-header, spacing tokens, consistent 44px controls, native selects, and a responsive filter grid. Desktop uses aligned columns, tablet uses two columns, and mobile stacks controls without absolute-positioned RTL fixes.
+
+See [prompt-catalog.md](prompt-catalog.md) for source licensing, curation, duplicate import, attribution, and update tooling.
 
 Each prompt stores a stable ID, title, description, language, category ID, tags, structured prompt fields, timestamps, version, and favorite state. Data and filters use `shabi-ai-academy.prompt-library.v1` in localStorage. Invalid records, schema mismatches, malformed JSON, and duplicate IDs are safely rejected or removed.
 

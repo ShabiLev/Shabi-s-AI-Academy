@@ -27,6 +27,16 @@ export interface Prompt {
   updatedAt: string;
   version: number;
   isFavorite: boolean;
+  importedFromCatalog?: boolean;
+  sourceCatalogId?: string;
+  sourceId?: string;
+  sourceName?: string;
+  sourceRepository?: string;
+  sourceLicense?: string;
+  sourceImportedAt?: string;
+  sourceOriginalId?: string;
+  sourceOriginalTitle?: string;
+  sourceContentHash?: string;
 }
 export interface PromptFilters {
   search: string;

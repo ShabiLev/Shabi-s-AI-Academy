@@ -1,5 +1,7 @@
 # Visual regression testing
 
+Version 0.6.1 baselines cover the aligned Prompt Library header/filter toolbar and Starter Catalog in Hebrew/English desktop/mobile, plus details and imported attribution. Snapshot updates remain an explicit reviewed operation.
+
 Deterministic Playwright screenshot comparisons against committed baseline images, scoped to a single canonical browser project.
 
 ## Architecture

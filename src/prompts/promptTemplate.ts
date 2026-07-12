@@ -46,7 +46,10 @@ export function formatExport(
   score: number,
   ui: "he" | "en",
 ) {
-  const meta = `${p.title}\n${p.description}\nCategory: ${p.category}\nLanguage: ${p.language}\nTags: ${p.tags.join(", ")}\nVersion: ${p.version}\nQuality: ${score}/100\nCreated: ${p.createdAt}\nUpdated: ${p.updatedAt}`;
+  const attribution = p.importedFromCatalog
+    ? `\nSource: ${p.sourceName}\nSource repository: ${p.sourceRepository}\nSource license: ${p.sourceLicense}\nImported: ${p.sourceImportedAt}\nSource content hash: ${p.sourceContentHash}\nNote: this local copy may have been edited since import.`
+    : "";
+  const meta = `${p.title}\n${p.description}\nCategory: ${p.category}\nLanguage: ${p.language}\nTags: ${p.tags.join(", ")}\nVersion: ${p.version}\nQuality: ${score}/100\nCreated: ${p.createdAt}\nUpdated: ${p.updatedAt}${attribution}`;
   return kind === "md"
     ? `# ${p.title}\n\n${meta.split("\n").slice(1).join("\n\n")}\n\n## Prompt\n\n${buildPrompt(p, ui)}\n`
     : `${meta}\n\n${buildPrompt(p, ui)}\n`;

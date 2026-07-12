@@ -1,0 +1,50 @@
+{
+  "source": "https://github.com/f/prompts.chat",
+  "license": "CC0-1.0",
+  "sourceFile": "prompts.csv",
+  "sourceSnapshotCommit": "bae0c6d5743a0536d432e1f4bb271405e2375828",
+  "reviewedRecords": 113915,
+  "acceptedTitles": [
+    "Software Quality Assurance Tester",
+    "Unit Tester Assistant",
+    "Code Review Assistant",
+    "Project Evaluation for Production Decision",
+    "AI2sql SQL Model — Query Generator",
+    "Data Analyst",
+    "Lead Data Analyst with Data Engineering Expertise",
+    "Act as a Product Manager",
+    "AI Agent Security Evaluation Checklist",
+    "Codebase WIKI Documentation Skill",
+    "Product Manager",
+    "requirement-analysis-and-planning-agent",
+    "Code Reviewer",
+    "Code Review Agent",
+    "Code Review Expert",
+    "Node.js Automation Script Developer",
+    "Professional Email Writer for Any Occasion",
+    "Web Application Testing Skill",
+    "Accessibility Testing Superpower",
+    "Iterative Prompt Refinement Loop",
+    "Meta-Prompt Engineer",
+    "Prompt Enhancer",
+    "Comprehensive Repository Audit & Remediation Prompt",
+    "AI Workflow Automation Specialist"
+  ],
+  "categoryDistribution": {
+    "qa": 3,
+    "sql": 2,
+    "jira": 2,
+    "release": 3,
+    "product": 3,
+    "customer": 2,
+    "development": 4,
+    "learning": 3,
+    "general": 2
+  },
+  "rejectionReasons": {
+    "notSelectedForAcademyScope": 113843,
+    "duplicateOrNearDuplicate": 31,
+    "unsafeOrPromptInjection": 9,
+    "malformedOrEmpty": 8
+  }
+}

@@ -2,6 +2,31 @@
 
 All notable changes to this project are documented here following the Keep a Changelog format.
 
+## [0.6.1] - 2026-07-12
+
+### Added
+
+- Curated prompts.chat Starter Catalog
+- Safe external Prompt import workflow
+- Source and CC0-1.0 license attribution
+- Controlled developer tooling for Catalog validation and updates
+- Prompt Catalog and third-party data documentation
+- Automated Catalog regression coverage
+
+### Changed
+
+- Prompt Library header now uses a consistent page-header layout
+- Prompt Library filters now use a responsive aligned toolbar
+- Dashboard distinguishes personal Prompts from Starter Catalog Prompts
+- How To explains Catalog browsing, importing, duplicates, and attribution
+- Shared spacing and form-control alignment were standardized
+
+### Fixed
+
+- Misaligned New Prompt action and excessive blank spacing above filters
+- RTL favorites-checkbox, select-arrow, and form-control alignment
+- Inconsistent filter-control heights, toolbar overlap, and mobile overflow
+
 ## [0.6.0] - 2026-07-11
 
 ### Added

@@ -1,5 +1,7 @@
 # Manual QA checklist
 
+For 0.6.1, review Prompt Library header alignment in Hebrew/English/mobile, filters in RTL/LTR, Catalog content and attribution, duplicate importing, imported editing, How To guidance, plain-text external content, and intentional visual baseline changes. QA Center stores this separately by application version.
+
 Automated gates (`docs/quality-gates.md`) catch a large and growing share of regressions, but they do not replace human review. This checklist is the reference for what's automated, what's manual, and what isn't covered yet. The QA Center's release checklist (`docs/qa-center.md`) implements the manual items below as persisted, per-version checkboxes.
 
 ## Accessibility

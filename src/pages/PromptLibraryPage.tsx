@@ -8,10 +8,13 @@ import { filterPrompts } from "../prompts/utils";
 import { evaluatePrompt } from "../prompts/promptQuality";
 import { downloadPrompt } from "../prompts/promptExport";
 import { ConfirmDialog } from "../components/prompts/ConfirmDialog";
+import { catalogUi } from "../prompts/catalog/catalogUi";
+import { starterCatalog } from "../prompts/catalog";
 export function PromptLibraryPage() {
   const { language } = useLanguage(),
     ui = language === "he" ? "he" : "en",
     s = promptUi[ui],
+    catalogStrings = catalogUi[ui],
     { state, setFilters, remove, favorite, duplicate } = usePromptLibrary(),
     [deleting, setDeleting] = useState<string>(),
     navigate = useNavigate(),
@@ -23,21 +26,41 @@ export function PromptLibraryPage() {
     );
   return (
     <div className="page prompt-library-page">
-      <header className="library-heading">
-        <div>
+      <header className="page-header prompt-page-header">
+        <div className="page-header-content">
           <h1>{s.library}</h1>
+          <p>
+            {ui === "he"
+              ? "ניהול הפרומפטים המקומיים והניתנים לעריכה בדפדפן זה."
+              : "Manage your editable prompts stored in this browser."}
+          </p>
           <p>
             {state.prompts.length} {s.total} ·{" "}
             {state.prompts.filter((p) => p.isFavorite).length} {s.favorites}
           </p>
         </div>
-        <Link className="primary-button" to="/prompts/new">
-          {s.newPrompt}
-        </Link>
+        <div className="page-actions">
+          <Link className="primary-button" to="/prompts/new">
+            {s.newPrompt}
+          </Link>
+        </div>
       </header>
-      {(location.state as { deleted?: boolean } | null)?.deleted && <p role="status">{s.deleted}</p>}
+      <nav
+        className="prompt-tabs"
+        aria-label={ui === "he" ? "בחירת ספרייה" : "Library view"}
+      >
+        <Link aria-current="page" to="/prompts">
+          {catalogStrings.myPrompts}
+        </Link>
+        <Link to="/prompts/catalog">
+          {catalogStrings.catalog} ({starterCatalog.length})
+        </Link>
+      </nav>
+      {(location.state as { deleted?: boolean } | null)?.deleted && (
+        <p role="status">{s.deleted}</p>
+      )}
       <section className="prompt-filters" aria-label={s.search}>
-        <label>
+        <label className="filter-search">
           {s.search}
           <input
             type="search"
@@ -102,6 +125,7 @@ export function PromptLibraryPage() {
           </select>
         </label>
         <button
+          className="secondary-button"
           type="button"
           onClick={() =>
             setFilters({

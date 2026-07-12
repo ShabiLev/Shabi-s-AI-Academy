@@ -65,6 +65,34 @@ export function PromptDetailsPage() {
           <dd>{evaluatePrompt(p).score}/100</dd>
         </div>
       </dl>
+      {p.importedFromCatalog && (
+        <section
+          className="catalog-attribution"
+          aria-label={ui === "he" ? "ייחוס מקור" : "Source attribution"}
+        >
+          <h2>{ui === "he" ? "מקור הפרומפט" : "Prompt source"}</h2>
+          <p>
+            {ui === "he" ? "מקור" : "Source"}:{" "}
+            <a href={p.sourceRepository} target="_blank" rel="noreferrer">
+              {p.sourceName}
+            </a>{" "}
+            · {ui === "he" ? "רישיון" : "License"}: {p.sourceLicense}
+          </p>
+          <p>
+            {ui === "he" ? "יובא בתאריך" : "Imported"}:{" "}
+            {p.sourceImportedAt
+              ? new Date(p.sourceImportedAt).toLocaleString(
+                  ui === "he" ? "he-IL" : "en-US",
+                )
+              : "—"}
+          </p>
+          <p>
+            {ui === "he"
+              ? "זהו עותק מקומי שייתכן שנערך מאז הייבוא."
+              : "This is a local copy and may have been edited since import."}
+          </p>
+        </section>
+      )}
       <pre className="details-prompt">{buildPrompt(p, ui)}</pre>
       <div className="card-actions">
         <Link to={`/prompts/${p.id}/edit`}>{s.edit}</Link>
@@ -91,7 +119,7 @@ export function PromptDetailsPage() {
           onCancel={() => setDeleting(false)}
           onConfirm={() => {
             remove(p.id);
-              navigate("/prompts", { state: { deleted: true } });
+            navigate("/prompts", { state: { deleted: true } });
           }}
         />
       )}

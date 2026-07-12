@@ -14,6 +14,7 @@ import { promptUi } from "../prompts/uiText";
 import { Link } from "react-router-dom";
 import { useAgentLibrary } from "../agents/AgentLibraryContext";
 import { agentUi } from "../agents/agentUi";
+import { starterCatalog } from "../prompts/catalog";
 
 export function DashboardPage() {
   const { t, language } = useLanguage();
@@ -96,12 +97,16 @@ export function DashboardPage() {
             {promptState.prompts.filter((p) => p.isFavorite).length}{" "}
             {promptStrings.favorites}
             {latestPrompt ? ` · ${latestPrompt.title}` : ""}
+            {` · ${starterCatalog.length} ${language === "he" ? "בקטלוג ההתחלתי" : "Starter Catalog prompts"}`}
           </p>
           <div className="dashboard-prompt-actions">
             <PrimaryButton to="/prompts">
               {t("dashboard.openLibrary")}
             </PrimaryButton>
             <Link to="/prompts/new">{promptStrings.createPrompt}</Link>
+            <Link to="/prompts/catalog">
+              {language === "he" ? "קטלוג התחלתי" : "Starter Catalog"}
+            </Link>
           </div>
         </AppCard>
         <AppCard>

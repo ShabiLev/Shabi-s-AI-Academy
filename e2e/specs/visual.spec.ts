@@ -12,12 +12,16 @@ async function createPrompt(page: Page, title = "Visual QA Prompt") {
 }
 
 async function loadSampleIfAvailable(page: Page) {
-  const button = page.getByRole("button", { name: /טעינת נתוני דוגמה|Load sample data/ });
-  if (await button.isVisible()) await button.click();
+  const button = page.getByRole("button", {
+    name: /טעינת נתוני דוגמה|Load sample data/,
+  });
+  await button.click();
 }
 
 async function useStableQaSample(page: Page) {
-  await page.route("**/generated/latest-quality-report.json", (route) => route.fulfill({ json: null }));
+  await page.route("**/generated/latest-quality-report.json", (route) =>
+    route.fulfill({ json: null }),
+  );
 }
 
 test.describe("visual — desktop Hebrew", () => {
@@ -51,6 +55,18 @@ test.describe("visual — desktop Hebrew", () => {
     await page.goto("/prompts");
     await stabilize(page);
     await expect(page).toHaveScreenshot("prompt-library-populated.png");
+  });
+
+  test("Starter Catalog", async ({ page }) => {
+    await login(page, "/prompts/catalog");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("starter-catalog.png");
+  });
+
+  test("Catalog Prompt Details", async ({ page }) => {
+    await login(page, "/prompts/catalog/prompts-chat-sql-query-reviewer");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("catalog-prompt-details.png");
   });
 
   test("Prompt Builder", async ({ page }) => {
@@ -100,6 +116,30 @@ test.describe("visual — desktop English", () => {
     await expect(page).toHaveScreenshot("prompt-builder-en.png");
   });
 
+  test("Prompt Library and Starter Catalog", async ({ page }) => {
+    await login(page);
+    await english(page);
+    await page.goto("/prompts");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("prompt-library-en.png");
+    await page.goto("/prompts/catalog");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("starter-catalog-en.png");
+  });
+
+  test("Imported Prompt attribution and duplicate dialog", async ({ page }) => {
+    await login(page);
+    await english(page);
+    await page.goto("/prompts/catalog");
+    await page.getByRole("button", { name: "Import to Library" }).first().click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("imported-prompt-attribution-en.png", { mask: [page.getByText(/Imported:/).locator("..")] });
+    await page.goto("/prompts/catalog");
+    await page.getByRole("button", { name: "Import another copy" }).first().click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("catalog-duplicate-dialog-en.png");
+  });
+
   test("QA Center", async ({ page }) => {
     await useStableQaSample(page);
     await login(page);
@@ -145,6 +185,12 @@ test.describe("visual — mobile Hebrew", () => {
     await login(page, "/prompts/new");
     await stabilize(page);
     await expect(page).toHaveScreenshot("mobile-prompt-builder.png");
+  });
+
+  test("Starter Catalog", async ({ page }) => {
+    await login(page, "/prompts/catalog");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("mobile-starter-catalog.png");
   });
 
   test("delete dialog", async ({ page }) => {

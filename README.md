@@ -1,6 +1,6 @@
 # Shabi's AI Academy
 
-Shabi's AI Academy is a bilingual learning platform for practical AI engineering and agent-development skills. The current release is **Version 0.6.0**.
+Shabi's AI Academy is a bilingual learning platform for practical AI engineering and agent-development skills. The current release is **Version 0.6.1**.
 
 ## Features
 
@@ -16,6 +16,7 @@ Shabi's AI Academy is a bilingual learning platform for practical AI engineering
 - Bilingual **QA Center** (`/qa`): quality gates, coverage, accessibility, visual regression, performance, a deterministic (non-AI) analyzer, a browser-local issue register, and a release-readiness checklist
 - Browser-local **Agent Builder and Library** with five templates, Blueprint export, deterministic design quality, and simulation-only execution
 - Searchable bilingual **How To guide** (`/how-to`) with contextual help links
+- Curated, read-only **Starter Catalog** with 24 educational prompts from prompts.chat prompt data, explicit CC0-1.0 attribution, and safe local importing
 - Enforced Vitest coverage thresholds, an axe-core accessibility suite, deterministic Playwright visual regression, and Lighthouse CI performance gates — see [docs/quality-gates.md](docs/quality-gates.md)
 
 ## Demo Login and security

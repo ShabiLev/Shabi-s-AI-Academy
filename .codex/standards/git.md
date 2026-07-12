@@ -1,0 +1,2 @@
+# Git Standards
+Conventional Commits.

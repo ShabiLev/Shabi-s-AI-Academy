@@ -33,6 +33,8 @@ export interface RetryPolicy {
   fallbackAction: string;
   stopCondition: string;
 }
+export interface AgentTestCase { id: string; input: string; expectedCharacteristics: string; forbiddenOutput: string; status: "draft" | "passed" | "failed" }
+export interface AgentVersionSnapshot { version: number; savedAt: string; name: string; goal: string; instructions: string; completionCriteria: string }
 export interface Agent {
   id: string;
   name: string;
@@ -52,6 +54,13 @@ export interface Agent {
   outputFormat: string;
   completionCriteria: string;
   notes: string;
+  outputSchema?: string;
+  riskNotes?: string;
+  sampleInput?: string;
+  mockScenario?: string;
+  errorHandling?: string;
+  testCases?: AgentTestCase[];
+  versionHistory?: AgentVersionSnapshot[];
   status: AgentStatus;
   version: number;
   isFavorite: boolean;
@@ -176,6 +185,13 @@ export const emptyAgent: AgentInput = {
   outputFormat: "",
   completionCriteria: "",
   notes: "",
+  outputSchema: "",
+  riskNotes: "",
+  sampleInput: "",
+  mockScenario: "",
+  errorHandling: "",
+  testCases: [],
+  versionHistory: [],
   status: "draft",
   importedFromCatalog: false,
   sourceTemplateId: undefined,

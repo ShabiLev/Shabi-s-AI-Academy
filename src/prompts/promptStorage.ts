@@ -41,7 +41,7 @@ export function loadPromptState(): PromptState {
         .filter((p) => !seen.has(p.id) && Boolean(seen.add(p.id)));
     return {
       schemaVersion: 1,
-      prompts,
+      prompts: prompts.map((prompt) => ({ ...emptyInput, ...prompt, testCases: Array.isArray(prompt.testCases) ? prompt.testCases.slice(0, 20) : [], versionHistory: Array.isArray(prompt.versionHistory) ? prompt.versionHistory.slice(-20) : [] })),
       filters: { ...defaultFilters, ...value.filters },
       draft: value.draft,
       lastOpenedPromptId: value.lastOpenedPromptId,
@@ -77,6 +77,7 @@ export function editPrompt(p: Prompt, input: PromptInput): Prompt {
   return {
     ...p,
     ...input,
+    versionHistory: [...(p.versionHistory ?? []), { version: p.version, savedAt: p.updatedAt, title: p.title, task: p.task, constraints: p.constraints, outputFormat: p.outputFormat }].slice(-20),
     version: p.version + 1,
     updatedAt: new Date().toISOString(),
   };

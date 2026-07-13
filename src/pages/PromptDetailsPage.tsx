@@ -7,6 +7,7 @@ import { buildPrompt } from "../prompts/promptTemplate";
 import { evaluatePrompt } from "../prompts/promptQuality";
 import { downloadPrompt } from "../prompts/promptExport";
 import { ConfirmDialog } from "../components/prompts/ConfirmDialog";
+import { createFieldDiff } from "../builders";
 export function PromptDetailsPage() {
   const { promptId = "" } = useParams(),
     { language } = useLanguage(),
@@ -32,6 +33,8 @@ export function PromptDetailsPage() {
       setMessage(s.copyError);
     }
   };
+  const previousVersion = p.versionHistory?.at(-1);
+  const versionDiff = previousVersion ? createFieldDiff(previousVersion as unknown as Record<string, unknown>, p as unknown as Record<string, unknown>, ["title", "task", "constraints", "outputFormat"]) : [];
   return (
     <div className="page prompt-details">
       <Link to="/prompts">← {s.back}</Link>
@@ -95,6 +98,7 @@ export function PromptDetailsPage() {
       )}
       <pre className="details-prompt">{buildPrompt(p, ui)}</pre>
       <div className="card-actions">
+        <Link to={`/playground/prompts?prompt=${p.id}`}>{ui === "he" ? "פתיחה במגרש" : "Open in Playground"}</Link>
         <Link to={`/prompts/${p.id}/edit`}>{s.edit}</Link>
         <button
           onClick={() => {
@@ -109,6 +113,8 @@ export function PromptDetailsPage() {
         <button onClick={() => downloadPrompt(p, "md", ui)}>{s.md}</button>
         <button onClick={() => setDeleting(true)}>{s.delete}</button>
       </div>
+      <section className="version-history"><h2>{ui === "he" ? "היסטוריית גרסאות" : "Version history"}</h2>{p.versionHistory?.length ? <ol>{p.versionHistory.map((version) => <li key={`${version.version}-${version.savedAt}`}>v{version.version} · <time>{new Date(version.savedAt).toLocaleString(ui === "he" ? "he-IL" : "en-US")}</time> · {version.title}</li>)}</ol> : <p>{ui === "he" ? "הגרסה הראשונה עדיין פעילה." : "The first version is still active."}</p>}</section>
+      {versionDiff.length > 0 && <section className="version-history"><h2>{ui === "he" ? "שינויים מהגרסה הקודמת" : "Changes from previous version"}</h2><ul>{versionDiff.map((change) => <li key={change.field}><strong>{change.field}</strong>: <del>{change.before}</del> → <ins>{change.after}</ins></li>)}</ul></section>}
       <p aria-live="polite">{message}</p>
       {deleting && (
         <ConfirmDialog

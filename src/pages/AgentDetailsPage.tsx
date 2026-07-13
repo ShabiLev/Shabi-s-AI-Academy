@@ -7,6 +7,7 @@ import { buildAgentBlueprint } from "../agents/agentBlueprint";
 import { evaluateAgent } from "../agents/agentQuality";
 import { sanitizeAgentFilename } from "../agents/utils";
 import { ConfirmDialog } from "../components/prompts/ConfirmDialog";
+import { createFieldDiff } from "../builders";
 export function AgentDetailsPage() {
   const { agentId = "" } = useParams(),
     { language } = useLanguage(),
@@ -25,6 +26,8 @@ export function AgentDetailsPage() {
       </div>
     );
   const blueprint = buildAgentBlueprint(a, ui);
+  const previousVersion = a.versionHistory?.at(-1);
+  const versionDiff = previousVersion ? createFieldDiff(previousVersion as unknown as Record<string, unknown>, a as unknown as Record<string, unknown>, ["name", "goal", "instructions", "completionCriteria"]) : [];
   const download = (kind: "md" | "json") => {
     const blob = new Blob(
         [
@@ -60,6 +63,7 @@ export function AgentDetailsPage() {
         {blueprint}
       </pre>
       <div className="card-actions">
+        <Link to={`/playground/agents?agent=${a.id}`}>{ui === "he" ? "פתיחה במגרש" : "Open in Playground"}</Link>
         <Link to={`/agents/${a.id}/edit`}>{s.edit}</Link>
         <Link to={`/agents/${a.id}/simulate`}>{s.simulate}</Link>
         <button
@@ -89,6 +93,8 @@ export function AgentDetailsPage() {
         <button onClick={() => window.print()}>Print</button>
         <button onClick={() => setDeleting(true)}>{s.delete}</button>
       </div>
+      <section className="version-history"><h2>{ui === "he" ? "היסטוריית גרסאות" : "Version history"}</h2>{a.versionHistory?.length ? <ol>{a.versionHistory.map((version) => <li key={`${version.version}-${version.savedAt}`}>v{version.version} · <time>{new Date(version.savedAt).toLocaleString(ui === "he" ? "he-IL" : "en-US")}</time> · {version.name}</li>)}</ol> : <p>{ui === "he" ? "הגרסה הראשונה עדיין פעילה." : "The first version is still active."}</p>}</section>
+      {versionDiff.length > 0 && <section className="version-history"><h2>{ui === "he" ? "שינויים מהגרסה הקודמת" : "Changes from previous version"}</h2><ul>{versionDiff.map((change) => <li key={change.field}><strong>{change.field}</strong>: <del>{change.before}</del> → <ins>{change.after}</ins></li>)}</ul></section>}
       <p aria-live="polite">{message}</p>
       {deleting && (
         <ConfirmDialog

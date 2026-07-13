@@ -39,7 +39,8 @@ export function loadAgentState() {
       ...value,
       agents: value.agents
         .filter(valid)
-        .filter((a) => !seen.has(a.id) && Boolean(seen.add(a.id))),
+        .filter((a) => !seen.has(a.id) && Boolean(seen.add(a.id)))
+        .map((agent) => ({ ...emptyAgent, ...agent, testCases: Array.isArray(agent.testCases) ? agent.testCases.slice(0, 20) : [], versionHistory: Array.isArray(agent.versionHistory) ? agent.versionHistory.slice(-20) : [] })),
     };
   } catch {
     return emptyAgentState();
@@ -72,6 +73,7 @@ export function editAgent(a: Agent, input: AgentInput) {
     ? {
         ...a,
         ...input,
+        versionHistory: [...(a.versionHistory ?? []), { version: a.version, savedAt: a.updatedAt, name: a.name, goal: a.goal, instructions: a.instructions, completionCriteria: a.completionCriteria }].slice(-20),
         version: a.version + 1,
         updatedAt: new Date().toISOString(),
       }

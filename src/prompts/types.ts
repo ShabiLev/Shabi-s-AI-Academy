@@ -9,6 +9,8 @@ export type PromptCategory =
   | "development"
   | "learning"
   | "general";
+export interface PromptTestCase { id: string; input: string; expectedCharacteristics: string; forbiddenOutput: string; evaluationChecklist: string[]; status: "draft" | "passed" | "failed" }
+export interface PromptVersionSnapshot { version: number; savedAt: string; title: string; task: string; constraints: string; outputFormat: string }
 export interface Prompt {
   id: string;
   title: string;
@@ -23,6 +25,13 @@ export interface Prompt {
   outputFormat: string;
   examples: string;
   notes: string;
+  variables?: string;
+  outputSchema?: string;
+  validationRules?: string;
+  safetyNotes?: string;
+  expectedOutput?: string;
+  testCases?: PromptTestCase[];
+  versionHistory?: PromptVersionSnapshot[];
   createdAt: string;
   updatedAt: string;
   version: number;
@@ -80,4 +89,11 @@ export const emptyInput: PromptInput = {
   outputFormat: "",
   examples: "",
   notes: "",
+  variables: "",
+  outputSchema: "",
+  validationRules: "",
+  safetyNotes: "",
+  expectedOutput: "",
+  testCases: [],
+  versionHistory: [],
 };

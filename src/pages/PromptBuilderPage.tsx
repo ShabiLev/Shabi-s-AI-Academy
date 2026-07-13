@@ -5,6 +5,7 @@ import { usePromptLibrary } from "../prompts/PromptLibraryContext";
 import { categories, emptyInput, type PromptInput } from "../prompts/types";
 import { categoryLabels, promptUi } from "../prompts/uiText";
 import { PromptPreview } from "../components/prompts/PromptPreview";
+import { evaluatePromptDimensions, evaluatePromptTestCase } from "../builders";
 const samples: PromptInput[] = [
   {
     ...emptyInput,
@@ -78,8 +79,10 @@ export function PromptBuilderPage() {
               : state.draft),
           } as PromptInput),
     ),
-    [errors, setErrors] = useState<Record<string, string>>({});
+    [errors, setErrors] = useState<Record<string, string>>({}),
+    [mode, setMode] = useState<"basic" | "advanced">("basic");
   const saveDraftRef = useRef(saveDraft);
+  const formRef = useRef<HTMLFormElement>(null);
   useEffect(() => {
     saveDraftRef.current = saveDraft;
   }, [saveDraft]);
@@ -95,6 +98,7 @@ export function PromptBuilderPage() {
     addEventListener("beforeunload", handler);
     return () => removeEventListener("beforeunload", handler);
   }, [existing, value.task]);
+  useEffect(() => { const saveCurrent = () => formRef.current?.requestSubmit(); window.addEventListener("academy:save-current", saveCurrent); return () => window.removeEventListener("academy:save-current", saveCurrent); }, []);
   if (promptId && !existing)
     return (
       <div className="page">
@@ -122,7 +126,8 @@ export function PromptBuilderPage() {
         </Link>
       </header>
       <div className="builder-grid">
-        <form className="prompt-form" onSubmit={submit} noValidate>
+        <form ref={formRef} className="prompt-form" onSubmit={submit} noValidate>
+          <div className="builder-mode" role="group" aria-label={ui === "he" ? "מצב בונה" : "Builder mode"}><button type="button" aria-pressed={mode === "basic"} onClick={() => setMode("basic")}>{ui === "he" ? "בסיסי" : "Basic"}</button><button type="button" aria-pressed={mode === "advanced"} onClick={() => setMode("advanced")}>{ui === "he" ? "מתקדם" : "Advanced"}</button></div>
           {(["title", "description"] as const).map((k) => (
             <label key={k}>
               {s[k]}
@@ -197,6 +202,7 @@ export function PromptBuilderPage() {
               {errors[k] && <small role="alert">{errors[k]}</small>}
             </label>
           ))}
+          {mode === "advanced" && <fieldset className="advanced-builder-fields"><legend>{ui === "he" ? "הגדרה, אימות ובטיחות" : "Definition, verification, and safety"}</legend>{(["variables", "outputSchema", "validationRules", "safetyNotes", "expectedOutput"] as const).map((key) => <label key={key}>{({ variables: ui === "he" ? "משתנים" : "Variables", outputSchema: ui === "he" ? "סכמת פלט" : "Output schema", validationRules: ui === "he" ? "כללי אימות" : "Validation rules", safetyNotes: ui === "he" ? "הערות בטיחות" : "Safety notes", expectedOutput: ui === "he" ? "פלט צפוי" : "Expected output" })[key]}<textarea rows={3} value={value[key] ?? ""} onChange={(event) => set(key, event.target.value)} /></label>)}<section className="builder-test-cases"><h3>{ui === "he" ? "מקרי בדיקה דטרמיניסטיים" : "Deterministic test cases"}</h3>{(value.testCases ?? []).map((test, index) => <div key={test.id}><label>{ui === "he" ? "קלט" : "Input"}<input value={test.input} onChange={(event) => set("testCases", (value.testCases ?? []).map((item, itemIndex) => itemIndex === index ? { ...item, input: event.target.value } : item))} /></label><label>{ui === "he" ? "מאפיינים צפויים" : "Expected characteristics"}<input value={test.expectedCharacteristics} onChange={(event) => set("testCases", (value.testCases ?? []).map((item, itemIndex) => itemIndex === index ? { ...item, expectedCharacteristics: event.target.value } : item))} /></label><button type="button" onClick={() => set("testCases", (value.testCases ?? []).map((item, itemIndex) => itemIndex === index ? evaluatePromptTestCase(item) : item))}>{ui === "he" ? "בדיקה מקומית" : "Run local check"}</button><span role="status">{test.status}</span></div>)}<button type="button" onClick={() => set("testCases", [...(value.testCases ?? []), { id: crypto.randomUUID(), input: "", expectedCharacteristics: "", forbiddenOutput: "", evaluationChecklist: ["Review expected characteristics"], status: "draft" }])}>{ui === "he" ? "הוספת מקרה בדיקה" : "Add test case"}</button></section><p className="quality-score">{ui === "he" ? "ציון איכות מתקדם" : "Advanced quality score"}: {evaluatePromptDimensions(value).score}/100</p></fieldset>}
           <div className="sample-actions">
             <span>{s.loadExamples}</span>
             {samples.map((sample, i) => (

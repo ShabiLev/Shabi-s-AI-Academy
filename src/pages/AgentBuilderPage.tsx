@@ -6,6 +6,7 @@ import { agentTemplates } from "../agents/agentTemplates";
 import { agentUi, stepKeys, toolNames } from "../agents/agentUi";
 import { emptyAgent, toolCatalog, type AgentInput } from "../agents/types";
 import { evaluateAgent } from "../agents/agentQuality";
+import { validateAdvancedAgent } from "../builders";
 export function AgentBuilderPage() {
   const { agentId } = useParams(),
     { language } = useLanguage(),
@@ -40,12 +41,6 @@ export function AgentBuilderPage() {
   useEffect(() => {
     if (!existing) saveRef.current(value);
   }, [value, existing]);
-  if (agentId && !existing)
-    return (
-      <div className="page">
-        <h1>{s.unknown}</h1>
-      </div>
-    );
   const set = <K extends keyof AgentInput>(k: K, v: AgentInput[K]) =>
     setValue((x) => ({ ...x, [k]: v }));
   const next = () => {
@@ -70,11 +65,16 @@ export function AgentBuilderPage() {
       !value.retryPolicy.stopCondition
     )
       missing.push("Stop condition");
+    const issueLabels: Record<string, { he: string; en: string }> = {
+      "missing-goal": { he: "חסרה מטרת סוכן", en: "Missing agent goal" }, "missing-completion-criteria": { he: "חסרים תנאי השלמה", en: "Missing completion criteria" }, "unclear-output": { he: "הפלט אינו מוגדר", en: "Output is unclear" }, "unsafe-write-tool-without-approval": { he: "כלי בסיכון גבוה דורש אישור", en: "High-risk tool requires approval" }, "retry-without-stop-condition": { he: "ניסיון חוזר דורש תנאי עצירה", en: "Retry requires a stop condition" }, "excessive-memory-retention": { he: "יש לתעד סיכון בשמירת זיכרון", en: "Document the memory-retention risk" }, "missing-error-handling": { he: "חסר טיפול בשגיאות", en: "Missing error handling" }, "connected-tool-claim": { he: "אין לטעון שכלי מחובר", en: "Connected-tool claims are not allowed" },
+    };
+    missing.push(...validateAdvancedAgent(value).map((issue) => issueLabels[issue.code]?.[ui] ?? issue.code));
     setErrors(missing);
     if (missing.length) return;
     const a = existing ? update(existing.id, value) : create(value);
     if (a) navigate(`/agents/${a.id}`);
   };
+  useEffect(() => { const saveCurrent = () => save(); window.addEventListener("academy:save-current", saveCurrent); return () => window.removeEventListener("academy:save-current", saveCurrent); });
   const textArea = (label: string, key: keyof AgentInput) => (
     <label>
       {label}
@@ -85,6 +85,7 @@ export function AgentBuilderPage() {
       />
     </label>
   );
+  if (agentId && !existing) return <div className="page"><h1>{s.unknown}</h1></div>;
   return (
     <div className="page agent-builder-page">
       <header className="library-heading">
@@ -309,13 +310,14 @@ export function AgentBuilderPage() {
           </label>
         )}
         {step === 9 && textArea(s.output, "outputFormat")}
-        {step === 10 && textArea(s.completion, "completionCriteria")}
+        {step === 10 && <>{textArea(s.completion, "completionCriteria")}{textArea(ui === "he" ? "סכמת פלט" : "Output schema", "outputSchema")}{textArea(ui === "he" ? "הערות סיכון" : "Risk notes", "riskNotes")}{textArea(ui === "he" ? "קלט לדוגמה" : "Sample input", "sampleInput")}{textArea(ui === "he" ? "תרחיש Mock" : "Mock scenario", "mockScenario")}{textArea(ui === "he" ? "טיפול בשגיאות" : "Error handling", "errorHandling")}</>}
         {step === 11 && (
           <div className="agent-review">
             <p>
               {s.quality}: {evaluateAgent(value).score}/100
             </p>
             <p>{s.disclaimer}</p>
+            <section className="builder-test-cases"><h3>{ui === "he" ? "מקרי בדיקה" : "Test cases"}</h3>{(value.testCases ?? []).map((test, index) => <div key={test.id}><label>{ui === "he" ? "קלט" : "Input"}<input value={test.input} onChange={(event) => set("testCases", (value.testCases ?? []).map((item, itemIndex) => itemIndex === index ? { ...item, input: event.target.value } : item))} /></label><label>{ui === "he" ? "מאפיינים צפויים" : "Expected characteristics"}<input value={test.expectedCharacteristics} onChange={(event) => set("testCases", (value.testCases ?? []).map((item, itemIndex) => itemIndex === index ? { ...item, expectedCharacteristics: event.target.value } : item))} /></label><span>{test.status}</span></div>)}<button type="button" onClick={() => set("testCases", [...(value.testCases ?? []), { id: crypto.randomUUID(), input: "", expectedCharacteristics: "", forbiddenOutput: "", status: "draft" }])}>{ui === "he" ? "הוספת מקרה בדיקה" : "Add test case"}</button></section>
             <dl>
               <dt>{s.name}</dt>
               <dd>{value.name || "—"}</dd>

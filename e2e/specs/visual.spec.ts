@@ -338,3 +338,22 @@ test.describe("visual — Runtime mobile Hebrew", () => {
     });
   });
 });
+
+test.describe("visual — complete beta", () => {
+  test("public About Hebrew and English", async ({ page }) => {
+    await page.goto("/about"); await stabilize(page); await expect(page).toHaveScreenshot("about-he.png", { fullPage: true, mask: dynamicMasks(page) });
+    await login(page); await english(page); await page.goto("/about"); await stabilize(page); await expect(page).toHaveScreenshot("about-en.png", { fullPage: true, mask: dynamicMasks(page) });
+  });
+  test("Prompt and Agent Playgrounds", async ({ page }) => {
+    await login(page, "/playground/prompts"); await expect(page.locator("h1")).toBeVisible(); await stabilize(page); await expect(page).toHaveScreenshot("prompt-playground.png", { fullPage: true });
+    await page.goto("/playground/agents"); await expect(page.locator("h1")).toBeVisible(); await stabilize(page); await expect(page).toHaveScreenshot("agent-playground.png", { fullPage: true });
+  });
+  test("Projects and Knowledge Base", async ({ page }) => {
+    await login(page, "/projects"); await expect(page.locator("h1")).toBeVisible(); await stabilize(page); await expect(page).toHaveScreenshot("projects-empty.png", { fullPage: true });
+    await page.goto("/knowledge"); await expect(page.locator("h1")).toBeVisible(); await stabilize(page); await expect(page).toHaveScreenshot("knowledge-empty.png", { fullPage: true });
+  });
+  test("mobile About and Prompt Packs", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 }); await page.goto("/about"); await stabilize(page); await expect(page).toHaveScreenshot("mobile-about.png", { fullPage: true, mask: dynamicMasks(page) });
+    await login(page, "/prompts/packs"); await expect(page.locator("h1")).toBeVisible(); await page.getByLabel(/חבילה|Pack/).selectOption("security-risk"); await stabilize(page); await expect(page).toHaveScreenshot("mobile-prompt-packs.png");
+  });
+});

@@ -133,6 +133,13 @@ test.describe("accessibility — Hebrew RTL", () => {
   });
 });
 
+test.describe("accessibility — complete beta", () => {
+  test("public About Hebrew and English", async ({ page }) => { await page.goto("/about"); await runAxeScan(page, test.info(), { label: "about-he" }); await login(page); await english(page); await page.goto("/about"); await runAxeScan(page, test.info(), { label: "about-en" }); });
+  for (const [name, route] of [["Prompt Packs", "/prompts/packs"], ["Starter Agents", "/agents/catalog"], ["Prompt Playground", "/playground/prompts"], ["Agent Playground", "/playground/agents"], ["Projects", "/projects"], ["Knowledge Base", "/knowledge"], ["Learning Journey", "/journey"], ["Release Center", "/release"]] as const) {
+    test(name, async ({ page }) => { await login(page, route); await runAxeScan(page, test.info(), { label: name.toLowerCase().replaceAll(" ", "-") }); });
+  }
+});
+
 test.describe("accessibility — English LTR", () => {
   test("Login", async ({ page }) => {
     await page.goto("/login");

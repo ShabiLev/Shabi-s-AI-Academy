@@ -25,7 +25,7 @@ export default defineConfig({
   projects: [
     {
       name: "Desktop Chromium",
-      grep: fullMatrix ? /redirects, logs in|Hebrew defaults|catalog has two|Hebrew prompt saves|directional and overflow/ : undefined,
+      grep: fullMatrix ? /redirects, logs in|Hebrew defaults|catalog has two|Hebrew prompt saves|directional and overflow|public About|complete curriculum|prompt packs support|starter agents import|Prompt Playground runs|projects and Knowledge|platform centers|new beta workspaces/ : undefined,
       testIgnore: /(?:accessibility|visual)\.spec\.ts/,
       use: { ...devices["Desktop Chrome"] },
     },

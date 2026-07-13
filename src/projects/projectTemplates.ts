@@ -1,0 +1,4 @@
+import type { ProjectInput } from "./types";
+export interface ProjectTemplate { id: string; name: { he: string; en: string }; description: { he: string; en: string }; input: ProjectInput }
+const template = (id: string, he: string, en: string, category: string): ProjectTemplate => ({ id, name: { he, en }, description: { he: `מרחב עבודה עבור ${he}.`, en: `A workspace for ${en}.` }, input: { name: en, description: `A local ${en} workspace.`, category, status: "planning", tags: [category], notes: "" } });
+export const projectTemplates = [template("qa-release", "סקירת שחרור QA", "QA Release Review", "qa"), template("sql-reporting", "דיווח SQL", "SQL Reporting", "data"), template("customer-communication", "תקשורת לקוחות", "Customer Communication", "communication"), template("message-reader", "אפליקציית Message Reader", "Message Reader App", "development"), template("ai-learning", "פרויקט לימוד AI", "AI Learning Project", "learning")] as const;

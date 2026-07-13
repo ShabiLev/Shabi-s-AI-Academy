@@ -22,6 +22,7 @@ export type TranslationKey =
   | "nav.agents"
   | "nav.runs"
   | "nav.projects"
+  | "nav.knowledge"
   | "nav.radar"
   | "nav.settings"
   | "nav.qa"

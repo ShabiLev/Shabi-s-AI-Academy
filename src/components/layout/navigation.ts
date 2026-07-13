@@ -14,6 +14,7 @@ export const navigationItems: NavigationItem[] = [
   { to: "/agents", label: "nav.agents", icon: "agents" },
   { to: "/runs", label: "nav.runs", icon: "clock" },
   { to: "/projects", label: "nav.projects", icon: "projects" },
+  { to: "/knowledge", label: "nav.knowledge", icon: "lessons" },
   { to: "/radar", label: "nav.radar", icon: "radar" },
   { to: "/how-to", label: "nav.howTo", icon: "lessons" },
   { to: "/settings", label: "nav.settings", icon: "settings" },

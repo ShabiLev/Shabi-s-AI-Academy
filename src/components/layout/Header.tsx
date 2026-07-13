@@ -12,6 +12,7 @@ const routeTitles: Record<string, TranslationKey> = {
   "/prompts": "nav.prompts",
   "/agents": "nav.agents",
   "/projects": "nav.projects",
+  "/knowledge": "nav.knowledge",
   "/radar": "nav.radar",
   "/settings": "nav.settings",
   "/qa": "nav.qa",

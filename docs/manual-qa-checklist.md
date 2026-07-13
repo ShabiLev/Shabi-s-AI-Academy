@@ -1,6 +1,6 @@
 # Manual QA checklist
 
-For 1.1.0-beta.1, review all existing beta content plus Search, Command Palette, Local Assistant, builders, workflows, notifications, analytics, storage, and backup. Confirm local-data migration/recovery, bilingual responsive behavior, intentional visual changes, absence of secrets, and the matching READY Vercel Preview. QA Center stores this separately by application version.
+For 1.2.0-beta.1, review all existing beta content plus AI Radar, the profile popover/sheet, shared layer tokens, sidebar scrolling, and cross-application overflow hardening. Confirm local-data preservation, bilingual responsive behavior, intentional visual changes, absence of secrets, and the deployed GitHub Pages artifact when available. QA Center stores this separately by application version.
 
 Automated gates (`docs/quality-gates.md`) catch a large and growing share of regressions, but they do not replace human review. This checklist is the reference for what's automated, what's manual, and what isn't covered yet. The QA Center's release checklist (`docs/qa-center.md`) implements the manual items below as persisted, per-version checkboxes.
 
@@ -34,6 +34,8 @@ Automated gates (`docs/quality-gates.md`) catch a large and growing share of reg
 | English mobile reviewed | ✓ (3 mobile-English screens) | ✓ | |
 | No obvious typography defects (clipped text, wrong font, overlap) | partial (visual regression catches pixel changes) | ✓ | |
 | No visible overlap at narrow widths | ✓ (`noOverflow()` checks at 320px in several specs) | ✓ | |
+
+Additional 1.2 checks: open the profile menu with the sidebar scrolled near the bottom and the Assistant visible; repeat at 200% zoom in both directions. Review Radar cards, filters, source attribution, and freshness copy in both languages. Automation covers containment and regression, while human review owns readability and editorial judgment.
 
 ## Functional
 

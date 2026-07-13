@@ -29,6 +29,8 @@ Sprint 7.1 adds a deterministic browser-local Runtime Engine with Mock and Dry R
 - Honest Local Assistant sidebar and chat with deterministic intents and confirmation-gated actions
 - Advanced Prompt and Agent Builders with templates, local checks, histories, and diffs
 - Deterministic Mock/Dry Run Workflow Builder, notification center, private analytics, favorites, recents, storage manager, and validated Workspace backup
+- Source-based bilingual **AI Radar** with immutable local data, topic/horizon filters, transparent freshness, and direct official-source attribution — see [docs/ai-radar.md](docs/ai-radar.md)
+- Portal-based accessible desktop profile menu, full-width mobile profile sheet, controlled layer tokens, isolated sidebar scrolling, and viewport-aware RTL/LTR anchoring
 
 ## Demo Login and security
 
@@ -154,7 +156,7 @@ The project follows semantic versioning. Update `package.json`, the lockfile, vi
 
 ## Roadmap
 
-1. Design Version 1.2 local collaboration, reusable workflow templates, and multi-agent orchestration.
+1. Explore local collaboration, reusable workflow templates, and multi-agent orchestration after the 1.2 Radar and UX release.
 2. Integrate production authentication with secure server-managed sessions.
 3. Define a server-side consent, policy, budget, and audit boundary before any live provider.
 4. Add optional synchronization only after privacy and conflict-resolution design.

@@ -1,6 +1,6 @@
 # Deterministic Mock Provider
 
-MockProvider is the only executable provider in 0.7.0-alpha.1. It performs no network call, random generation, delay, external file access, tool execution, or prompt execution.
+MockProvider is the only executable provider in 1.0.0-beta.1. It performs no network call, random generation, delay, external file access, tool execution, or prompt execution.
 
 Its compact fixture version and normalized RunRequest select deterministic scenarios: success, validation failure, retry then success, retry exhaustion, approval required/rejected, and cancellation. Injected clocks and ID factories make event evidence reproducible.
 

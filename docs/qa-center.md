@@ -1,6 +1,6 @@
 # QA Center
 
-Version 0.7.0-alpha.1 shows Runtime capability status, local run count, and the expected Runtime test areas. Mock Provider is available; Live Provider is intentionally not configured and is not a release failure. The versioned manual checklist adds bilingual, mobile, approval/focus, privacy/retention, visual, and How To review.
+Version 1.0.0-beta.1 shows complete beta capability status and evidence. Mock Provider is available; Live Provider is intentionally not executable and is not a release failure. The versioned manual checklist covers the curriculum, catalogs, Playgrounds, Projects, Knowledge Base, bilingual responsive review, local-data safety, public routes, secrets review, and the post-push Vercel Preview check.
 
 A bilingual, protected route (`/qa`, nav item after Settings) that gives an honest view of release quality — never a fabricated "all green" dashboard.
 

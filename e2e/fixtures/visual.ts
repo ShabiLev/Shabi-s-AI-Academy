@@ -23,7 +23,7 @@ export async function stabilize(page: Page): Promise<void> {
 
 /** Elements explicitly opted out of comparison (e.g. real git commit/branch in the QA Center header). */
 export function dynamicMasks(page: Page): Locator[] {
-  return [page.locator("[data-visual-mask]")];
+  return [page.locator("[data-visual-mask], .about-page .runtime-facts > div:nth-child(2) dd, .about-page .runtime-facts > div:nth-child(3) dd")];
 }
 
 export const screenshotOptions = {

@@ -69,6 +69,21 @@ const required = [
     "08-release",
     "handoff",
   ].map((name) => ".codex/sprint-7/" + name + ".md"),
+  ...[
+    "00-master-spec",
+    "01-curriculum",
+    "02-prompt-library",
+    "03-agent-catalog",
+    "04-playgrounds",
+    "05-projects",
+    "06-knowledge-base",
+    "07-platform-pages",
+    "08-live-provider",
+    "09-testing",
+    "10-deployment",
+    "11-release",
+    "handoff",
+  ].map((name) => ".codex/release-1.0-beta/" + name + ".md"),
 ];
 
 function walk(directory) {
@@ -154,17 +169,17 @@ const master = readFileSync(
 if (kitVersion !== "1.0.0" || !index.includes("Engineering Kit: **1.0.0**"))
   errors.push("Engineering Kit version 1.0.0 is not documented consistently.");
 if (
-  !index.includes("Current application: **0.7.0-alpha.1**") ||
+  !index.includes("Current application: **1.0.0-beta.1**") ||
   !master.includes("Application baseline: **0.6.1**")
 )
   errors.push(
-    "Current application 0.7.0-alpha.1 or Sprint baseline 0.6.1 is not documented consistently.",
+    "Current application 1.0.0-beta.1 or Sprint baseline 0.6.1 is not documented consistently.",
   );
 if (
-  !index.includes("Planned application: **0.7.0**") ||
+  !index.includes("Planned application: **1.0.0**") ||
   !master.includes("Target application: **0.7.0**")
 )
-  errors.push("Sprint target 0.7.0 is not documented consistently.");
+  errors.push("Application plan or archived Sprint target is not documented consistently.");
 
 if (errors.length) {
   console.error(

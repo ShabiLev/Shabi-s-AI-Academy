@@ -29,6 +29,17 @@ export const manualChecklistKeys = [
   "runtimePrivacy",
   "runtimeVisualBaselines",
   "runtimeHowTo",
+  "betaCurriculum",
+  "betaPromptPacks",
+  "betaStarterAgents",
+  "betaPlaygrounds",
+  "betaProjectsKnowledge",
+  "betaBilingualResponsive",
+  "betaLocalDataMigration",
+  "betaLiveDisabled",
+  "betaNoSecrets",
+  "betaPublicRoutes",
+  "betaVercelPreview",
 ] as const;
 
 export type ManualChecklistKey = (typeof manualChecklistKeys)[number];

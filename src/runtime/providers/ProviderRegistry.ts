@@ -37,7 +37,7 @@ export class ProviderRegistry {
         name: "Live Provider",
         status: "notConfigured" as const,
         capabilities: [],
-        reason: "Live execution is not available in Version 0.7.0-alpha.1.",
+        reason: "Live execution is not available in Version 1.0.0-beta.1.",
       },
     ];
   }

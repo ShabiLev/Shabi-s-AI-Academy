@@ -268,6 +268,8 @@ test.describe("visual — Runtime Engine", () => {
     await login(page, "/runs");
     await page.getByRole("button", { name: "הרצת Mock מוצלחת" }).click();
     await page.getByRole("link", { name: /Runtime demo: success/ }).click();
+    await expect(page).toHaveURL(/\/runs\//);
+    await expect(page.locator("h1")).toContainText("Runtime demo: success");
     await stabilize(page);
     await expect(page).toHaveScreenshot("runtime-details.png", {
       mask: dynamicMasks(page),
@@ -287,6 +289,8 @@ test.describe("visual — Runtime Engine", () => {
     await page
       .getByRole("link", { name: /Inspect this local Runtime/ })
       .click();
+    await expect(page).toHaveURL(/\/runs\//);
+    await expect(page.locator("h1")).toContainText("Inspect this local Runtime");
     await stabilize(page);
     await expect(page).toHaveScreenshot("runtime-dry-run.png", {
       mask: dynamicMasks(page),
@@ -298,6 +302,8 @@ test.describe("visual — Runtime Engine", () => {
     await page.goto("/runs");
     await page.getByRole("button", { name: "Mock success" }).click();
     await page.getByRole("link", { name: /Runtime demo: success/ }).click();
+    await expect(page).toHaveURL(/\/runs\//);
+    await expect(page.locator("h1")).toContainText("Runtime demo: success");
     await stabilize(page);
     await expect(page).toHaveScreenshot("runtime-details-en.png", {
       mask: dynamicMasks(page),

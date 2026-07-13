@@ -41,7 +41,7 @@ test("Lessons, Prompt Builder, and QA Center load without a stuck loading state"
   page,
 }) => {
   await login(page, "/lessons");
-  await expect(page.getByRole("heading", { name: "יסודות ה-AI" })).toBeVisible({
+  await expect(page.getByRole("heading", { level: 1, name: "שיעורים" })).toBeVisible({
     timeout: 8000,
   });
 

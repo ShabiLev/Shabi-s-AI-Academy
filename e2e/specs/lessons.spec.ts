@@ -1,13 +1,11 @@
 import { test, expect, login, english, noOverflow } from "../fixtures/academy";
-test("catalog has three available and three Coming soon lessons", async ({
+test("catalog exposes all 45 beta lessons without forced locks", async ({
   page,
 }) => {
   await login(page, "/lessons");
-  await expect(
-    page.getByRole("heading", { name: "יסודות ה-AI" }),
-  ).toBeVisible();
-  await expect(page.getByRole("link", { name: "התחלת שיעור" })).toHaveCount(3);
-  await expect(page.getByRole("button", { name: "בקרוב" })).toHaveCount(3);
+  await expect(page.getByRole("heading", { level: 1, name: "שיעורים" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "התחלת שיעור" })).toHaveCount(45);
+  await expect(page.getByRole("button", { name: "בקרוב" })).toHaveCount(0);
 });
 test("lessons open, unknown is Not Found, and next/previous work", async ({
   page,
@@ -18,7 +16,7 @@ test("lessons open, unknown is Not Found, and next/previous work", async ({
   ).toBeVisible();
   await page.getByRole("link", { name: /השיעור הבא/ }).click();
   await expect(
-    page.getByRole("heading", { name: "המבנה של פרומפט מקצועי" }),
+    page.getByRole("heading", { name: "יסודות מודלי שפה" }),
   ).toBeVisible();
   await page.getByRole("link", { name: /השיעור הקודם/ }).click();
   await page.goto("/lessons/missing");
@@ -32,7 +30,7 @@ test("opening marks progress and completion updates Dashboard and survives refre
   await login(page, "/lessons/ai-llm-agent");
   await page.getByRole("button", { name: "סימון השיעור כהושלם" }).click();
   await page.goto("/");
-  await expect(page.getByText("33%").first()).toBeVisible();
+  await expect(page.getByText("2%").first()).toBeVisible();
   await page.reload();
   await page.goto("/lessons");
   await expect(page.getByRole("link", { name: "צפייה חוזרת" })).toHaveCount(1);
@@ -69,7 +67,7 @@ test("draft persists and reset preserves auth and language", async ({
     page.getByRole("button", { name: "Open profile menu" }),
   ).toBeVisible();
 });
-test("Hebrew and English lessons use correct direction and mobile quiz/table remain usable", async ({
+test("Hebrew and English lessons use correct direction and mobile content remains usable", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 568 });
@@ -80,5 +78,6 @@ test("Hebrew and English lessons use correct direction and mobile quiz/table rem
   await english(page);
   await page.goto("/lessons/ai-llm-agent");
   await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
-  await expect(page.getByRole("table")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Mini-project" })).toBeVisible();
+  await noOverflow(page);
 });

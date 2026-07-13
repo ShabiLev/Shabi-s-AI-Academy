@@ -1,6 +1,6 @@
 # Visual regression testing
 
-Version 0.7.0-alpha.1 adds reviewed Runtime baselines for empty/populated history, details/timeline, approval, Dry Run, Hebrew/English desktop, and Hebrew mobile. Existing shell baselines were deliberately reviewed after adding Run History navigation and Runtime QA status.
+Version 1.0.0-beta.1 adds reviewed baselines for About, prompt packs, starter agents, both Playgrounds, Projects, Knowledge Base, and the expanded shell in addition to Runtime states. The beta UI changes and every affected baseline are intentional and require human review before release.
 
 Version 0.6.1 baselines cover the aligned Prompt Library header/filter toolbar and Starter Catalog in Hebrew/English desktop/mobile, plus details and imported attribution. Snapshot updates remain an explicit reviewed operation.
 

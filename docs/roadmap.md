@@ -1,3 +1,3 @@
 # Roadmap
 
-The Roadmap uses typed `completed`, `inProgress`, and `planned` states. It records delivered foundations and Runtime, the active complete-beta milestone, and future secure providers and MCP/connectors without date promises.
+The Roadmap uses typed `completed`, `inProgress`, and `planned` states. It records delivered foundations, Runtime, and the complete 1.0.0-beta.1 milestone, plus future secure providers and MCP/connectors without date promises.

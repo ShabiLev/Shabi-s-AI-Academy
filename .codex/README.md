@@ -5,9 +5,9 @@
 This directory is the authoritative engineering source of truth for architecture, standards, decisions, and Sprint specifications. It turns product intent into implementable constraints without replacing the application README or CHANGELOG.
 
 - Engineering Kit: **1.0.0**
-- Current application: **0.7.0-alpha.1**
-- Planned application: **0.7.0**
-- Active work: **Sprint 7 — Agent Runtime, Starter Agents, Prompt Packs, and Playgrounds**
+- Current application: **1.0.0-beta.1**
+- Planned application: **1.0.0**
+- Active work: **1.0 beta validation and preview review**
 
 ## Table of contents
 
@@ -21,6 +21,8 @@ This directory is the authoritative engineering source of truth for architecture
 - [Roadmap](roadmap/roadmap.md)
 - [Sprint 7 master specification](sprint-7/00-master-spec.md)
 - [Sprint 7 handoff](sprint-7/handoff.md)
+- [1.0 beta master specification](release-1.0-beta/00-master-spec.md)
+- [1.0 beta handoff](release-1.0-beta/handoff.md)
 - [Templates](templates/feature.md)
 - [Codex prompts](prompts/feature-template.md)
 
@@ -44,7 +46,8 @@ An active accepted ADR overrides older architecture prose. Security and privacy 
 - `standards/`: mandatory daily engineering and review rules.
 - `adr/`: durable accepted decisions and alternatives.
 - `roadmap/`: completed, committed, planned, and idea-level work.
-- `sprint-7/`: controlling 0.7.0 implementation specification.
+- `sprint-7/`: archived 0.7.0 implementation specification.
+- `release-1.0-beta/`: controlling 1.0.0-beta.1 release specification.
 - `templates/`: fill-in engineering artifacts.
 - `prompts/`: operational prompts for Codex workflows.
 - `VERSION`: Engineering Kit version only.

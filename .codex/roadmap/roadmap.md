@@ -13,20 +13,21 @@ Separate released capability, committed delivery, planned direction, and uncommi
 - 0.5.0 — QA Center
 - 0.6.0 — Agent Builder and How To
 - 0.6.1 — Starter Prompt Catalog and alignment fixes
+- 0.7.0-alpha.1 — Deterministic Runtime Engine foundation
+- 1.0.0-beta.1 — Complete bilingual curriculum, catalogs, Playgrounds, Projects, local Knowledge Base, platform surfaces, quality automation, and Vercel hardening
 
 ## Committed / in progress
 
-- 0.7.0-alpha.1 — Sprint 7.1 Runtime Engine foundation: deterministic Mock/Dry Run, approvals, retries, cancellation, and browser-local history.
-- 0.7.0 — Remaining Sprint 7 Starter Agents, Prompt Packs, Playgrounds, Learning Journey foundation, Roadmap screen, and automation expansion. Controlled by [Sprint 7](../sprint-7/00-master-spec.md).
+- 1.0.0 — Public-ready follow-up after beta feedback and production review. The beta source is controlled by [the 1.0 beta specification](../release-1.0-beta/00-master-spec.md).
 
 ## Planned direction
 
-- 0.8.0 — secure real-provider integration
-- 0.9.0 — MCP and external connectors
-- 1.0.0 — public-ready release
+- Secure real-provider integration
+- MCP and external connectors
+- Production authentication and optional cloud sync
 
 ## Ideas, not commitments
 
-Projects, Knowledge Base, RAG, Workflow Builder, Multi-Agent orchestration, Marketplace, cloud synchronization, and real authentication require discovery, security/privacy design, and separate accepted specifications.
+RAG backends, Workflow Builder, Multi-Agent orchestration, Marketplace, cloud synchronization, and real authentication require discovery, security/privacy design, and separate accepted specifications.
 
 Related: [milestones](milestones.md), [backlog](backlog.md), [releases](releases.md), [roadmap screen](../sprint-7/06-roadmap.md).

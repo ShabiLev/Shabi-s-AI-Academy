@@ -8,4 +8,12 @@ export const userDocs = [
   ["knowledge-base", "Knowledge Base", "מאגר ידע", "Supported local documents and search."],
   ["runtime", "Runtime Engine", "מנוע Runtime", "States, providers, approvals, retries, and cancellation."],
   ["testing", "Quality and testing", "איכות ובדיקות", "Automated and manual release evidence."],
+  ["about", "About the Academy", "אודות האקדמיה", "Purpose, creator, privacy, technology, and limitations."],
+  ["learning-journey", "Learning Journey", "מסע הלמידה", "Recommended paths without forced lesson locks."],
+  ["project-templates", "Project Templates", "תבניות פרויקט", "Five local starter workspaces and safe linking."],
+  ["knowledge-import", "Knowledge Import", "ייבוא ידע", "Supported formats, size limits, validation, and safe rendering."],
+  ["qa-center", "QA Center", "מרכז QA", "Quality evidence, issue tracking, and the manual checklist."],
+  ["release-center", "Release Center", "מרכז שחרור", "Version metadata, release gates, Preview review, and rollback."],
+  ["live-provider", "Live Provider Boundary", "גבול ספק חי", "Why Live remains disabled and how the server boundary is reserved."],
+  ["vercel-deployment", "Vercel Deployment", "פריסה ב-Vercel", "Public hosting, SPA routing, Preview verification, and rollback."],
 ] as const;

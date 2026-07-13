@@ -2,6 +2,35 @@
 
 All notable changes to this project are documented here following the Keep a Changelog format.
 
+## [1.0.0-beta.1] - 2026-07-13
+
+### Added
+
+- Complete open bilingual curriculum: 45 lessons across 10 modules, with objectives, examples, exercises, quizzes, mini-projects, related resources, references, and recommended prerequisites
+- 250 structured bilingual prompts across 11 curated packs, with safe one/selected/pack import into user-owned local records
+- 32 immutable bilingual starter-agent templates with local import and clearly disconnected planned tools
+- Prompt and Agent Playgrounds powered by the shared Runtime Engine, including Mock, Dry Run, local history, token estimates, timelines, and project links
+- Versioned browser-local Projects and Knowledge Base workspaces with validated persistence, safe import, search, and non-cascading links
+- About, Learning Journey, Roadmap, Changelog, Documentation, Release, and Developer pages
+- Reserved server-side live-provider boundary with consent/origin/size validation; no live adapter is enabled in this beta
+- Vercel SPA routing, safe public build metadata, discovery assets, security headers, and deployment/rollback documentation
+
+### Changed
+
+- Dashboard, navigation, Help, Settings, QA Center, Release Center, automated suites, visual baselines, and documentation now cover the complete beta platform
+- Production bundle uses route-level loading and a deterministic React vendor chunk without weakening performance thresholds
+
+### Security
+
+- Live execution remains disabled, browser API keys are rejected, external text is rendered inert, and local import/storage boundaries are validated
+- Serverless `/api` routes are excluded from the SPA rewrite and the reserved provider endpoint never calls an external provider
+
+### Known limitations
+
+- Demo Login is not production authentication; data is browser-local and origin-specific
+- RAG, cloud sync, real tools, real MCP, billing, and production provider execution are not included
+- Vercel Preview readiness and the human release checklist require post-push review and are never fabricated by local automation
+
 ## [0.7.0-alpha.1] - 2026-07-12
 
 ### Added

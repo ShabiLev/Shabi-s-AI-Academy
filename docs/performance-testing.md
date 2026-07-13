@@ -1,6 +1,6 @@
 # Performance testing
 
-Version 0.7.0-alpha.1 adds smoke navigation for Run History and Run Details. Runtime fixtures are compact, history is capped at 50, there are no polling loops or background timers, and the Runtime route pages are lazy-loaded.
+Version 1.0.0-beta.1 adds smoke navigation for the complete beta route set. Catalogs are immutable and generated compactly, histories are bounded, there are no polling loops or background timers, feature pages are lazy-loaded, and React dependencies use a deterministic vendor chunk.
 
 Lighthouse CI (`@lhci/cli` + `lighthouse`) is the lab-performance gate, run against a production build served by `vite preview` — never the Vite dev server.
 

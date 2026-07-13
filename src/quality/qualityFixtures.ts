@@ -30,7 +30,7 @@ export function makeReport(
 ): QualityReport {
   return {
     schemaVersion: QUALITY_SCHEMA_VERSION,
-    applicationVersion: "0.7.0-alpha.1",
+    applicationVersion: "1.0.0-beta.1",
     commitSha: "abc1234",
     branch: "main",
     environment: "test",

@@ -57,7 +57,7 @@ export function CourseProgressProvider({ children }: { children: ReactNode }) {
       progress,
       availableCount: available.length,
       completedCount,
-      percent: available.length ? (completedCount / available.length) * 100 : 0,
+      percent: available.length ? Math.round((completedCount / available.length) * 100) : 0,
       getStatus: (id, a) =>
         !a
           ? "coming-soon"

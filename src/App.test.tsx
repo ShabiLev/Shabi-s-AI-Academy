@@ -179,4 +179,35 @@ describe("Shabi's AI Academy", () => {
     await user.keyboard("{Escape}");
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
+
+  it("runs an agent and links it to a selected local project", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("shabis-ai-academy-language", "en");
+    localStorage.setItem("shabis-ai-academy.projects.v1", JSON.stringify({ schemaVersion: 1, projects: [{
+      id: "project-component", name: "Component Review", description: "", category: "qa", status: "active", tags: [],
+      promptIds: [], agentIds: [], runIds: [], documentIds: [], notes: "", activity: [], createdAt: "2026-07-13T00:00:00.000Z",
+      updatedAt: "2026-07-13T00:00:00.000Z", version: 1, favorite: false, archived: false,
+    }] }));
+    renderApp("/playground/agents");
+    await user.click(screen.getByRole("button", { name: "Demo Login" }));
+    expect(await screen.findByRole("heading", { name: "Agent Playground" })).toBeInTheDocument();
+    const agentSelect = screen.getByLabelText("Select agent") as HTMLSelectElement;
+    await user.selectOptions(agentSelect, agentSelect.options[1]);
+    await user.click(screen.getByRole("button", { name: "Import agent" }));
+    await user.clear(screen.getByLabelText("Sample input"));
+    await user.type(screen.getByLabelText("Sample input"), "Review this beta run");
+    await user.selectOptions(screen.getByLabelText("Mode"), "dryRun");
+    await user.click(screen.getByRole("button", { name: "Run" }));
+    expect(await screen.findByText(/Review this beta run/, { selector: "pre" })).toBeInTheDocument();
+    await user.selectOptions(screen.getByLabelText("Mode"), "mock");
+    await user.selectOptions(screen.getByLabelText("Scenario"), "retryThenSuccess");
+    await user.selectOptions(screen.getByLabelText("Select project"), "project-component");
+    await user.click(screen.getByRole("button", { name: "Run" }));
+    expect(await screen.findByText("completed", { exact: true })).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Save to project" }));
+    expect(screen.getByRole("status")).toHaveTextContent("Agent and run saved");
+    const project = JSON.parse(localStorage.getItem("shabis-ai-academy.projects.v1")!).projects[0];
+    expect(project.agentIds).toHaveLength(1);
+    expect(project.runIds).toHaveLength(1);
+  });
 });

@@ -1,6 +1,6 @@
 # Runtime Engine
 
-Version 0.7.0-alpha.1 introduces a deterministic browser-local Runtime foundation. It supports mock, dryRun, and disabled liveReserved modes through typed domain services outside React.
+Version 1.0.0-beta.1 ships the deterministic browser-local Runtime foundation across the Agent and Prompt Playgrounds. It supports mock, dryRun, and disabled liveReserved modes through typed domain services outside React.
 
 The pure state machine implements draft, queued, running, waiting for approval, retrying, completed, failed, and cancelled. Every valid transition appends an ordered event; invalid transitions return safe typed errors without mutation. Cancellation is terminal and idempotent.
 

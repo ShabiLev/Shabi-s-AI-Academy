@@ -1,6 +1,8 @@
 # Shabi's AI Academy
 
-Shabi's AI Academy is a bilingual learning platform for practical AI engineering and agent-development skills. The current milestone is **Version 0.7.0-alpha.1**.
+Shabi's AI Academy is a bilingual learning platform for practical AI engineering and agent-development skills. The current release is **Version 1.0.0-beta.1**.
+
+The beta includes 45 open bilingual lessons, 250 structured prompts in 11 packs, 32 immutable starter-agent templates, Prompt and Agent Playgrounds, Projects, a browser-local Knowledge Base, and complete QA/release surfaces. Mock and Dry Run are executable; Live remains intentionally disabled and no browser API key input exists.
 
 Production is hosted on Vercel at [shabi-s-ai-academy.vercel.app](https://shabi-s-ai-academy.vercel.app). GitHub Actions validates changes; Vercel builds `dist` with `npm run build` and provides isolated branch/PR previews. See [the deployment guide](docs/vercel-deployment.md).
 

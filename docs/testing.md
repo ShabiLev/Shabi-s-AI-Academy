@@ -1,6 +1,6 @@
 # Testing strategy
 
-Version 0.7.0-alpha.1 adds Runtime state-machine, provider, Dry Run, approval, retry, cancellation, history, corruption, security, route, RTL/LTR, accessibility, visual, responsive, and performance coverage. Runtime tests use injected clocks/IDs and never wait for backoff or call external services.
+Version 1.0.0-beta.1 extends the Runtime coverage with curriculum, prompt-pack, starter-agent, Playground, Projects, Knowledge Base, platform, provider-boundary, deployment, security, RTL/LTR, accessibility, visual, responsive, and performance regression coverage. Runtime tests use injected clocks/IDs and never wait for backoff or call external services.
 
 Catalog coverage includes metadata/hash validation, search/filter/sort, safe import and duplicate detection, attribution export, responsive RTL/LTR toolbars, accessibility, visual states, and performance smoke navigation. `catalog:check` is part of `validate:release`; `catalog:update` is deliberately excluded.
 

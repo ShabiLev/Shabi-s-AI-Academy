@@ -57,6 +57,8 @@ export interface Agent {
   isFavorite: boolean;
   createdAt: string;
   updatedAt: string;
+  importedFromCatalog?: boolean;
+  sourceTemplateId?: string;
 }
 export type AgentInput = Omit<
   Agent,
@@ -175,4 +177,6 @@ export const emptyAgent: AgentInput = {
   completionCriteria: "",
   notes: "",
   status: "draft",
+  importedFromCatalog: false,
+  sourceTemplateId: undefined,
 };

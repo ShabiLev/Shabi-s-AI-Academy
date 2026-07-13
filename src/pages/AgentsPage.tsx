@@ -32,6 +32,7 @@ export function AgentsPage() {
           <Link className="primary-button" to="/agents/new">
             {s.newAgent}
           </Link>
+          <Link to="/agents/catalog">{ui === "he" ? "סוכנים התחלתיים" : "Starter Agents"}</Link>
         </div>
       </header>
       <section className="prompt-filters">

@@ -14,6 +14,8 @@ import {
   saveAgentState,
 } from "./agentStorage";
 import type { Agent, AgentFilters, AgentInput, AgentState } from "./types";
+import { importStarterAgent } from "./catalog";
+import type { StarterAgent } from "./catalog";
 interface Value {
   state: AgentState;
   create: (i: AgentInput) => Agent;
@@ -26,6 +28,7 @@ interface Value {
   saveDraft: (d?: Partial<AgentInput>) => void;
   saveSimulationInput: (v: string) => void;
   get: (id: string) => Agent | undefined;
+  importFromCatalog: (agent: StarterAgent, language: "he" | "en") => Agent;
 }
 const C = createContext<Value | null>(null);
 export function AgentLibraryProvider({ children }: { children: ReactNode }) {
@@ -90,6 +93,11 @@ export function AgentLibraryProvider({ children }: { children: ReactNode }) {
       saveSimulationInput: (lastSimulationInput) =>
         change((s) => ({ ...s, lastSimulationInput })),
       get: (id) => state.agents.find((a) => a.id === id),
+      importFromCatalog: (template, language) => {
+        const agent = importStarterAgent(template, language);
+        change((current) => ({ ...current, agents: [agent, ...current.agents], lastOpenedAgentId: agent.id }));
+        return agent;
+      },
     }),
     [state],
   );

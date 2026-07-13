@@ -27,6 +27,8 @@ import { PromptCatalogDetailsPage } from "./pages/PromptCatalogDetailsPage";
 import { PromptPacksPage } from "./pages/PromptPacksPage";
 import { RuntimeProvider } from "./runtime/RuntimeContext";
 import { StarterAgentsPage } from "./pages/StarterAgentsPage";
+import { PromptPlaygroundPage } from "./pages/PromptPlaygroundPage";
+import { AgentPlaygroundPage } from "./pages/AgentPlaygroundPage";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
 const RunDetailsPage = lazy(() => import("./pages/RunDetailsPage").then((module) => ({ default: module.RunDetailsPage })));
@@ -68,6 +70,8 @@ export function App() {
                     />
                     <Route path="agents" element={<AgentsPage />} />
                     <Route path="agents/catalog" element={<StarterAgentsPage />} />
+                    <Route path="playground/prompts" element={<PromptPlaygroundPage />} />
+                    <Route path="playground/agents" element={<AgentPlaygroundPage />} />
                     <Route path="agents/new" element={<AgentBuilderPage />} />
                     <Route
                       path="agents/:agentId"

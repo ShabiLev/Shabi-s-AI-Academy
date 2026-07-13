@@ -24,6 +24,8 @@ interface RuntimeContextValue {
   >;
   startDemo: (scenario: MockScenario) => Promise<RuntimeHistoryRecord>;
   createDryRun: () => RuntimeHistoryRecord;
+  startRequest: (input: { text: string; systemInstruction?: string; variables?: Record<string, string>; plannedToolIds?: string[]; scenario?: MockScenario }) => Promise<RuntimeHistoryRecord>;
+  previewRequest: (input: { text: string; systemInstruction?: string; variables?: Record<string, string>; plannedToolIds?: string[] }) => RuntimeHistoryRecord;
   approve: (id: string) => void;
   reject: (id: string) => void;
   cancel: (id: string) => Promise<void>;
@@ -81,6 +83,18 @@ export function RuntimeProvider({ children }: { children: ReactNode }) {
             plannedToolIds: ["test-report-reader"],
           },
         );
+        const record = engine.createDryRun(request);
+        refresh(record);
+        return record;
+      },
+      startRequest: async (input) => {
+        const request = createRunRequest({ now: () => new Date().toISOString(), nextId: () => crypto.randomUUID() }, { mode: "mock", ...input });
+        const record = await engine.startMock(request);
+        refresh(record);
+        return record;
+      },
+      previewRequest: (input) => {
+        const request = createRunRequest({ now: () => new Date().toISOString(), nextId: () => crypto.randomUUID() }, { mode: "dryRun", ...input });
         const record = engine.createDryRun(request);
         refresh(record);
         return record;

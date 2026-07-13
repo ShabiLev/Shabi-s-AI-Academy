@@ -2215,13 +2215,29 @@ footer strong {
   direction: ltr;
   text-align: start;
 }
+.playground-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(18rem, 0.9fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+.glass-panel {
+  min-inline-size: 0;
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+}
+.glass-panel label { display: grid; gap: var(--space-2); margin-block-end: var(--space-4); }
+.glass-panel textarea { min-block-size: 6rem; resize: vertical; }
 @media (max-width: 40rem) {
   .runtime-demo-actions > button {
     inline-size: 100%;
   }
   .runtime-facts dl > div,
   .runtime-approval dl > div,
-  .runtime-timeline li {
+  .runtime-timeline li,
+  .playground-grid {
     grid-template-columns: 1fr;
   }
 }

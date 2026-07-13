@@ -33,6 +33,7 @@ test.describe("visual — desktop Hebrew", () => {
 
   test("Dashboard", async ({ page }) => {
     await login(page);
+    await expect(page.locator(".welcome-panel h1")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("dashboard.png");
   });

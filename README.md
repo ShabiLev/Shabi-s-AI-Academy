@@ -4,7 +4,7 @@ Shabi's AI Academy is a bilingual, local-first AI learning and building workspac
 
 The AI Workspace connects 45 open bilingual lessons, 250 structured prompts in 11 packs, 32 immutable starter-agent templates, personal builders, Playgrounds, Projects, Knowledge Base, Global Search, Command Palette, Local Assistant, deterministic workflows, activity analytics, notifications, and complete backup. Mock and Dry Run are executable; Live remains intentionally disabled and no browser API key input exists.
 
-Production is hosted on Vercel at [shabi-s-ai-academy.vercel.app](https://shabi-s-ai-academy.vercel.app). GitHub Actions validates changes; Vercel builds `dist` with `npm run build` and provides isolated branch/PR previews. See [the deployment guide](docs/vercel-deployment.md).
+The application is hosted on [GitHub Pages](https://shabilev.github.io/Shabi-s-AI-Academy/) and [Vercel](https://shabi-s-ai-academy.vercel.app). Pages publishes the built `dist` artifact with a repository base path and HashRouter; Vercel keeps root-based BrowserRouter navigation and isolated branch/PR previews. See the [GitHub Pages](docs/github-pages-deployment.md) and [Vercel](docs/vercel-deployment.md) deployment guides.
 
 Sprint 7.1 adds a deterministic browser-local Runtime Engine with Mock and Dry Run modes, explicit approvals, bounded retries, cancellation, and a 50-record Run History. Live providers and external tools remain disabled and no API keys are accepted. See [Runtime documentation](docs/runtime.md).
 
@@ -77,7 +77,10 @@ npm run lint
 npm run test:run
 npm run test:coverage
 npm run build
+npm run build:pages
 npm run preview
+npm run preview:pages
+npm run test:e2e:pages
 npm run test:e2e
 npm run test:e2e:full
 npm run test:a11y

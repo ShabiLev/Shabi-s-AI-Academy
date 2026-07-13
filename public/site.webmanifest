@@ -2,9 +2,10 @@
   "name": "Shabi's AI Academy",
   "short_name": "AI Academy",
   "description": "A bilingual, hands-on academy for practical AI engineering.",
-  "start_url": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#07111f",
   "theme_color": "#07111f",
-  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+  "icons": [{ "src": "./favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
 }

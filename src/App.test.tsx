@@ -13,6 +13,16 @@ function renderApp(path = "/") {
   );
 }
 
+function renderHashApp(path: string) {
+  window.history.replaceState({}, "", "/");
+  window.location.hash = path;
+  return render(
+    <LanguageProvider>
+      <App routerMode="hash" />
+    </LanguageProvider>,
+  );
+}
+
 async function demoLogin(user: ReturnType<typeof userEvent.setup>) {
   await user.click(screen.getByRole("button", { name: "כניסה למצב הדגמה" }));
 }
@@ -31,6 +41,24 @@ describe("Shabi's AI Academy", () => {
   it("redirects unauthenticated visitors from protected routes", () => {
     renderApp("/lessons");
     expect(screen.getByRole("heading", { name: "כניסה" })).toBeInTheDocument();
+  });
+
+  it("keeps BrowserRouter as the default router", async () => {
+    renderApp("/about");
+    expect(window.location.hash).toBe("");
+    expect(await screen.findByRole("heading", { level: 1 })).toBeInTheDocument();
+  });
+
+  it("supports direct public routes with HashRouter", async () => {
+    renderHashApp("/about");
+    expect(window.location.hash).toBe("#/about");
+    expect(await screen.findByRole("heading", { level: 1 })).toBeInTheDocument();
+  });
+
+  it("protects direct Dashboard routes with HashRouter", () => {
+    renderHashApp("/dashboard");
+    expect(screen.getByRole("heading", { name: "כניסה" })).toBeInTheDocument();
+    expect(window.location.hash).toContain("#/login?from=%2Fdashboard");
   });
 
   it("Demo Login grants access and preserves the requested route", async () => {

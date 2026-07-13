@@ -26,4 +26,5 @@ export const userDocs = [
   ["activity-analytics", "Activity and Analytics", "פעילות וניתוח נתונים", "Private local metadata, trends, and storage estimates."],
   ["workspace-export-import", "Workspace Export and Import", "ייצוא וייבוא סביבת עבודה", "Validated versioned backup, preview, conflicts, and rollback."],
   ["keyboard-shortcuts", "Keyboard Shortcuts", "קיצורי מקלדת", "Workspace shortcuts and safe keyboard behavior."],
+  ["github-pages-deployment", "GitHub Pages Deployment", "פריסה ב-GitHub Pages", "Built artifact hosting, repository base path, hash routing, and rollback."],
 ] as const;

@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { AuthProvider } from "./auth/AuthContext";
 import { ProtectedRoute } from "./auth/ProtectedRoute";
@@ -30,6 +30,7 @@ import { CommandPaletteProvider } from "./commands";
 import { AssistantProvider } from "./assistant";
 import { WorkflowProvider } from "./workflows";
 import { WorkspaceProvider } from "./workspace";
+import { configuredRouterMode, type RouterMode } from "./config/routerMode";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
 const DashboardPage = lazy(() => import("./pages/DashboardPage").then((module) => ({ default: module.DashboardPage })));
@@ -56,9 +57,15 @@ const WorkflowsPage = lazy(() => import("./pages/WorkflowsPage").then((module) =
 const WorkflowBuilderPage = lazy(() => import("./pages/WorkflowBuilderPage").then((module) => ({ default: module.WorkflowBuilderPage })));
 const AnalyticsPage = lazy(() => import("./pages/AnalyticsPage").then((module) => ({ default: module.AnalyticsPage })));
 
-export function App() {
+export interface AppProps {
+  routerMode?: RouterMode;
+}
+
+export function App({ routerMode = configuredRouterMode }: AppProps) {
+  const Router = routerMode === "hash" ? HashRouter : BrowserRouter;
+
   return (
-    <BrowserRouter>
+    <Router>
       <AuthProvider>
         <CourseProgressProvider>
           <PromptLibraryProvider>
@@ -76,6 +83,7 @@ export function App() {
                 <Route element={<ProtectedRoute />}>
                   <Route element={<AppLayout />}>
                     <Route index element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
+                    <Route path="dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
                     <Route path="lessons" element={<LessonsPage />} />
                     <Route
                       path="lessons/:lessonSlug"
@@ -155,6 +163,6 @@ export function App() {
           </PromptLibraryProvider>
         </CourseProgressProvider>
       </AuthProvider>
-    </BrowserRouter>
+    </Router>
   );
 }

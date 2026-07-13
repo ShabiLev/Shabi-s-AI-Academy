@@ -26,6 +26,12 @@ All notable changes to this project are documented here following the Keep a Cha
 - Navigation is grouped by Learn, Build, Workspace and System
 - Existing Prompts, Agents, Projects and Runs are connected across the Workspace
 - Assistant suggestions use current route and entity context
+- GitHub Pages now publishes the built `dist` artifact with a repository-aware Vite base path and HashRouter while local development and Vercel retain BrowserRouter
+
+### Fixed
+
+- GitHub Pages no longer publishes the Vite source entry from `main`/root, which caused a blank site
+- Favicon, manifest, canonical, Open Graph, JavaScript, and CSS paths now resolve correctly under `/Shabi-s-AI-Academy/`
 
 ### Security
 

@@ -1,10 +1,10 @@
 # Vercel deployment
 
-Vercel hosts the Vite application at `https://shabi-s-ai-academy.vercel.app`; GitHub Actions validates changes but does not deploy them. The Vercel project uses the repository root, `npm run build`, and the `dist` output directory. Production tracks `main`; release branches and pull requests receive isolated Preview origins and therefore isolated browser storage.
+Vercel hosts the Vite application at `https://shabi-s-ai-academy.vercel.app`; the separate GitHub Pages workflow publishes its own `dist` artifact and does not alter this deployment. The Vercel project uses the repository root, `npm run build`, and the `dist` output directory. Production tracks `main`; release branches and pull requests receive isolated Preview origins and therefore isolated browser storage.
 
 ## Routing and metadata
 
-The application deliberately uses `BrowserRouter`. `vercel.json` rewrites non-API requests to `index.html`, so direct navigation and hard refresh work without a hash or base path. `/api` remains outside the SPA rewrite for serverless functions. Vite injects only safe public metadata: package version, short commit SHA, branch, build timestamp, Vercel environment, and public deployment URL. Never expose secrets through `VITE_` variables or build-time constants.
+Vercel and local builds deliberately use `BrowserRouter`. `vercel.json` rewrites non-API requests to `index.html`, so direct navigation and hard refresh work without a hash or repository base path. The GitHub Pages build alone selects `HashRouter`. `/api` remains outside the Vercel SPA rewrite for serverless functions. Vite injects only safe public metadata: package version, short commit SHA, branch, build timestamp, deployment environment, and public deployment URL. Never expose secrets through `VITE_` variables or build-time constants.
 
 ## Verification
 

@@ -4,6 +4,7 @@ import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import coverageThresholds from './quality/config/coverageThresholds.cjs'
+import { resolveDeploymentConfig } from './deploymentConfig'
 
 function gitOutput(command: string): string | undefined {
   try {
@@ -16,20 +17,27 @@ function gitOutput(command: string): string | undefined {
 const appVersion: string = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')).version
 const commitSha = process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) || gitOutput('git rev-parse --short HEAD')
 const branch = process.env.VERCEL_GIT_COMMIT_REF || gitOutput('git rev-parse --abbrev-ref HEAD')
-const deploymentEnvironment = process.env.VERCEL_ENV || 'local'
-const publicSiteUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : 'https://shabi-s-ai-academy.vercel.app'
+const deployment = resolveDeploymentConfig(process.env)
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  base: deployment.basePath,
+  plugins: [
+    react(),
+    tailwindcss(),
+    {
+      name: 'deployment-html-metadata',
+      transformIndexHtml(html) {
+        return html.replaceAll('__PUBLIC_SITE_URL_HTML__', deployment.publicSiteUrl)
+      },
+    },
+  ],
   define: {
     __APP_VERSION__: JSON.stringify(appVersion),
     __COMMIT_SHA__: JSON.stringify(commitSha ?? ''),
     __BRANCH__: JSON.stringify(branch ?? ''),
     __BUILD_TIME__: JSON.stringify(new Date().toISOString()),
-    __DEPLOYMENT_ENVIRONMENT__: JSON.stringify(deploymentEnvironment),
-    __PUBLIC_SITE_URL__: JSON.stringify(publicSiteUrl),
+    __DEPLOYMENT_ENVIRONMENT__: JSON.stringify(deployment.deploymentEnvironment),
+    __PUBLIC_SITE_URL__: JSON.stringify(deployment.publicSiteUrl),
   },
   build: {
     rollupOptions: {

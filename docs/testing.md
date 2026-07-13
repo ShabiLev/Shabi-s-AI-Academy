@@ -13,6 +13,9 @@ Vitest and Testing Library provide fast component/integration coverage. Playwrig
 - `npm run test:run` and `npm test`: Vitest once or watch mode.
 - `npm run test:coverage` / `test:coverage:open`: Vitest with enforced coverage thresholds — see `docs/quality-gates.md`.
 - `npm run test:e2e` / `test:e2e:full`: fast Chromium or all five projects.
+- `npm run build:pages`: create and validate the GitHub Pages artifact with its repository base path, HashRouter mode, production metadata, and bundle safety checks.
+- `npm run preview:pages`: serve the already-built Pages artifact locally.
+- `npm run test:e2e:pages`: build the Pages variant and verify direct public and protected hash routes in Chromium.
 - `npm run test:e2e:headed`, `test:e2e:ui`, `test:e2e:report`: diagnosis.
 - `npm run test:a11y`: axe-core accessibility suite — see `docs/accessibility-testing.md`.
 - `npm run test:visual` / `test:visual:update` / `test:visual:report`: Playwright visual regression — see `docs/visual-regression.md`.
@@ -23,6 +26,8 @@ Vitest and Testing Library provide fast component/integration coverage. Playwrig
 - `npm run validate:release`: lint, Vitest, coverage, build, full E2E, accessibility, visual, performance, quality collection/analysis, `git diff --check` — the full release gate.
 
 Playwright starts Vite automatically at `http://127.0.0.1:5173`. Specs are under `e2e/specs`; reusable state and error handling are in `e2e/fixtures` (including `a11y.ts` and `visual.ts` for the newer suites). Reports are in `playwright-report`; traces, screenshots, and failure videos are in `test-results`. Each suite type (fast/full/a11y/visual) writes its own JSON report under `quality/generated/` so running one suite never erases another's result before `quality:collect` reads them. CI uploads failure artifacts for 14 days; the quality summary artifact is retained 30 days.
+
+The Pages smoke suite uses `playwright.pages.config.ts`, builds with `/Shabi-s-AI-Academy/`, and previews at `http://127.0.0.1:43991/Shabi-s-AI-Academy/`. The default Playwright configuration remains a root-based local BrowserRouter environment.
 
 Tests must be independent and start from controlled storage. Prefer accessible locators, web-first assertions, and auto-waiting. Do not use arbitrary sleeps, XPath, shared mutable state, order dependencies, secrets, or real external services. Unexpected page and severe console errors fail tests. Screenshots and traces aid diagnosis but are not the only assertion.
 

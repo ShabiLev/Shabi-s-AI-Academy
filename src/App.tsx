@@ -46,6 +46,7 @@ const ChangelogPage = lazy(() => import("./pages/ChangelogPage").then((module) =
 const DocumentationPage = lazy(() => import("./pages/DocumentationPage").then((module) => ({ default: module.DocumentationPage })));
 const ReleaseCenterPage = lazy(() => import("./pages/ReleaseCenterPage").then((module) => ({ default: module.ReleaseCenterPage })));
 const DeveloperModePage = lazy(() => import("./pages/DeveloperModePage").then((module) => ({ default: module.DeveloperModePage })));
+const SearchPage = lazy(() => import("./pages/SearchPage").then((module) => ({ default: module.SearchPage })));
 
 export function App() {
   return (
@@ -117,6 +118,7 @@ export function App() {
                     <Route path="docs" element={<Suspense fallback={null}><DocumentationPage /></Suspense>} />
                     <Route path="release" element={<Suspense fallback={null}><ReleaseCenterPage /></Suspense>} />
                     <Route path="developer" element={<Suspense fallback={null}><DeveloperModePage /></Suspense>} />
+                    <Route path="search" element={<Suspense fallback={null}><SearchPage /></Suspense>} />
                     <Route path="radar" element={<RadarPage />} />
                     <Route path="settings" element={<SettingsPage />} />
                     <Route path="qa" element={<QACenterPage />} />

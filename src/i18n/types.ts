@@ -17,6 +17,7 @@ export type TranslationKey =
   | "a11y.openProfile"
   | "profile.menu"
   | "nav.dashboard"
+  | "nav.search"
   | "nav.lessons"
   | "nav.prompts"
   | "nav.agents"

@@ -3,6 +3,7 @@ import type { Language, Translations } from "./types";
 export const translations: Record<Language, Translations> = {
   he: {
     "brand.name": "Shabi's AI Academy",
+    "nav.search": "חיפוש גלובלי",
     "brand.tagline": "לומדים. בונים. מתקדמים.",
     "a11y.skipToContent": "דילוג לתוכן הראשי",
     "a11y.openMenu": "פתיחת תפריט הניווט",
@@ -148,6 +149,7 @@ export const translations: Record<Language, Translations> = {
   },
   en: {
     "brand.name": "Shabi's AI Academy",
+    "nav.search": "Global Search",
     "brand.tagline": "Learn. Build. Advance.",
     "a11y.skipToContent": "Skip to main content",
     "a11y.openMenu": "Open navigation menu",

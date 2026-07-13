@@ -1,0 +1,30 @@
+import type { CommandRegistryContext, WorkspaceCommand } from "./types";
+const text = (he: string, en: string) => ({ he, en });
+const routes = [
+  ["dashboard", "/", "לוח הבקרה", "Open Dashboard"], ["lessons", "/lessons", "שיעורים", "Open Lessons"],
+  ["prompts", "/prompts", "ספריית פרומפטים", "Open Prompt Library"], ["agents", "/agents", "ספריית סוכנים", "Open Agent Library"],
+  ["projects", "/projects", "פרויקטים", "Open Projects"], ["knowledge", "/knowledge", "מאגר ידע", "Open Knowledge Base"],
+  ["runs", "/runs", "היסטוריית הרצות", "Open Run History"], ["qa", "/qa", "מרכז QA", "Open QA Center"],
+  ["settings", "/settings", "הגדרות", "Open Settings"], ["how-to", "/how-to", "מדריכי שימוש", "Open How To"],
+] as const;
+export function createCommandRegistry(context: CommandRegistryContext): WorkspaceCommand[] {
+  const navigation: WorkspaceCommand[] = routes.map(([id, route, he, en]) => ({ id: `nav.${id}`, category: "navigation", title: text(he, en), description: text(`פתיחת ${he}`, en), aliases: [id, route.slice(1)], action: { type: "navigate", route }, risk: "informational", confirmationRequired: false, enabled: true }));
+  const create = (id: string, route: string, he: string, en: string): WorkspaceCommand => ({ id: `create.${id}`, category: "creation", title: text(he, en), description: text(he, en), aliases: ["new", "create", id], action: { type: "navigate", route }, risk: "low", confirmationRequired: false, enabled: true });
+  const currentEnabled = context.currentEntity !== "other";
+  return [...navigation,
+    create("prompt", "/prompts/new", "יצירת פרומפט", "Create Prompt"), create("agent", "/agents/new", "יצירת סוכן", "Create Agent"),
+    create("project", "/projects/new", "יצירת פרויקט", "Create Project"), create("document", "/knowledge/new", "הוספת מסמך ידע", "Add Knowledge Document"),
+    create("prompt-playground", "/playground/prompts", "פתיחת מגרש פרומפטים", "Start Prompt Playground"), create("agent-playground", "/playground/agents", "פתיחת מגרש סוכנים", "Start Agent Playground"),
+    { id: "action.search", category: "action", title: text("חיפוש בכל הסביבה", "Search all"), description: text("פתיחת החיפוש הגלובלי", "Open Global Search"), aliases: ["find", "search"], action: { type: "navigate", route: "/search" }, risk: "informational", confirmationRequired: false, enabled: true },
+    { id: "action.language", category: "action", title: text("החלפת שפה", "Switch language"), description: text("מעבר בין עברית לאנגלית", "Switch Hebrew and English"), aliases: ["hebrew", "english", "rtl", "ltr"], action: { type: "switchLanguage" }, risk: "low", confirmationRequired: false, enabled: true },
+    { id: "action.motion", category: "action", title: text("החלפת מצב תנועה מופחתת", "Toggle reduced motion"), description: text("שינוי העדפת הנפשות מקומית", "Change the local motion preference"), aliases: ["animation", "motion"], action: { type: "toggleMotion" }, risk: "low", confirmationRequired: false, enabled: true },
+    { id: "action.export", category: "action", title: text("ייצוא סביבת העבודה", "Export Workspace"), description: text("יצירת גיבוי מקומי", "Create a local backup"), aliases: ["backup", "download"], action: { type: "exportWorkspace" }, risk: "medium", confirmationRequired: true, enabled: context.backupAvailable, disabledReason: text("הגיבוי יופעל בשלב הגיבוי של גרסה 1.1", "Workspace backup is enabled by the 1.1 backup module") },
+    { id: "action.developer", category: "action", title: text("פתיחת מצב מפתחים", "Open Developer Mode"), description: text("כלי בדיקה מקומיים ללא סודות", "Local diagnostics without secrets"), aliases: ["dev"], action: { type: "navigate", route: "/developer" }, risk: "informational", confirmationRequired: false, enabled: true },
+    { id: "action.clear-recents", category: "action", title: text("ניקוי פריטים אחרונים", "Clear recent items"), description: text("ניקוי היסטוריית החיפוש בלבד", "Clear local search recents only"), aliases: ["reset history"], action: { type: "clearRecents" }, risk: "medium", confirmationRequired: true, enabled: true },
+    { id: "action.shortcuts", category: "action", title: text("הצגת קיצורי מקלדת", "View shortcuts"), description: text("פתיחת מדריך הקיצורים", "Open keyboard shortcut help"), aliases: ["keyboard", "keys"], action: { type: "showShortcuts" }, risk: "informational", confirmationRequired: false, enabled: true },
+    { id: "context.edit", category: "context", title: text("עריכת הפריט הנוכחי", "Edit current item"), description: text("פתיחת עורך הפריט", "Open the current item editor"), aliases: ["edit current"], action: { type: "navigate", route: `${context.route}/edit` }, risk: "low", confirmationRequired: false, enabled: currentEnabled, disabledReason: text("אין פריט ניתן לעריכה במסך זה", "No editable entity is open") },
+    { id: "context.favorite", category: "context", title: text("סימון הפריט כמועדף", "Favorite current entity"), description: text("עדכון המועדף המקומי", "Update the local favorite"), aliases: ["star"], action: { type: "favoriteCurrent" }, risk: "low", confirmationRequired: false, enabled: currentEnabled, disabledReason: text("אין פריט נתמך במסך זה", "No supported entity is open") },
+    { id: "context.copy-route", category: "context", title: text("העתקת הנתיב הנוכחי", "Copy current route"), description: text(context.route, context.route), aliases: ["url", "link"], action: { type: "copyRoute" }, risk: "low", confirmationRequired: false, enabled: true },
+  ];
+}
+

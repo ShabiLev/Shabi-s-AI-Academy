@@ -2273,3 +2273,27 @@ html[data-motion="reduced"] * { scroll-behavior: auto !important; animation-dura
 .search-results mark { padding: 0; color: inherit; background: color-mix(in srgb, var(--warning) 35%, transparent); }
 .search-empty { padding: var(--space-6); border: 1px dashed var(--line); border-radius: var(--radius); color: var(--muted); text-align: center; }
 @media (max-width: 48rem) { .search-toolbar fieldset { grid-template-columns: 1fr; } }
+
+/* Command Palette and shortcut help */
+.command-layer { z-index: 150; align-items: start; padding-block-start: min(12vh, 7rem); }
+.command-dialog { inline-size: min(44rem, 100%); max-block-size: min(78vh, 46rem); display: grid; gap: var(--space-4); overflow: hidden; padding: var(--space-5); border: 1px solid var(--line-bright); border-radius: var(--radius-lg); background: #081727; box-shadow: 0 1.5rem 5rem rgba(0,0,0,.55); }
+.command-dialog > header { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.command-dialog h2 { margin: 0; }
+.command-dialog > header button,.command-confirm button { min-inline-size: 2.75rem; min-block-size: 2.75rem; border: 1px solid var(--line); border-radius: var(--control-radius); color: inherit; background: transparent; }
+.command-search { display: grid; gap: var(--space-2); }
+.command-search input { inline-size: 100%; min-block-size: 3rem; padding-inline: var(--space-3); border: 1px solid var(--line); border-radius: var(--control-radius); color: inherit; background: #04101d; }
+.command-list { min-block-size: 0; display: grid; gap: var(--space-1); overflow: auto; margin: 0; padding: 0; list-style: none; }
+.command-list button { inline-size: 100%; display: grid; grid-template-columns: minmax(0,1fr) auto; gap: var(--space-2); min-block-size: 3.5rem; padding: var(--space-3); border: 1px solid transparent; border-radius: var(--control-radius); color: inherit; background: transparent; text-align: start; }
+.command-list button.active { border-color: var(--blue-soft); background: rgba(35,133,200,.15); }
+.command-list button[aria-disabled="true"] { opacity: .68; }
+.command-list button span { min-inline-size: 0; display: grid; gap: var(--space-1); }
+.command-list small,.command-list em { color: var(--muted); overflow-wrap: anywhere; }
+.command-list em { grid-column: 1 / -1; font-size: .75rem; }
+.command-list kbd,.shortcut-dialog kbd { padding: .2rem .45rem; border: 1px solid var(--line); border-radius: .3rem; color: var(--muted); font: inherit; font-size: .7rem; }
+.command-confirm { display: grid; gap: var(--space-3); }
+.command-confirm > div { display: flex; justify-content: flex-end; gap: var(--space-2); }
+.shortcut-dialog { overflow: auto; }
+.shortcut-dialog dl { display: grid; gap: var(--space-2); margin: 0; }
+.shortcut-dialog dl div { display: grid; grid-template-columns: minmax(10rem,.35fr) 1fr; gap: var(--space-3); align-items: center; padding-block: var(--space-2); border-block-end: 1px solid var(--line); }
+.shortcut-dialog dd { margin: 0; }
+@media (max-width: 40rem) { .command-layer { padding: .5rem; } .command-dialog { max-block-size: calc(100dvh - 1rem); } .shortcut-dialog dl div { grid-template-columns: 1fr; } }

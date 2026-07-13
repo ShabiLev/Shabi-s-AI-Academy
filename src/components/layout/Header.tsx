@@ -4,6 +4,7 @@ import { Icon } from "../common/Icon";
 import { useLanguage } from "../../i18n/LanguageContext";
 import type { TranslationKey } from "../../i18n/types";
 import { ProfileMenu } from "./ProfileMenu";
+import { useCommandPalette } from "../../commands";
 
 const routeTitles: Record<string, TranslationKey> = {
   "/": "nav.dashboard",
@@ -31,6 +32,7 @@ export const Header = forwardRef<HTMLButtonElement, { onOpenMenu: () => void }>(
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const { direction, t } = useLanguage();
+    const { openPalette } = useCommandPalette();
     const isDashboard = pathname === "/";
     const title = t(
       routeTitles[pathname] ??
@@ -90,6 +92,7 @@ export const Header = forwardRef<HTMLButtonElement, { onOpenMenu: () => void }>(
           <span>{t("header.workspace")}</span>
         </div>
         <div className="header-tools">
+          <button type="button" className="icon-button command-trigger" onClick={openPalette} aria-label={direction === "rtl" ? "פתיחת לוח הפקודות" : "Open Command Palette"}><Icon name="prompts" /></button>
           <span className="compact-status">
             <span className="status-dot" />
             {t("header.online")}

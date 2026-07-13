@@ -27,6 +27,7 @@ import { PromptCatalogDetailsPage } from "./pages/PromptCatalogDetailsPage";
 import { RuntimeProvider } from "./runtime/RuntimeContext";
 import { ProjectProvider } from "./projects";
 import { KnowledgeProvider } from "./knowledge";
+import { CommandPaletteProvider } from "./commands";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
 const RunDetailsPage = lazy(() => import("./pages/RunDetailsPage").then((module) => ({ default: module.RunDetailsPage })));
@@ -58,6 +59,7 @@ export function App() {
               <ProjectProvider>
                 <KnowledgeProvider>
                   <RuntimeProvider>
+                  <CommandPaletteProvider>
                 <Routes>
                 <Route path="login" element={<LoginPage />} />
                 <Route path="about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
@@ -127,6 +129,7 @@ export function App() {
                   </Route>
                 </Route>
                 </Routes>
+                  </CommandPaletteProvider>
                   </RuntimeProvider>
                 </KnowledgeProvider>
               </ProjectProvider>

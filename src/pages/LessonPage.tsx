@@ -64,8 +64,16 @@ export function LessonPage() {
           ))}
         </ul>
       </section>
+      <nav className="lesson-toc" aria-label={language === "he" ? "תוכן השיעור" : "Lesson contents"}>
+        <strong>{language === "he" ? "תוכן השיעור" : "Lesson contents"}</strong>
+        <ol>
+          {lesson.sections.map((section) => (
+            <li key={section.id}><a href={`#${section.id}`}>{section.title[language]}</a></li>
+          ))}
+        </ol>
+      </nav>
       {lesson.sections.map((section) => (
-        <section className="lesson-section" key={section.id}>
+        <section className="lesson-section" id={section.id} key={section.id}>
           <h2>{section.title[language]}</h2>
           {section.paragraphs.map((p, i) => (
             <p key={i} className={p[language].includes("\n") ? "pre-line" : ""}>
@@ -123,6 +131,7 @@ export function LessonPage() {
             {t("course.exercise")}: {lesson.exercise.title[language]}
           </h2>
           <p>{lesson.exercise.instructions[language]}</p>
+          {lesson.exercise.tasks && <ul>{lesson.exercise.tasks.map((task, index) => <li key={index}>{task[language]}</li>)}</ul>}
           {lesson.exercise.solution && (
             <details>
               <summary>{t("course.solution")}</summary>
@@ -159,6 +168,12 @@ export function LessonPage() {
           )}
         </section>
       )}
+      <section className="lesson-section">
+        <h2>{language === "he" ? "מיני־פרויקט" : "Mini-project"}</h2>
+        <p>{lesson.miniProject[language]}</p>
+        <h3>{language === "he" ? "מקורות והמשך למידה" : "References and further learning"}</h3>
+        <ul>{lesson.references.map((reference) => <li key={reference}>{reference}</li>)}</ul>
+      </section>
       <Quiz lessonId={lesson.id} questions={lesson.quiz} />
       <div className="lesson-completion">
         {record?.completed ? (

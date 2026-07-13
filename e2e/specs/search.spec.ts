@@ -38,5 +38,9 @@ test("Search filters stack without overflow on mobile", async ({ page }) => {
   await english(page);
   await page.goto("/search?q=prompt");
   await expect(page.getByRole("heading", { name: /Search the entire workspace/ })).toBeVisible();
+  await expect(page.getByLabel("Entity type")).toBeVisible();
+  await expect(page.getByLabel("Category")).toBeVisible();
+  await expect(page.getByLabel("Language")).toBeVisible();
+  await page.getByLabel("Availability").selectOption("available");
   await noOverflow(page);
 });

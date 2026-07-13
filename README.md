@@ -1,8 +1,8 @@
 # Shabi's AI Academy
 
-Shabi's AI Academy is a bilingual learning platform for practical AI engineering and agent-development skills. The current release is **Version 1.0.0-beta.1**.
+Shabi's AI Academy is a bilingual, local-first AI learning and building workspace. The current release is **Version 1.1.0-beta.1**.
 
-The beta includes 45 open bilingual lessons, 250 structured prompts in 11 packs, 32 immutable starter-agent templates, Prompt and Agent Playgrounds, Projects, a browser-local Knowledge Base, and complete QA/release surfaces. Mock and Dry Run are executable; Live remains intentionally disabled and no browser API key input exists.
+The AI Workspace connects 45 open bilingual lessons, 250 structured prompts in 11 packs, 32 immutable starter-agent templates, personal builders, Playgrounds, Projects, Knowledge Base, Global Search, Command Palette, Local Assistant, deterministic workflows, activity analytics, notifications, and complete backup. Mock and Dry Run are executable; Live remains intentionally disabled and no browser API key input exists.
 
 Production is hosted on Vercel at [shabi-s-ai-academy.vercel.app](https://shabi-s-ai-academy.vercel.app). GitHub Actions validates changes; Vercel builds `dist` with `npm run build` and provides isolated branch/PR previews. See [the deployment guide](docs/vercel-deployment.md).
 
@@ -24,6 +24,11 @@ Sprint 7.1 adds a deterministic browser-local Runtime Engine with Mock and Dry R
 - Searchable bilingual **How To guide** (`/how-to`) with contextual help links
 - Curated, read-only **Starter Catalog** with 24 educational prompts from prompts.chat prompt data, explicit CC0-1.0 attribution, and safe local importing
 - Enforced Vitest coverage thresholds, an axe-core accessibility suite, deterministic Playwright visual regression, and Lighthouse CI performance gates — see [docs/quality-gates.md](docs/quality-gates.md)
+- Unified local Workspace search with deterministic ranking and stackable filters
+- Accessible Command Palette, centralized keyboard shortcuts, and contextual commands
+- Honest Local Assistant sidebar and chat with deterministic intents and confirmation-gated actions
+- Advanced Prompt and Agent Builders with templates, local checks, histories, and diffs
+- Deterministic Mock/Dry Run Workflow Builder, notification center, private analytics, favorites, recents, storage manager, and validated Workspace backup
 
 ## Demo Login and security
 
@@ -136,8 +141,9 @@ The project follows semantic versioning. Update `package.json`, the lockfile, vi
 ## Current limitations
 
 - Demo Login is development-only and has no backend identity verification.
-- Course content is local and only the first two lessons are currently available.
-- Prompt persistence, agent building, project synchronization, and live radar data are not implemented.
+- Data is browser-local and origin-specific; there is no cloud synchronization or cross-device collaboration.
+- Local Assistant responses are deterministic workspace guidance, not output from a live language model.
+- Workflow execution is limited to Mock and Dry Run; approvals pause a run and no real tool is invoked.
 - Visual regression baselines were generated on Windows and are labeled non-canonical until regenerated on Linux CI via the `workflow_dispatch` job — see `docs/visual-regression.md`.
 - Lighthouse scores reflect this project's local/CI hardware, not real-user field data — see `docs/performance-testing.md`.
 - The QA Center's issue register and release checklist are browser-local only; they are not a replacement for GitHub Issues/Jira and are not synchronized across machines.
@@ -145,9 +151,8 @@ The project follows semantic versioning. Update `package.json`, the lockfile, vi
 
 ## Roadmap
 
-1. Integrate production authentication with secure server-managed sessions.
-2. Expand lesson content and progress tracking.
-3. Add prompt-library and guided agent-design workflows.
-4. Add project milestones, synchronization, and curated AI radar content.
+1. Design Version 1.2 local collaboration, reusable workflow templates, and multi-agent orchestration.
+2. Integrate production authentication with secure server-managed sessions.
+3. Define a server-side consent, policy, budget, and audit boundary before any live provider.
+4. Add optional synchronization only after privacy and conflict-resolution design.
 5. Regenerate and commit canonical Linux visual baselines via the CI `workflow_dispatch` job.
-6. Track coverage/Lighthouse trend history over time (currently a placeholder in the QA Center).

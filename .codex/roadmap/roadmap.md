@@ -15,10 +15,11 @@ Separate released capability, committed delivery, planned direction, and uncommi
 - 0.6.1 — Starter Prompt Catalog and alignment fixes
 - 0.7.0-alpha.1 — Deterministic Runtime Engine foundation
 - 1.0.0-beta.1 — Complete bilingual curriculum, catalogs, Playgrounds, Projects, local Knowledge Base, platform surfaces, quality automation, and Vercel hardening
+- 1.1.0-beta.1 — Integrated AI Workspace with Search, Command Palette, Local Assistant, advanced builders, deterministic workflows, activity, analytics, and complete backup
 
 ## Committed / in progress
 
-- 1.0.0 — Public-ready follow-up after beta feedback and production review. The beta source is controlled by [the 1.0 beta specification](../release-1.0-beta/00-master-spec.md).
+- 1.2.0 — Local collaboration and orchestration discovery: reusable workflow templates, multi-agent planning, and controlled sharing without implying live providers.
 
 ## Planned direction
 
@@ -28,6 +29,6 @@ Separate released capability, committed delivery, planned direction, and uncommi
 
 ## Ideas, not commitments
 
-RAG backends, Workflow Builder, Multi-Agent orchestration, Marketplace, cloud synchronization, and real authentication require discovery, security/privacy design, and separate accepted specifications.
+RAG backends, Marketplace, cloud synchronization, production authentication, and live providers require discovery, security/privacy design, and separate accepted specifications.
 
 Related: [milestones](milestones.md), [backlog](backlog.md), [releases](releases.md), [roadmap screen](../sprint-7/06-roadmap.md).

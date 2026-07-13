@@ -2,6 +2,39 @@
 
 All notable changes to this project are documented here following the Keep a Changelog format.
 
+## [1.1.0-beta.1] - 2026-07-13
+
+### Added
+
+- Global Search
+- Command Palette
+- Local Assistant Sidebar
+- Local AI Chat with safe action routing
+- Advanced Prompt Builder
+- Advanced Agent Builder
+- Workflow Builder foundation
+- Notification Center
+- Browser-local analytics
+- Recent and favorite entities
+- Workspace export and import
+- Keyboard shortcuts
+- Workspace storage manager
+
+### Changed
+
+- Dashboard is now an integrated Command Center
+- Navigation is grouped by Learn, Build, Workspace and System
+- Existing Prompts, Agents, Projects and Runs are connected across the Workspace
+- Assistant suggestions use current route and entity context
+
+### Security
+
+- Assistant cannot execute arbitrary code
+- Workflow execution remains Mock and Dry Run only
+- No live provider is required
+- No secrets are exported
+- Imported Workspace data is validated before use
+
 ## [1.0.0-beta.1] - 2026-07-13
 
 ### Added

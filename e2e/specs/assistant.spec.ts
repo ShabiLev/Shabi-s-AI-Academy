@@ -47,6 +47,9 @@ test("Mobile Assistant launcher does not hide or overflow content", async ({ pag
   await page.getByRole("button", { name: "Expand Assistant" }).click();
   await expect(page.getByLabel("Local Assistant")).toBeVisible();
   await noOverflow(page);
+  await page.keyboard.press("Escape");
+  await expect(page.getByLabel("Local Assistant")).toBeHidden();
+  await expect(page.getByRole("button", { name: "Expand Assistant" })).toBeVisible();
 });
 
 test("Prompt Builder creates and deterministically tests an advanced prompt", async ({ page }) => {

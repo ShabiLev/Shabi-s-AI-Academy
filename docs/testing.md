@@ -1,6 +1,8 @@
 # Testing strategy
 
-Version 1.0.0-beta.1 extends the Runtime coverage with curriculum, prompt-pack, starter-agent, Playground, Projects, Knowledge Base, platform, provider-boundary, deployment, security, RTL/LTR, accessibility, visual, responsive, and performance regression coverage. Runtime tests use injected clocks/IDs and never wait for backoff or call external services.
+Version 1.1.0-beta.1 extends the complete beta coverage with Search, Command Palette, Local Assistant and safe actions, advanced builders, deterministic workflows, notifications, recents, favorites, analytics, storage estimates, and Workspace import/export. Runtime tests use injected clocks/IDs and never wait for backoff or call external services.
+
+The release browser matrix covers the required desktop/mobile viewports, Hebrew RTL and English LTR, refresh persistence, keyboard operation, no-network boundaries, corruption recovery, visual baselines, and axe scans for every complex AI Workspace surface. Lighthouse audits Dashboard, Search, Assistant, Workflow Builder, and Analytics on desktop and mobile without lowering thresholds.
 
 Catalog coverage includes metadata/hash validation, search/filter/sort, safe import and duplicate detection, attribution export, responsive RTL/LTR toolbars, accessibility, visual states, and performance smoke navigation. `catalog:check` is part of `validate:release`; `catalog:update` is deliberately excluded.
 

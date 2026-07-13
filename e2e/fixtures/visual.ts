@@ -19,6 +19,7 @@ const disableAnimationsCss = `
 export async function stabilize(page: Page): Promise<void> {
   await page.addStyleTag({ content: disableAnimationsCss });
   await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
 }
 
 /** Elements explicitly opted out of comparison (e.g. real git commit/branch in the QA Center header). */

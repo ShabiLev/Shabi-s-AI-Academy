@@ -3,7 +3,7 @@
 Shabi's AI Academy is a bilingual, local-first React learning application for prompts, agents, and quality engineering.
 
 - Stack: React, TypeScript, Vite, React Router, Vitest, Playwright, axe, and Lighthouse.
-- Current release: 1.0.0-beta.1. The complete beta specification is preserved in `.codex/release-1.0-beta/`.
+- Current release: 1.1.0-beta.1. The active specification is preserved in `.codex/release-1.1-ai-workspace/`; the 1.0 beta specification remains historical.
 - Engineering Kit: 1.0.0.
 
 Read in order:
@@ -13,8 +13,8 @@ Read in order:
 3. [.codex/standards/coding.md](.codex/standards/coding.md)
 4. [.codex/standards/qa.md](.codex/standards/qa.md)
 5. [.codex/standards/security.md](.codex/standards/security.md)
-6. [.codex/release-1.0-beta/00-master-spec.md](.codex/release-1.0-beta/00-master-spec.md)
-7. Every beta release file referenced by the master specification.
+6. [.codex/release-1.1-ai-workspace/00-master-spec.md](.codex/release-1.1-ai-workspace/00-master-spec.md)
+7. Every AI Workspace release file referenced by the master specification.
 
 Requirements:
 

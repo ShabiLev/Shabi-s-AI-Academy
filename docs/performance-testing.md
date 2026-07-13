@@ -1,6 +1,6 @@
 # Performance testing
 
-Version 1.0.0-beta.1 adds smoke navigation for the complete beta route set. Catalogs are immutable and generated compactly, histories are bounded, there are no polling loops or background timers, feature pages are lazy-loaded, and React dependencies use a deterministic vendor chunk.
+Version 1.1.0-beta.1 adds smoke navigation for the complete beta route set. Catalogs are immutable and generated compactly, histories are bounded, there are no polling loops or background timers, feature pages are lazy-loaded, and React dependencies use a deterministic vendor chunk.
 
 Lighthouse CI (`@lhci/cli` + `lighthouse`) is the lab-performance gate, run against a production build served by `vite preview` — never the Vite dev server.
 
@@ -9,7 +9,7 @@ Lighthouse CI (`@lhci/cli` + `lighthouse`) is the lab-performance gate, run agai
 Two audit paths, because of one real technical constraint (explained below):
 
 1. **Public routes** — `lighthouserc.cjs` (desktop) and `lighthouserc.mobile.cjs` (mobile), both auditing `/login` via the standard `@lhci/cli` `collect`/`assert`/`upload` flow.
-2. **Authenticated app shell** — `quality/scripts/lighthouse-authenticated-flow.mjs`, auditing Dashboard (`/`) and QA Center (`/qa`) via Lighthouse's programmatic **User Flow** API (`startFlow`), run once for desktop and once for mobile viewport/throttling.
+2. **Authenticated AI Workspace** — `quality/scripts/lighthouse-authenticated-flow.mjs`, auditing Dashboard (`/`), Search (`/search`), Assistant (`/assistant`), Workflow Builder (`/workflows/new`), and Analytics (`/analytics`) via Lighthouse's programmatic **User Flow** API (`startFlow`), run once for desktop and once for mobile viewport/throttling.
 
 Both paths share one threshold source: `quality/config/lighthouseThresholds.cjs`.
 

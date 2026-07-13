@@ -15,11 +15,14 @@ const outDir = path.resolve("quality/generated/lighthouse");
 
 const routes = [
   { path: "/", name: "Dashboard" },
-  { path: "/qa", name: "QA Center" },
+  { path: "/search", name: "Search" },
+  { path: "/assistant", name: "Assistant" },
+  { path: "/workflows/new", name: "Workflow Builder" },
+  { path: "/analytics", name: "Analytics" },
 ];
 
 /**
- * Audits the authenticated app shell (Dashboard, QA Center) with Lighthouse's
+ * Audits the authenticated AI Workspace routes with Lighthouse's
  * programmatic User Flow API instead of LHCI's puppeteerScript hook. The
  * puppeteerScript hook does not work here: it runs on a page Lighthouse then
  * discards, so our sessionStorage-based Demo Login never reaches the actual

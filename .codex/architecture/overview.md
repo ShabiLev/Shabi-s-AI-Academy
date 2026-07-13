@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Define the controlling system shape for Shabi's AI Academy 1.0.0-beta.1 and its public-release follow-up.
+Define the controlling system shape for Shabi's AI Academy 1.1.0-beta.1 and its public-release follow-up.
 
 ## Current state
 

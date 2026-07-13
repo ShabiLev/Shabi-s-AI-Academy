@@ -256,6 +256,7 @@ test.describe("visual — mobile English", () => {
 test.describe("visual — Runtime Engine", () => {
   test("empty and populated history Hebrew", async ({ page }) => {
     await login(page, "/runs");
+    await expect(page.locator("h1")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("runtime-history-empty.png");
     await page.getByRole("button", { name: "הרצת Mock מוצלחת" }).click();
@@ -382,8 +383,11 @@ test.describe("visual — AI Workspace", () => {
     await expect(page).toHaveScreenshot("workspace-workflow-builder.png");
     await page.goto("/analytics");
     await expect(page.locator(".analytics-page h1")).toBeVisible();
+    await expect(page.locator(".analytics-page table").first()).toBeVisible();
     await stabilize(page);
-    await expect(page).toHaveScreenshot("workspace-analytics.png");
+    await expect(page).toHaveScreenshot("workspace-analytics.png", {
+      mask: [page.locator(".analytics-metrics strong, .analytics-page tbody td:last-child")],
+    });
   });
   test("Command Palette and expanded Assistant", async ({ page }) => {
     await login(page);

@@ -1,6 +1,6 @@
 # Manual QA checklist
 
-For 1.0.0-beta.1, review all 45 lessons, 250 prompts in 11 packs, 32 starter agents, both Playgrounds, Projects, Knowledge Base, platform pages, Runtime states, local-data migration/recovery, bilingual responsive behavior, intentional visual changes, absence of secrets, and the matching READY Vercel Preview. QA Center stores this separately by application version.
+For 1.1.0-beta.1, review all existing beta content plus Search, Command Palette, Local Assistant, builders, workflows, notifications, analytics, storage, and backup. Confirm local-data migration/recovery, bilingual responsive behavior, intentional visual changes, absence of secrets, and the matching READY Vercel Preview. QA Center stores this separately by application version.
 
 Automated gates (`docs/quality-gates.md`) catch a large and growing share of regressions, but they do not replace human review. This checklist is the reference for what's automated, what's manual, and what isn't covered yet. The QA Center's release checklist (`docs/qa-center.md`) implements the manual items below as persisted, per-version checkboxes.
 

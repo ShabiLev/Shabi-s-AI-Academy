@@ -16,6 +16,10 @@ const metadata = {
   commitSha: gitOutput("git rev-parse --short HEAD") ?? "local",
   branch: gitOutput("git rev-parse --abbrev-ref HEAD") ?? "unknown",
   buildTimestamp: new Date().toISOString(),
+  deploymentEnvironment: process.env.VERCEL_ENV ?? "local",
+  publicSiteUrl: process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "https://shabi-s-ai-academy.vercel.app",
 };
 
 mkdirSync("quality/generated", { recursive: true });

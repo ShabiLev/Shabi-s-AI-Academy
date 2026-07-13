@@ -3,6 +3,8 @@ export interface BuildMetadata {
   commitSha: string
   branch: string
   buildTimestamp: string
+  deploymentEnvironment: string
+  publicSiteUrl: string
 }
 
 export interface RawBuildMetadata {
@@ -10,6 +12,8 @@ export interface RawBuildMetadata {
   commitSha?: string
   branch?: string
   buildTimestamp?: string
+  deploymentEnvironment?: string
+  publicSiteUrl?: string
 }
 
 /**
@@ -23,6 +27,8 @@ export function resolveBuildMetadata(raw: RawBuildMetadata): BuildMetadata {
     commitSha: raw.commitSha || 'local',
     branch: raw.branch || 'unknown',
     buildTimestamp: raw.buildTimestamp || 'not available',
+    deploymentEnvironment: raw.deploymentEnvironment || 'local',
+    publicSiteUrl: raw.publicSiteUrl || 'https://shabi-s-ai-academy.vercel.app',
   }
 }
 
@@ -37,4 +43,6 @@ export const buildMetadata: BuildMetadata = resolveBuildMetadata({
   commitSha: typeof __COMMIT_SHA__ !== 'undefined' ? __COMMIT_SHA__ : undefined,
   branch: typeof __BRANCH__ !== 'undefined' ? __BRANCH__ : undefined,
   buildTimestamp: typeof __BUILD_TIME__ !== 'undefined' ? __BUILD_TIME__ : undefined,
+  deploymentEnvironment: typeof __DEPLOYMENT_ENVIRONMENT__ !== 'undefined' ? __DEPLOYMENT_ENVIRONMENT__ : undefined,
+  publicSiteUrl: typeof __PUBLIC_SITE_URL__ !== 'undefined' ? __PUBLIC_SITE_URL__ : undefined,
 })

@@ -14,8 +14,12 @@ function gitOutput(command: string): string | undefined {
 }
 
 const appVersion: string = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')).version
-const commitSha = gitOutput('git rev-parse --short HEAD')
-const branch = gitOutput('git rev-parse --abbrev-ref HEAD')
+const commitSha = process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) || gitOutput('git rev-parse --short HEAD')
+const branch = process.env.VERCEL_GIT_COMMIT_REF || gitOutput('git rev-parse --abbrev-ref HEAD')
+const deploymentEnvironment = process.env.VERCEL_ENV || 'local'
+const publicSiteUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : 'https://shabi-s-ai-academy.vercel.app'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
@@ -24,6 +28,17 @@ export default defineConfig({
     __COMMIT_SHA__: JSON.stringify(commitSha ?? ''),
     __BRANCH__: JSON.stringify(branch ?? ''),
     __BUILD_TIME__: JSON.stringify(new Date().toISOString()),
+    __DEPLOYMENT_ENVIRONMENT__: JSON.stringify(deploymentEnvironment),
+    __PUBLIC_SITE_URL__: JSON.stringify(publicSiteUrl),
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+        },
+      },
+    },
   },
   test: {
     environment: 'jsdom',

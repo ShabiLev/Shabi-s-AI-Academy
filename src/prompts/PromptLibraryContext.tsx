@@ -31,6 +31,7 @@ interface Value {
   importFromCatalog: (entry: CatalogEntry) => Prompt;
   importPacked: (entry: PackedPrompt, language: "he" | "en") => Prompt;
   importPackedSelection: (entries: readonly PackedPrompt[], language: "he" | "en") => Prompt[];
+  clear: () => void;
 }
 const Context = createContext<Value | null>(null);
 export function PromptLibraryProvider({ children }: { children: ReactNode }) {
@@ -109,6 +110,7 @@ export function PromptLibraryProvider({ children }: { children: ReactNode }) {
         mutate((current) => ({ ...current, prompts: [...prompts, ...current.prompts], lastOpenedPromptId: prompts[0]?.id }));
         return prompts;
       },
+      clear: () => mutate(() => ({ schemaVersion: 1, prompts: [], filters: { search: "", category: "all", language: "all", favoritesOnly: false, sort: "updated" } })),
     }),
     [state],
   );

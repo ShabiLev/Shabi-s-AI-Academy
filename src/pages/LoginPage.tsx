@@ -1,4 +1,4 @@
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
 
@@ -18,6 +18,7 @@ export function LoginPage() {
       <p>{t('auth.description')}</p>
       <button className="demo-login-button" type="button" onClick={() => { demoLogin(); navigate(destination, { replace: true }) }}>{t('auth.demoLogin')}</button>
       <p className="development-notice" role="note">{t('auth.developmentNotice')}</p>
+      <Link to="/about">About / אודות</Link>
     </section>
   </main>
 }

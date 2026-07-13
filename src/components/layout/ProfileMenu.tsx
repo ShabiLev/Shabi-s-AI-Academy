@@ -39,6 +39,8 @@ export function ProfileMenu() {
     {open && <div className="profile-popover" role="menu" aria-label={t('profile.menu')}>
       <div className="profile-summary"><strong>{name}</strong><span>{user.role}</span></div>
       <Link role="menuitem" to="/settings" onClick={() => close(false)}>{t('nav.settings')}</Link>
+      <Link role="menuitem" to="/about" onClick={() => close(false)}>About / אודות</Link>
+      <Link role="menuitem" to="/developer" onClick={() => close(false)}>{t('nav.developer')}</Link>
       <button role="menuitem" type="button" onClick={() => { signOut(); navigate('/login', { replace: true }) }}>{t('auth.signOut')}</button>
     </div>}
   </div>

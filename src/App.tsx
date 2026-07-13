@@ -39,6 +39,13 @@ const ProjectDetailsPage = lazy(() => import("./pages/ProjectDetailsPage").then(
 const KnowledgePage = lazy(() => import("./pages/KnowledgePage").then((module) => ({ default: module.KnowledgePage })));
 const KnowledgeFormPage = lazy(() => import("./pages/KnowledgeFormPage").then((module) => ({ default: module.KnowledgeFormPage })));
 const KnowledgeDetailsPage = lazy(() => import("./pages/KnowledgeDetailsPage").then((module) => ({ default: module.KnowledgeDetailsPage })));
+const AboutPage = lazy(() => import("./pages/AboutPage").then((module) => ({ default: module.AboutPage })));
+const LearningJourneyPage = lazy(() => import("./pages/LearningJourneyPage").then((module) => ({ default: module.LearningJourneyPage })));
+const RoadmapPage = lazy(() => import("./pages/RoadmapPage").then((module) => ({ default: module.RoadmapPage })));
+const ChangelogPage = lazy(() => import("./pages/ChangelogPage").then((module) => ({ default: module.ChangelogPage })));
+const DocumentationPage = lazy(() => import("./pages/DocumentationPage").then((module) => ({ default: module.DocumentationPage })));
+const ReleaseCenterPage = lazy(() => import("./pages/ReleaseCenterPage").then((module) => ({ default: module.ReleaseCenterPage })));
+const DeveloperModePage = lazy(() => import("./pages/DeveloperModePage").then((module) => ({ default: module.DeveloperModePage })));
 
 export function App() {
   return (
@@ -52,6 +59,7 @@ export function App() {
                   <RuntimeProvider>
                 <Routes>
                 <Route path="login" element={<LoginPage />} />
+                <Route path="about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
                 <Route element={<ProtectedRoute />}>
                   <Route element={<AppLayout />}>
                     <Route index element={<DashboardPage />} />
@@ -103,6 +111,12 @@ export function App() {
                     <Route path="knowledge/new" element={<Suspense fallback={null}><KnowledgeFormPage /></Suspense>} />
                     <Route path="knowledge/:documentId" element={<Suspense fallback={null}><KnowledgeDetailsPage /></Suspense>} />
                     <Route path="knowledge/:documentId/edit" element={<Suspense fallback={null}><KnowledgeFormPage /></Suspense>} />
+                    <Route path="journey" element={<Suspense fallback={null}><LearningJourneyPage /></Suspense>} />
+                    <Route path="roadmap" element={<Suspense fallback={null}><RoadmapPage /></Suspense>} />
+                    <Route path="changelog" element={<Suspense fallback={null}><ChangelogPage /></Suspense>} />
+                    <Route path="docs" element={<Suspense fallback={null}><DocumentationPage /></Suspense>} />
+                    <Route path="release" element={<Suspense fallback={null}><ReleaseCenterPage /></Suspense>} />
+                    <Route path="developer" element={<Suspense fallback={null}><DeveloperModePage /></Suspense>} />
                     <Route path="radar" element={<RadarPage />} />
                     <Route path="settings" element={<SettingsPage />} />
                     <Route path="qa" element={<QACenterPage />} />

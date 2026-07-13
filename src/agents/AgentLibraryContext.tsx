@@ -29,6 +29,7 @@ interface Value {
   saveSimulationInput: (v: string) => void;
   get: (id: string) => Agent | undefined;
   importFromCatalog: (agent: StarterAgent, language: "he" | "en") => Agent;
+  clear: () => void;
 }
 const C = createContext<Value | null>(null);
 export function AgentLibraryProvider({ children }: { children: ReactNode }) {
@@ -98,6 +99,7 @@ export function AgentLibraryProvider({ children }: { children: ReactNode }) {
         change((current) => ({ ...current, agents: [agent, ...current.agents], lastOpenedAgentId: agent.id }));
         return agent;
       },
+      clear: () => change(() => ({ schemaVersion: 1, agents: [], filters: { search: "", category: "all", status: "all", favoritesOnly: false, sort: "updated" } })),
     }),
     [state],
   );

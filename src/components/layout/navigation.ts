@@ -15,8 +15,12 @@ export const navigationItems: NavigationItem[] = [
   { to: "/runs", label: "nav.runs", icon: "clock" },
   { to: "/projects", label: "nav.projects", icon: "projects" },
   { to: "/knowledge", label: "nav.knowledge", icon: "lessons" },
+  { to: "/journey", label: "nav.journey", icon: "radar" },
+  { to: "/roadmap", label: "nav.roadmap", icon: "radar" },
   { to: "/radar", label: "nav.radar", icon: "radar" },
   { to: "/how-to", label: "nav.howTo", icon: "lessons" },
   { to: "/settings", label: "nav.settings", icon: "settings" },
   { to: "/qa", label: "nav.qa", icon: "qa" },
+  { to: "/docs", label: "nav.documentation", icon: "lessons" },
+  { to: "/release", label: "nav.release", icon: "qa" },
 ];

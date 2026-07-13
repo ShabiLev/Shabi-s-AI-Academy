@@ -55,6 +55,16 @@ const names = [
   ["automated-tests", "Automated Tests", "בדיקות אוטומטיות", "/qa"],
   ["troubleshooting", "Troubleshooting", "פתרון תקלות", "/qa"],
   ["agent-blueprint", "Agent Blueprint", "תוכנית אייג׳נט", "/agents"],
+  ["prompt-packs", "Prompt Packs", "חבילות פרומפטים", "/prompts/packs"],
+  ["starter-agents", "Starter Agents", "סוכנים התחלתיים", "/agents/catalog"],
+  ["prompt-playground", "Prompt Playground", "מגרש פרומפטים", "/playground/prompts"],
+  ["agent-playground", "Agent Playground", "מגרש סוכנים", "/playground/agents"],
+  ["knowledge-base", "Knowledge Base", "מאגר ידע", "/knowledge"],
+  ["learning-journey", "Learning Journey", "מסע הלמידה", "/journey"],
+  ["roadmap", "Roadmap", "מפת דרכים", "/roadmap"],
+  ["release-center", "Release Center", "מרכז שחרור", "/release"],
+  ["developer-mode", "Developer Mode", "מצב מפתחים", "/developer"],
+  ["documentation", "Documentation Center", "מרכז תיעוד", "/docs"],
 ];
 export const helpSections: HelpSection[] = names.map(
   ([id, en, he, route], i) => ({

@@ -5,7 +5,6 @@ import { ProgressBar } from "../components/common/ProgressBar";
 import { SectionHeader } from "../components/common/SectionHeader";
 import { StatusBadge } from "../components/common/StatusBadge";
 import { WelcomePanel } from "../components/dashboard/WelcomePanel";
-import { activeProject } from "../data/courseData";
 import { courseLessons } from "../course/courseData";
 import { useCourseProgress } from "../course/CourseProgressContext";
 import { useLanguage } from "../i18n/LanguageContext";
@@ -15,6 +14,10 @@ import { Link } from "react-router-dom";
 import { useAgentLibrary } from "../agents/AgentLibraryContext";
 import { agentUi } from "../agents/agentUi";
 import { starterCatalog } from "../prompts/catalog";
+import { catalogCounts } from "../config/catalogCounts";
+import { useProjects } from "../projects";
+import { useKnowledge } from "../knowledge";
+import { useRuntime } from "../runtime/RuntimeContext";
 
 export function DashboardPage() {
   const { t, language } = useLanguage();
@@ -22,12 +25,16 @@ export function DashboardPage() {
     useCourseProgress();
   const { state: promptState } = usePromptLibrary();
   const { state: agentState } = useAgentLibrary();
+  const { state: projectState } = useProjects();
+  const { state: knowledgeState } = useKnowledge();
+  const { runs } = useRuntime();
   const agentStrings = agentUi[language];
   const promptStrings = promptUi[language];
   const latestPrompt = [...promptState.prompts].sort((a, b) =>
     b.updatedAt.localeCompare(a.updatedAt),
   )[0];
   const available = courseLessons.filter((lesson) => lesson.available);
+  const activeProject = projectState.projects.find((project) => project.status === "active") ?? projectState.projects[0];
   const currentLesson =
     available.find(
       (lesson) =>
@@ -136,18 +143,25 @@ export function DashboardPage() {
             title={t("dashboard.activeProject")}
             accessory={<Icon name="projects" />}
           />
-          <strong className="metric-title">{t("dashboard.projectName")}</strong>
+          <strong className="metric-title">{activeProject?.name ?? t("dashboard.projectName")}</strong>
           <div className="project-status">
             <StatusBadge>{t("dashboard.planning")}</StatusBadge>
-            <strong>{activeProject.progress}%</strong>
+            <strong>{projectState.projects.length} {language === "he" ? "פרויקטים" : "projects"}</strong>
           </div>
           <ProgressBar
-            value={activeProject.progress}
+            value={activeProject?.status === "completed" ? 100 : activeProject?.status === "active" ? 50 : 0}
             labelKey="a11y.projectProgressLabel"
           />
           <PrimaryButton to="/projects">
             {t("dashboard.viewProject")}
           </PrimaryButton>
+        </AppCard>
+        <AppCard>
+          <SectionHeader title={language === "he" ? "פעילות מקומית" : "Local activity"} accessory={<Icon name="clock" />} />
+          <strong className="metric-title">{runs.length} {language === "he" ? "הרצות" : "runs"}</strong>
+          <p>{knowledgeState.documents.length} {language === "he" ? "מסמכי ידע" : "knowledge documents"} · {projectState.projects.length} {language === "he" ? "פרויקטים" : "projects"}</p>
+          <p>{catalogCounts.packedPrompts} {language === "he" ? "פרומפטים בחבילות" : "packed prompts"} · {catalogCounts.starterAgents} {language === "he" ? "סוכנים התחלתיים" : "starter agents"}</p>
+          <div className="dashboard-prompt-actions"><Link to="/runs">Run History</Link><Link to="/knowledge">Knowledge Base</Link></div>
         </AppCard>
         <AppCard>
           <SectionHeader

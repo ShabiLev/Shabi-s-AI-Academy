@@ -2230,6 +2230,14 @@ footer strong {
 }
 .glass-panel label { display: grid; gap: var(--space-2); margin-block-end: var(--space-4); }
 .glass-panel textarea { min-block-size: 6rem; resize: vertical; }
+.public-page { max-inline-size: 82rem; margin-inline: auto; padding: clamp(1rem, 4vw, 4rem); }
+.about-page { display: grid; gap: var(--space-7); }
+.about-page > section, .about-hero, .about-footer { padding: clamp(1.25rem, 3vw, 2.5rem); border: 1px solid var(--border); border-radius: var(--radius-lg); background: color-mix(in srgb, var(--surface) 90%, transparent); }
+.about-hero { background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 16%, var(--surface)), var(--surface)); }
+.about-hero h1 { max-inline-size: 18ch; font-size: clamp(2rem, 5vw, 4rem); }
+.about-hero p, .about-page > section > p { max-inline-size: 72ch; }
+.about-footer { display: flex; flex-wrap: wrap; gap: var(--space-4); min-block-size: 2.75rem; align-items: center; }
+html[data-motion="reduced"] * { scroll-behavior: auto !important; animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
 @media (max-width: 40rem) {
   .runtime-demo-actions > button {
     inline-size: 100%;

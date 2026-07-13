@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import { useLanguage } from '../../i18n/LanguageContext'
 import { Header } from './Header'
 import { Sidebar } from './Sidebar'
@@ -40,7 +40,7 @@ export function AppLayout() {
     <div className="app-column" aria-hidden={drawerOpen || undefined}>
       <Header ref={menuButtonRef} onOpenMenu={() => setDrawerOpen(true)} />
       <main id="main-content" tabIndex={-1}><Outlet /></main>
-      <footer><strong>{t('brand.name')}</strong><span>{t('footer.version')}</span><span>{t('footer.builtWhileLearning')}</span></footer>
+      <footer><strong>{t('brand.name')}</strong><span>{t('footer.version')}</span><Link to="/about">About / אודות</Link><span>{t('footer.builtWhileLearning')}</span></footer>
     </div>
     {drawerOpen && <div className="drawer-layer" role="presentation">
       <button className="drawer-overlay" aria-label={t('a11y.closeMenu')} onClick={closeDrawer} />

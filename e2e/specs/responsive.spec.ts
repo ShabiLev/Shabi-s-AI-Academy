@@ -40,6 +40,19 @@ test("profile menu remains within viewport", async ({ page }) => {
   expect(box!.x + box!.width).toBeLessThanOrEqual(320);
 });
 
+test("AI Radar has no horizontal overflow in both directions", async ({ page }) => {
+  await login(page, "/radar");
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: width < 500 ? 844 : 900 });
+    await page.goto("/radar");
+    await noOverflow(page);
+  }
+  await page.goto("/settings");
+  await page.getByRole("radio", { name: /English/ }).click();
+  await page.goto("/radar");
+  await noOverflow(page);
+});
+
 test("new beta workspaces support the required viewport matrix", async ({ page }) => {
   const matrix = [
     { width: 320, height: 568, route: "/search?q=prompt" },

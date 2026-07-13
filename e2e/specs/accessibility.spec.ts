@@ -77,7 +77,8 @@ test.describe("accessibility — Hebrew RTL", () => {
     if (await sample.isVisible()) {
       await sample.click();
       await runAxeScan(page, test.info(), { label: "qa-center-sample" });
-    }
+}
+
   });
 
   test("Starter Catalog and duplicate dialog", async ({ page }) => {
@@ -130,6 +131,32 @@ test.describe("accessibility — Hebrew RTL", () => {
       .check();
     await page.getByRole("button", { name: "בדיקת תשובות" }).click();
     await runAxeScan(page, test.info());
+  });
+});
+
+test.describe("accessibility - AI Radar and hardened profile", () => {
+  test("Hebrew Radar and desktop profile menu", async ({ page }) => {
+    await login(page, "/radar");
+    await runAxeScan(page, test.info(), { label: "radar-he" });
+    await page.locator(".desktop-sidebar .profile-trigger").click();
+    await runAxeScan(page, test.info(), { label: "profile-he" });
+  });
+
+  test("English Radar and desktop profile menu", async ({ page }) => {
+    await login(page);
+    await english(page);
+    await page.goto("/radar");
+    await runAxeScan(page, test.info(), { label: "radar-en" });
+    await page.locator(".desktop-sidebar .profile-trigger").click();
+    await runAxeScan(page, test.info(), { label: "profile-en" });
+  });
+
+  test("mobile profile sheet", async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 568 });
+    await login(page);
+    await page.locator(".menu-button").click();
+    await page.locator(".mobile-drawer .profile-trigger").click();
+    await runAxeScan(page, test.info(), { label: "profile-mobile-he" });
   });
 });
 

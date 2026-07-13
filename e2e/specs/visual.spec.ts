@@ -11,6 +11,43 @@ async function createPrompt(page: Page, title = "Visual QA Prompt") {
   await page.getByRole("button", { name: "שמירה" }).click();
 }
 
+test.describe("visual - 1.2 profile menu", () => {
+  test("AI Radar Hebrew desktop", async ({ page }) => {
+    await login(page, "/radar");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("ai-radar-he.png", { fullPage: true });
+  });
+
+  test("Hebrew desktop profile menu open", async ({ page }) => {
+    await login(page);
+    await page.locator(".desktop-sidebar .profile-trigger").click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("profile-menu-he.png");
+  });
+
+  test("English desktop profile menu open", async ({ page }) => {
+    await login(page);
+    await english(page);
+    await page.goto("/");
+    await page.locator(".desktop-sidebar .profile-trigger").click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("profile-menu-en.png");
+  });
+
+  for (const mode of ["he", "en"] as const) {
+    test(`${mode} mobile profile sheet open`, async ({ page }) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await login(page);
+      if (mode === "en") await english(page);
+      await page.goto("/");
+      await page.locator(".menu-button").click();
+      await page.locator(".mobile-drawer .profile-trigger").click();
+      await stabilize(page);
+      await expect(page).toHaveScreenshot(`mobile-profile-menu-${mode}.png`);
+    });
+  }
+});
+
 async function loadSampleIfAvailable(page: Page) {
   const button = page.getByRole("button", {
     name: /טעינת נתוני דוגמה|Load sample data/,

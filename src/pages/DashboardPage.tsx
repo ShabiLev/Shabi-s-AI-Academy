@@ -20,6 +20,7 @@ import { useKnowledge } from "../knowledge";
 import { useRuntime } from "../runtime/RuntimeContext";
 import { useWorkspace } from "../workspace";
 import { useWorkflows } from "../workflows";
+import { radarItems } from "../radar";
 
 export function DashboardPage() {
   const { t, language } = useLanguage();
@@ -182,7 +183,7 @@ export function DashboardPage() {
             title={t("dashboard.aiRadar")}
             accessory={<Icon name="radar" />}
           />
-          <strong className="metric-title">{t("dashboard.noUpdates")}</strong>
+          <strong className="metric-title">{radarItems.length} {t("dashboard.noUpdates")}</strong>
           <p>{t("dashboard.radarDescription")}</p>
           <div className="radar-topics">
             <span>AI</span>
@@ -190,6 +191,7 @@ export function DashboardPage() {
             <span>MCP</span>
             <span>Prompts</span>
           </div>
+          <PrimaryButton to="/radar">{language === "he" ? "פתיחת הרדאר" : "Open Radar"}</PrimaryButton>
         </AppCard>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { filterRadarItems, isRadarSnapshotStale, newestVerification, radarItems } from "../radar";
 import type { RadarCategory, RadarHorizon } from "../radar";
 import { useLanguage } from "../i18n/LanguageContext";
@@ -55,7 +55,7 @@ export function RadarPage() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<RadarCategory | "all">("all");
   const [horizon, setHorizon] = useState<RadarHorizon | "all">("all");
-  const visibleItems = useMemo(() => filterRadarItems(radarItems, { query, category, horizon }, language), [query, category, horizon, language]);
+  const visibleItems = filterRadarItems(radarItems, { query, category, horizon }, language);
   const locale = he ? "he-IL" : "en-US";
   const formatDate = (date: string) => new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(new Date(date + "T00:00:00Z"));
   const clear = () => { setQuery(""); setCategory("all"); setHorizon("all"); };

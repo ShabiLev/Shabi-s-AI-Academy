@@ -181,8 +181,10 @@ describe("Shabi's AI Academy", () => {
     await user.click(
       screen.getByRole("button", { name: "פתיחת תפריט הפרופיל" }),
     );
+    await waitFor(() => expect(screen.getAllByRole("menuitem")[0]).toHaveFocus());
     await user.keyboard("{Escape}");
     expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+    await waitFor(() => expect(document.querySelector(".profile-trigger")).toHaveFocus());
   });
 
   it("closes the profile menu when clicking outside", async () => {
@@ -194,6 +196,18 @@ describe("Shabi's AI Academy", () => {
     );
     await user.click(screen.getByRole("main"));
     expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+  });
+
+  it("supports arrow-key navigation within the profile menu", async () => {
+    const user = userEvent.setup();
+    renderApp();
+    await demoLogin(user);
+    await user.click(document.querySelector(".profile-trigger") as HTMLButtonElement);
+    await waitFor(() => expect(screen.getAllByRole("menuitem")[0]).toHaveFocus());
+    await user.keyboard("{End}");
+    expect(screen.getAllByRole("menuitem").at(-1)).toHaveFocus();
+    await user.keyboard("{Home}");
+    expect(screen.getAllByRole("menuitem")[0]).toHaveFocus();
   });
 
   it("opens the drawer and closes it with Escape", async () => {

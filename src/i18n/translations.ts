@@ -72,9 +72,9 @@ export const translations: Record<Language, Translations> = {
     "dashboard.planning": "בתכנון",
     "dashboard.viewProject": "צפייה בפרויקט",
     "dashboard.aiRadar": "רדאר AI",
-    "dashboard.noUpdates": "אין עדכונים חדשים",
+    "dashboard.noUpdates": "אותות נבחרים",
     "dashboard.radarDescription":
-      "עדכונים עתידיים בנושאי AI, סוכנים, MCP והנדסת פרומפטים יופיעו כאן.",
+      "תמונת מצב ערוכה ממקורות רשמיים בנושאי מודלים, סוכנים, הערכה, בטיחות וממשל.",
     "pages.lessonsTitle": "שיעורים",
     "pages.lessonsDescription":
       "מסלול הלמידה המלא שלך, מהיסודות ועד לבניית מערכות AI.",
@@ -223,9 +223,9 @@ export const translations: Record<Language, Translations> = {
     "dashboard.planning": "Planning",
     "dashboard.viewProject": "View Project",
     "dashboard.aiRadar": "AI Radar",
-    "dashboard.noUpdates": "No updates yet",
+    "dashboard.noUpdates": "curated signals",
     "dashboard.radarDescription":
-      "Future updates about AI, Agents, MCP, and Prompt Engineering will appear here.",
+      "An editorial snapshot from official sources across models, agents, evaluation, safety, and governance.",
     "pages.lessonsTitle": "Lessons",
     "pages.lessonsDescription":
       "Your complete learning path, from foundations to practical AI systems.",

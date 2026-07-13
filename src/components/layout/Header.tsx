@@ -25,6 +25,7 @@ const routeTitles: Record<string, TranslationKey> = {
   "/qa": "nav.qa",
   "/how-to": "nav.howTo",
   "/search": "nav.search",
+  "/assistant": "nav.assistant",
 };
 
 export const Header = forwardRef<HTMLButtonElement, { onOpenMenu: () => void }>(

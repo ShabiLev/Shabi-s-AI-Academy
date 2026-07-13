@@ -18,6 +18,7 @@ export type TranslationKey =
   | "profile.menu"
   | "nav.dashboard"
   | "nav.search"
+  | "nav.assistant"
   | "nav.lessons"
   | "nav.prompts"
   | "nav.agents"

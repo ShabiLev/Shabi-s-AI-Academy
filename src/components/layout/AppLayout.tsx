@@ -4,12 +4,15 @@ import { useLanguage } from '../../i18n/LanguageContext'
 import { Header } from './Header'
 import { Sidebar } from './Sidebar'
 import { Icon } from '../common/Icon'
+import { AssistantSidebar } from '../assistant/AssistantSidebar'
+import { useAssistant } from '../../assistant'
 
 export function AppLayout() {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
   const { t } = useLanguage()
+  const { mode } = useAssistant()
 
   useEffect(() => {
     if (!drawerOpen) return
@@ -34,7 +37,7 @@ export function AppLayout() {
 
   const closeDrawer = () => { setDrawerOpen(false); requestAnimationFrame(() => menuButtonRef.current?.focus()) }
 
-  return <div className="app-shell">
+  return <div className={`app-shell assistant-shell-${mode}`}>
     <a className="skip-link" href="#main-content">{t('a11y.skipToContent')}</a>
     <aside className="desktop-sidebar"><Sidebar /></aside>
     <div className="app-column" aria-hidden={drawerOpen || undefined}>
@@ -42,6 +45,7 @@ export function AppLayout() {
       <main id="main-content" tabIndex={-1}><Outlet /></main>
       <footer><strong>{t('brand.name')}</strong><span>{t('footer.version')}</span><Link to="/about">About / אודות</Link><span>{t('footer.builtWhileLearning')}</span></footer>
     </div>
+    <AssistantSidebar />
     {drawerOpen && <div className="drawer-layer" role="presentation">
       <button className="drawer-overlay" aria-label={t('a11y.closeMenu')} onClick={closeDrawer} />
       <aside className="mobile-drawer" role="dialog" aria-modal="true" aria-label={t('header.workspace')}>

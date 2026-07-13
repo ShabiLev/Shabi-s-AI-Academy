@@ -4,6 +4,7 @@ export const translations: Record<Language, Translations> = {
   he: {
     "brand.name": "Shabi's AI Academy",
     "nav.search": "חיפוש גלובלי",
+    "nav.assistant": "עוזר מקומי",
     "brand.tagline": "לומדים. בונים. מתקדמים.",
     "a11y.skipToContent": "דילוג לתוכן הראשי",
     "a11y.openMenu": "פתיחת תפריט הניווט",
@@ -150,6 +151,7 @@ export const translations: Record<Language, Translations> = {
   en: {
     "brand.name": "Shabi's AI Academy",
     "nav.search": "Global Search",
+    "nav.assistant": "Local Assistant",
     "brand.tagline": "Learn. Build. Advance.",
     "a11y.skipToContent": "Skip to main content",
     "a11y.openMenu": "Open navigation menu",

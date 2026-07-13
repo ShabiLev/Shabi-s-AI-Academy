@@ -28,6 +28,7 @@ import { RuntimeProvider } from "./runtime/RuntimeContext";
 import { ProjectProvider } from "./projects";
 import { KnowledgeProvider } from "./knowledge";
 import { CommandPaletteProvider } from "./commands";
+import { AssistantProvider } from "./assistant";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
 const RunDetailsPage = lazy(() => import("./pages/RunDetailsPage").then((module) => ({ default: module.RunDetailsPage })));
@@ -48,6 +49,7 @@ const DocumentationPage = lazy(() => import("./pages/DocumentationPage").then((m
 const ReleaseCenterPage = lazy(() => import("./pages/ReleaseCenterPage").then((module) => ({ default: module.ReleaseCenterPage })));
 const DeveloperModePage = lazy(() => import("./pages/DeveloperModePage").then((module) => ({ default: module.DeveloperModePage })));
 const SearchPage = lazy(() => import("./pages/SearchPage").then((module) => ({ default: module.SearchPage })));
+const AssistantPage = lazy(() => import("./pages/AssistantPage").then((module) => ({ default: module.AssistantPage })));
 
 export function App() {
   return (
@@ -60,6 +62,7 @@ export function App() {
                 <KnowledgeProvider>
                   <RuntimeProvider>
                   <CommandPaletteProvider>
+                  <AssistantProvider>
                 <Routes>
                 <Route path="login" element={<LoginPage />} />
                 <Route path="about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
@@ -121,6 +124,7 @@ export function App() {
                     <Route path="release" element={<Suspense fallback={null}><ReleaseCenterPage /></Suspense>} />
                     <Route path="developer" element={<Suspense fallback={null}><DeveloperModePage /></Suspense>} />
                     <Route path="search" element={<Suspense fallback={null}><SearchPage /></Suspense>} />
+                    <Route path="assistant" element={<Suspense fallback={null}><AssistantPage /></Suspense>} />
                     <Route path="radar" element={<RadarPage />} />
                     <Route path="settings" element={<SettingsPage />} />
                     <Route path="qa" element={<QACenterPage />} />
@@ -129,6 +133,7 @@ export function App() {
                   </Route>
                 </Route>
                 </Routes>
+                  </AssistantProvider>
                   </CommandPaletteProvider>
                   </RuntimeProvider>
                 </KnowledgeProvider>

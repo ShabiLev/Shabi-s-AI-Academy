@@ -11,6 +11,7 @@ export const navigationItems: NavigationItem[] = [
   { to: "/", label: "nav.dashboard", icon: "dashboard", end: true },
   { to: "/search", label: "nav.search", icon: "prompts" },
   { to: "/assistant", label: "nav.assistant", icon: "agents" },
+  { to: "/workflows", label: "nav.workflows", icon: "projects" },
   { to: "/lessons", label: "nav.lessons", icon: "lessons" },
   { to: "/prompts", label: "nav.prompts", icon: "prompts" },
   { to: "/agents", label: "nav.agents", icon: "agents" },

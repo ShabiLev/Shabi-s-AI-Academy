@@ -19,6 +19,7 @@ export type TranslationKey =
   | "nav.dashboard"
   | "nav.search"
   | "nav.assistant"
+  | "nav.workflows"
   | "nav.lessons"
   | "nav.prompts"
   | "nav.agents"

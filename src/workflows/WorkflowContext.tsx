@@ -1,0 +1,18 @@
+/* eslint-disable react-refresh/only-export-components -- provider and hook form one domain boundary. */
+import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import { useRuntime } from "../runtime/RuntimeContext";
+import { addWorkflowRun } from "./workflowHistory";
+import { connectSequentially, createWorkflow, createWorkflowNode } from "./workflowEngine";
+import { loadWorkflowState, saveWorkflowState } from "./workflowStorage";
+import { runWorkflow } from "./workflowRunner";
+import type { Workflow, WorkflowRun, WorkflowState } from "./types";
+interface Value { state: WorkflowState; create: (name: Record<"he"|"en",string>, template?: Workflow) => Workflow; save: (workflow: Workflow) => void; duplicate: (id: string) => Workflow | undefined; remove: (id: string) => void; get: (id: string) => Workflow | undefined; run: (id: string, mode: "mock"|"dryRun") => Promise<WorkflowRun | undefined>; importWorkflow: (workflow: Workflow) => Workflow; clear: () => void }
+const Context = createContext<Value | null>(null);
+export function WorkflowProvider({ children }: { children: ReactNode }) {
+  const [state, setState] = useState(loadWorkflowState); const runtime = useRuntime();
+  const mutate = (fn: (value: WorkflowState) => WorkflowState) => setState((current) => { const next = fn(current); saveWorkflowState(next); return next; });
+  const value = useMemo<Value>(() => ({ state, create: (name, template) => { const workflow = template ? createWorkflow(name, template.nodes.map((node) => ({ ...createWorkflowNode(node.type), config: { ...node.config } }))) : createWorkflow(name); mutate((current) => ({ ...current, workflows: [workflow, ...current.workflows] })); return workflow; }, save: (workflow) => mutate((current) => ({ ...current, workflows: current.workflows.map((item) => item.id === workflow.id ? connectSequentially(workflow) : item) })), duplicate: (id) => { const source = state.workflows.find((item) => item.id === id); if (!source) return; const workflow = createWorkflow({ he: `${source.name.he} עותק`, en: `${source.name.en} copy` }, source.nodes.map((node) => ({ ...createWorkflowNode(node.type), config: { ...node.config } }))); mutate((current) => ({ ...current, workflows: [workflow, ...current.workflows] })); return workflow; }, remove: (id) => mutate((current) => ({ ...current, workflows: current.workflows.filter((item) => item.id !== id), history: current.history.filter((run) => run.workflowId !== id) })), get: (id) => state.workflows.find((item) => item.id === id), run: async (id, mode) => { const workflow = state.workflows.find((item) => item.id === id); if (!workflow) return; const run = await runWorkflow(workflow, mode, { mock: async (nodeId) => { await runtime.startRequest({ text: `Workflow ${workflow.id} node ${nodeId}`, plannedToolIds: ["none"], scenario: "success" }); }, dryRun: (nodeId) => { runtime.previewRequest({ text: `Workflow ${workflow.id} node ${nodeId}`, plannedToolIds: ["none"] }); } }); mutate((current) => ({ ...current, history: addWorkflowRun(current.history, run) })); return run; }, importWorkflow: (input) => { const workflow = createWorkflow(input.name, input.nodes.map((node) => ({ ...createWorkflowNode(node.type), config: { ...node.config } }))); mutate((current) => ({ ...current, workflows: [workflow, ...current.workflows] })); return workflow; }, clear: () => mutate((current) => ({ ...current, workflows: [], history: [] })) }), [runtime, state]);
+  return <Context.Provider value={value}>{children}</Context.Provider>;
+}
+export function useWorkflows() { const value = useContext(Context); if (!value) throw new Error("Missing WorkflowProvider"); return value; }
+

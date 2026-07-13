@@ -26,6 +26,7 @@ const routeTitles: Record<string, TranslationKey> = {
   "/how-to": "nav.howTo",
   "/search": "nav.search",
   "/assistant": "nav.assistant",
+  "/workflows": "nav.workflows",
 };
 
 export const Header = forwardRef<HTMLButtonElement, { onOpenMenu: () => void }>(
@@ -43,6 +44,8 @@ export const Header = forwardRef<HTMLButtonElement, { onOpenMenu: () => void }>(
             ? "nav.prompts"
             : pathname.startsWith("/agents/")
               ? "nav.agents"
+              : pathname.startsWith("/workflows/")
+                ? "nav.workflows"
               : "nav.dashboard"),
     );
     const goBack = () => {

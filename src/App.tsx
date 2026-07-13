@@ -29,6 +29,7 @@ import { ProjectProvider } from "./projects";
 import { KnowledgeProvider } from "./knowledge";
 import { CommandPaletteProvider } from "./commands";
 import { AssistantProvider } from "./assistant";
+import { WorkflowProvider } from "./workflows";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
 const RunDetailsPage = lazy(() => import("./pages/RunDetailsPage").then((module) => ({ default: module.RunDetailsPage })));
@@ -50,6 +51,8 @@ const ReleaseCenterPage = lazy(() => import("./pages/ReleaseCenterPage").then((m
 const DeveloperModePage = lazy(() => import("./pages/DeveloperModePage").then((module) => ({ default: module.DeveloperModePage })));
 const SearchPage = lazy(() => import("./pages/SearchPage").then((module) => ({ default: module.SearchPage })));
 const AssistantPage = lazy(() => import("./pages/AssistantPage").then((module) => ({ default: module.AssistantPage })));
+const WorkflowsPage = lazy(() => import("./pages/WorkflowsPage").then((module) => ({ default: module.WorkflowsPage })));
+const WorkflowBuilderPage = lazy(() => import("./pages/WorkflowBuilderPage").then((module) => ({ default: module.WorkflowBuilderPage })));
 
 export function App() {
   return (
@@ -62,6 +65,7 @@ export function App() {
                 <KnowledgeProvider>
                   <RuntimeProvider>
                   <CommandPaletteProvider>
+                  <WorkflowProvider>
                   <AssistantProvider>
                 <Routes>
                 <Route path="login" element={<LoginPage />} />
@@ -125,6 +129,9 @@ export function App() {
                     <Route path="developer" element={<Suspense fallback={null}><DeveloperModePage /></Suspense>} />
                     <Route path="search" element={<Suspense fallback={null}><SearchPage /></Suspense>} />
                     <Route path="assistant" element={<Suspense fallback={null}><AssistantPage /></Suspense>} />
+                    <Route path="workflows" element={<Suspense fallback={null}><WorkflowsPage /></Suspense>} />
+                    <Route path="workflows/new" element={<Suspense fallback={null}><WorkflowBuilderPage /></Suspense>} />
+                    <Route path="workflows/:workflowId" element={<Suspense fallback={null}><WorkflowBuilderPage /></Suspense>} />
                     <Route path="radar" element={<RadarPage />} />
                     <Route path="settings" element={<SettingsPage />} />
                     <Route path="qa" element={<QACenterPage />} />
@@ -134,6 +141,7 @@ export function App() {
                 </Route>
                 </Routes>
                   </AssistantProvider>
+                  </WorkflowProvider>
                   </CommandPaletteProvider>
                   </RuntimeProvider>
                 </KnowledgeProvider>

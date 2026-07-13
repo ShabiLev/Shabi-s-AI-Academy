@@ -55,6 +55,7 @@ export function PromptLibraryPage() {
         <Link to="/prompts/catalog">
           {catalogStrings.catalog} ({starterCatalog.length})
         </Link>
+        <Link to="/prompts/packs">{ui === "he" ? "חבילות פרומפטים" : "Prompt Packs"} (250)</Link>
       </nav>
       {(location.state as { deleted?: boolean } | null)?.deleted && (
         <p role="status">{s.deleted}</p>

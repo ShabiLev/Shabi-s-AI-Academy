@@ -16,6 +16,8 @@ import {
 import type { Prompt, PromptFilters, PromptInput, PromptState } from "./types";
 import { importCatalogEntry } from "./catalog/catalogImport";
 import type { CatalogEntry } from "./catalog/types";
+import { importPackedPrompt } from "./packs";
+import type { PackedPrompt } from "./packs";
 interface Value {
   state: PromptState;
   create: (i: PromptInput) => Prompt;
@@ -27,6 +29,8 @@ interface Value {
   saveDraft: (d?: Partial<Prompt>) => void;
   get: (id: string) => Prompt | undefined;
   importFromCatalog: (entry: CatalogEntry) => Prompt;
+  importPacked: (entry: PackedPrompt, language: "he" | "en") => Prompt;
+  importPackedSelection: (entries: readonly PackedPrompt[], language: "he" | "en") => Prompt[];
 }
 const Context = createContext<Value | null>(null);
 export function PromptLibraryProvider({ children }: { children: ReactNode }) {
@@ -94,6 +98,16 @@ export function PromptLibraryProvider({ children }: { children: ReactNode }) {
           lastOpenedPromptId: prompt.id,
         }));
         return prompt;
+      },
+      importPacked: (entry, language) => {
+        const prompt = importPackedPrompt(entry, language);
+        mutate((current) => ({ ...current, prompts: [prompt, ...current.prompts], lastOpenedPromptId: prompt.id }));
+        return prompt;
+      },
+      importPackedSelection: (entries, language) => {
+        const prompts = entries.map((entry) => importPackedPrompt(entry, language));
+        mutate((current) => ({ ...current, prompts: [...prompts, ...current.prompts], lastOpenedPromptId: prompts[0]?.id }));
+        return prompts;
       },
     }),
     [state],

@@ -19,11 +19,12 @@ Separate released capability, committed delivery, planned direction, and uncommi
 
 ## Committed / in progress
 
-- 1.2.0 — Local collaboration and orchestration discovery: reusable workflow templates, multi-agent planning, and controlled sharing without implying live providers.
+- 1.2.0-beta.1 — AI Radar & UX Hardening: a curated bilingual first-party trends snapshot and cross-application responsive, directional, accessibility, overflow, and overlay stabilization.
 
 ## Planned direction
 
 - Secure real-provider integration
+- Local collaboration and orchestration discovery
 - MCP and external connectors
 - Production authentication and optional cloud sync
 

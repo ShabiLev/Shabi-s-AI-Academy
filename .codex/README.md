@@ -6,8 +6,8 @@ This directory is the authoritative engineering source of truth for architecture
 
 - Engineering Kit: **1.0.0**
 - Current application: **1.1.0-beta.1**
-- Planned application: **1.2.0**
-- Active work: **AI Workspace 1.1 release validation**
+- Planned application: **1.2.0-beta.1**
+- Active work: **AI Radar & UX Hardening 1.2 release**
 
 ## Table of contents
 
@@ -25,6 +25,7 @@ This directory is the authoritative engineering source of truth for architecture
 - [1.0 beta handoff](release-1.0-beta/handoff.md)
 - [1.1 AI Workspace master specification](release-1.1-ai-workspace/00-master-spec.md)
 - [1.1 AI Workspace handoff](release-1.1-ai-workspace/handoff.md)
+- [1.2 AI Radar & UX Hardening master specification](release-1.2-ai-radar-ux/00-master-spec.md)
 - [Templates](templates/feature.md)
 - [Codex prompts](prompts/feature-template.md)
 
@@ -51,6 +52,7 @@ An active accepted ADR overrides older architecture prose. Security and privacy 
 - `sprint-7/`: archived 0.7.0 implementation specification.
 - `release-1.0-beta/`: preserved 1.0.0-beta.1 release specification.
 - `release-1.1-ai-workspace/`: controlling 1.1.0-beta.1 release specification.
+- `release-1.2-ai-radar-ux/`: controlling 1.2.0-beta.1 release specification.
 - `templates/`: fill-in engineering artifacts.
 - `prompts/`: operational prompts for Codex workflows.
 - `VERSION`: Engineering Kit version only.

@@ -1,9 +1,7 @@
 /* eslint-disable react-refresh/only-export-components -- provider and hook form the assistant boundary. */
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { starterAgents } from "../agents/catalog";
 import { useAgentLibrary } from "../agents/AgentLibraryContext";
-import { courseLessons } from "../course/courseData";
 import { useProjects } from "../projects";
 import { usePromptLibrary } from "../prompts/PromptLibraryContext";
 import { useRuntime } from "../runtime/RuntimeContext";
@@ -19,8 +17,10 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
   const entities = useMemo<AssistantEntity[]>(() => [
     ...prompts.state.prompts.map((item) => ({ id: item.id, type: "prompt" as const, title: item.title, summary: `${item.description} ${item.task}`, route: `/prompts/${item.id}` })),
     ...agents.state.agents.map((item) => ({ id: item.id, type: "agent" as const, title: item.name, summary: `${item.description} ${item.goal}`, route: `/agents/${item.id}` })),
-    ...starterAgents.map((item) => ({ id: item.id, type: "agent" as const, title: `${item.name.he} ${item.name.en}`, summary: `${item.description.he} ${item.description.en}`, route: `/agents/catalog?agent=${item.id}` })),
-    ...courseLessons.map((item) => ({ id: item.id, type: "lesson" as const, title: `${item.title.he} ${item.title.en}`, summary: `${item.summary.he} ${item.summary.en}`, route: `/lessons/${item.slug}` })),
+    { id: "starter:qa-release-analyst", type: "agent" as const, title: "QA Release Analyst מנתח שחרור QA", summary: "Regression planning, release evidence, and risk review", route: "/agents/catalog?agent=qa-release-analyst" },
+    { id: "starter:sql-query-reviewer", type: "agent" as const, title: "SQL Query Reviewer סוקר שאילתות SQL", summary: "SQL correctness, performance, and reporting review", route: "/agents/catalog?agent=sql-query-reviewer" },
+    { id: "lesson:prompt-quality-review", type: "lesson" as const, title: "Prompt Quality Review סקירת איכות לפרומפט", summary: "Clarity, context, constraints, verification, and safety", route: "/lessons/prompt-quality-review" },
+    { id: "lesson:release-and-rollback", type: "lesson" as const, title: "Release and Rollback שחרור ונסיגה", summary: "Release readiness, evidence, and rollback", route: "/lessons/release-and-rollback" },
   ], [agents.state.agents, prompts.state.prompts]);
   const commitHistory = (entries: AssistantHistoryEntry[]) => { const next = { ...historyState, entries: entries.slice(-60) }; setHistory(next); saveAssistantHistory(next); };
   const send = (raw: string) => { const input = raw.trim().slice(0, 2000); const response = respondToAssistant(input, { route: location.pathname, entities }); const now = new Date().toISOString(); commitHistory([...historyState.entries, { id: crypto.randomUUID(), role: "user", text: input, createdAt: now }, { id: response.id, role: "assistant", text: response.text.en, createdAt: response.createdAt, response }]); setLastResponse(response); setPendingAction(response.action?.confirmationRequired ? response.action : undefined); return response; };

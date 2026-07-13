@@ -4,7 +4,6 @@ import { AuthProvider } from "./auth/AuthContext";
 import { ProtectedRoute } from "./auth/ProtectedRoute";
 import { AppLayout } from "./components/layout/AppLayout";
 import { AgentsPage } from "./pages/AgentsPage";
-import { DashboardPage } from "./pages/DashboardPage";
 import { LessonsPage } from "./pages/LessonsPage";
 import { ProjectsPage } from "./pages/ProjectsPage";
 import { PromptLibraryPage } from "./pages/PromptLibraryPage";
@@ -30,8 +29,10 @@ import { KnowledgeProvider } from "./knowledge";
 import { CommandPaletteProvider } from "./commands";
 import { AssistantProvider } from "./assistant";
 import { WorkflowProvider } from "./workflows";
+import { WorkspaceProvider } from "./workspace";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
+const DashboardPage = lazy(() => import("./pages/DashboardPage").then((module) => ({ default: module.DashboardPage })));
 const RunDetailsPage = lazy(() => import("./pages/RunDetailsPage").then((module) => ({ default: module.RunDetailsPage })));
 const StarterAgentsPage = lazy(() => import("./pages/StarterAgentsPage").then((module) => ({ default: module.StarterAgentsPage })));
 const PromptPacksPage = lazy(() => import("./pages/PromptPacksPage").then((module) => ({ default: module.PromptPacksPage })));
@@ -53,6 +54,7 @@ const SearchPage = lazy(() => import("./pages/SearchPage").then((module) => ({ d
 const AssistantPage = lazy(() => import("./pages/AssistantPage").then((module) => ({ default: module.AssistantPage })));
 const WorkflowsPage = lazy(() => import("./pages/WorkflowsPage").then((module) => ({ default: module.WorkflowsPage })));
 const WorkflowBuilderPage = lazy(() => import("./pages/WorkflowBuilderPage").then((module) => ({ default: module.WorkflowBuilderPage })));
+const AnalyticsPage = lazy(() => import("./pages/AnalyticsPage").then((module) => ({ default: module.AnalyticsPage })));
 
 export function App() {
   return (
@@ -64,6 +66,7 @@ export function App() {
               <ProjectProvider>
                 <KnowledgeProvider>
                   <RuntimeProvider>
+                  <WorkspaceProvider>
                   <CommandPaletteProvider>
                   <WorkflowProvider>
                   <AssistantProvider>
@@ -72,7 +75,7 @@ export function App() {
                 <Route path="about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
                 <Route element={<ProtectedRoute />}>
                   <Route element={<AppLayout />}>
-                    <Route index element={<DashboardPage />} />
+                    <Route index element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
                     <Route path="lessons" element={<LessonsPage />} />
                     <Route
                       path="lessons/:lessonSlug"
@@ -132,6 +135,7 @@ export function App() {
                     <Route path="workflows" element={<Suspense fallback={null}><WorkflowsPage /></Suspense>} />
                     <Route path="workflows/new" element={<Suspense fallback={null}><WorkflowBuilderPage /></Suspense>} />
                     <Route path="workflows/:workflowId" element={<Suspense fallback={null}><WorkflowBuilderPage /></Suspense>} />
+                    <Route path="analytics" element={<Suspense fallback={null}><AnalyticsPage /></Suspense>} />
                     <Route path="radar" element={<RadarPage />} />
                     <Route path="settings" element={<SettingsPage />} />
                     <Route path="qa" element={<QACenterPage />} />
@@ -143,6 +147,7 @@ export function App() {
                   </AssistantProvider>
                   </WorkflowProvider>
                   </CommandPaletteProvider>
+                  </WorkspaceProvider>
                   </RuntimeProvider>
                 </KnowledgeProvider>
               </ProjectProvider>

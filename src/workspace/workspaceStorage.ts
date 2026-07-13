@@ -1,0 +1,14 @@
+import type { AnalyticsEvent, EntityActivity, EntityPreference, WorkspaceNotification, WorkspaceState } from "./types";
+export const WORKSPACE_STORAGE_KEY = "shabis-ai-academy:workspace:v1"; export const WORKSPACE_MAX_BYTES = 1_500_000;
+const empty = (): WorkspaceState => ({ schemaVersion: 1, appVersion: "1.1.0-beta.1", analyticsEnabled: true, activities: [], preferences: [], notifications: [], analytics: [] });
+const records = <T>(value: unknown, valid: (item: Record<string, unknown>) => boolean, max: number): T[] => Array.isArray(value) ? value.filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === "object" && valid(item)).slice(-max) as T[] : [];
+export function parseWorkspaceState(value: unknown): WorkspaceState { if (!value || typeof value !== "object") return empty(); const state = value as Record<string, unknown>; return { schemaVersion: 1, appVersion: typeof state.appVersion === "string" ? state.appVersion : "1.1.0-beta.1", analyticsEnabled: state.analyticsEnabled !== false,
+  activities: records<EntityActivity>(state.activities, (item) => typeof item.id === "string" && typeof item.entityId === "string" && typeof item.title === "string" && typeof item.route === "string" && item.route.startsWith("/"), 200),
+  preferences: records<EntityPreference>(state.preferences, (item) => typeof item.entityId === "string" && typeof item.favorite === "boolean" && typeof item.pinned === "boolean", 500),
+  notifications: records<WorkspaceNotification>(state.notifications, (item) => typeof item.id === "string" && typeof item.read === "boolean" && Boolean(item.title) && Boolean(item.message), 100),
+  analytics: records<AnalyticsEvent>(state.analytics, (item) => typeof item.id === "string" && typeof item.type === "string" && typeof item.timestamp === "string" && !Object.keys(item).some((key) => /content|text|body|secret|prompt/i.test(key)), 1000),
+}; }
+export function loadWorkspaceState(storage: Pick<Storage,"getItem"> = localStorage): WorkspaceState { try { return parseWorkspaceState(JSON.parse(storage.getItem(WORKSPACE_STORAGE_KEY) ?? "null")); } catch { return empty(); } }
+export function saveWorkspaceState(value: WorkspaceState, storage: Pick<Storage,"setItem"> = localStorage): boolean { try { const serialized = JSON.stringify(parseWorkspaceState(value)); if (new Blob([serialized]).size > WORKSPACE_MAX_BYTES) return false; storage.setItem(WORKSPACE_STORAGE_KEY, serialized); return true; } catch { return false; } }
+export function resetWorkspaceDomain(domain: "activity"|"preferences"|"notifications"|"analytics", state: WorkspaceState): WorkspaceState { if (domain === "activity") return { ...state, activities: [] }; if (domain === "preferences") return { ...state, preferences: [] }; if (domain === "notifications") return { ...state, notifications: [] }; return { ...state, analytics: [] }; }
+

@@ -12,6 +12,7 @@ export const navigationItems: NavigationItem[] = [
   { to: "/search", label: "nav.search", icon: "prompts" },
   { to: "/assistant", label: "nav.assistant", icon: "agents" },
   { to: "/workflows", label: "nav.workflows", icon: "projects" },
+  { to: "/analytics", label: "nav.analytics", icon: "radar" },
   { to: "/lessons", label: "nav.lessons", icon: "lessons" },
   { to: "/prompts", label: "nav.prompts", icon: "prompts" },
   { to: "/agents", label: "nav.agents", icon: "agents" },
@@ -27,3 +28,9 @@ export const navigationItems: NavigationItem[] = [
   { to: "/docs", label: "nav.documentation", icon: "lessons" },
   { to: "/release", label: "nav.release", icon: "qa" },
 ];
+export const navigationGroups = [
+  { id: "learn", items: navigationItems.filter((item) => ["/", "/lessons", "/journey"].includes(item.to)) },
+  { id: "build", items: navigationItems.filter((item) => ["/prompts", "/agents", "/workflows"].includes(item.to)) },
+  { id: "workspace", items: navigationItems.filter((item) => ["/search", "/assistant", "/projects", "/knowledge", "/runs", "/analytics"].includes(item.to)) },
+  { id: "system", items: navigationItems.filter((item) => ["/qa", "/docs", "/how-to", "/settings", "/developer", "/release", "/roadmap", "/radar"].includes(item.to)) },
+] as const;

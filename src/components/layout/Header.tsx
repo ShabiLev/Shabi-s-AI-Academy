@@ -3,8 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Icon } from "../common/Icon";
 import { useLanguage } from "../../i18n/LanguageContext";
 import type { TranslationKey } from "../../i18n/types";
-import { ProfileMenu } from "./ProfileMenu";
 import { useCommandPalette } from "../../commands";
+import { NotificationCenter } from "../workspace/NotificationCenter";
 
 const routeTitles: Record<string, TranslationKey> = {
   "/": "nav.dashboard",
@@ -27,6 +27,7 @@ const routeTitles: Record<string, TranslationKey> = {
   "/search": "nav.search",
   "/assistant": "nav.assistant",
   "/workflows": "nav.workflows",
+  "/analytics": "nav.analytics",
 };
 
 export const Header = forwardRef<HTMLButtonElement, { onOpenMenu: () => void }>(
@@ -97,11 +98,11 @@ export const Header = forwardRef<HTMLButtonElement, { onOpenMenu: () => void }>(
         </div>
         <div className="header-tools">
           <button type="button" className="icon-button command-trigger" onClick={openPalette} aria-label={direction === "rtl" ? "פתיחת לוח הפקודות" : "Open Command Palette"}><Icon name="prompts" /></button>
+          <NotificationCenter />
           <span className="compact-status">
             <span className="status-dot" />
             {t("header.online")}
           </span>
-          <ProfileMenu />
         </div>
       </header>
     );

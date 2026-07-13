@@ -34,8 +34,10 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+        manualChunks(id) {
+          if (/[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/.test(id)) return 'react-vendor'
+          if (/[\\/]src[\\/](course[\\/]courseData|prompts[\\/]catalog[\\/]starterCatalog|prompts[\\/]packs[\\/]promptPacks|agents[\\/]catalog[\\/]starterAgents)\.ts$/.test(id)) return 'academy-catalogs'
+          return undefined
         },
       },
     },

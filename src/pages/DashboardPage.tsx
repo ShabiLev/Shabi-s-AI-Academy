@@ -18,6 +18,8 @@ import { catalogCounts } from "../config/catalogCounts";
 import { useProjects } from "../projects";
 import { useKnowledge } from "../knowledge";
 import { useRuntime } from "../runtime/RuntimeContext";
+import { useWorkspace } from "../workspace";
+import { useWorkflows } from "../workflows";
 
 export function DashboardPage() {
   const { t, language } = useLanguage();
@@ -28,6 +30,8 @@ export function DashboardPage() {
   const { state: projectState } = useProjects();
   const { state: knowledgeState } = useKnowledge();
   const { runs } = useRuntime();
+  const { state: workspaceState } = useWorkspace();
+  const { state: workflowState } = useWorkflows();
   const agentStrings = agentUi[language];
   const promptStrings = promptUi[language];
   const latestPrompt = [...promptState.prompts].sort((a, b) =>
@@ -91,6 +95,16 @@ export function DashboardPage() {
           <PrimaryButton to={`/lessons/${currentLesson.slug}`}>
             {t("dashboard.continue")}
           </PrimaryButton>
+        </AppCard>
+        <AppCard>
+          <SectionHeader title={language === "he" ? "המשך עבודה" : "Continue working"} accessory={<Icon name="clock" />} />
+          {workspaceState.activities.length ? <ul className="dashboard-activity-list">{workspaceState.activities.slice(-3).reverse().map((activity) => <li key={activity.id}><Link to={activity.route}>{activity.title}</Link><small>{activity.kind}</small></li>)}</ul> : <p>{language === "he" ? "פריטים שייפתחו או יורצו יופיעו כאן." : "Opened and run items will appear here."}</p>}
+          <div className="dashboard-prompt-actions"><Link to="/workflows">{workflowState.workflows.length} {language === "he" ? "תהליכים" : "workflows"}</Link><Link to="/analytics">{language === "he" ? "מדדי סביבת עבודה" : "Workspace metrics"}</Link></div>
+        </AppCard>
+        <AppCard>
+          <SectionHeader title={language === "he" ? "מועדפים ופעולות מהירות" : "Favorites and quick actions"} accessory={<Icon name="prompts" />} />
+          <strong className="metric-title">{workspaceState.preferences.filter((item) => item.favorite).length + promptState.prompts.filter((item) => item.isFavorite).length + agentState.agents.filter((item) => item.isFavorite).length} {language === "he" ? "מועדפים" : "favorites"}</strong>
+          <div className="dashboard-prompt-actions"><Link to="/search">{language === "he" ? "חיפוש" : "Search"}</Link><Link to="/assistant">{language === "he" ? "עוזר מקומי" : "Local Assistant"}</Link><Link to="/workflows/new">{language === "he" ? "תהליך חדש" : "New workflow"}</Link></div>
         </AppCard>
         <AppCard>
           <SectionHeader

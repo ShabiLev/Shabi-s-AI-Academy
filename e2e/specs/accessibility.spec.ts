@@ -206,3 +206,38 @@ test.describe("accessibility — Runtime Engine", () => {
     await runAxeScan(page, test.info(), { label: "runtime-approval-dialog" });
   });
 });
+
+test.describe("accessibility — AI Workspace", () => {
+  for (const [name, route] of [["Search", "/search?q=quality"], ["Assistant Chat", "/assistant"], ["Workflows", "/workflows"], ["Analytics", "/analytics"]] as const) {
+    test(name, async ({ page }) => {
+      await login(page);
+      await english(page);
+      await page.goto(route);
+      await runAxeScan(page, test.info(), { label: `workspace-${name.toLowerCase().replaceAll(" ", "-")}` });
+    });
+  }
+  test("Command Palette and Shortcut Help", async ({ page }) => {
+    await login(page);
+    await english(page);
+    await page.keyboard.press("Control+k");
+    await runAxeScan(page, test.info(), { label: "command-palette" });
+    await page.keyboard.press("Escape");
+    await page.keyboard.press("?");
+    await runAxeScan(page, test.info(), { label: "shortcut-help" });
+  });
+  test("Assistant Sidebar, Workflow Builder, Notification Center, and import preview", async ({ page }) => {
+    await login(page);
+    await english(page);
+    await page.getByRole("button", { name: "Expand Assistant" }).click();
+    await runAxeScan(page, test.info(), { label: "assistant-sidebar" });
+    await page.goto("/workflows");
+    await page.getByRole("button", { name: "Prompt Review Pipeline" }).click();
+    await runAxeScan(page, test.info(), { label: "workflow-builder" });
+    await page.getByRole("button", { name: "Mock Run" }).click();
+    await page.getByRole("button", { name: /Notifications, 1 unread/ }).click();
+    await runAxeScan(page, test.info(), { label: "notification-center" });
+    await page.goto("/settings");
+    await page.getByLabel("Choose import file").setInputFiles({ name: "invalid.json", mimeType: "application/json", buffer: Buffer.from("{}") });
+    await runAxeScan(page, test.info(), { label: "import-preview" });
+  });
+});

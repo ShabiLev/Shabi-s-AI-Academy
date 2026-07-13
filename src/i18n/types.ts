@@ -24,6 +24,8 @@ export type TranslationKey =
   | "nav.lessons"
   | "nav.prompts"
   | "nav.agents"
+  | "nav.promptPlayground"
+  | "nav.agentPlayground"
   | "nav.runs"
   | "nav.projects"
   | "nav.knowledge"

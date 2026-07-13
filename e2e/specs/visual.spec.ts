@@ -347,8 +347,8 @@ test.describe("visual — Runtime mobile Hebrew", () => {
 
 test.describe("visual — complete beta", () => {
   test("public About Hebrew and English", async ({ page }) => {
-    await page.goto("/about"); await stabilize(page); await expect(page).toHaveScreenshot("about-he.png", { fullPage: true, mask: dynamicMasks(page) });
-    await login(page); await english(page); await page.goto("/about"); await stabilize(page); await expect(page).toHaveScreenshot("about-en.png", { fullPage: true, mask: dynamicMasks(page) });
+    await page.goto("/about"); await expect(page.locator(".about-page h1")).toBeVisible(); await stabilize(page); await expect(page).toHaveScreenshot("about-he.png", { fullPage: true, mask: dynamicMasks(page) });
+    await login(page); await english(page); await page.goto("/about"); await expect(page.locator(".about-page h1")).toBeVisible(); await stabilize(page); await expect(page).toHaveScreenshot("about-en.png", { fullPage: true, mask: dynamicMasks(page) });
   });
   test("Prompt and Agent Playgrounds", async ({ page }) => {
     await login(page, "/playground/prompts"); await expect(page.locator("h1")).toBeVisible(); await stabilize(page); await expect(page).toHaveScreenshot("prompt-playground.png", { fullPage: true });
@@ -359,7 +359,50 @@ test.describe("visual — complete beta", () => {
     await page.goto("/knowledge"); await expect(page.locator("h1")).toBeVisible(); await stabilize(page); await expect(page).toHaveScreenshot("knowledge-empty.png", { fullPage: true });
   });
   test("mobile About and Prompt Packs", async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 }); await page.goto("/about"); await stabilize(page); await expect(page).toHaveScreenshot("mobile-about.png", { fullPage: true, mask: dynamicMasks(page) });
+    await page.setViewportSize({ width: 390, height: 844 }); await page.goto("/about"); await expect(page.locator(".about-page h1")).toBeVisible(); await stabilize(page); await expect(page).toHaveScreenshot("mobile-about.png", { fullPage: true, mask: dynamicMasks(page) });
     await login(page, "/prompts/packs"); await expect(page.locator("h1")).toBeVisible(); await page.getByLabel(/חבילה|Pack/).selectOption("security-risk"); await stabilize(page); await expect(page).toHaveScreenshot("mobile-prompt-packs.png");
+  });
+});
+
+test.describe("visual — AI Workspace", () => {
+  test("Search, Assistant Chat, Workflow Builder, and Analytics", async ({ page }) => {
+    await login(page);
+    await page.goto("/search?q=איכות");
+    await expect(page.locator(".search-page h1")).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("workspace-search.png");
+    await page.goto("/assistant");
+    await expect(page.locator(".assistant-page h1")).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("workspace-assistant-chat.png");
+    await page.goto("/workflows");
+    await page.locator(".workflow-templates button").nth(1).click();
+    await expect(page.locator(".workflow-builder-page h1")).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("workspace-workflow-builder.png");
+    await page.goto("/analytics");
+    await expect(page.locator(".analytics-page h1")).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("workspace-analytics.png");
+  });
+  test("Command Palette and expanded Assistant", async ({ page }) => {
+    await login(page);
+    await page.keyboard.press("Control+k");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("workspace-command-palette.png");
+    await page.keyboard.press("Escape");
+    await page.getByRole("button", { name: /הרחבת העוזר|Expand Assistant/ }).click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("workspace-assistant-expanded.png");
+  });
+  test("mobile Search and Command Palette", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await login(page, "/search?q=prompt");
+    await expect(page.locator(".search-page h1")).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("mobile-workspace-search.png", { fullPage: true });
+    await page.keyboard.press("Control+k");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("mobile-workspace-command-palette.png");
   });
 });

@@ -40,6 +40,16 @@ export const manualChecklistKeys = [
   "betaNoSecrets",
   "betaPublicRoutes",
   "betaVercelPreview",
+  "workspaceHebrewSearch",
+  "workspaceEnglishSearch",
+  "workspaceCommandKeyboard",
+  "workspaceAssistantHonesty",
+  "workspaceWorkflowUsability",
+  "workspaceBackupReview",
+  "workspaceAnalyticsPrivacy",
+  "workspaceMobileAssistant",
+  "workspaceSingleStatus",
+  "workspaceSidebarOverflow",
 ] as const;
 
 export type ManualChecklistKey = (typeof manualChecklistKeys)[number];

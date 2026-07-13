@@ -75,4 +75,8 @@ test("Lessons, Prompt Builder, and QA Center load without a stuck loading state"
     await page.goto(route);
     await expect(page.locator("h1")).toBeVisible({ timeout: 8000 });
   }
+  for (const route of ["/search", "/assistant", "/workflows", "/analytics"]) {
+    await page.goto(route);
+    await expect(page.locator("h1")).toBeVisible({ timeout: 8000 });
+  }
 });

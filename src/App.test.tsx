@@ -49,7 +49,7 @@ describe("Shabi's AI Academy", () => {
     first.unmount();
     renderApp("/login");
     expect(
-      screen.getByRole("heading", { name: "ברוך שובך, שבי" }),
+      await screen.findByRole("heading", { name: "ברוך שובך, שבי" }),
     ).toBeInTheDocument();
   });
 
@@ -58,7 +58,7 @@ describe("Shabi's AI Academy", () => {
     renderApp();
     await demoLogin(user);
     expect(
-      screen.getByRole("heading", { name: "ברוך שובך, שבי" }),
+      await screen.findByRole("heading", { name: "ברוך שובך, שבי" }),
     ).toBeInTheDocument();
     expect(screen.queryByText(/שאבי/)).not.toBeInTheDocument();
   });
@@ -130,7 +130,7 @@ describe("Shabi's AI Academy", () => {
     await demoLogin(user);
     await user.click(screen.getByRole("button", { name: "בית" }));
     expect(
-      screen.getByRole("heading", { name: "ברוך שובך, שבי" }),
+      await screen.findByRole("heading", { name: "ברוך שובך, שבי" }),
     ).toBeInTheDocument();
   });
 

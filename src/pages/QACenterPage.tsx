@@ -314,6 +314,27 @@ export function QACenterPage() {
         </ul>
       </section>
 
+      <section className="settings-card qa-gates" aria-labelledby="workspace-gates-title">
+        <h2 id="workspace-gates-title">{ui === "he" ? "שערי איכות לסביבת AI" : "AI Workspace quality gates"}</h2>
+        <p>{ui === "he" ? "הסטטוסים נגזרים משערי הדוח המקומי; לא מוצגת הצלחה ללא תוצאת בדיקה." : "Statuses derive from the local quality report gates; no success is shown without test evidence."}</p>
+        <ul className="qa-gate-grid">
+          {([
+            ["בדיקות חיפוש", "Search tests", "e2eFast"],
+            ["בדיקות לוח פקודות", "Command Palette tests", "e2eFast"],
+            ["בדיקות העוזר", "Assistant tests", "e2eFast"],
+            ["בדיקות תהליכים", "Workflow tests", "e2eFast"],
+            ["בדיקות ייצוא וייבוא", "Workspace import/export tests", "e2eFast"],
+            ["בדיקות ניתוח שימוש", "Analytics tests", "e2eFast"],
+            ["בדיקות אבטחה", "Security tests", "unitTests"],
+            ["סריקות נגישות חדשות", "New accessibility scans", "accessibility"],
+            ["בסיסים חזותיים חדשים", "New visual baselines", "visual"],
+          ] as const).map(([he, en, gate]) => {
+            const status = report?.gates[gate].status ?? "notAvailable";
+            return <li key={en}><span>{ui === "he" ? he : en}</span><span className={`qa-status-badge qa-status-gate-${status}`}>{s.gateStatus[status]}</span></li>;
+          })}
+        </ul>
+      </section>
+
       <section
         className="settings-card qa-tests"
         aria-labelledby="qa-tests-title"

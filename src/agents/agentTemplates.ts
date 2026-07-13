@@ -34,6 +34,8 @@ const base = (
     "Structured summary with evidence, risks, and recommended next actions.",
   completionCriteria:
     "All required inputs are addressed and validation rules pass.",
+  errorHandling:
+    "Stop safely, preserve reviewable context, and request human guidance when validation cannot recover.",
   retryPolicy: {
     maximumRetries: 2,
     retryCondition: "Validation failed with a recoverable input issue.",

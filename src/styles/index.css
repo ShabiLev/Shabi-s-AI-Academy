@@ -739,6 +739,13 @@ footer strong {
 .sidebar-mobile .brand-mark {
   padding-inline-end: 48px;
 }
+.sidebar-mobile .profile-popover {
+  position: fixed;
+  inset-block-start: 132px;
+  inset-inline: 12px;
+  width: auto;
+  z-index: 3;
+}
 .page-heading {
   max-width: 720px;
   padding-block: 20px 42px;

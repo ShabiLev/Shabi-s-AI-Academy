@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useLanguage } from "../i18n/LanguageContext";
 import { useAgentLibrary } from "../agents/AgentLibraryContext";
@@ -47,7 +47,7 @@ export function AgentBuilderPage() {
     setStep((x) => Math.min(11, x + 1));
     setMaxVisited((x) => Math.max(x, step + 1));
   };
-  const save = () => {
+  const save = useCallback(() => {
     const missing = [
       !value.name && s.name,
       !value.goal && s.goal,
@@ -73,8 +73,12 @@ export function AgentBuilderPage() {
     if (missing.length) return;
     const a = existing ? update(existing.id, value) : create(value);
     if (a) navigate(`/agents/${a.id}`);
-  };
-  useEffect(() => { const saveCurrent = () => save(); window.addEventListener("academy:save-current", saveCurrent); return () => window.removeEventListener("academy:save-current", saveCurrent); });
+  }, [create, existing, navigate, s.completion, s.goal, s.instructions, s.name, s.output, ui, update, value]);
+  useEffect(() => {
+    const saveCurrent = () => save();
+    window.addEventListener("academy:save-current", saveCurrent);
+    return () => window.removeEventListener("academy:save-current", saveCurrent);
+  }, [save]);
   const textArea = (label: string, key: keyof AgentInput) => (
     <label>
       {label}

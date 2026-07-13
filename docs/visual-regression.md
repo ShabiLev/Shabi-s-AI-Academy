@@ -1,6 +1,6 @@
 # Visual regression testing
 
-Version 1.1.0-beta.1 adds reviewed baselines for About, prompt packs, starter agents, both Playgrounds, Projects, Knowledge Base, and the expanded shell in addition to Runtime states. The beta UI changes and every affected baseline are intentional and require human review before release.
+Version 1.2.0-beta.1 adds reviewed baselines for AI Radar and Hebrew/English desktop/mobile profile overlays alongside About, prompt packs, starter agents, both Playgrounds, Projects, Knowledge Base, the expanded shell, and Runtime states. The beta UI changes and every affected baseline are intentional and require human review before release.
 
 Version 0.6.1 baselines cover the aligned Prompt Library header/filter toolbar and Starter Catalog in Hebrew/English desktop/mobile, plus details and imported attribution. Snapshot updates remain an explicit reviewed operation.
 

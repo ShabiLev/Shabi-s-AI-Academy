@@ -4,7 +4,7 @@ import { filterRadarItems, isRadarSnapshotStale, newestVerification, radarItems,
 describe("AI Radar catalog", () => {
   it("contains a valid bilingual official-source snapshot", () => {
     expect(radarItems.length).toBeGreaterThanOrEqual(8);
-    expect(validateRadarCatalog(radarItems)).toEqual([]);
+    expect(validateRadarCatalog(radarItems, "2026-07-13")).toEqual([]);
     expect(Object.isFrozen(radarItems)).toBe(true);
   });
 

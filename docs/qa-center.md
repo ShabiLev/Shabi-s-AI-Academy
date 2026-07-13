@@ -1,6 +1,6 @@
 # QA Center
 
-Version 1.1.0-beta.1 shows complete AI Workspace capability status and evidence. Mock Provider is available; Live Provider is intentionally not executable and is not a release failure. The versioned manual checklist adds bilingual search quality, Command Palette keyboard behavior, Assistant honesty, workflow usability, export/import review, analytics privacy, Mobile Assistant, duplicate-header review, and sidebar overflow.
+Version 1.2.0-beta.1 shows complete AI Workspace, AI Radar, and UX hardening capability status and evidence. Mock Provider is available; Live Provider is intentionally not executable and is not a release failure. The versioned manual checklist adds bilingual search quality, Command Palette keyboard behavior, Assistant honesty, workflow usability, Radar attribution, profile overlay behavior, export/import review, analytics privacy, Mobile Assistant, duplicate-header review, and sidebar overflow.
 
 A bilingual, protected route (`/qa`, nav item after Settings) that gives an honest view of release quality — never a fabricated "all green" dashboard.
 

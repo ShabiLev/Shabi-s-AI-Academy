@@ -13,10 +13,11 @@ Provide an engineering-level version sequence. User-facing details remain in the
 | 0.5.0   | Completed   | QA Center                               |
 | 0.6.0   | Completed   | Agent Builder and How To                |
 | 0.6.1   | Completed   | Starter Prompt Catalog and UI alignment |
-| 0.7.0   | In progress | Safe local runtime learning platform    |
-| 0.8.0   | Planned     | Real provider integration               |
-| 0.9.0   | Planned     | MCP/connectors                          |
-| 1.0.0   | Planned     | Public readiness                        |
+| 0.7.0-alpha.1 | Completed | Safe local runtime learning platform |
+| 1.0.0-beta.1 | Completed | Complete bilingual beta platform |
+| 1.1.0-beta.1 | Completed | Integrated AI Workspace |
+| 1.2.0-beta.1 | Completed | AI Radar and UX Hardening |
+| Future | Planned | Collaboration, secure providers, and connectors |
 
 Completed release dates must come from Git/CHANGELOG evidence. Future rows contain no release date until completed.
 

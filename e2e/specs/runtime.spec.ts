@@ -64,7 +64,7 @@ test("Dry Run is a local preview and Live is security-disabled", async ({
   await page.goto("/runs");
   await expect(page.getByRole("button", { name: "Live Run" })).toBeDisabled();
   await expect(
-    page.getByText("Live execution is not available in Version 1.1.0-beta.1."),
+    page.getByText("Live execution is not available in Version 1.2.0-beta.1."),
   ).toBeVisible();
   await expect(
     page.locator('input[name*="key" i], input[placeholder*="key" i]'),

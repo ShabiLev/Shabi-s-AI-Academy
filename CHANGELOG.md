@@ -2,6 +2,36 @@
 
 All notable changes to this project are documented here following the Keep a Changelog format.
 
+## [1.2.0-beta.1] - 2026-07-13
+
+### Added
+
+- Bilingual AI Radar with eight curated signals from official first-party sources
+- Search plus topic and horizon filters, direct attribution, publication dates, verification dates, and stale-snapshot disclosure
+- Desktop portal profile menu and full-width mobile profile sheet
+- Controlled design-system layer tokens and reviewed Hebrew/English desktop/mobile profile baselines
+
+### Changed
+
+- Dashboard Radar card now opens the complete source-based experience
+- Sidebar navigation owns its scroll region while portal overlays remain viewport-anchored
+- Shared color, surface, radius, status, spacing, and z-index tokens now have explicit fallbacks
+- Roadmap, How To, QA, source policy, testing, visual regression, and release documentation cover 1.2 behavior
+
+### Fixed
+
+- Profile content no longer clips inside or overlaps sidebar navigation without a separating surface
+- RTL and LTR profile anchoring now follow the trigger's logical edge and clamp to the viewport
+- Escape, outside activation, Tab, focus entry/return, menu arrow keys, long labels, and repeated opening behave predictably
+- Mobile profile access no longer uses a narrow floating popover or conflicting nested scroll region
+- Radar and shared application layouts remain free of horizontal overflow at the required viewport matrix
+
+### Security and privacy
+
+- Radar is an immutable bundled snapshot: it performs no fetch, scraping, tracking, telemetry, or background refresh
+- Only allowlisted first-party HTTPS sources are admitted; source summaries are Academy-authored bilingual paraphrases
+- Existing local-only storage, Mock/Dry Run execution, disabled Live mode, and secret boundaries remain unchanged
+
 ## [1.1.0-beta.1] - 2026-07-13
 
 ### Added

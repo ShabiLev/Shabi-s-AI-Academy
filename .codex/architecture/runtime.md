@@ -2,11 +2,11 @@
 
 ## Purpose
 
-Define the 1.1.0-beta.1 execution boundary without implying live AI connectivity.
+Define the 1.2.0-beta.1 execution boundary without implying live AI connectivity.
 
 ## Current state
 
-Version 1.1.0-beta.1 uses the typed state machine, deterministic MockProvider, Dry Run, approval/retry/cancellation, planned-tool registry, and bounded local history across both Playgrounds. Live providers remain unavailable.
+Version 1.2.0-beta.1 preserves the typed state machine, deterministic MockProvider, Dry Run, approval/retry/cancellation, planned-tool registry, and bounded local history across both Playgrounds. Live providers remain unavailable.
 
 ## Decision and constraints
 

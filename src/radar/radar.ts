@@ -29,7 +29,12 @@ export function isRadarSnapshotStale(items: readonly RadarItem[], today: string,
   return age > maxAgeDays * 86_400_000;
 }
 
-export function validateRadarCatalog(items: readonly RadarItem[]) {
+function validIsoDate(value: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  return new Date(value + "T00:00:00Z").toISOString().slice(0, 10) === value;
+}
+
+export function validateRadarCatalog(items: readonly RadarItem[], today = new Date().toISOString().slice(0, 10)) {
   const errors: string[] = [];
   const ids = new Set<string>();
   for (const item of items) {
@@ -38,7 +43,7 @@ export function validateRadarCatalog(items: readonly RadarItem[]) {
     let url: URL | undefined;
     try { url = new URL(item.sourceUrl); } catch { errors.push(`Invalid URL: ${item.id}`); }
     if (url && (url.protocol !== "https:" || !radarSourceHosts.includes(url.hostname as (typeof radarSourceHosts)[number]))) errors.push(`Unapproved source: ${item.id}`);
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(item.publishedAt) || !/^\d{4}-\d{2}-\d{2}$/.test(item.verifiedAt)) errors.push(`Invalid date: ${item.id}`);
+    if (!validIsoDate(item.publishedAt) || !validIsoDate(item.verifiedAt) || item.publishedAt > item.verifiedAt || item.verifiedAt > today) errors.push(`Invalid date: ${item.id}`);
     if (!item.title.he.trim() || !item.title.en.trim() || !item.summary.he.trim() || !item.summary.en.trim() || !item.implication.he.trim() || !item.implication.en.trim()) errors.push(`Missing translation: ${item.id}`);
   }
   return errors;

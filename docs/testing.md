@@ -1,6 +1,6 @@
 # Testing strategy
 
-Version 1.1.0-beta.1 extends the complete beta coverage with Search, Command Palette, Local Assistant and safe actions, advanced builders, deterministic workflows, notifications, recents, favorites, analytics, storage estimates, and Workspace import/export. Runtime tests use injected clocks/IDs and never wait for backoff or call external services.
+Version 1.2.0-beta.1 extends the complete beta coverage with AI Radar, profile overlays, responsive UX hardening, Search, Command Palette, Local Assistant and safe actions, advanced builders, deterministic workflows, notifications, recents, favorites, analytics, storage estimates, and Workspace import/export. Runtime tests use injected clocks/IDs and never wait for backoff or call external services.
 
 The release browser matrix covers the required desktop/mobile viewports, Hebrew RTL and English LTR, refresh persistence, keyboard operation, no-network boundaries, corruption recovery, visual baselines, and axe scans for every complex AI Workspace surface. Lighthouse audits Dashboard, Search, Assistant, Workflow Builder, and Analytics on desktop and mobile without lowering thresholds.
 

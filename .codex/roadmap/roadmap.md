@@ -16,10 +16,11 @@ Separate released capability, committed delivery, planned direction, and uncommi
 - 0.7.0-alpha.1 — Deterministic Runtime Engine foundation
 - 1.0.0-beta.1 — Complete bilingual curriculum, catalogs, Playgrounds, Projects, local Knowledge Base, platform surfaces, quality automation, and Vercel hardening
 - 1.1.0-beta.1 — Integrated AI Workspace with Search, Command Palette, Local Assistant, advanced builders, deterministic workflows, activity, analytics, and complete backup
+- 1.2.0-beta.1 — AI Radar & UX Hardening: a curated bilingual first-party trends snapshot and cross-application responsive, directional, accessibility, overflow, and overlay stabilization
 
 ## Committed / in progress
 
-- 1.2.0-beta.1 — AI Radar & UX Hardening: a curated bilingual first-party trends snapshot and cross-application responsive, directional, accessibility, overflow, and overlay stabilization.
+- Post-1.2 discovery — Local collaboration, orchestration, and controlled sharing scope is not yet committed.
 
 ## Planned direction
 

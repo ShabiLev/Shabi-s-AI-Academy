@@ -1,6 +1,6 @@
 # How To guide
 
-Version 1.1.0-beta.1 provides searchable bilingual help for the complete learning platform and AI Workspace: Global Search, Command Palette, Local Assistant, advanced builders, workflows, notifications, analytics, storage, and backup alongside the existing catalogs, Playgrounds, Projects, Knowledge Base, and Runtime. Mock output is simulated, Dry Run is a preview, no data is sent externally, and no real tool is executed.
+Version 1.2.0-beta.1 provides searchable bilingual help for the complete learning platform and AI Workspace: Global Search, Command Palette, Local Assistant, advanced builders, workflows, notifications, analytics, storage, and backup alongside the existing catalogs, Playgrounds, Projects, Knowledge Base, Runtime, and AI Radar. Mock output is simulated, Dry Run is a preview, no data is sent externally, and no real tool is executed.
 
 Open AI Radar from the Workspace navigation or Dashboard. Search across publisher, title, summary, and practical implication; combine topic and horizon filters; use Clear filters to return to the complete snapshot. Publication is the publisher's date, while Verified is the Academy's last link and copy review. Radar is a bundled editorial snapshot rather than a live feed; follow the official-source link before relying on time-sensitive information. See [AI Radar](ai-radar.md).
 

@@ -3,6 +3,56 @@
   "maximumRuns": 20,
   "runs": [
     {
+      "runId": "2026-07-14_16-33-24_feature-1-4-0-agent-operating-system",
+      "date": "2026-07-14T13:49:19.980Z",
+      "branch": "feature/1.4.0-agent-operating-system",
+      "commit": "78c9485b0adf355fc3357a5ee1ef12a1dee6882d",
+      "version": "1.4.0-beta.1",
+      "overallStatus": "Blocked",
+      "coverageSummary": {
+        "status": "passed",
+        "statements": {
+          "percent": 76.27,
+          "threshold": 75,
+          "passed": true,
+          "delta": 0.84
+        },
+        "branches": {
+          "percent": 74.92,
+          "threshold": 65,
+          "passed": true,
+          "delta": -0.56
+        },
+        "functions": {
+          "percent": 72.46,
+          "threshold": 70,
+          "passed": true,
+          "delta": 0.28
+        },
+        "lines": {
+          "percent": 76.27,
+          "threshold": 75,
+          "passed": true,
+          "delta": 0.84
+        }
+      },
+      "reportPath": "quality/execution/latest/summary.md",
+      "localRunPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/",
+      "failedCommands": [
+        "npm run build",
+        "npm run build:pages",
+        "npm run test:e2e",
+        "npm run test:e2e:full",
+        "npm run test:visual",
+        "npm run test:performance",
+        "npm run test:release-candidate",
+        "npm run test:release-candidate:pages",
+        "npm run quality:analyze",
+        "npm run validate:release"
+      ],
+      "warningCount": 10
+    },
+    {
       "runId": "2026-07-14_15-16-35_test-1-3-0-quality-evidence",
       "date": "2026-07-14T12:32:12.080Z",
       "branch": "test/1.3.0-quality-evidence",

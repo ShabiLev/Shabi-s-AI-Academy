@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
   "identity": {
-    "runId": "2026-07-14_15-16-35_test-1-3-0-quality-evidence",
+    "runId": "2026-07-14_16-33-24_feature-1-4-0-agent-operating-system",
     "profile": "full",
-    "startedAt": "2026-07-14T12:16:35.297Z",
-    "endedAt": "2026-07-14T12:32:12.080Z",
-    "version": "1.3.0-beta.1",
-    "branch": "test/1.3.0-quality-evidence",
-    "startingCommit": "0bdf19b729a8409b5f7d0bc990a026e2f708a2c2",
-    "finalCommit": "0bdf19b729a8409b5f7d0bc990a026e2f708a2c2",
+    "startedAt": "2026-07-14T13:33:24.382Z",
+    "endedAt": "2026-07-14T13:49:19.980Z",
+    "version": "1.4.0-beta.1",
+    "branch": "feature/1.4.0-agent-operating-system",
+    "startingCommit": "1e984a02dc83ac995cc4184a35bcdb24c2d32f68",
+    "finalCommit": "78c9485b0adf355fc3357a5ee1ef12a1dee6882d",
     "agent": "Codex",
     "operatingSystem": "win32 10.0.26200 x64",
     "nodeVersion": "v20.17.0",
@@ -23,141 +23,141 @@
     "Docs": {
       "status": "passed",
       "command": "npm run docs:check",
-      "durationMs": 416,
-      "resultCount": 124,
+      "durationMs": 444,
+      "resultCount": 125,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/docs-check.log"
+      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/docs-check.log"
     },
     "Lint": {
       "status": "passed",
       "command": "npm run lint",
-      "durationMs": 7702,
+      "durationMs": 9230,
       "resultCount": null,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/lint.log"
+      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/lint.log"
     },
     "Unit tests": {
       "status": "passed",
       "command": "npm run test:evidence; npm run test:run",
-      "durationMs": 19372,
+      "durationMs": 20661,
       "resultCount": 6,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/focused-tests.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/unit-tests.log"
+      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/focused-tests.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/unit-tests.log"
     },
     "Coverage": {
       "status": "passed",
       "command": "npm run test:coverage",
-      "durationMs": 22651,
+      "durationMs": 23365,
       "resultCount": null,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/coverage.log"
+      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/coverage.log"
     },
     "Build": {
       "status": "failed",
       "command": "npm run build",
-      "durationMs": 8650,
+      "durationMs": 10823,
       "resultCount": null,
       "failureCount": 1,
-      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/build.log"
+      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/build.log"
     },
     "GitHub Pages build": {
       "status": "failed",
       "command": "npm run build:pages; npm run test:e2e:pages",
-      "durationMs": 9161,
+      "durationMs": 13240,
       "resultCount": null,
       "failureCount": 1,
-      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/build-pages.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/e2e-pages.log"
+      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/build-pages.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/e2e-pages.log"
     },
     "E2E": {
       "status": "failed",
       "command": "npm run test:e2e; npm run test:e2e:full",
-      "durationMs": 276554,
-      "resultCount": 243,
+      "durationMs": 313688,
+      "resultCount": 266,
       "failureCount": 2,
-      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/e2e.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/e2e-full.log"
+      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/e2e.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/e2e-full.log"
     },
     "Journeys": {
       "status": "passed",
       "command": "npm run test:journeys",
-      "durationMs": 40682,
+      "durationMs": 38482,
       "resultCount": 13,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/journeys.log"
+      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/journeys.log"
     },
     "UX": {
       "status": "passed",
       "command": "npm run test:click-audit; npm run test:route-crawl; npm run test:forms; npm run test:overlays; npm run test:responsive:interactions; npm run test:keyboard; npm run test:copy; npm run test:errors; npm run test:ux",
-      "durationMs": 282330,
+      "durationMs": 273096,
       "resultCount": 54,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/click-audit.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/route-crawl.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/forms.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/overlays.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/responsive-interactions.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/keyboard.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/copy.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/errors.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/ux.log"
+      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/click-audit.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/route-crawl.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/forms.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/overlays.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/responsive-interactions.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/keyboard.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/copy.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/errors.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/ux.log"
     },
     "Accessibility": {
       "status": "passed",
       "command": "npm run test:a11y",
-      "durationMs": 65124,
-      "resultCount": 55,
+      "durationMs": 68373,
+      "resultCount": 70,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/accessibility.log"
+      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/accessibility.log"
     },
     "Visual": {
       "status": "failed",
       "command": "npm run test:visual",
-      "durationMs": 79578,
-      "resultCount": 25,
+      "durationMs": 71885,
+      "resultCount": 24,
       "failureCount": 1,
-      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/visual.log"
+      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/visual.log"
     },
     "Performance": {
       "status": "failed",
       "command": "npm run test:performance",
-      "durationMs": 12398,
+      "durationMs": 9634,
       "resultCount": null,
       "failureCount": 1,
-      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/performance.log"
+      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/performance.log"
     },
     "Release validation": {
       "status": "failed",
       "command": "npm run test:release-candidate; npm run test:release-candidate:pages; npm run validate:release",
-      "durationMs": 92180,
+      "durationMs": 84798,
       "resultCount": null,
       "failureCount": 3,
-      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/release-candidate.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/release-candidate-pages.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/validate-release.log"
+      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/release-candidate.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/release-candidate-pages.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/validate-release.log"
     },
     "Git diff": {
       "status": "passed",
       "command": "git diff --check",
-      "durationMs": 132,
+      "durationMs": 115,
       "resultCount": null,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/git-diff-check.log"
+      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/git-diff-check.log"
     }
   },
   "coverage": {
     "status": "passed",
     "statements": {
-      "percent": 75.43,
+      "percent": 76.27,
       "threshold": 75,
       "passed": true,
-      "delta": 0
+      "delta": 0.84
     },
     "branches": {
-      "percent": 75.48,
+      "percent": 74.92,
       "threshold": 65,
       "passed": true,
-      "delta": -0.01
+      "delta": -0.56
     },
     "functions": {
-      "percent": 72.18,
+      "percent": 72.46,
       "threshold": 70,
       "passed": true,
-      "delta": 0
+      "delta": 0.28
     },
     "lines": {
-      "percent": 75.43,
+      "percent": 76.27,
       "threshold": 75,
       "passed": true,
-      "delta": 0
+      "delta": 0.84
     }
   },
   "manualReviews": {
@@ -216,15 +216,15 @@
     "high": 0,
     "medium": 0,
     "low": 0,
-    "warningCount": 14,
+    "warningCount": 10,
     "manualReviewRequired": true
   },
   "git": {
-    "branch": "test/1.3.0-quality-evidence",
-    "mainRelationship": "main...HEAD left/right counts: 0\t0",
-    "remoteRelationship": "HEAD...origin/main left/right counts: 0\t0",
+    "branch": "feature/1.4.0-agent-operating-system",
+    "mainRelationship": "main...HEAD left/right counts: 0\t10",
+    "remoteRelationship": "HEAD...origin/main left/right counts: 10\t0",
     "commitsCreated": [],
-    "workingTreeStatus": "M .gitignore\n M README.md\n M docs/system-quality-program.md\n M eslint.config.js\n M package.json\n M quality/README.md\n M src/App.test.tsx\n?? quality/checklists/manual-content-review.json\n?? quality/checklists/manual-security-review.json\n?? quality/execution/\n?? scripts/evidence-utils.mjs\n?? scripts/evidence-utils.test.mjs\n?? scripts/run-quality-evidence.mjs\n?? src/components/runtime/ApprovalDialog.test.tsx\n?? src/pages/auth/authFlows.test.tsx"
+    "workingTreeStatus": "M CHANGELOG.md\n M README.md\n M e2e/specs/runtime.spec.ts\n M package-lock.json\n M package.json\n M src/assistant/assistantHistory.ts\n M src/backup/backup.test.ts\n M src/backup/workspaceBackup.ts\n M src/commands/commandHistory.ts\n M src/config/appMetadata.ts\n M src/pages/ChangelogPage.tsx\n M src/pages/HowToPage.tsx\n M src/pages/SearchPage.tsx\n M src/quality/qualityData.test.ts\n M src/quality/qualityData.ts\n M src/quality/qualityFixtures.ts\n M src/runtime/providers/ProviderRegistry.ts\n M src/runtime/runtimeUi.ts\n M src/runtime/runtimeValidation.ts\n M src/runtime/types.ts\n M src/search/searchStorage.ts\n M src/workflows/workflowStorage.ts\n M src/workspace/workspaceStorage.ts"
   },
   "recommendation": "Blocked",
   "failedCommands": [

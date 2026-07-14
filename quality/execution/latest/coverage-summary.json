@@ -1,27 +1,27 @@
 {
   "status": "passed",
   "statements": {
-    "percent": 75.43,
+    "percent": 76.27,
     "threshold": 75,
     "passed": true,
-    "delta": 0
+    "delta": 0.84
   },
   "branches": {
-    "percent": 75.48,
+    "percent": 74.92,
     "threshold": 65,
     "passed": true,
-    "delta": -0.01
+    "delta": -0.56
   },
   "functions": {
-    "percent": 72.18,
+    "percent": 72.46,
     "threshold": 70,
     "passed": true,
-    "delta": 0
+    "delta": 0.28
   },
   "lines": {
-    "percent": 75.43,
+    "percent": 76.27,
     "threshold": 75,
     "passed": true,
-    "delta": 0
+    "delta": 0.84
   }
 }

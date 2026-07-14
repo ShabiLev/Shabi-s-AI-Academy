@@ -2,6 +2,35 @@
 
 All notable changes to this project are documented here following the Keep a Changelog format.
 
+## [1.4.0-beta.1] - 2026-07-14
+
+### Added
+
+- Agent Operating System (AOS) at `.agent/`: a modular, versioned instruction framework with a `master.md` orchestration entry point, `manifest.json` module catalog, `registry.json` task-to-module mapping, and a documented precedence order
+- Workflow modules covering development, planning, implementation, testing, debugging, refactoring, documentation, deployment, UI/UX/accessibility/performance validation, research, knowledge ingestion, self-review, and final reporting
+- Task classification with Low/Medium/High/Critical risk levels covering 22 task types
+- Codex and Claude Code compatibility entry points (`.codex/workflows/aos.md`, `.claude/workflows/aos.md`) and a new repository-root `CLAUDE.md`
+- Knowledge modules interpreting existing project standards for React, TypeScript, state management, routing, storage, testing, accessibility, security, performance, i18n/RTL-LTR, Git, GitHub Actions/Pages, Supabase, and AI-specific topics (MCP, RAG, memory, tool calling, evaluation, observability, AI safety)
+- Research operating system: source ranking (four-tier model), freshness policy, claim verification, citation policy, duplicate detection, and per-source-type analysis guides, plus an explicit, non-crawling research data pipeline under `research/` with validation/scoring/freshness/candidate-generation scripts
+- Security, Git, and release policy modules, including MCP tool risk classification
+- Multi-agent handoff protocol for Codex/Claude Code continuity and an explicit file-based memory model
+- AOS validation scripts (`npm run aos:check` and subcommands) detecting broken links, orphan modules, circular dependencies, invalid schemas, and stale version references
+- Authenticated AOS dashboard at `/aos` with `/aos/modules`, `/aos/research`, `/aos/evidence`, `/aos/handoffs`, `/aos/security`, and `/aos/releases`, backed by a generated status snapshot (`npm run aos:snapshot`) — never a hardcoded status
+- `docs/aos/` documentation set covering the AOS architecture, task classification, research system, evidence system, security, Git workflow, release workflow, handoffs, troubleshooting, and extension guide
+
+### Changed
+
+- `AGENTS.md` and `CLAUDE.md` now point to `.agent/master.md` as the orchestration entry point instead of describing workflow steps inline
+- The quality evidence runner (`scripts/run-quality-evidence.mjs`) now also copies `environment.json`, `commands.json`, `git-state-before.txt`, and `git-state-after.txt` into `quality/execution/latest/`, matching the AOS evidence requirements
+- Application, Runtime, workspace exports, local histories, quality fixtures, visible footer, About, Release Center, and search metadata now identify Version 1.4.0-beta.1
+
+### Security
+
+- AOS prevents automatic destructive Git behavior: no auto push/merge, no `reset --hard`, no blind `add -A`
+- Research content is treated as inert data and is never executed
+- Evidence logs remain sanitized; MCP write-capable and destructive tools require explicit approval per the new MCP security policy
+- Secret-bearing data is explicitly prohibited from AOS memory files
+
 ## [1.3.0-beta.1] - 2026-07-14
 
 ### Added

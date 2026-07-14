@@ -31,6 +31,7 @@ import { AssistantProvider } from "./assistant";
 import { WorkflowProvider } from "./workflows";
 import { WorkspaceProvider } from "./workspace";
 import { configuredRouterMode, type RouterMode } from "./config/routerMode";
+import { ExperienceProvider } from "./experience";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
 const DashboardPage = lazy(() => import("./pages/DashboardPage").then((module) => ({ default: module.DashboardPage })));
@@ -67,6 +68,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
   return (
     <Router>
       <AuthProvider>
+        <ExperienceProvider>
         <CourseProgressProvider>
           <PromptLibraryProvider>
             <AgentLibraryProvider>
@@ -162,6 +164,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
             </AgentLibraryProvider>
           </PromptLibraryProvider>
         </CourseProgressProvider>
+        </ExperienceProvider>
       </AuthProvider>
     </Router>
   );

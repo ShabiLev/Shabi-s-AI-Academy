@@ -20,7 +20,7 @@ Separate released capability, committed delivery, planned direction, and uncommi
 
 ## Committed / in progress
 
-- Post-1.2 discovery — Local collaboration, orchestration, and controlled sharing scope is not yet committed.
+- 1.3.0-beta.1 — User Accounts & Guided Experience: progressive navigation, onboarding, page guidance, optional Supabase authentication, profiles, RLS-backed data architecture, explicit migration, and secure admin foundations.
 
 ## Planned direction
 

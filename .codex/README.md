@@ -5,9 +5,9 @@
 This directory is the authoritative engineering source of truth for architecture, standards, decisions, and Sprint specifications. It turns product intent into implementable constraints without replacing the application README or CHANGELOG.
 
 - Engineering Kit: **1.0.0**
-- Current application: **1.2.0-beta.1**
-- Planned application: **1.3.0-beta.1**
-- Active work: **User Accounts & Guided Experience implementation**
+- Current application: **1.3.0-beta.1**
+- Planned application: **1.4.0-beta.1**
+- Active work: **User Accounts & Guided Experience release validation**
 
 ## Table of contents
 

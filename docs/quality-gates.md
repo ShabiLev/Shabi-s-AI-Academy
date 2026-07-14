@@ -1,6 +1,6 @@
 # Quality gates
 
-Version 1.2.0-beta.1 adds explicit regression evidence for Search, Command Palette, Assistant, Workflow, Workspace backup, Radar, profile overlays, analytics, security, accessibility, and reviewed visual baselines. These gates are derived from real generated reports; the QA Center never infers success from feature availability.
+Version 1.3.0-beta.1 adds explicit evidence for onboarding, navigation clarity, auth fallback and flows, migration, sync states, RLS documentation, Admin protection, accessibility, reviewed visuals, and GitHub Pages callback behavior. The versioned manual checklist covers both experience modes, both onboarding languages, account flows, local preservation, conflicts, profile/security/privacy, mobile navigation, breadcrumbs, and Tours. QA Center never infers success from feature availability.
 
 The Runtime milestone adds focused evidence for state transitions, MockProvider, Dry Run, storage validation, E2E, and accessibility. QA Center labels these as not run until a generated report proves them; Mock availability and Live not configured are capability status, not fabricated CI results.
 

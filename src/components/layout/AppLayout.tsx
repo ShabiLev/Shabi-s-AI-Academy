@@ -6,6 +6,7 @@ import { Sidebar } from './Sidebar'
 import { Icon } from '../common/Icon'
 import { AssistantSidebar } from '../assistant/AssistantSidebar'
 import { useAssistant } from '../../assistant'
+import { PageIntroduction } from '../../guidance'
 
 export function AppLayout() {
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -42,7 +43,7 @@ export function AppLayout() {
     <aside className="desktop-sidebar"><Sidebar /></aside>
     <div className="app-column" aria-hidden={drawerOpen || undefined}>
       <Header ref={menuButtonRef} onOpenMenu={() => setDrawerOpen(true)} />
-      <main id="main-content" tabIndex={-1}><Outlet /></main>
+      <main id="main-content" tabIndex={-1}><PageIntroduction /><Outlet /></main>
       <footer><strong>{t('brand.name')}</strong><span>{t('footer.version')}</span><Link to="/about">About / אודות</Link><span>{t('footer.builtWhileLearning')}</span></footer>
     </div>
     <AssistantSidebar />

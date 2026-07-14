@@ -33,6 +33,7 @@ import { WorkspaceProvider } from "./workspace";
 import { configuredRouterMode, type RouterMode } from "./config/routerMode";
 import { ExperienceProvider } from "./experience";
 import { OnboardingProvider } from "./onboarding";
+import { GuidedTourProvider } from "./guidance/tours";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
 const DashboardPage = lazy(() => import("./pages/GuidedDashboardPage").then((module) => ({ default: module.GuidedDashboardPage })));
@@ -59,6 +60,8 @@ const AssistantPage = lazy(() => import("./pages/AssistantPage").then((module) =
 const WorkflowsPage = lazy(() => import("./pages/WorkflowsPage").then((module) => ({ default: module.WorkflowsPage })));
 const WorkflowBuilderPage = lazy(() => import("./pages/WorkflowBuilderPage").then((module) => ({ default: module.WorkflowBuilderPage })));
 const AnalyticsPage = lazy(() => import("./pages/AnalyticsPage").then((module) => ({ default: module.AnalyticsPage })));
+const HelpCenterPage = lazy(() => import("./pages/HelpCenterPage").then((module) => ({ default: module.HelpCenterPage })));
+const GlossaryPage = lazy(() => import("./pages/GlossaryPage").then((module) => ({ default: module.GlossaryPage })));
 
 export interface AppProps {
   routerMode?: RouterMode;
@@ -72,6 +75,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
       <AuthProvider>
         <ExperienceProvider>
           <OnboardingProvider>
+          <GuidedTourProvider>
         <CourseProgressProvider>
           <PromptLibraryProvider>
             <AgentLibraryProvider>
@@ -130,6 +134,8 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                       element={<AgentSimulationPage />}
                     />
                     <Route path="how-to" element={<HowToPage />} />
+                    <Route path="help" element={<Suspense fallback={null}><HelpCenterPage /></Suspense>} />
+                    <Route path="glossary" element={<Suspense fallback={null}><GlossaryPage /></Suspense>} />
                     <Route path="projects" element={<ProjectsPage />} />
                     <Route path="projects/new" element={<Suspense fallback={null}><ProjectFormPage /></Suspense>} />
                     <Route path="projects/:projectId" element={<Suspense fallback={null}><ProjectDetailsPage /></Suspense>} />
@@ -168,6 +174,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
             </AgentLibraryProvider>
           </PromptLibraryProvider>
         </CourseProgressProvider>
+          </GuidedTourProvider>
           </OnboardingProvider>
         </ExperienceProvider>
       </AuthProvider>

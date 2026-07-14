@@ -2483,3 +2483,35 @@ html[data-motion="reduced"] * { scroll-behavior: auto !important; animation-dura
 .backup-preview table { inline-size: 100%; min-inline-size: 42rem; border-collapse: collapse; }
 .backup-preview th,.backup-preview td { padding: var(--space-2); border: 1px solid var(--line); text-align: start; }
 .backup-preview select { min-block-size: var(--control-min-height); color: inherit; background: #071321; }
+
+/* Shared guidance, glossary, and lightweight tours */
+.page-introduction { margin: var(--space-5) var(--space-6) 0; padding: var(--space-5); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--panel); }
+.page-introduction-row { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-5); }
+.page-context-title { margin: .2rem 0; color: var(--text); font-size: clamp(1.45rem,3vw,2rem); font-weight: 800; line-height: 1.2; }
+.page-introduction p { margin-block: .25rem; max-width: 68ch; }
+.page-introduction-actions,.inline-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.breadcrumbs { display: flex; flex-wrap: nowrap; align-items: center; gap: var(--space-2); min-width: 0; overflow: hidden; font-size: .86rem; color: var(--muted); }
+.breadcrumbs > * { flex: 0 0 auto; }
+.breadcrumbs [aria-current="page"] { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+[dir="rtl"] .breadcrumbs span[aria-hidden="true"] { transform: scaleX(-1); }
+.glossary-grid,.card-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,18rem),1fr)); gap: var(--space-4); }
+.glossary-card { scroll-margin-top: 2rem; }
+.glossary-card small { color: var(--muted); font-size: .72em; }
+.glossary-trigger-wrap { display: inline-flex; position: relative; vertical-align: middle; }
+.page-glossary-terms { display: flex; gap: var(--space-2); margin-block-start: var(--space-2); }
+.glossary-trigger { inline-size: 1.5rem; block-size: 1.5rem; border: 1px solid var(--line); border-radius: 50%; background: var(--panel); color: var(--blue-soft); font-weight: 800; }
+.glossary-popover { position: absolute; z-index: var(--z-popover); inset-block-start: calc(100% + .5rem); inset-inline-start: 0; inline-size: min(20rem,calc(100vw - 2rem)); padding: var(--space-4); border: 1px solid var(--line-bright); border-radius: var(--radius); color: var(--text); background: #081727; box-shadow: 0 18px 45px rgb(0 0 0/.35); }
+.tour-layer { position: fixed; z-index: var(--z-modal); inset: 0; display: grid; place-items: end center; padding: var(--space-5); pointer-events: none; }
+.tour-overlay { position: absolute; inset: 0; border: 0; background: rgb(2 8 23/.55); pointer-events: auto; }
+.tour-card { position: relative; inline-size: min(32rem,100%); max-block-size: min(80vh,34rem); overflow: auto; padding: var(--space-6); border: 1px solid var(--line-bright); border-radius: var(--radius-lg); color: var(--text); background: #081727; box-shadow: 0 22px 65px rgb(0 0 0/.5); pointer-events: auto; }
+.tour-card progress { inline-size: 100%; }
+.tour-skip { float: inline-end; border: 0; color: var(--muted); background: transparent; text-decoration: underline; }
+.tour-actions { display: flex; justify-content: space-between; gap: var(--space-3); margin-block-start: var(--space-5); }
+.help-filters { display: grid; grid-template-columns: minmax(12rem,2fr) repeat(2,minmax(9rem,1fr)); gap: var(--space-4); margin-block-end: var(--space-5); }
+.help-filters label { display: grid; gap: var(--space-2); }
+.help-center-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(15rem,20rem); gap: var(--space-5); }
+.help-resources { display: grid; align-content: start; gap: var(--space-4); }
+.tour-list-button { display: flex; inline-size: 100%; justify-content: space-between; gap: var(--space-3); padding: var(--space-3); border: 0; border-block-end: 1px solid var(--line); color: inherit; background: transparent; text-align: start; }
+.tour-list-button span { color: var(--muted); font-size: .82rem; }
+.current-screen-help { margin-block-end: var(--space-5); border-inline-start: .3rem solid var(--blue); }
+@media (max-width:48rem) { .page-introduction { margin-inline: var(--space-3); } .page-introduction-row { align-items: stretch; flex-direction: column; } .help-filters,.help-center-grid { grid-template-columns: 1fr; } .tour-layer { padding: 0; place-items: end stretch; } .tour-card { inline-size: 100%; max-block-size: 75vh; border-end-start-radius: 0; border-end-end-radius: 0; } }

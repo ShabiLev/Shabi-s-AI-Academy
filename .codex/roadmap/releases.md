@@ -18,6 +18,7 @@ Provide an engineering-level version sequence. User-facing details remain in the
 | 1.1.0-beta.1 | Completed | Integrated AI Workspace |
 | 1.2.0-beta.1 | Completed | AI Radar and UX Hardening |
 | 1.3.0-beta.1 | Completed | User Accounts and Guided Experience |
+| 1.4.0-beta.1 | Completed | Agent Operating System (AOS) |
 | Future | Planned | Collaboration, secure providers, and connectors |
 
 Completed release dates must come from Git/CHANGELOG evidence. Future rows contain no release date until completed.

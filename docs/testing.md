@@ -33,6 +33,10 @@ Tests must be independent and start from controlled storage. Prefer accessible l
 
 Every feature or bug fix requires appropriate Vitest coverage and Playwright coverage when user-visible behavior changes. Never weaken assertions merely to make tests pass.
 
+## AOS validation
+
+`npm run aos:check` (manifest completeness, cross-file link resolution, `.agent/schemas/*.json` validity, and duplicated-workflow-content detection across `.agent/`) is now part of the mandatory command set for any change that touches the Agent Operating System at `.agent/`. See [`docs/aos/evidence-system.md`](aos/evidence-system.md) for how this fits into the broader evidence system, and `docs/aos/troubleshooting.md` for fixing a specific failure.
+
 ## Permanent rule for every future feature or bug fix
 
 This rule is permanent, not specific to any one sprint. Every future user-visible feature or bug fix must include, where applicable:

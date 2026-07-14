@@ -18,10 +18,11 @@ Separate released capability, committed delivery, planned direction, and uncommi
 - 1.1.0-beta.1 — Integrated AI Workspace with Search, Command Palette, Local Assistant, advanced builders, deterministic workflows, activity, analytics, and complete backup
 - 1.2.0-beta.1 — AI Radar & UX Hardening: a curated bilingual first-party trends snapshot and cross-application responsive, directional, accessibility, overflow, and overlay stabilization
 - 1.3.0-beta.1 — User Accounts & Guided Experience: grouped navigation, onboarding, page guidance, optional Supabase authentication, profiles, RLS-backed data architecture, explicit migration, and secure Admin foundations
+- 1.4.0-beta.1 — Agent Operating System (AOS): a modular, versioned instruction framework at `.agent/` governing how Codex and Claude Code load context, classify tasks, run tests, capture evidence, apply security and Git policy, hand off work, and prepare releases, plus an explicit file-based research/knowledge-ingestion pipeline and an authenticated `/aos` dashboard.
 
 ## Committed / in progress
 
-- 1.4.0-beta.1 — Connected Providers & Collaboration discovery: server-side provider execution, safe team ownership, and connector governance.
+- 1.5.0-beta.1 — Connected Providers & Collaboration discovery: server-side provider execution, safe team ownership, and connector governance.
 
 ## Planned direction
 

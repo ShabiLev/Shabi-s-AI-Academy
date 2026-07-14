@@ -13,3 +13,7 @@ Global Search, commands, Assistant, workflows, analytics, and backup are local-o
 Analytics records bounded safe metadata only. Workspace export excludes secret-shaped values; import validates size, schema, checksum, supported domains, prototype/executable content, and conflicts before confirmation, then rolls back staged writes on failure. Search highlighting and imported text render as inert React text, never unsafe HTML.
 
 Provider-specific controls and the reserved server boundary remain documented in [provider-security.md](provider-security.md).
+
+## AOS security modules
+
+The Agent Operating System adds a dedicated policy layer for AI coding agents at [`.agent/security/`](../.agent/security/) (secrets, frontend security, authentication, authorization, data protection, dependency security, MCP security, AI security, prompt injection, supply chain, logging). These modules interpret and enforce the same security precedence described above for any agent-driven change — they do not loosen or duplicate it. See [`docs/aos/security.md`](aos/security.md) for the pointer index, or `/aos/security` for the in-app view.

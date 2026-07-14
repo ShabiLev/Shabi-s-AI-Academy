@@ -5,12 +5,17 @@
 This directory is the authoritative engineering source of truth for architecture, standards, decisions, and Sprint specifications. It turns product intent into implementable constraints without replacing the application README or CHANGELOG.
 
 - Engineering Kit: **1.0.0**
-- Current application: **1.3.0-beta.1**
-- Planned application: **1.4.0-beta.1**
-- Active work: **User Accounts & Guided Experience release validation**
+- Current application: **1.4.0-beta.1**
+- Planned application: **1.5.0-beta.1**
+- Active work: **Agent Operating System (AOS)**
+
+The AOS at [`../.agent/`](../.agent/README.md) is the orchestration layer
+that tells any AI coding agent how and when to read this Engineering Kit —
+it does not replace anything below.
 
 ## Table of contents
 
+- [Agent Operating System](../.agent/master.md)
 - [Architecture overview](architecture/overview.md)
 - [Architecture folder](architecture/folder-structure.md)
 - [Coding standards](standards/coding.md)

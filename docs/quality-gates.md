@@ -21,6 +21,7 @@ Sprint 5 (v0.5.0) adds an enforced set of quality gates on top of the existing V
 | Performance          | Lighthouse CI vs. desktop/mobile thresholds                    | `npm run test:performance` |
 | Manual checklist     | Versioned browser-local review; collected reports use `notRun` | QA Center                  |
 | Git diff check       | `git diff --check` (whitespace/conflict markers)               | part of `validate:release` |
+| AOS validation       | Manifest completeness, link resolution, schema validity, duplication check | `npm run aos:check` (`aos:check:manifest`, `aos:check:links`, `aos:check:schemas`, `aos:check:duplication`) |
 
 Every gate has five possible states: **Passed**, **Failed**, **Warning**, **Not run**, **Not available**. A missing result is never displayed as Passed — see `docs/qa-center.md`.
 

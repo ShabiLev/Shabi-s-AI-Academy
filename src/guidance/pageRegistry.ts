@@ -54,6 +54,8 @@ export const pageRegistry: PageMetadata[] = [
   seed({ id: "help", route: "/help", area: "more", title: text("מרכז עזרה", "Help Center"), summary: text("מצאו הדרכה מוכוונת משימה.", "Find task-oriented product guidance."), access: "protected" }),
   seed({ id: "glossary", route: "/glossary", area: "more", title: text("מילון מונחים", "Glossary"), summary: text("הכירו מושגים מרכזיים בעברית ובאנגלית.", "Understand core concepts in Hebrew and English."), access: "protected" }),
   seed({ id: "settings", route: "/settings", area: "more", title: text("הגדרות", "Settings"), summary: text("התאימו שפה, חוויה ונתונים מקומיים.", "Manage language, experience, and local data.") }),
+  seed({ id: "profile", route: "/profile", area: "account", title: text("פרופיל", "Profile"), summary: text("נהלו פרטים, מטרות והעדפות חוויה.", "Manage details, goals, and experience preferences.") }),
+  seed({ id: "account-security", route: "/account/security", area: "account", title: text("אבטחת חשבון", "Account security"), summary: text("נהלו סיסמה, הפעלה ובקשות חשבון.", "Manage password, session, and account requests."), access: "authenticated" }),
   seed({ id: "qa", route: "/qa", area: "more", title: text("מרכז QA", "QA Center"), summary: text("בדקו מוכנות, נגישות ואיכות שחרור.", "Review readiness, accessibility, and release quality."), visibility: "advanced", tourId: "qa" }),
   ...["analytics", "how-to", "docs", "release", "developer", "roadmap", "journey", "changelog"].map((id) => seed({ id, route: `/${id}`, area: id === "journey" ? "learn" : "more", title: text(id === "journey" ? "מסע למידה" : id, id.replace("-", " ")), summary: text("כלים ומידע תומכים.", "Supporting tools and information."), visibility: id === "developer" ? "developer" : "advanced" })),
 ];

@@ -35,7 +35,10 @@ import { ExperienceProvider } from "./experience";
 import { OnboardingProvider } from "./onboarding";
 import { GuidedTourProvider } from "./guidance/tours";
 import { GuestRoute } from "./auth/GuestRoute";
+import { AuthenticatedRoute } from "./auth/AuthenticatedRoute";
 import { AuthCallbackPage, AuthErrorPage, AuthLoginPage, AuthRegisterPage, ForgotPasswordPage, ResetPasswordPage, VerifyEmailPage } from "./pages/auth";
+import { PrivacyPage } from "./pages/PrivacyPage";
+import { TermsPage } from "./pages/TermsPage";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
 const DashboardPage = lazy(() => import("./pages/GuidedDashboardPage").then((module) => ({ default: module.GuidedDashboardPage })));
@@ -64,6 +67,8 @@ const WorkflowBuilderPage = lazy(() => import("./pages/WorkflowBuilderPage").the
 const AnalyticsPage = lazy(() => import("./pages/AnalyticsPage").then((module) => ({ default: module.AnalyticsPage })));
 const HelpCenterPage = lazy(() => import("./pages/HelpCenterPage").then((module) => ({ default: module.HelpCenterPage })));
 const GlossaryPage = lazy(() => import("./pages/GlossaryPage").then((module) => ({ default: module.GlossaryPage })));
+const ProfilePage = lazy(() => import("./pages/ProfilePage").then((module) => ({ default: module.ProfilePage })));
+const AccountSecurityPage = lazy(() => import("./pages/AccountSecurityPage").then((module) => ({ default: module.AccountSecurityPage })));
 
 export interface AppProps {
   routerMode?: RouterMode;
@@ -100,6 +105,8 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                 <Route path="auth/callback" element={<AuthCallbackPage />} />
                 <Route path="auth/error" element={<AuthErrorPage />} />
                 <Route path="about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
+                <Route path="privacy" element={<PrivacyPage />} />
+                <Route path="terms" element={<TermsPage />} />
                 <Route element={<ProtectedRoute />}>
                   <Route element={<AppLayout />}>
                     <Route index element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
@@ -169,6 +176,8 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                     <Route path="analytics" element={<Suspense fallback={null}><AnalyticsPage /></Suspense>} />
                     <Route path="radar" element={<RadarPage />} />
                     <Route path="settings" element={<SettingsPage />} />
+                    <Route path="profile" element={<Suspense fallback={null}><ProfilePage /></Suspense>} />
+                    <Route element={<AuthenticatedRoute />}><Route path="account/security" element={<Suspense fallback={null}><AccountSecurityPage /></Suspense>} /></Route>
                     <Route path="qa" element={<QACenterPage />} />
                     <Route path="runs" element={<Suspense fallback={null}><RunHistoryPage /></Suspense>} />
                     <Route path="runs/:runId" element={<Suspense fallback={null}><RunDetailsPage /></Suspense>} />

@@ -2538,3 +2538,24 @@ html[data-motion="reduced"] * { scroll-behavior: auto !important; animation-dura
 .consent-row input { inline-size: 1.25rem; min-block-size: 1.25rem; }
 .route-loading { min-block-size: 100vh; display: grid; place-items: center; }
 @media (max-width:32rem) { .auth-name-grid { grid-template-columns: 1fr; } }
+
+/* Profile, account security, and public legal pages */
+.profile-page,.account-security-page { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--space-5); }
+.profile-form { grid-row: span 2; }
+.profile-form,.account-security-page section { display: grid; align-content: start; gap: var(--space-4); }
+.profile-form label,.profile-page section>label,.account-security-page form label { display: grid; gap: var(--space-2); }
+.profile-form input,.profile-form textarea,.profile-page select,.account-security-page input { inline-size: 100%; min-block-size: var(--control-min-height); padding: var(--space-3); border: 1px solid var(--line-bright); border-radius: var(--control-radius); color: inherit; background: #071321; }
+.profile-form textarea { min-block-size: 8rem; resize: vertical; }
+.profile-interests { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--space-2); }
+.account-facts { display: grid; gap: var(--space-3); margin: 0; }
+.account-facts div { display: grid; grid-template-columns: minmax(8rem,.45fr) 1fr; gap: var(--space-3); padding-block-end: var(--space-2); border-block-end: 1px solid var(--line); }
+.account-facts dt { color: var(--muted); }
+.account-facts dd { margin: 0; overflow-wrap: anywhere; }
+.account-dialog { display: grid; gap: var(--space-3); padding: var(--space-4); border: 1px solid var(--line-bright); border-radius: var(--radius); background: #071321; }
+.account-dialog button { min-block-size: var(--control-min-height); }
+.danger-zone { border-color: var(--danger); }
+.legal-page { min-block-size: 100vh; padding: clamp(var(--space-5),6vw,var(--space-12)); background: var(--bg); }
+.legal-page article { max-inline-size: 52rem; margin-inline: auto; padding: clamp(var(--space-5),5vw,var(--space-10)); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--panel); }
+.legal-page h2 { margin-block-start: var(--space-8); }
+.legal-notice { padding: var(--space-3); border-inline-start: .3rem solid var(--warning); background: rgb(231 184 102/.08); }
+@media (max-width:48rem) { .profile-page,.account-security-page { grid-template-columns: 1fr; } .profile-form { grid-row: auto; } .profile-interests { grid-template-columns: 1fr; } }

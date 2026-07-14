@@ -1,4 +1,4 @@
-interface IconProps { name: 'dashboard' | 'lessons' | 'prompts' | 'agents' | 'projects' | 'radar' | 'settings' | 'qa' | 'menu' | 'close' | 'arrow' | 'home' | 'clock' | 'signal'; className?: string }
+interface IconProps { name: 'dashboard' | 'lessons' | 'prompts' | 'agents' | 'projects' | 'radar' | 'settings' | 'qa' | 'menu' | 'close' | 'arrow' | 'home' | 'clock' | 'signal' | 'aos'; className?: string }
 
 const paths: Record<IconProps['name'], React.ReactNode> = {
   dashboard: <><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></>,
@@ -13,6 +13,7 @@ const paths: Record<IconProps['name'], React.ReactNode> = {
   arrow: <path d="m9 18 6-6-6-6"/>, clock: <><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></>,
   home: <><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></>,
   signal: <><path d="M4 17h2M9 13h2v4H9zM14 9h2v8h-2zM19 5h2v12h-2z"/></>,
+  aos: <><rect x="3" y="9" width="18" height="10" rx="2"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/></>,
 }
 
 export function Icon({ name, className = '' }: IconProps) {

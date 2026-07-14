@@ -32,6 +32,7 @@ export const navigationItems: NavigationItem[] = [
   { to: "/docs", label: "nav.documentation", icon: "lessons", visibility: "advanced" },
   { to: "/qa", label: "nav.qa", icon: "qa", visibility: "advanced" },
   { to: "/release", label: "nav.release", icon: "qa", visibility: "advanced" },
+  { to: "/aos", label: "nav.aos", icon: "aos", visibility: "advanced" },
   { to: "/settings", label: "nav.settings", icon: "settings" },
   { to: "/developer", label: "nav.developer", icon: "settings", visibility: "developer" },
   { to: "/roadmap", label: "nav.roadmap", icon: "radar", visibility: "advanced" },
@@ -42,5 +43,5 @@ export const navigationGroups = [
   { id: "learn", items: navigationItems.filter((item) => ["/journey", "/lessons", "/radar"].includes(item.to)) },
   { id: "build", items: navigationItems.filter((item) => ["/prompts", "/agents", "/playground/prompts", "/playground/agents", "/workflows"].includes(item.to)) },
   { id: "workspace", items: navigationItems.filter((item) => ["/projects", "/knowledge", "/runs"].includes(item.to)) },
-  { id: "more", items: navigationItems.filter((item) => ["/assistant", "/search", "/analytics", "/help", "/glossary", "/how-to", "/docs", "/qa", "/release", "/settings", "/developer", "/roadmap"].includes(item.to)) },
+  { id: "more", items: navigationItems.filter((item) => ["/assistant", "/search", "/analytics", "/help", "/glossary", "/how-to", "/docs", "/qa", "/release", "/aos", "/settings", "/developer", "/roadmap"].includes(item.to)) },
 ] as const;

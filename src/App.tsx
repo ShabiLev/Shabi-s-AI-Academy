@@ -74,6 +74,13 @@ const GlossaryPage = lazy(() => import("./pages/GlossaryPage").then((module) => 
 const ProfilePage = lazy(() => import("./pages/ProfilePage").then((module) => ({ default: module.ProfilePage })));
 const AccountSecurityPage = lazy(() => import("./pages/AccountSecurityPage").then((module) => ({ default: module.AccountSecurityPage })));
 const AccountMigrationPage = lazy(() => import("./pages/AccountMigrationPage").then((module) => ({ default: module.AccountMigrationPage })));
+const AosPage = lazy(() => import("./pages/AosPage").then((module) => ({ default: module.AosPage })));
+const AosModulesPage = lazy(() => import("./pages/aos").then((module) => ({ default: module.AosModulesPage })));
+const AosResearchPage = lazy(() => import("./pages/aos").then((module) => ({ default: module.AosResearchPage })));
+const AosEvidencePage = lazy(() => import("./pages/aos").then((module) => ({ default: module.AosEvidencePage })));
+const AosHandoffsPage = lazy(() => import("./pages/aos").then((module) => ({ default: module.AosHandoffsPage })));
+const AosSecurityPage = lazy(() => import("./pages/aos").then((module) => ({ default: module.AosSecurityPage })));
+const AosReleasesPage = lazy(() => import("./pages/aos").then((module) => ({ default: module.AosReleasesPage })));
 
 export interface AppProps {
   routerMode?: RouterMode;
@@ -185,6 +192,13 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                     <Route element={<AuthenticatedRoute />}><Route path="account/security" element={<Suspense fallback={null}><AccountSecurityPage /></Suspense>} /><Route path="account/migration" element={<Suspense fallback={null}><AccountMigrationPage /></Suspense>} /></Route>
                     <Route element={<AdminRoute />}><Route path="admin" element={<AdminDashboardPage />} /><Route path="admin/users" element={<AdminUsersPage />} /><Route path="admin/content" element={<AdminContentPage />} /><Route path="admin/audit" element={<AdminAuditPage />} /></Route>
                     <Route path="qa" element={<QACenterPage />} />
+                    <Route path="aos" element={<Suspense fallback={null}><AosPage /></Suspense>} />
+                    <Route path="aos/modules" element={<Suspense fallback={null}><AosModulesPage /></Suspense>} />
+                    <Route path="aos/research" element={<Suspense fallback={null}><AosResearchPage /></Suspense>} />
+                    <Route path="aos/evidence" element={<Suspense fallback={null}><AosEvidencePage /></Suspense>} />
+                    <Route path="aos/handoffs" element={<Suspense fallback={null}><AosHandoffsPage /></Suspense>} />
+                    <Route path="aos/security" element={<Suspense fallback={null}><AosSecurityPage /></Suspense>} />
+                    <Route path="aos/releases" element={<Suspense fallback={null}><AosReleasesPage /></Suspense>} />
                     <Route path="runs" element={<Suspense fallback={null}><RunHistoryPage /></Suspense>} />
                     <Route path="runs/:runId" element={<Suspense fallback={null}><RunDetailsPage /></Suspense>} />
                   </Route>

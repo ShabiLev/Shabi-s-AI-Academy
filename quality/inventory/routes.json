@@ -814,5 +814,89 @@
       "browser",
       "hash"
     ]
+  },
+  {
+    "route": "/aos",
+    "pageId": "aos",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/aos",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/aos/modules",
+    "pageId": "aos.modules",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/aos/modules",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/aos/research",
+    "pageId": "aos.research",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/aos/research",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/aos/evidence",
+    "pageId": "aos.evidence",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/aos/evidence",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/aos/handoffs",
+    "pageId": "aos.handoffs",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/aos/handoffs",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/aos/security",
+    "pageId": "aos.security",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/aos/security",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/aos/releases",
+    "pageId": "aos.releases",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/aos/releases",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
   }
 ]

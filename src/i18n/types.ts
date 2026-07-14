@@ -38,6 +38,7 @@ export type TranslationKey =
   | "nav.radar"
   | "nav.settings"
   | "nav.qa"
+  | "nav.aos"
   | "nav.howTo"
   | "nav.help"
   | "nav.glossary"

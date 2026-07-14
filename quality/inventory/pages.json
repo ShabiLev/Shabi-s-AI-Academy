@@ -2450,5 +2450,257 @@
     "expectedAnalyticsEvent": "page_view:qa",
     "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
     "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/aos",
+    "pageId": "aos",
+    "title": "Agent Operating System",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Review current AOS status: version, modules, evidence, research, and handoffs",
+    "primaryAction": "Open a subsection (modules, research, evidence, handoffs, security, releases)",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains that no snapshot has been generated yet and how to generate one (npm run aos:snapshot)",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Agent Operating System",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:aos",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/aos/modules",
+    "pageId": "aos.modules",
+    "title": "AOS Modules",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Browse and filter the AOS module catalog by category and task type",
+    "primaryAction": "Filter the module list",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains no modules match the current filter and how to clear it",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, table scrolls within its own container",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Agent Operating System > Modules",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:aos.modules",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/aos/research",
+    "pageId": "aos.research",
+    "title": "AOS Research Pipeline",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Review research pipeline counts and policy",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains that no snapshot has been generated yet and how to generate one",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Agent Operating System > Research",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:aos.research",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/aos/evidence",
+    "pageId": "aos.evidence",
+    "title": "AOS Evidence Viewer",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Review the latest quality evidence run",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains that no evidence run exists yet and how to produce one (npm run quality:evidence)",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Agent Operating System > Evidence",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:aos.evidence",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/aos/handoffs",
+    "pageId": "aos.handoffs",
+    "title": "AOS Handoffs",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Review the active handoff, if any, and the handoff protocol",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains plainly that no handoff is currently active",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Agent Operating System > Handoffs",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:aos.handoffs",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/aos/security",
+    "pageId": "aos.security",
+    "title": "AOS Security Policy",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Review AOS security precedence and policy modules",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains that no snapshot has been generated yet and how to generate one",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Agent Operating System > Security",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:aos.security",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/aos/releases",
+    "pageId": "aos.releases",
+    "title": "AOS Releases",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Review the current application version and release-related modules",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains that no snapshot has been generated yet and how to generate one",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Agent Operating System > Releases",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:aos.releases",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
   }
 ]

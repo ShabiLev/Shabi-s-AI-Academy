@@ -39,6 +39,7 @@ export const translations: Record<Language, Translations> = {
     "nav.radar": "רדאר AI",
     "nav.settings": "הגדרות",
     "nav.qa": "מרכז QA",
+    "nav.aos": "מערכת הפעלה לסוכנים",
     "nav.howTo": "איך משתמשים",
     "nav.help": "מרכז עזרה",
     "nav.glossary": "מילון מונחים",
@@ -151,7 +152,7 @@ export const translations: Record<Language, Translations> = {
     "auth.description": "סביבת למידה מעשית לבניית מיומנויות בהנדסת AI וסוכנים.",
     "auth.developmentNotice":
       "מצב ההדגמה מיועד לפיתוח מקומי בלבד ואינו אימות מאובטח לשימוש אמיתי.",
-    "footer.version": "גרסה 1.3.0-beta.1",
+    "footer.version": "גרסה 1.4.0-beta.1",
     "footer.builtWhileLearning": "נבנה תוך כדי לימודי הנדסת AI",
   },
   en: {
@@ -192,6 +193,7 @@ export const translations: Record<Language, Translations> = {
     "nav.radar": "AI Radar",
     "nav.settings": "Settings",
     "nav.qa": "QA Center",
+    "nav.aos": "Agent OS",
     "nav.howTo": "How To",
     "nav.help": "Help Center",
     "nav.glossary": "Glossary",
@@ -310,7 +312,7 @@ export const translations: Record<Language, Translations> = {
       "A practical learning environment for building AI engineering and agent-development skills.",
     "auth.developmentNotice":
       "Demo mode is a local development simulation only and is not secure production authentication.",
-    "footer.version": "Version 1.3.0-beta.1",
+    "footer.version": "Version 1.4.0-beta.1",
     "footer.builtWhileLearning": "Built while learning AI engineering",
   },
 };

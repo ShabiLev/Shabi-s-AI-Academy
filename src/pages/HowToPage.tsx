@@ -61,7 +61,7 @@ export function HowToPage() {
             ))}
           </nav>
         </aside>
-        <main className="help-content">
+        <div className="help-content">
           {items.map((x) => (
             <article id={x.id} key={x.id}>
               <h2>{ui === "he" ? x.titleHe : x.titleEn}</h2>
@@ -94,7 +94,7 @@ export function HowToPage() {
             </article>
           ))}
           <a href="#top">{ui === "he" ? "חזרה למעלה" : "Back to top"}</a>
-        </main>
+        </div>
       </div>
       <section className="settings-card">
         <h2>
@@ -102,8 +102,8 @@ export function HowToPage() {
         </h2>
         <p>
           {ui === "he"
-            ? "בגרסה 1.2.0-beta.1 פלט Mock הוא סימולציה ו-Dry Run הוא תצוגה מקדימה. הרצה חיה מושבתת, מידע אינו נשלח החוצה וכלים חיצוניים אינם מופעלים."
-            : "In Version 1.2.0-beta.1, Mock output is simulated and Dry Run is a preview. Live Run is disabled, no data is sent externally, and no real tool is executed."}
+            ? "בגרסה 1.3.0-beta.1 פלט Mock הוא סימולציה ו-Dry Run הוא תצוגה מקדימה. הרצה חיה מושבתת, מידע אינו נשלח החוצה וכלים חיצוניים אינם מופעלים."
+            : "In Version 1.3.0-beta.1, Mock output is simulated and Dry Run is a preview. Live Run is disabled, no data is sent externally, and no real tool is executed."}
         </p>
       </section>
     </div>

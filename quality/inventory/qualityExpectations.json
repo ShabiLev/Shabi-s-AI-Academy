@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "severityModel": {
+    "Critical": [
+      "data loss",
+      "security bypass",
+      "login impossible",
+      "blank application",
+      "primary journey impossible",
+      "destructive action without confirmation"
+    ],
+    "High": [
+      "major feature unusable",
+      "inaccessible primary flow",
+      "severe overlap",
+      "navigation trap",
+      "mobile task impossible"
+    ],
+    "Medium": [
+      "confusing workflow",
+      "inconsistent wording",
+      "minor recovery issue",
+      "secondary responsive defect"
+    ],
+    "Low": [
+      "cosmetic inconsistency",
+      "non-blocking copy issue"
+    ]
+  },
+  "releaseRules": {
+    "Critical": "blocked",
+    "High": "blocked",
+    "Medium": "readyWithWarnings",
+    "Low": "documentedBacklog",
+    "manualUxReview": {
+      "notRun": "readyWithWarnings",
+      "passedWithWarnings": "readyWithWarnings",
+      "failed": "blocked",
+      "passed": "mayBeReady"
+    }
+  },
+  "manualUxReview": {
+    "status": "notRun",
+    "approvedBy": null,
+    "reviewedAt": null,
+    "note": "Automation cannot approve subjective UX. A human reviewer must record the outcome."
+  },
+  "languages": [
+    "he",
+    "en"
+  ],
+  "experienceModes": [
+    "beginner",
+    "advanced"
+  ]
+}

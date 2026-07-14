@@ -42,6 +42,7 @@ import { TermsPage } from "./pages/TermsPage";
 import { AdminRoute } from "./admin";
 import { AdminAuditPage, AdminContentPage, AdminDashboardPage, AdminUsersPage } from "./pages/admin";
 import { LandingPage } from "./pages/LandingPage";
+import { NotFoundPage } from "./pages/NotFoundPage";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
 const DashboardPage = lazy(() => import("./pages/GuidedDashboardPage").then((module) => ({ default: module.GuidedDashboardPage })));
@@ -188,6 +189,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                     <Route path="runs/:runId" element={<Suspense fallback={null}><RunDetailsPage /></Suspense>} />
                   </Route>
                 </Route>
+                <Route path="*" element={<NotFoundPage />} />
                 </Routes>
                   </AssistantProvider>
                   </WorkflowProvider>

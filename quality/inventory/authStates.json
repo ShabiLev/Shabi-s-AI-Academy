@@ -1,0 +1,46 @@
+[
+  {
+    "id": "unauthenticated",
+    "expectedOutcome": "The UI identifies the state, preserves safe local work, and provides an appropriate next action"
+  },
+  {
+    "id": "guest",
+    "expectedOutcome": "The UI identifies the state, preserves safe local work, and provides an appropriate next action"
+  },
+  {
+    "id": "authenticated",
+    "expectedOutcome": "The UI identifies the state, preserves safe local work, and provides an appropriate next action"
+  },
+  {
+    "id": "email-unverified",
+    "expectedOutcome": "The UI identifies the state, preserves safe local work, and provides an appropriate next action"
+  },
+  {
+    "id": "session-loading",
+    "expectedOutcome": "The UI identifies the state, preserves safe local work, and provides an appropriate next action"
+  },
+  {
+    "id": "session-expired",
+    "expectedOutcome": "The UI identifies the state, preserves safe local work, and provides an appropriate next action"
+  },
+  {
+    "id": "password-recovery",
+    "expectedOutcome": "The UI identifies the state, preserves safe local work, and provides an appropriate next action"
+  },
+  {
+    "id": "supabase-unavailable",
+    "expectedOutcome": "The UI identifies the state, preserves safe local work, and provides an appropriate next action"
+  },
+  {
+    "id": "offline",
+    "expectedOutcome": "The UI identifies the state, preserves safe local work, and provides an appropriate next action"
+  },
+  {
+    "id": "admin",
+    "expectedOutcome": "The UI identifies the state, preserves safe local work, and provides an appropriate next action"
+  },
+  {
+    "id": "standard-user",
+    "expectedOutcome": "The UI identifies the state, preserves safe local work, and provides an appropriate next action"
+  }
+]

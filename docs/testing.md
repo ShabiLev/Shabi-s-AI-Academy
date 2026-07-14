@@ -1,6 +1,6 @@
 # Testing strategy
 
-Version 1.3.0-beta.1 extends the complete beta coverage with public landing and auth routes, Guest onboarding, Beginner/Advanced navigation, page guidance, Help, Glossary, Tours, profiles, provider repositories, migration/conflicts, RLS documentation, and Admin denial. Runtime and cloud-provider tests use injected boundaries and never call real external services.
+Version 1.3.0-beta.1 extends the complete beta coverage with public landing and auth routes, Guest onboarding, Beginner/Advanced navigation, page guidance, Help, Glossary, Tours, profiles, provider repositories, migration/conflicts, RLS documentation, Admin denial, and the machine-readable browser quality program documented in [system-quality-program.md](system-quality-program.md). Runtime and cloud-provider tests use injected boundaries and never call real external services.
 
 The release browser matrix covers the required desktop/mobile viewports, Hebrew RTL and English LTR, refresh persistence, keyboard operation, no-network boundaries, corruption recovery, visual baselines, and axe scans for every complex AI Workspace surface. Lighthouse audits Dashboard, Search, Assistant, Workflow Builder, and Analytics on desktop and mobile without lowering thresholds.
 

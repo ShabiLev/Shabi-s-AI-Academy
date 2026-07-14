@@ -2487,7 +2487,7 @@ html[data-motion="reduced"] * { scroll-behavior: auto !important; animation-dura
 /* Shared guidance, glossary, and lightweight tours */
 .panel { min-inline-size: 0; padding: var(--space-5); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--panel); }
 .button,.text-button,.text-link { min-block-size: var(--control-min-height); display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); max-inline-size: 100%; padding-inline: var(--space-4); border: 1px solid transparent; border-radius: var(--control-radius); font: inherit; font-weight: 700; text-align: center; text-decoration: none; }
-.button-primary { border-color: var(--blue); color: #f7fbff; background: var(--blue); }
+.button-primary { border-color: var(--blue); color: #07111f; background: var(--blue); }
 .button-secondary { border-color: var(--line-bright); color: var(--text); background: rgba(35,133,200,.1); }
 .text-button,.text-link { min-block-size: 2.5rem; padding-inline: var(--space-2); color: var(--blue-soft); background: transparent; }
 .button:hover,.text-button:hover,.text-link:hover { border-color: var(--blue-soft); }

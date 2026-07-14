@@ -1,0 +1,82 @@
+[
+  {
+    "id": "new-beginner-guest",
+    "name": "New Beginner Guest",
+    "language": "he",
+    "mode": "beginner",
+    "authState": "unauthenticated",
+    "dataState": "empty",
+    "device": "mobile",
+    "fixture": "new_beginner_guest"
+  },
+  {
+    "id": "returning-beginner",
+    "name": "Returning Beginner User",
+    "language": "he",
+    "mode": "beginner",
+    "authState": "guest",
+    "dataState": "partially-populated",
+    "device": "desktop",
+    "fixture": "returning_beginner"
+  },
+  {
+    "id": "advanced-qa",
+    "name": "Advanced QA User",
+    "language": "en",
+    "mode": "advanced",
+    "authState": "guest",
+    "dataState": "heavily-populated",
+    "device": "desktop",
+    "fixture": "advanced_qa"
+  },
+  {
+    "id": "guest-local-data",
+    "name": "Guest with Existing Local Data",
+    "language": "he",
+    "mode": "beginner",
+    "authState": "guest",
+    "dataState": "local-only",
+    "device": "desktop",
+    "fixture": "guest_local_data"
+  },
+  {
+    "id": "cloud-user",
+    "name": "Authenticated Cloud User",
+    "language": "en",
+    "mode": "advanced",
+    "authState": "authenticated",
+    "dataState": "cloud-only",
+    "device": "desktop-and-mobile",
+    "fixture": "cloud_user"
+  },
+  {
+    "id": "offline-user",
+    "name": "Offline Authenticated User",
+    "language": "en",
+    "mode": "advanced",
+    "authState": "offline",
+    "dataState": "sync-pending",
+    "device": "desktop",
+    "fixture": "offline_user"
+  },
+  {
+    "id": "accessibility-user",
+    "name": "Accessibility User",
+    "language": "he",
+    "mode": "beginner",
+    "authState": "guest",
+    "dataState": "first-use",
+    "device": "keyboard-zoom-reduced-motion",
+    "fixture": "accessibility_user"
+  },
+  {
+    "id": "admin-standard-boundary",
+    "name": "Admin and Standard User",
+    "language": "en",
+    "mode": "advanced",
+    "authState": "admin-and-standard",
+    "dataState": "partially-populated",
+    "device": "desktop",
+    "fixture": "admin_standard_boundary"
+  }
+]

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "completely-empty",
+    "expectedOutcome": "No blank page or silent data loss; state and recovery are understandable"
+  },
+  {
+    "id": "first-use",
+    "expectedOutcome": "No blank page or silent data loss; state and recovery are understandable"
+  },
+  {
+    "id": "partially-populated",
+    "expectedOutcome": "No blank page or silent data loss; state and recovery are understandable"
+  },
+  {
+    "id": "heavily-populated",
+    "expectedOutcome": "No blank page or silent data loss; state and recovery are understandable"
+  },
+  {
+    "id": "malformed-local-storage",
+    "expectedOutcome": "No blank page or silent data loss; state and recovery are understandable"
+  },
+  {
+    "id": "outdated-schema",
+    "expectedOutcome": "No blank page or silent data loss; state and recovery are understandable"
+  },
+  {
+    "id": "local-only",
+    "expectedOutcome": "No blank page or silent data loss; state and recovery are understandable"
+  },
+  {
+    "id": "cloud-only",
+    "expectedOutcome": "No blank page or silent data loss; state and recovery are understandable"
+  },
+  {
+    "id": "local-cloud-identical",
+    "expectedOutcome": "No blank page or silent data loss; state and recovery are understandable"
+  },
+  {
+    "id": "local-cloud-conflicting",
+    "expectedOutcome": "No blank page or silent data loss; state and recovery are understandable"
+  },
+  {
+    "id": "sync-pending",
+    "expectedOutcome": "No blank page or silent data loss; state and recovery are understandable"
+  },
+  {
+    "id": "sync-failed",
+    "expectedOutcome": "No blank page or silent data loss; state and recovery are understandable"
+  },
+  {
+    "id": "storage-near-limit",
+    "expectedOutcome": "No blank page or silent data loss; state and recovery are understandable"
+  }
+]

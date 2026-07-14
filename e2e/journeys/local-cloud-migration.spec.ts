@@ -1,0 +1,2 @@
+import { test, expect } from "@playwright/test"; import { enterGuest } from "./journeyHarness";
+test("local data remains safe at authenticated migration boundary", async ({ page }) => { await enterGuest(page); await page.evaluate(() => localStorage.setItem("quality-migration-sentinel", "preserve")); await page.goto("/account/migration"); await expect(page.locator("body")).toContainText(/sign in|התחבר|חשבון/i); await expect(await page.evaluate(() => localStorage.getItem("quality-migration-sentinel"))).toBe("preserve"); });

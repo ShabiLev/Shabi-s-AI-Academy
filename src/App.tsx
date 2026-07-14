@@ -39,6 +39,8 @@ import { AuthenticatedRoute } from "./auth/AuthenticatedRoute";
 import { AuthCallbackPage, AuthErrorPage, AuthLoginPage, AuthRegisterPage, ForgotPasswordPage, ResetPasswordPage, VerifyEmailPage } from "./pages/auth";
 import { PrivacyPage } from "./pages/PrivacyPage";
 import { TermsPage } from "./pages/TermsPage";
+import { AdminRoute } from "./admin";
+import { AdminAuditPage, AdminContentPage, AdminDashboardPage, AdminUsersPage } from "./pages/admin";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
 const DashboardPage = lazy(() => import("./pages/GuidedDashboardPage").then((module) => ({ default: module.GuidedDashboardPage })));
@@ -179,6 +181,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                     <Route path="settings" element={<SettingsPage />} />
                     <Route path="profile" element={<Suspense fallback={null}><ProfilePage /></Suspense>} />
                     <Route element={<AuthenticatedRoute />}><Route path="account/security" element={<Suspense fallback={null}><AccountSecurityPage /></Suspense>} /><Route path="account/migration" element={<Suspense fallback={null}><AccountMigrationPage /></Suspense>} /></Route>
+                    <Route element={<AdminRoute />}><Route path="admin" element={<AdminDashboardPage />} /><Route path="admin/users" element={<AdminUsersPage />} /><Route path="admin/content" element={<AdminContentPage />} /><Route path="admin/audit" element={<AdminAuditPage />} /></Route>
                     <Route path="qa" element={<QACenterPage />} />
                     <Route path="runs" element={<Suspense fallback={null}><RunHistoryPage /></Suspense>} />
                     <Route path="runs/:runId" element={<Suspense fallback={null}><RunDetailsPage /></Suspense>} />

@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthContext";
 import { useLanguage } from "../../i18n/LanguageContext";
+import { isVerifiedAdmin } from "../../admin";
 
 const viewportPadding = 12;
 
@@ -94,6 +95,7 @@ export function ProfileMenu({ mobile = false }: { mobile?: boolean }) {
       <div className="profile-summary"><strong>{name}</strong><span>{user.role}</span><small>{isCloudAuthenticated ? (language === "he" ? "חשבון מחובר" : "Cloud account") : (language === "he" ? "אורח · מקומי בלבד" : "Guest · local only")}</small></div>
       <Link role="menuitem" to="/profile" onClick={() => close(false)}>{language === "he" ? "פרופיל" : "Profile"}</Link>
       {isCloudAuthenticated && <Link role="menuitem" to="/account/security" onClick={() => close(false)}>{language === "he" ? "אבטחת חשבון" : "Account security"}</Link>}
+      {isVerifiedAdmin(user) && <Link role="menuitem" to="/admin" onClick={() => close(false)}>{language === "he" ? "ניהול" : "Admin"}</Link>}
       {!isCloudAuthenticated && <Link role="menuitem" to="/auth/login" onClick={() => close(false)}>{language === "he" ? "כניסה או יצירת חשבון" : "Sign in or create account"}</Link>}
       <Link role="menuitem" to="/settings" onClick={() => close(false)}>{t("nav.settings")}</Link>
       <Link role="menuitem" to="/about" onClick={() => close(false)}>About / אודות</Link>

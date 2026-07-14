@@ -3,8 +3,24 @@
 Shabi's AI Academy is a bilingual, local-first React learning application for prompts, agents, and quality engineering.
 
 - Stack: React, TypeScript, Vite, React Router, Vitest, Playwright, axe, and Lighthouse.
-- Current release: 1.3.0-beta.1. The controlling specification is `.codex/release-1.3-auth-guided-ux/`; prior release specifications remain historical.
-- Engineering Kit: 1.0.0.
+- Current release: 1.4.0-beta.1 (Agent Operating System). The controlling specification is the Agent Operating System at `.agent/`; `.codex/release-1.3-auth-guided-ux/` remains valid, historical project instruction.
+- Engineering Kit: 1.0.0. AOS: 1.0.0.
+
+## Agent Operating System (mandatory)
+
+For every substantial task:
+
+1. Read [`.agent/master.md`](.agent/master.md) — the AOS orchestration entry point.
+2. Classify the task and load the mapped modules through [`.agent/registry.json`](.agent/registry.json).
+3. Follow AOS evidence requirements — see [`.agent/quality/evidence.md`](.agent/quality/evidence.md).
+4. Follow AOS Git policy — see [`.agent/git/git-policy.md`](.agent/git/git-policy.md).
+5. Preserve existing release specifications under `.codex/` exactly as they are.
+6. Stop before push/merge unless the user explicitly authorizes it in the current session.
+
+Codex should also read [`.codex/workflows/aos.md`](.codex/workflows/aos.md);
+Claude Code should also read [`.claude/workflows/aos.md`](.claude/workflows/aos.md)
+and [`CLAUDE.md`](CLAUDE.md). Do not copy the full AOS into this file — it
+is a pointer, not a duplicate.
 
 Read in order:
 
@@ -13,8 +29,8 @@ Read in order:
 3. [.codex/standards/coding.md](.codex/standards/coding.md)
 4. [.codex/standards/qa.md](.codex/standards/qa.md)
 5. [.codex/standards/security.md](.codex/standards/security.md)
-6. [.codex/release-1.3-auth-guided-ux/00-master-spec.md](.codex/release-1.3-auth-guided-ux/00-master-spec.md)
-7. Every User Accounts & Guided Experience release file referenced by the master specification.
+6. [.codex/release-1.3-auth-guided-ux/00-master-spec.md](.codex/release-1.3-auth-guided-ux/00-master-spec.md) (prior release, still valid project instruction for the auth/guided-UX surfaces it introduced)
+7. Every User Accounts & Guided Experience release file referenced by that master specification.
 
 Requirements:
 

@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.shabis-academy.dev/aos/v1/research-source.schema.json",
+  "title": "Research Source",
+  "description": "A single research source record: an explicitly supplied document, repository, paper, or article, ranked and dated per .agent/research/source-ranking.md and .agent/research/freshness-policy.md.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Stable unique identifier for this source record."
+    },
+    "title": {
+      "type": "string"
+    },
+    "sourceType": {
+      "type": "string",
+      "description": "See .agent/research/source-types.md.",
+      "enum": [
+        "officialSpec",
+        "peerReviewedPaper",
+        "officialRepository",
+        "standardsBody",
+        "securityAdvisory",
+        "engineeringOrgBlog",
+        "researchLabReport",
+        "technicalPublication",
+        "maintainerArticle",
+        "independentExpert",
+        "conferenceTalk",
+        "communityDoc",
+        "githubDiscussion",
+        "forumPost",
+        "socialMedia",
+        "unverifiedTutorial",
+        "anonymousContent",
+        "newsArticle",
+        "releaseNote",
+        "benchmark",
+        "marketingMaterial",
+        "other"
+      ]
+    },
+    "publisher": {
+      "type": "string"
+    },
+    "authors": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "repository": {
+      "type": "string",
+      "description": "owner/repo form, when sourceType is a repository or a repo-hosted discussion."
+    },
+    "publicationDate": {
+      "type": "string",
+      "description": "ISO 8601 date. May be an empty string if genuinely unknown; the field must still be present (see .agent/research/citation-policy.md)."
+    },
+    "retrievalDate": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date this source was fetched/read."
+    },
+    "lastUpdated": {
+      "type": "string",
+      "description": "ISO 8601 date. Last known update to the source itself (e.g. last commit, last doc edit)."
+    },
+    "license": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string",
+      "description": "BCP 47 language tag of the source content, e.g. en, he."
+    },
+    "qualityTier": {
+      "type": "integer",
+      "enum": [1, 2, 3, 4],
+      "description": "See .agent/research/source-ranking.md."
+    },
+    "authorityScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "freshnessScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "relevanceScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "activityScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "securityStatus": {
+      "type": "string",
+      "enum": ["none", "advisoryOpen", "advisoryResolved", "incident", "notApplicable"]
+    },
+    "archived": {
+      "type": "boolean",
+      "default": false,
+      "description": "See .agent/research/source-ranking.md rule 6."
+    },
+    "deprecated": {
+      "type": "boolean",
+      "default": false,
+      "description": "See .agent/research/source-ranking.md rule 7."
+    },
+    "checksum": {
+      "type": "string",
+      "description": "Hash of normalized retrieved content, used for duplicate detection (see .agent/research/duplicate-detection.md)."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["id", "title", "sourceType", "url", "retrievalDate", "qualityTier"],
+  "additionalProperties": false
+}

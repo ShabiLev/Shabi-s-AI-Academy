@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.shabis-academy.dev/aos/v1/radar-entry.schema.json",
+  "title": "Radar Entry",
+  "description": "A generated AI Radar candidate entry produced by the knowledge-ingestion pipeline (see .agent/research/knowledge-ingestion.md step 21).",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "sourceIds": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "reviewStatus": {
+      "type": "string",
+      "enum": [
+        "discovered",
+        "extracted",
+        "verified",
+        "translated",
+        "pendingReview",
+        "approved",
+        "published",
+        "warning",
+        "stale",
+        "deprecated",
+        "rejected"
+      ]
+    },
+    "freshnessStatus": {
+      "type": "string",
+      "enum": ["current", "aging", "stale", "deprecated", "superseded", "historical"]
+    },
+    "translationStatus": {
+      "type": "string",
+      "enum": ["notStarted", "inProgress", "complete"]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "generatedBy": {
+      "type": "object",
+      "properties": {
+        "agent": { "type": "string" },
+        "generatedDate": { "type": "string", "format": "date" }
+      },
+      "required": ["agent", "generatedDate"],
+      "additionalProperties": false
+    },
+    "version": {
+      "type": "string"
+    },
+    "createdDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "radarCategory": {
+      "type": "string",
+      "enum": ["model", "tool", "framework", "technique", "policy", "security", "market", "other"],
+      "description": "What kind of development this radar entry tracks."
+    },
+    "impactLevel": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"],
+      "description": "Expected impact on this project or its users if adopted/ignored."
+    },
+    "expiresDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date after which this entry should be re-reviewed for continued relevance (see .agent/research/freshness-policy.md)."
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "summary",
+    "sourceIds",
+    "reviewStatus",
+    "freshnessStatus",
+    "confidence",
+    "generatedBy",
+    "version",
+    "createdDate",
+    "radarCategory",
+    "impactLevel"
+  ],
+  "additionalProperties": false
+}

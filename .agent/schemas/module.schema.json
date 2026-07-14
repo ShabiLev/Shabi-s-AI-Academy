@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.shabis-academy.dev/aos/v1/module.schema.json",
+  "title": "AOS Module",
+  "description": "A single module entry as catalogued in .agent/manifest.json.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Dotted module identifier, e.g. research.research-policy."
+    },
+    "path": {
+      "type": "string",
+      "description": "Repository-relative path to the module file, e.g. .agent/research/research-policy.md."
+    },
+    "title": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string",
+      "description": "One-line description of what this module is for."
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "workflow",
+        "loaders",
+        "knowledge",
+        "research",
+        "quality",
+        "security",
+        "git",
+        "release",
+        "prompts",
+        "agents",
+        "memory",
+        "handoff",
+        "templates",
+        "schemas"
+      ]
+    },
+    "requiredFor": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Task types (see .agent/registry.json) or '*' for all tasks that require this module."
+    },
+    "dependsOn": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Other module IDs this module depends on."
+    },
+    "version": {
+      "type": "string"
+    },
+    "owner": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "deprecated", "draft"]
+    }
+  },
+  "required": ["id", "path", "title", "purpose", "category", "version", "owner", "status"],
+  "additionalProperties": false
+}

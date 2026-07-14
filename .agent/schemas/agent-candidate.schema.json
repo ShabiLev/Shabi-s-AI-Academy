@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.shabis-academy.dev/aos/v1/agent-candidate.schema.json",
+  "title": "Agent Candidate",
+  "description": "A generated Starter Agent candidate produced by the knowledge-ingestion pipeline (see .agent/research/knowledge-ingestion.md step 20).",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "sourceIds": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "reviewStatus": {
+      "type": "string",
+      "enum": [
+        "discovered",
+        "extracted",
+        "verified",
+        "translated",
+        "pendingReview",
+        "approved",
+        "published",
+        "warning",
+        "stale",
+        "deprecated",
+        "rejected"
+      ]
+    },
+    "freshnessStatus": {
+      "type": "string",
+      "enum": ["current", "aging", "stale", "deprecated", "superseded", "historical"]
+    },
+    "translationStatus": {
+      "type": "string",
+      "enum": ["notStarted", "inProgress", "complete"]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "generatedBy": {
+      "type": "object",
+      "properties": {
+        "agent": { "type": "string" },
+        "generatedDate": { "type": "string", "format": "date" }
+      },
+      "required": ["agent", "generatedDate"],
+      "additionalProperties": false
+    },
+    "version": {
+      "type": "string"
+    },
+    "createdDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "role": {
+      "type": "string",
+      "description": "The agent's operational role/persona, per .agent/knowledge/ai-agents.md."
+    },
+    "allowedTools": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Tool names this agent is permitted to use; write-capable or destructive tools require extra review (see .agent/security/mcp-security.md)."
+    },
+    "riskTier": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"],
+      "description": "Per .agent/loaders/task-classifier.md risk levels."
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "summary",
+    "sourceIds",
+    "reviewStatus",
+    "freshnessStatus",
+    "confidence",
+    "generatedBy",
+    "version",
+    "createdDate",
+    "role",
+    "allowedTools"
+  ],
+  "additionalProperties": false
+}

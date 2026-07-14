@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.shabis-academy.dev/aos/v1/lesson-candidate.schema.json",
+  "title": "Lesson Candidate",
+  "description": "A generated lesson (or lesson update) candidate produced by the knowledge-ingestion pipeline (see .agent/research/knowledge-ingestion.md step 18).",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "sourceIds": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "reviewStatus": {
+      "type": "string",
+      "enum": [
+        "discovered",
+        "extracted",
+        "verified",
+        "translated",
+        "pendingReview",
+        "approved",
+        "published",
+        "warning",
+        "stale",
+        "deprecated",
+        "rejected"
+      ]
+    },
+    "freshnessStatus": {
+      "type": "string",
+      "enum": ["current", "aging", "stale", "deprecated", "superseded", "historical"]
+    },
+    "translationStatus": {
+      "type": "string",
+      "enum": ["notStarted", "inProgress", "complete"]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "generatedBy": {
+      "type": "object",
+      "properties": {
+        "agent": { "type": "string" },
+        "generatedDate": { "type": "string", "format": "date" }
+      },
+      "required": ["agent", "generatedDate"],
+      "additionalProperties": false
+    },
+    "version": {
+      "type": "string"
+    },
+    "createdDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "lessonSlugSuggestion": {
+      "type": "string",
+      "description": "Proposed URL/route slug for the lesson."
+    },
+    "prerequisiteConcepts": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Glossary/knowledge concepts a learner should already know."
+    },
+    "estimatedDurationMinutes": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "summary",
+    "sourceIds",
+    "reviewStatus",
+    "freshnessStatus",
+    "confidence",
+    "generatedBy",
+    "version",
+    "createdDate",
+    "lessonSlugSuggestion"
+  ],
+  "additionalProperties": false
+}

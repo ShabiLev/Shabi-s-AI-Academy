@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.shabis-academy.dev/aos/v1/handoff.schema.json",
+  "title": "Handoff Document",
+  "description": "A handoff document required when a task stops before completion, so the next agent (Codex or Claude Code) can continue without re-deriving context (see .agent/handoff/handoff-policy.md, .agent/handoff/handoff-template.md).",
+  "type": "object",
+  "properties": {
+    "task": {
+      "type": "string",
+      "description": "What task was being worked on."
+    },
+    "scope": {
+      "type": "string",
+      "description": "What was and was not in scope for this task."
+    },
+    "branch": {
+      "type": "string"
+    },
+    "startingCommit": {
+      "type": "string",
+      "description": "Commit SHA when the task began."
+    },
+    "latestCommit": {
+      "type": "string",
+      "description": "Commit SHA at the time of handoff."
+    },
+    "filesChanged": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "testsExecuted": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "command": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["passed", "failed", "skipped", "notAvailable"]
+          }
+        },
+        "required": ["command", "status"],
+        "additionalProperties": false
+      }
+    },
+    "evidencePath": {
+      "type": "string",
+      "description": "Path under quality/execution/ where this task's evidence lives."
+    },
+    "openFailures": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Known failing checks/tests left unresolved, never hidden (see .agent/master.md principle 12)."
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "manualReview": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Items that require human certification and must never be reported as automated pass (see .agent/quality/manual-review.md)."
+    },
+    "nextAction": {
+      "type": "string",
+      "description": "The single next concrete step for the continuing agent."
+    },
+    "prohibitedAssumptions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Explicit list of things the next agent must not assume or guess (see .agent/master.md §9)."
+    }
+  },
+  "required": ["task", "scope", "branch", "startingCommit", "latestCommit", "nextAction"],
+  "additionalProperties": false
+}

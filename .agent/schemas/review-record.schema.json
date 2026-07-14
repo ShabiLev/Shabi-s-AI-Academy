@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.shabis-academy.dev/aos/v1/review-record.schema.json",
+  "title": "Review Record",
+  "description": "A human review decision on any generated candidate (see .agent/research/review-workflow.md).",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "candidateId": {
+      "type": "string",
+      "description": "ID of the reviewed item (e.g. a knowledge-entry, lesson-candidate, prompt-candidate, agent-candidate, workflow-candidate, or radar-entry)."
+    },
+    "candidateType": {
+      "type": "string",
+      "enum": [
+        "knowledgeEntry",
+        "lessonCandidate",
+        "promptCandidate",
+        "agentCandidate",
+        "workflowCandidate",
+        "radarEntry",
+        "documentationCandidate",
+        "other"
+      ]
+    },
+    "reviewer": {
+      "type": "string",
+      "description": "The human reviewer's name/handle. Never a generic 'automated' value for critical content (see .agent/research/knowledge-ingestion.md)."
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["approved", "rejected", "needsRevision"]
+    },
+    "reviewedDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": ["id", "candidateId", "candidateType", "reviewer", "decision", "reviewedDate"],
+  "additionalProperties": false
+}

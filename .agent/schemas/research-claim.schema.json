@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.shabis-academy.dev/aos/v1/research-claim.schema.json",
+  "title": "Research Claim",
+  "description": "A discrete, checkable statement extracted from one or more research sources (see .agent/research/claim-verification.md).",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "sourceId": {
+      "type": "string",
+      "description": "Primary source this claim was extracted from; see research-source.schema.json."
+    },
+    "statement": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["technical", "security", "performance", "legal", "market", "other"]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "verificationStatus": {
+      "type": "string",
+      "enum": ["unverified", "corroborated", "verified", "disputed", "refuted"],
+      "description": "See .agent/research/claim-verification.md."
+    },
+    "verifiedBy": {
+      "type": "string",
+      "description": "Who or what agent/process performed the verification."
+    },
+    "verifiedDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "conflictingClaimIds": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "IDs of other claim records this claim conflicts with."
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": ["id", "sourceId", "statement", "verificationStatus"],
+  "additionalProperties": false
+}

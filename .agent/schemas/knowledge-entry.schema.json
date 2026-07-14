@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.shabis-academy.dev/aos/v1/knowledge-entry.schema.json",
+  "title": "Knowledge Base Entry",
+  "description": "A published (or in-review) Knowledge Base entry generated from verified research (see .agent/research/content-generation.md).",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "summaryHe": {
+      "type": "string",
+      "description": "Hebrew bilingual summary; see .agent/knowledge/i18n.md."
+    },
+    "sourceIds": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "reviewStatus": {
+      "type": "string",
+      "enum": [
+        "discovered",
+        "extracted",
+        "verified",
+        "translated",
+        "pendingReview",
+        "approved",
+        "published",
+        "warning",
+        "stale",
+        "deprecated",
+        "rejected"
+      ],
+      "description": "See .agent/research/knowledge-ingestion.md."
+    },
+    "freshnessStatus": {
+      "type": "string",
+      "enum": ["current", "aging", "stale", "deprecated", "superseded", "historical"],
+      "description": "See .agent/research/freshness-policy.md."
+    },
+    "translationStatus": {
+      "type": "string",
+      "enum": ["notStarted", "inProgress", "complete"]
+    },
+    "generatedBy": {
+      "type": "object",
+      "properties": {
+        "agent": { "type": "string" },
+        "generatedDate": { "type": "string", "format": "date" }
+      },
+      "required": ["agent", "generatedDate"],
+      "additionalProperties": false
+    },
+    "humanReviewedBy": {
+      "type": "string",
+      "description": "Populated once a review-record.schema.json decision exists."
+    },
+    "version": {
+      "type": "string"
+    },
+    "publishedDate": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": ["id", "title", "summary", "sourceIds", "reviewStatus", "freshnessStatus", "version"],
+  "additionalProperties": false
+}

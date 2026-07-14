@@ -61,7 +61,9 @@ const git = (id, args, log, options = {}) => ({
 const commandProfiles = {
   fast: [
     npm("docs", "docs:check", "docs-check.log"),
+    npm("aos", "aos:check", "aos-check.log"),
     npm("focused", "test:evidence", "focused-tests.log"),
+    npm("aos-tests", "test:aos", "aos-tests.log"),
     npm("lint", "lint", "lint.log"),
     npm("unit", "test:run", "unit-tests.log"),
     npm("build", "build", "build.log"),
@@ -75,7 +77,9 @@ const commandProfiles = {
   ],
   full: [
     npm("docs", "docs:check", "docs-check.log"),
+    npm("aos", "aos:check", "aos-check.log"),
     npm("focused", "test:evidence", "focused-tests.log"),
+    npm("aos-tests", "test:aos", "aos-tests.log"),
     npm("lint", "lint", "lint.log"),
     npm("unit", "test:run", "unit-tests.log"),
     npm("coverage", "test:coverage", "coverage.log"),
@@ -544,8 +548,9 @@ async function main() {
   const latest = path.join(EXECUTION, "latest");
   rmSync(latest, { recursive: true, force: true });
   mkdirSync(latest, { recursive: true });
-  for (const file of ["summary.md", "summary.json", "coverage-summary.json", "failures.md", "warnings.md", "manual-review.md", "changed-files.txt", "self-review.md"]) {
-    cpSync(path.join(runDirectory, file), path.join(latest, file));
+  for (const file of ["summary.md", "summary.json", "coverage-summary.json", "failures.md", "warnings.md", "manual-review.md", "changed-files.txt", "self-review.md", "environment.json", "commands.json", "git-state-before.txt", "git-state-after.txt"]) {
+    const sourcePath = path.join(runDirectory, file);
+    if (existsSync(sourcePath)) cpSync(sourcePath, path.join(latest, file));
   }
   const commandsPassed = commands.filter((command) => command.status === "passed").map((command) => command.command);
   writeFileSync(path.join(latest, "README.md"), `# Latest quality execution\n\n- Occurred: ${startedAt.toISOString()} to ${endedAt.toISOString()}\n- Branch: ${branch}\n- Commit tested: ${finalCommit}\n- Profile: ${profile}\n- Commands run: ${commands.map((command) => command.command).join(", ")}\n- Commands passed: ${commandsPassed.join(", ") || "None"}\n- Commands failed: ${summary.failedCommands.join(", ") || "None"}\n- Heavy local artifacts: \`quality/execution/runs/${runId}/\` (ignored), plus copied Playwright, coverage, and quality-generated reports when available.\n- Safe to commit: Yes; latest files are sanitized summaries and contain no environment values. Review the diff before staging.\n- Manual review pending: ${pendingManual.length ? pendingManual.map(([name]) => name).join(", ") : "No"}\n\n## Synchronization (not executed)\n\n\`\`\`bash\ngit status\ngit branch --show-current\ngit fetch origin\ngit status -sb\ngit push -u origin ${branch}\n\`\`\`\n`, "utf8");

@@ -2,6 +2,10 @@ import type { Page } from "@playwright/test";
 import { test, expect, login, english } from "../fixtures/academy";
 import { stabilize, dynamicMasks } from "../fixtures/visual";
 
+async function startEnglish(page: Page) {
+  await page.addInitScript(() => localStorage.setItem("shabis-ai-academy-language", "en"));
+}
+
 async function createPrompt(page: Page, title = "Visual QA Prompt") {
   await page.goto("/prompts/new");
   await page.getByLabel("שם הפרומפט").fill(title);
@@ -70,7 +74,7 @@ test.describe("visual — desktop Hebrew", () => {
 
   test("Dashboard", async ({ page }) => {
     await login(page);
-    await expect(page.locator(".welcome-panel h1")).toBeVisible();
+    await expect(page.locator(".dashboard-continue h1")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("dashboard.png");
   });
@@ -446,5 +450,96 @@ test.describe("visual — AI Workspace", () => {
     await page.keyboard.press("Control+k");
     await stabilize(page);
     await expect(page).toHaveScreenshot("mobile-workspace-command-palette.png");
+  });
+});
+
+test.describe("visual — 1.3 guided auth UX", () => {
+  for (const language of ["he", "en"] as const) {
+    test(`landing ${language} desktop`, async ({ page }) => {
+      if (language === "en") await startEnglish(page);
+      await page.goto("/");
+      await stabilize(page);
+      await expect(page).toHaveScreenshot(`v13-landing-${language}-desktop.png`, { fullPage: true });
+    });
+
+    test(`landing ${language} mobile`, async ({ page }) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      if (language === "en") await startEnglish(page);
+      await page.goto("/");
+      await stabilize(page);
+      await expect(page).toHaveScreenshot(`v13-landing-${language}-mobile.png`, { fullPage: true });
+    });
+
+    test(`onboarding ${language} desktop`, async ({ page }) => {
+      if (language === "en") await startEnglish(page);
+      await login(page, "/onboarding");
+      await stabilize(page);
+      await expect(page).toHaveScreenshot(`v13-onboarding-${language}-desktop.png`, { fullPage: true });
+    });
+
+    test(`onboarding ${language} mobile`, async ({ page }) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      if (language === "en") await startEnglish(page);
+      await login(page, "/onboarding");
+      await stabilize(page);
+      await expect(page).toHaveScreenshot(`v13-onboarding-${language}-mobile.png`, { fullPage: true });
+    });
+
+    test(`auth screens ${language}`, async ({ page }) => {
+      if (language === "en") await startEnglish(page);
+      await page.goto("/auth/login");
+      await stabilize(page);
+      await expect(page).toHaveScreenshot(`v13-auth-login-${language}.png`, { fullPage: true });
+      await page.goto("/auth/register");
+      await stabilize(page);
+      await expect(page).toHaveScreenshot(`v13-auth-register-${language}.png`, { fullPage: true });
+    });
+  }
+
+  test("beginner and advanced dashboards", async ({ page }) => {
+    await login(page, "/dashboard");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v13-dashboard-beginner.png", { fullPage: true });
+    await page.goto("/settings");
+    await page.getByRole("radio", { name: /מצב מתקדם|Advanced Mode/ }).click();
+    await page.goto("/dashboard");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v13-dashboard-advanced.png", { fullPage: true });
+  });
+
+  test("Help Center tour glossary and profile", async ({ page }) => {
+    await login(page, "/help");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v13-help-center.png", { fullPage: true });
+    await page.locator(".tour-list-button").first().click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v13-guided-tour.png");
+    await page.getByRole("button", { name: /דלג|Skip/ }).last().click();
+    await page.goto("/glossary");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v13-glossary.png", { fullPage: true });
+    await page.goto("/profile");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v13-profile.png", { fullPage: true, mask: dynamicMasks(page) });
+  });
+
+  test("account security and migration access gates", async ({ page }) => {
+    await page.goto("/account/security");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v13-account-security-gate.png", { fullPage: true });
+    await page.goto("/account/migration");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v13-migration-gate.png", { fullPage: true });
+  });
+
+  test("admin denial desktop and mobile", async ({ page }) => {
+    await login(page, "/dashboard");
+    await page.goto("/admin");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v13-admin-denied-desktop.png", { fullPage: true });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/admin");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v13-admin-denied-mobile.png", { fullPage: true });
   });
 });

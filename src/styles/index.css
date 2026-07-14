@@ -2485,6 +2485,12 @@ html[data-motion="reduced"] * { scroll-behavior: auto !important; animation-dura
 .backup-preview select { min-block-size: var(--control-min-height); color: inherit; background: #071321; }
 
 /* Shared guidance, glossary, and lightweight tours */
+.panel { min-inline-size: 0; padding: var(--space-5); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--panel); }
+.button,.text-button,.text-link { min-block-size: var(--control-min-height); display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); max-inline-size: 100%; padding-inline: var(--space-4); border: 1px solid transparent; border-radius: var(--control-radius); font: inherit; font-weight: 700; text-align: center; text-decoration: none; }
+.button-primary { border-color: var(--blue); color: #f7fbff; background: var(--blue); }
+.button-secondary { border-color: var(--line-bright); color: var(--text); background: rgba(35,133,200,.1); }
+.text-button,.text-link { min-block-size: 2.5rem; padding-inline: var(--space-2); color: var(--blue-soft); background: transparent; }
+.button:hover,.text-button:hover,.text-link:hover { border-color: var(--blue-soft); }
 .page-introduction { margin: var(--space-5) var(--space-6) 0; padding: var(--space-5); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--panel); }
 .page-introduction-row { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-5); }
 .page-context-title { margin: .2rem 0; color: var(--text); font-size: clamp(1.45rem,3vw,2rem); font-weight: 800; line-height: 1.2; }
@@ -2524,6 +2530,7 @@ html[data-motion="reduced"] * { scroll-behavior: auto !important; animation-dura
 .auth-form { display: grid; gap: var(--space-4); }
 .auth-form label { display: grid; gap: var(--space-2); font-weight: 650; }
 .auth-form input,.auth-form select { inline-size: 100%; min-block-size: var(--control-min-height); padding: var(--space-3); border: 1px solid var(--line-bright); border-radius: var(--control-radius); color: var(--text); background: #071321; }
+.auth-form .button:disabled { opacity: .55; cursor: not-allowed; }
 .auth-name-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--space-3); }
 .password-field { display: grid; grid-template-columns: minmax(0,1fr) auto; }
 .password-field input { border-start-end-radius: 0; border-end-end-radius: 0; }
@@ -2540,13 +2547,17 @@ html[data-motion="reduced"] * { scroll-behavior: auto !important; animation-dura
 @media (max-width:32rem) { .auth-name-grid { grid-template-columns: 1fr; } }
 
 /* Profile, account security, and public legal pages */
-.profile-page,.account-security-page { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--space-5); }
-.profile-form { grid-row: span 2; }
+.profile-page,.account-security-page { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); align-items: start; gap: var(--space-5); }
+.profile-form { grid-row: auto; }
 .profile-form,.account-security-page section { display: grid; align-content: start; gap: var(--space-4); }
 .profile-form label,.profile-page section>label,.account-security-page form label { display: grid; gap: var(--space-2); }
 .profile-form input,.profile-form textarea,.profile-page select,.account-security-page input { inline-size: 100%; min-block-size: var(--control-min-height); padding: var(--space-3); border: 1px solid var(--line-bright); border-radius: var(--control-radius); color: inherit; background: #071321; }
 .profile-form textarea { min-block-size: 8rem; resize: vertical; }
 .profile-interests { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--space-2); }
+.profile-page section { display: grid; align-content: start; gap: var(--space-4); }
+.profile-page fieldset { display: grid; gap: var(--space-2); margin: 0; padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius); }
+.profile-page fieldset > label,.profile-interests label { display: inline-flex; align-items: center; gap: var(--space-2); min-block-size: 2rem; }
+.profile-page input[type="radio"],.profile-page input[type="checkbox"] { inline-size: 1.1rem; block-size: 1.1rem; flex: 0 0 auto; }
 .account-facts { display: grid; gap: var(--space-3); margin: 0; }
 .account-facts div { display: grid; grid-template-columns: minmax(8rem,.45fr) 1fr; gap: var(--space-3); padding-block-end: var(--space-2); border-block-end: 1px solid var(--line); }
 .account-facts dt { color: var(--muted); }

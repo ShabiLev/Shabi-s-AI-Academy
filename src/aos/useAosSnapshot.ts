@@ -25,7 +25,7 @@ export function useAosSnapshot(): AosSnapshotLoadResult {
 
   useEffect(() => {
     let cancelled = false;
-    fetch(SNAPSHOT_URL)
+    fetch(SNAPSHOT_URL, { cache: "no-store" })
       .then((res) => {
         if (!res.ok) return null;
         return res.json();

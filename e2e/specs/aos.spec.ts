@@ -1,4 +1,13 @@
+import { execSync } from "node:child_process";
 import { test, expect, login, english } from "../fixtures/academy";
+
+// The dashboard reads a generated snapshot (public/generated/aos-snapshot.json,
+// gitignored like the rest of public/generated/). Regenerate it before this
+// suite so these tests exercise the real "data loaded" path, not just the
+// honest "not generated yet" empty state.
+test.beforeAll(() => {
+  execSync("node scripts/generate-aos-snapshot.mjs", { stdio: "ignore" });
+});
 
 test.describe("AOS dashboard", () => {
   test("opens and shows the current AOS and application version", async ({ page }) => {
@@ -16,11 +25,13 @@ test.describe("AOS dashboard", () => {
 
   test("module list can be filtered by category and task type", async ({ page }) => {
     await login(page, "/aos/modules");
-    const rowsBefore = await page.locator(".aos-module-table tbody tr").count();
+    const rows = page.locator(".aos-module-table tbody tr");
+    await expect(rows.first()).toBeVisible();
+    const rowsBefore = await rows.count();
     expect(rowsBefore).toBeGreaterThan(0);
     const categorySelect = page.getByLabel(/סנן לפי קטגוריה|Filter by category/);
     await categorySelect.selectOption("security");
-    const rowsAfter = await page.locator(".aos-module-table tbody tr").count();
+    const rowsAfter = await rows.count();
     expect(rowsAfter).toBeLessThanOrEqual(rowsBefore);
     expect(rowsAfter).toBeGreaterThan(0);
   });

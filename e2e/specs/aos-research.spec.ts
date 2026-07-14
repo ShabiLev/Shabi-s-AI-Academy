@@ -1,4 +1,9 @@
+import { execSync } from "node:child_process";
 import { test, expect, login, english } from "../fixtures/academy";
+
+test.beforeAll(() => {
+  execSync("node scripts/generate-aos-snapshot.mjs", { stdio: "ignore" });
+});
 
 test.describe("AOS research pipeline", () => {
   test("shows real source/claim/candidate counts, not a fabricated number", async ({ page }) => {

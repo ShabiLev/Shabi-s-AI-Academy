@@ -1,4 +1,9 @@
+import { execSync } from "node:child_process";
 import { test, expect, login } from "../fixtures/academy";
+
+test.beforeAll(() => {
+  execSync("node scripts/generate-aos-snapshot.mjs", { stdio: "ignore" });
+});
 
 test.describe("AOS evidence viewer", () => {
   test("shows the latest evidence run drawn from quality/execution/latest, not a simulated result", async ({ page }) => {

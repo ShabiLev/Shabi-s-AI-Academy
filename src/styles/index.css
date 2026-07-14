@@ -2559,3 +2559,6 @@ html[data-motion="reduced"] * { scroll-behavior: auto !important; animation-dura
 .legal-page h2 { margin-block-start: var(--space-8); }
 .legal-notice { padding: var(--space-3); border-inline-start: .3rem solid var(--warning); background: rgb(231 184 102/.08); }
 @media (max-width:48rem) { .profile-page,.account-security-page { grid-template-columns: 1fr; } .profile-form { grid-row: auto; } .profile-interests { grid-template-columns: 1fr; } }
+.sync-status { display: inline-flex; align-items: center; min-block-size: 1.75rem; padding-inline: var(--space-2); border: 1px solid var(--line-bright); border-radius: 999px; font-size: .85rem; }
+.sync-status-pending,.sync-status-offline { border-color: var(--warning); color: var(--warning); }
+.sync-status-synchronized { border-color: var(--success); color: var(--success); }

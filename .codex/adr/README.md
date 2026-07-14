@@ -13,3 +13,4 @@ Accepted ADRs override older architecture prose. Supersede decisions with a new 
 - [ADR-009: No Secrets in Browser Storage](ADR-009-no-secrets-in-browser-storage.md)
 - [ADR-010: Human Approval for Risky Actions](ADR-010-human-approval-for-risky-actions.md)
 - [ADR-011: Optional Supabase Authentication](ADR-011-optional-supabase-authentication.md)
+- [ADR-012: Hybrid Data Providers](ADR-012-hybrid-data-providers.md)

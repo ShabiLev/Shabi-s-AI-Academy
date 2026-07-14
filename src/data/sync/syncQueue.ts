@@ -1,0 +1,6 @@
+import type { SyncMutation } from "../types";
+export const MAX_SYNC_QUEUE = 100; const KEY = "shabis-ai-academy.sync-queue.v1";
+export function readSyncQueue(storage: Pick<Storage,"getItem"> = localStorage): SyncMutation[] { try { const value: unknown = JSON.parse(storage.getItem(KEY) ?? "[]"); return Array.isArray(value) ? value.filter((item): item is SyncMutation => Boolean(item && typeof item === "object" && typeof (item as SyncMutation).id === "string")).slice(-MAX_SYNC_QUEUE) : []; } catch { return []; } }
+export function writeSyncQueue(items: SyncMutation[], storage: Pick<Storage,"setItem"> = localStorage) { storage.setItem(KEY,JSON.stringify(items.slice(-MAX_SYNC_QUEUE))); }
+export function enqueueSync(mutation: SyncMutation, storage: Pick<Storage,"getItem"|"setItem"> = localStorage) { const queue = readSyncQueue(storage); const index = queue.findIndex((item) => item.id === mutation.id); if (index >= 0) queue[index] = mutation; else queue.push(mutation); writeSyncQueue(queue,storage); return queue.slice(-MAX_SYNC_QUEUE); }
+export function retryAt(attempts: number, now = Date.now()) { return new Date(now + Math.min(60_000, 1000 * (2 ** Math.min(attempts, 6)))).toISOString(); }

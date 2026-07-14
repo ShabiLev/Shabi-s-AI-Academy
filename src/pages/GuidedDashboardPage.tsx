@@ -13,6 +13,7 @@ import { useProjects } from "../projects";
 import { usePromptLibrary } from "../prompts/PromptLibraryContext";
 import { radarItems } from "../radar";
 import { useWorkspace } from "../workspace";
+import { SyncStatusIndicator } from "../components/data/SyncStatusIndicator";
 
 export function GuidedDashboardPage() {
   const { language } = useLanguage();
@@ -39,7 +40,7 @@ export function GuidedDashboardPage() {
       <AppCard><SectionHeader title={he ? "פרויקט פעיל" : "Active project"} /><h2>{activeProject?.name ?? (he ? "אין עדיין פרויקט פעיל" : "No active project yet")}</h2><p>{projects.projects.length} {he ? "פרויקטים מקומיים" : "local projects"}</p><Link to={activeProject ? `/projects/${activeProject.id}` : "/projects/new"}>{activeProject ? (he ? "פתיחת הפרויקט" : "Open project") : (he ? "יצירת פרויקט ראשון" : "Create your first project")}</Link></AppCard>
       <AppCard><SectionHeader title={he ? "פריטים אחרונים" : "Recent items"} />{workspace.activities.length ? <ul>{workspace.activities.slice(-4).reverse().map((item) => <li key={item.id}><Link to={item.route}>{item.title}</Link></li>)}</ul> : <p>{he ? "פריטים שתפתח או תריץ יופיעו כאן." : "Items you open or run will appear here."}</p>}<span>{favoriteCount} {he ? "מועדפים" : "favorites"}</span></AppCard>
       <AppCard><SectionHeader title="AI Radar" /><p>{radarItems[0].title[language]}</p><Link to="/radar">{he ? "צפייה ב־Radar" : "View the Radar"}</Link></AppCard>
-      <AppCard><SectionHeader title={he ? "מצב סביבת העבודה" : "Workspace status"} /><dl className="runtime-facts"><div><dt>{he ? "חוויה" : "Experience"}</dt><dd>{mode === "beginner" ? (he ? "מתחיל" : "Beginner") : (he ? "מתקדם" : "Advanced")}</dd></div><div><dt>{he ? "נתונים" : "Data"}</dt><dd>{he ? "מקומי בלבד" : "Local only"}</dd></div><div><dt>{he ? "ענן" : "Cloud"}</dt><dd>{he ? "לא מחובר" : "Not connected"}</dd></div></dl></AppCard>
+      <AppCard><SectionHeader title={he ? "מצב סביבת העבודה" : "Workspace status"} /><dl className="runtime-facts"><div><dt>{he ? "חוויה" : "Experience"}</dt><dd>{mode === "beginner" ? (he ? "מתחיל" : "Beginner") : (he ? "מתקדם" : "Advanced")}</dd></div><div><dt>{he ? "נתונים" : "Data"}</dt><dd><SyncStatusIndicator /></dd></div></dl></AppCard>
       {mode === "advanced" && <AppCard><SectionHeader title={he ? "איכות ואבחון" : "Quality and diagnostics"} /><p>{he ? "כלי QA וניתוח מפורט זמינים במצב מתקדם." : "QA and detailed analytics are available in Advanced Mode."}</p><Link to="/qa">{he ? "פתיחת מרכז QA" : "Open QA Center"}</Link></AppCard>}
     </div>
   </div>;

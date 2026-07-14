@@ -41,6 +41,7 @@ import { PrivacyPage } from "./pages/PrivacyPage";
 import { TermsPage } from "./pages/TermsPage";
 import { AdminRoute } from "./admin";
 import { AdminAuditPage, AdminContentPage, AdminDashboardPage, AdminUsersPage } from "./pages/admin";
+import { LandingPage } from "./pages/LandingPage";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
 const DashboardPage = lazy(() => import("./pages/GuidedDashboardPage").then((module) => ({ default: module.GuidedDashboardPage })));
@@ -97,6 +98,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                   <WorkflowProvider>
                   <AssistantProvider>
                 <Routes>
+                <Route index element={<LandingPage />} />
                 <Route path="login" element={<LoginPage />} />
                 <Route element={<GuestRoute />}>
                   <Route path="auth/login" element={<AuthLoginPage />} />
@@ -112,7 +114,6 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                 <Route path="terms" element={<TermsPage />} />
                 <Route element={<ProtectedRoute />}>
                   <Route element={<AppLayout />}>
-                    <Route index element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
                     <Route path="dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
                     <Route path="onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
                     <Route path="lessons" element={<LessonsPage />} />

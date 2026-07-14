@@ -17,8 +17,8 @@ export const test = base.extend({
   },
 });
 export { expect };
-export async function login(page: Page, path = "/") {
-  await page.goto(path);
+export async function login(page: Page, path = "/dashboard") {
+  await page.goto(path === "/" ? "/dashboard" : path);
   await page
     .getByRole("button", { name: /כניסה למצב הדגמה|Demo Login/ })
     .click();

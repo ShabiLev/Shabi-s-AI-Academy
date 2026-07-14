@@ -15,7 +15,7 @@ export function PageIntroduction() {
 
   return <section className="page-introduction" aria-labelledby="page-context-title">
     <nav className="breadcrumbs" aria-label={language === "he" ? "פירורי לחם" : "Breadcrumbs"}>
-      <Link to="/">{language === "he" ? "בית" : "Home"}</Link>
+      <Link to="/dashboard">{language === "he" ? "בית" : "Home"}</Link>
       {page.area !== "home" && <><span aria-hidden="true">›</span><span>{localize(getAreaLabel(page.area), language)}</span></>}
       {parent && <><span aria-hidden="true">›</span><Link to={parent.route}>{localize(parent.title, language)}</Link></>}
       {page.id !== "dashboard" && <><span aria-hidden="true">›</span><span aria-current="page">{localize(page.title, language)}</span></>}

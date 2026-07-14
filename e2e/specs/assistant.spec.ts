@@ -18,7 +18,7 @@ test("Local Assistant explains context, finds QA content, suggests an agent, and
   await page.getByRole("button", { name: "Save Prompt" }).click();
   await page.goto("/assistant");
   await ask(page, "Explain this screen");
-  await expect(page.getByText(/part of the Academy's local workspace/i).last()).toBeVisible();
+  await expect(page.getByText(/Get structured guidance for the current screen/i).last()).toBeVisible();
   await ask(page, "Find QA prompt");
   await expect(page.getByRole("link", { name: "QA API Prompt" })).toBeVisible();
   await ask(page, "Which agent should I use for regression planning?");

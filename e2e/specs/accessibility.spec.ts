@@ -176,7 +176,7 @@ test.describe("accessibility — English LTR", () => {
   test("Dashboard", async ({ page }) => {
     await login(page);
     await english(page);
-    await page.goto("/");
+    await page.goto("/dashboard");
     await runAxeScan(page, test.info());
   });
 
@@ -192,6 +192,28 @@ test.describe("accessibility — English LTR", () => {
     await english(page);
     await page.goto("/qa");
     await runAxeScan(page, test.info());
+  });
+});
+
+test.describe("accessibility — guided auth and account UX", () => {
+  for (const [name, route] of [["Landing", "/"], ["Account login", "/auth/login"], ["Registration", "/auth/register"], ["Password reset request", "/auth/forgot-password"]] as const) {
+    test(name, async ({ page }) => {
+      await page.goto(route);
+      await runAxeScan(page, test.info(), { label: `guided-${name.toLowerCase().replaceAll(" ", "-")}` });
+    });
+  }
+
+  for (const [name, route] of [["Onboarding", "/onboarding"], ["Help Center", "/help"], ["Glossary", "/glossary"], ["Profile", "/profile"]] as const) {
+    test(name, async ({ page }) => {
+      await login(page, route);
+      await runAxeScan(page, test.info(), { label: `guided-${name.toLowerCase().replaceAll(" ", "-")}` });
+    });
+  }
+
+  test("guided tour dialog", async ({ page }) => {
+    await login(page, "/dashboard");
+    await page.getByRole("button", { name: /סיור מודרך|Guided tour/ }).click();
+    await runAxeScan(page, test.info(), { label: "guided-tour-dialog" });
   });
 });
 

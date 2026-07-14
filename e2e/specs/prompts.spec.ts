@@ -75,7 +75,7 @@ test("Library search, filters, clear, export and Dashboard metrics work", async 
   const download = page.waitForEvent("download");
   await page.getByRole("button", { name: "ייצוא" }).click();
   expect((await download).suggestedFilename()).toMatch(/\.md$/);
-  await page.goto("/");
+  await page.goto("/dashboard");
   await expect(page.getByText(/1 פרומפטים/)).toBeVisible();
 });
 test("delete dialog supports Escape and explicit deletion; unknown route is handled", async ({

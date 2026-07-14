@@ -4,7 +4,7 @@ export interface TourStep { title: LocalizedText; description: LocalizedText }
 export interface TourDefinition { id: string; route: string; title: LocalizedText; steps: TourStep[] }
 const t = (he: string, en: string) => ({ he, en });
 const definitions: Array<[string, string, string, string]> = [
-  ["dashboard", "/", "לוח המשימות", "Task dashboard"], ["lessons", "/lessons", "שיעורים", "Lessons"],
+  ["dashboard", "/dashboard", "לוח המשימות", "Task dashboard"], ["lessons", "/lessons", "שיעורים", "Lessons"],
   ["prompts", "/prompts", "ספריית הפרומפטים", "Prompt Library"], ["agents", "/agents", "ספריית הסוכנים", "Agent Library"],
   ["prompt-playground", "/playground/prompts", "מגרש הפרומפטים", "Prompt Playground"], ["agent-playground", "/playground/agents", "מגרש הסוכנים", "Agent Playground"],
   ["projects", "/projects", "פרויקטים", "Projects"], ["knowledge", "/knowledge", "מאגר ידע", "Knowledge Base"],

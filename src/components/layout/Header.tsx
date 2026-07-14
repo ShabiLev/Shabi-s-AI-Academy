@@ -8,6 +8,7 @@ import { NotificationCenter } from "../workspace/NotificationCenter";
 
 const routeTitles: Record<string, TranslationKey> = {
   "/": "nav.dashboard",
+  "/dashboard": "nav.dashboard",
   "/lessons": "nav.lessons",
   "/prompt-library": "nav.prompts",
   "/prompts": "nav.prompts",
@@ -36,7 +37,7 @@ export const Header = forwardRef<HTMLButtonElement, { onOpenMenu: () => void }>(
     const navigate = useNavigate();
     const { direction, t } = useLanguage();
     const { openPalette } = useCommandPalette();
-    const isDashboard = pathname === "/";
+    const isDashboard = pathname === "/dashboard";
     const title = t(
       routeTitles[pathname] ??
         (pathname.startsWith("/lessons/")
@@ -53,7 +54,7 @@ export const Header = forwardRef<HTMLButtonElement, { onOpenMenu: () => void }>(
       const historyIndex = (window.history.state as { idx?: number } | null)
         ?.idx;
       if (typeof historyIndex === "number" && historyIndex > 0) navigate(-1);
-      else navigate("/");
+      else navigate("/dashboard");
     };
 
     return (
@@ -84,7 +85,7 @@ export const Header = forwardRef<HTMLButtonElement, { onOpenMenu: () => void }>(
               <button
                 type="button"
                 className="icon-button mobile-route-button"
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/dashboard")}
                 aria-label={t("a11y.home")}
               >
                 <Icon name="home" />

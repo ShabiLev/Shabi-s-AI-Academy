@@ -11,7 +11,7 @@ export interface NavigationItem {
 }
 
 export const navigationItems: NavigationItem[] = [
-  { to: "/", label: "nav.dashboard", icon: "dashboard", end: true },
+  { to: "/dashboard", label: "nav.dashboard", icon: "dashboard", end: true },
   { to: "/journey", label: "nav.journey", icon: "radar" },
   { to: "/lessons", label: "nav.lessons", icon: "lessons" },
   { to: "/radar", label: "nav.radar", icon: "radar" },
@@ -38,7 +38,7 @@ export const navigationItems: NavigationItem[] = [
 ];
 
 export const navigationGroups = [
-  { id: "home", items: navigationItems.filter((item) => item.to === "/") },
+  { id: "home", items: navigationItems.filter((item) => item.to === "/dashboard") },
   { id: "learn", items: navigationItems.filter((item) => ["/journey", "/lessons", "/radar"].includes(item.to)) },
   { id: "build", items: navigationItems.filter((item) => ["/prompts", "/agents", "/playground/prompts", "/playground/agents", "/workflows"].includes(item.to)) },
   { id: "workspace", items: navigationItems.filter((item) => ["/projects", "/knowledge", "/runs"].includes(item.to)) },

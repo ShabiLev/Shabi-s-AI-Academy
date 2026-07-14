@@ -33,7 +33,7 @@ export function OnboardingPage() {
     const completed = { ...profile, completed: true, recommendationId: recommendation.id, updatedAt: new Date().toISOString() };
     save(completed);
     experience.setMode(profile.experienceLevel === "advanced" ? "advanced" : "beginner");
-    navigate("/", { replace: true });
+    navigate("/dashboard", { replace: true });
   };
 
   return <div className="page onboarding-page">

@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { App } from "./App";
 import { LanguageProvider } from "./i18n/LanguageContext";
 
-function renderApp(path = "/") {
+function renderApp(path = "/dashboard") {
   window.history.replaceState({}, "", path);
   return render(
     <LanguageProvider>
@@ -33,9 +33,9 @@ describe("Shabi's AI Academy", () => {
     window.sessionStorage.clear();
   });
 
-  it("renders Login for unauthenticated visitors", () => {
-    renderApp();
-    expect(screen.getByRole("heading", { name: "כניסה" })).toBeInTheDocument();
+  it("renders the public landing page for unauthenticated visitors", () => {
+    renderApp("/");
+    expect(screen.getByRole("heading", { name: "לומדים AI דרך עשייה מודרכת" })).toBeInTheDocument();
   });
 
   it("redirects unauthenticated visitors from protected routes", () => {

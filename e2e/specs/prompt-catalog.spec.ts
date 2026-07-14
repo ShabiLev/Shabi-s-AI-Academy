@@ -84,7 +84,7 @@ test("Dashboard keeps personal and Catalog totals separate", async ({
 }) => {
   await login(page);
   await english(page);
-  await page.goto("/");
+  await page.goto("/dashboard");
   await expect(page.getByText(/0 prompts/)).toBeVisible();
   await expect(page.getByText(/24 Starter Catalog prompts/)).toBeVisible();
 });

@@ -19,7 +19,7 @@ const seed = (value: Seed): PageMetadata => ({
 });
 
 export const pageRegistry: PageMetadata[] = [
-  seed({ id: "dashboard", route: "/", area: "home", title: text("לוח המשימות", "Task dashboard"), summary: text("המשיכו מהפעולה החשובה הבאה.", "Continue from your next useful action."), primaryAction: { label: text("המשך למידה", "Continue learning"), to: "/lessons" }, helpId: "dashboard", tourId: "dashboard" }),
+  seed({ id: "dashboard", route: "/dashboard", area: "home", title: text("לוח המשימות", "Task dashboard"), summary: text("המשיכו מהפעולה החשובה הבאה.", "Continue from your next useful action."), primaryAction: { label: text("המשך למידה", "Continue learning"), to: "/lessons" }, helpId: "dashboard", tourId: "dashboard" }),
   seed({ id: "onboarding", route: "/onboarding", area: "home", title: text("התחלה מודרכת", "Guided start"), summary: text("התאימו את האקדמיה למטרות שלכם.", "Personalize the Academy around your goals."), helpId: "getting-started" }),
   seed({ id: "lessons", route: "/lessons", area: "learn", title: text("שיעורים", "Lessons"), summary: text("למדו מושגי AI במסלול מעשי.", "Learn AI concepts through a practical path."), primaryAction: { label: text("התחילו שיעור", "Start a lesson"), to: "/lessons" }, glossaryTerms: ["ai", "llm"], tourId: "lessons" }),
   seed({ id: "lesson", route: "/lessons/:lessonSlug", area: "learn", title: text("שיעור", "Lesson"), summary: text("למדו, תרגלו ושמרו התקדמות.", "Learn, practise, and save progress."), parent: "lessons", glossaryTerms: ["ai", "llm"] }),

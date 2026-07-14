@@ -25,5 +25,5 @@ test("Back safely returns to Dashboard", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await login(page, "/lessons");
   await page.getByRole("button", { name: "חזרה" }).click();
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/dashboard$/);
 });

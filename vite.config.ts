@@ -44,6 +44,7 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (/[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/.test(id)) return 'react-vendor'
+          if (/[\\/]node_modules[\\/]@supabase[\\/]/.test(id)) return 'supabase-vendor'
           if (/[\\/]src[\\/](course[\\/]courseData|prompts[\\/]catalog[\\/]starterCatalog|prompts[\\/]packs[\\/]promptPacks|agents[\\/]catalog[\\/]starterAgents)\.ts$/.test(id)) return 'academy-catalogs'
           return undefined
         },

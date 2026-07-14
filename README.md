@@ -1,6 +1,6 @@
 # Shabi's AI Academy
 
-Shabi's AI Academy is a bilingual, local-first AI learning and building workspace. The current release is **Version 1.2.0-beta.1**.
+Shabi's AI Academy is a bilingual, local-first AI learning and building workspace. The active release is **Version 1.3.0-beta.1**.
 
 The AI Workspace connects 45 open bilingual lessons, 250 structured prompts in 11 packs, 32 immutable starter-agent templates, personal builders, Playgrounds, Projects, Knowledge Base, Global Search, Command Palette, Local Assistant, deterministic workflows, activity analytics, notifications, and complete backup. Mock and Dry Run are executable; Live remains intentionally disabled and no browser API key input exists.
 
@@ -31,10 +31,14 @@ Sprint 7.1 adds a deterministic browser-local Runtime Engine with Mock and Dry R
 - Deterministic Mock/Dry Run Workflow Builder, notification center, private analytics, favorites, recents, storage manager, and validated Workspace backup
 - Source-based bilingual **AI Radar** with immutable local data, topic/horizon filters, transparent freshness, and direct official-source attribution — see [docs/ai-radar.md](docs/ai-radar.md)
 - Portal-based accessible desktop profile menu, full-width mobile profile sheet, controlled layer tokens, isolated sidebar scrolling, and viewport-aware RTL/LTR anchoring
+- Guided first-time onboarding, Beginner/Advanced presentation modes, grouped navigation, breadcrumbs, contextual Help, Glossary, and Tours
+- Optional Supabase authentication foundation with Guest fallback, profiles, RLS-backed repositories, explicit migration review, and secure Admin route foundations
 
-## Demo Login and security
+## Accounts, Guest mode, and security
 
-The current Demo Login is only a local development simulation and is not secure production authentication. It stores only a non-sensitive session flag in `sessionStorage`; it does not collect or store passwords, authentication tokens, credentials, or secrets. A production release must replace it with a server-backed identity and session system.
+Guest mode stores only a non-sensitive session flag and keeps user work in the current browser. Optional Supabase configuration enables production-shaped registration, login, verification, recovery, and Magic Link flows; account availability never changes the local-first fallback. The legacy Demo Login remains clearly separated for regression compatibility.
+
+Only the public project URL and anon key are accepted in Vite. Passwords, service-role credentials, and auth tokens are never stored or exported by Academy code. Start with [Authentication](docs/authentication.md), [Supabase setup](docs/supabase-setup.md), and [RLS](docs/supabase-rls.md).
 
 ## Technology stack
 

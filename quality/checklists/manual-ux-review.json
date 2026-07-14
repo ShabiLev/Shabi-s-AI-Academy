@@ -1,0 +1,21 @@
+{
+  "status": "notRun",
+  "approvedBy": null,
+  "reviewedAt": null,
+  "scope": [
+    "new user comprehension",
+    "page orientation",
+    "navigation clarity",
+    "visual hierarchy",
+    "wording and primary-action clarity",
+    "mobile usability",
+    "Hebrew quality",
+    "English quality",
+    "terminology and complexity",
+    "overlap and clipping",
+    "dark-mode controls",
+    "overall trust"
+  ],
+  "warnings": [],
+  "note": "A human reviewer must change this record only after completing the structured review. Automation and Codex cannot self-approve subjective UX."
+}

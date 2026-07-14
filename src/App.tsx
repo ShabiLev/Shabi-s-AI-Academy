@@ -31,9 +31,22 @@ import { AssistantProvider } from "./assistant";
 import { WorkflowProvider } from "./workflows";
 import { WorkspaceProvider } from "./workspace";
 import { configuredRouterMode, type RouterMode } from "./config/routerMode";
+import { ExperienceProvider } from "./experience";
+import { OnboardingProvider } from "./onboarding";
+import { GuidedTourProvider } from "./guidance/tours";
+import { GuestRoute } from "./auth/GuestRoute";
+import { AuthenticatedRoute } from "./auth/AuthenticatedRoute";
+import { AuthCallbackPage, AuthErrorPage, AuthLoginPage, AuthRegisterPage, ForgotPasswordPage, ResetPasswordPage, VerifyEmailPage } from "./pages/auth";
+import { PrivacyPage } from "./pages/PrivacyPage";
+import { TermsPage } from "./pages/TermsPage";
+import { AdminRoute } from "./admin";
+import { AdminAuditPage, AdminContentPage, AdminDashboardPage, AdminUsersPage } from "./pages/admin";
+import { LandingPage } from "./pages/LandingPage";
+import { NotFoundPage } from "./pages/NotFoundPage";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
-const DashboardPage = lazy(() => import("./pages/DashboardPage").then((module) => ({ default: module.DashboardPage })));
+const DashboardPage = lazy(() => import("./pages/GuidedDashboardPage").then((module) => ({ default: module.GuidedDashboardPage })));
+const OnboardingPage = lazy(() => import("./pages/OnboardingPage").then((module) => ({ default: module.OnboardingPage })));
 const RunDetailsPage = lazy(() => import("./pages/RunDetailsPage").then((module) => ({ default: module.RunDetailsPage })));
 const StarterAgentsPage = lazy(() => import("./pages/StarterAgentsPage").then((module) => ({ default: module.StarterAgentsPage })));
 const PromptPacksPage = lazy(() => import("./pages/PromptPacksPage").then((module) => ({ default: module.PromptPacksPage })));
@@ -56,6 +69,11 @@ const AssistantPage = lazy(() => import("./pages/AssistantPage").then((module) =
 const WorkflowsPage = lazy(() => import("./pages/WorkflowsPage").then((module) => ({ default: module.WorkflowsPage })));
 const WorkflowBuilderPage = lazy(() => import("./pages/WorkflowBuilderPage").then((module) => ({ default: module.WorkflowBuilderPage })));
 const AnalyticsPage = lazy(() => import("./pages/AnalyticsPage").then((module) => ({ default: module.AnalyticsPage })));
+const HelpCenterPage = lazy(() => import("./pages/HelpCenterPage").then((module) => ({ default: module.HelpCenterPage })));
+const GlossaryPage = lazy(() => import("./pages/GlossaryPage").then((module) => ({ default: module.GlossaryPage })));
+const ProfilePage = lazy(() => import("./pages/ProfilePage").then((module) => ({ default: module.ProfilePage })));
+const AccountSecurityPage = lazy(() => import("./pages/AccountSecurityPage").then((module) => ({ default: module.AccountSecurityPage })));
+const AccountMigrationPage = lazy(() => import("./pages/AccountMigrationPage").then((module) => ({ default: module.AccountMigrationPage })));
 
 export interface AppProps {
   routerMode?: RouterMode;
@@ -67,6 +85,9 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
   return (
     <Router>
       <AuthProvider>
+        <ExperienceProvider>
+          <OnboardingProvider>
+          <GuidedTourProvider>
         <CourseProgressProvider>
           <PromptLibraryProvider>
             <AgentLibraryProvider>
@@ -78,12 +99,24 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                   <WorkflowProvider>
                   <AssistantProvider>
                 <Routes>
+                <Route index element={<LandingPage />} />
                 <Route path="login" element={<LoginPage />} />
+                <Route element={<GuestRoute />}>
+                  <Route path="auth/login" element={<AuthLoginPage />} />
+                  <Route path="auth/register" element={<AuthRegisterPage />} />
+                  <Route path="auth/forgot-password" element={<ForgotPasswordPage />} />
+                </Route>
+                <Route path="auth/verify-email" element={<VerifyEmailPage />} />
+                <Route path="auth/reset-password" element={<ResetPasswordPage />} />
+                <Route path="auth/callback" element={<AuthCallbackPage />} />
+                <Route path="auth/error" element={<AuthErrorPage />} />
                 <Route path="about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
+                <Route path="privacy" element={<PrivacyPage />} />
+                <Route path="terms" element={<TermsPage />} />
                 <Route element={<ProtectedRoute />}>
                   <Route element={<AppLayout />}>
-                    <Route index element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
                     <Route path="dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
+                    <Route path="onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
                     <Route path="lessons" element={<LessonsPage />} />
                     <Route
                       path="lessons/:lessonSlug"
@@ -124,6 +157,8 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                       element={<AgentSimulationPage />}
                     />
                     <Route path="how-to" element={<HowToPage />} />
+                    <Route path="help" element={<Suspense fallback={null}><HelpCenterPage /></Suspense>} />
+                    <Route path="glossary" element={<Suspense fallback={null}><GlossaryPage /></Suspense>} />
                     <Route path="projects" element={<ProjectsPage />} />
                     <Route path="projects/new" element={<Suspense fallback={null}><ProjectFormPage /></Suspense>} />
                     <Route path="projects/:projectId" element={<Suspense fallback={null}><ProjectDetailsPage /></Suspense>} />
@@ -146,11 +181,15 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                     <Route path="analytics" element={<Suspense fallback={null}><AnalyticsPage /></Suspense>} />
                     <Route path="radar" element={<RadarPage />} />
                     <Route path="settings" element={<SettingsPage />} />
+                    <Route path="profile" element={<Suspense fallback={null}><ProfilePage /></Suspense>} />
+                    <Route element={<AuthenticatedRoute />}><Route path="account/security" element={<Suspense fallback={null}><AccountSecurityPage /></Suspense>} /><Route path="account/migration" element={<Suspense fallback={null}><AccountMigrationPage /></Suspense>} /></Route>
+                    <Route element={<AdminRoute />}><Route path="admin" element={<AdminDashboardPage />} /><Route path="admin/users" element={<AdminUsersPage />} /><Route path="admin/content" element={<AdminContentPage />} /><Route path="admin/audit" element={<AdminAuditPage />} /></Route>
                     <Route path="qa" element={<QACenterPage />} />
                     <Route path="runs" element={<Suspense fallback={null}><RunHistoryPage /></Suspense>} />
                     <Route path="runs/:runId" element={<Suspense fallback={null}><RunDetailsPage /></Suspense>} />
                   </Route>
                 </Route>
+                <Route path="*" element={<NotFoundPage />} />
                 </Routes>
                   </AssistantProvider>
                   </WorkflowProvider>
@@ -162,6 +201,9 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
             </AgentLibraryProvider>
           </PromptLibraryProvider>
         </CourseProgressProvider>
+          </GuidedTourProvider>
+          </OnboardingProvider>
+        </ExperienceProvider>
       </AuthProvider>
     </Router>
   );

@@ -2,6 +2,34 @@
 
 All notable changes to this project are documented here following the Keep a Changelog format.
 
+## [1.3.0-beta.1] - 2026-07-14
+
+### Added
+
+- Guided Beginner and Advanced experiences with grouped navigation, personalized onboarding, page introductions, breadcrumbs, contextual Help, Glossary, and restartable tours
+- Optional Supabase authentication, account recovery, profiles, security guidance, RLS-backed cloud data contracts, conflict review, and safe local-to-cloud migration
+- Secure role-gated Admin foundation that denies standard and unverified users without exposing privileged data
+- Machine-readable product-quality inventory for 68 routes, 68 pages, 221 expected controls, 13 journeys, 8 personas, 11 auth states, 13 data states, and 7 required viewports
+- Browser journey, click, route, form, overlay, responsive, keyboard, copy, error-recovery, visual-review, and system-report tooling
+
+### Changed
+
+- Application, Runtime, workspace exports, local histories, quality fixtures, visible footer, About, Release Center, and search metadata now identify Version 1.3.0-beta.1
+- Visual baseline updates require explicit `VISUAL_UPDATE_APPROVED=1`; baseline generation alone is never treated as UX approval
+- The unified system-quality report records severity counts and an explicit `manualUxReview` gate
+
+### Fixed
+
+- Unknown routes now show a bilingual recovery page instead of a blank application
+- How To no longer nests a second `main` landmark inside the application shell
+- Route, form, overlay, profile-menu, RTL/LTR, viewport, and browser-error auditing now exercises the real UI
+
+### Security and privacy
+
+- Browser tests use controlled local and mocked states and do not record passwords, tokens, secrets, or private content
+- Guest/local work remains available when Supabase is unconfigured, unavailable, or offline
+- No browser component stores provider secrets or calls an AI provider directly
+
 ## [1.2.0-beta.1] - 2026-07-13
 
 ### Added

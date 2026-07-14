@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthContext";
 import { useLanguage } from "../../i18n/LanguageContext";
+import { isVerifiedAdmin } from "../../admin";
 
 const viewportPadding = 12;
 
@@ -12,7 +13,7 @@ export function ProfileMenu({ mobile = false }: { mobile?: boolean }) {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const restoreFocusRef = useRef(false);
-  const { user, signOut } = useAuth();
+  const { user, signOut, isCloudAuthenticated, status } = useAuth();
   const { language, direction, t } = useLanguage();
   const navigate = useNavigate();
 
@@ -91,17 +92,21 @@ export function ProfileMenu({ mobile = false }: { mobile?: boolean }) {
   const menu = open && <div className={`profile-layer${mobile ? " profile-layer-mobile" : ""}`} data-profile-layer="portal">
     <button type="button" tabIndex={-1} className="profile-backdrop" aria-label={language === "he" ? "סגירת תפריט הפרופיל" : "Close profile menu"} onClick={() => close()} />
     <div ref={menuRef} className={`profile-popover${mobile ? " profile-sheet" : ""}`} role="menu" aria-label={t("profile.menu")} style={mobile ? undefined : position}>
-      <div className="profile-summary"><strong>{name}</strong><span>{user.role}</span></div>
+      <div className="profile-summary"><strong>{name}</strong><span>{user.role}</span><small>{isCloudAuthenticated ? (language === "he" ? "חשבון מחובר" : "Cloud account") : (language === "he" ? "אורח · מקומי בלבד" : "Guest · local only")}</small></div>
+      <Link role="menuitem" to="/profile" onClick={() => close(false)}>{language === "he" ? "פרופיל" : "Profile"}</Link>
+      {isCloudAuthenticated && <Link role="menuitem" to="/account/security" onClick={() => close(false)}>{language === "he" ? "אבטחת חשבון" : "Account security"}</Link>}
+      {isVerifiedAdmin(user) && <Link role="menuitem" to="/admin" onClick={() => close(false)}>{language === "he" ? "ניהול" : "Admin"}</Link>}
+      {!isCloudAuthenticated && <Link role="menuitem" to="/auth/login" onClick={() => close(false)}>{language === "he" ? "כניסה או יצירת חשבון" : "Sign in or create account"}</Link>}
       <Link role="menuitem" to="/settings" onClick={() => close(false)}>{t("nav.settings")}</Link>
       <Link role="menuitem" to="/about" onClick={() => close(false)}>About / אודות</Link>
       <Link role="menuitem" to="/developer" onClick={() => close(false)}>{t("nav.developer")}</Link>
-      <button role="menuitem" type="button" onClick={() => { signOut(); navigate("/login", { replace: true }); }}>{t("auth.signOut")}</button>
+      <button role="menuitem" type="button" onClick={async () => { await signOut(); navigate("/login", { replace: true }); }}>{t("auth.signOut")}</button>
     </div>
   </div>;
 
   return <div className="profile-menu">
     <button ref={triggerRef} type="button" className="profile-trigger" aria-expanded={open} aria-haspopup="menu" aria-label={t("a11y.openProfile")} onClick={() => open ? close() : setOpen(true)}>
-      <span className="profile-avatar" aria-hidden="true">{user.avatarInitials}</span><span className="profile-trigger-copy"><strong>{name}</strong><span>{user.role}</span></span>
+      <span className="profile-avatar" aria-hidden="true">{user.avatarInitials}</span><span className="profile-trigger-copy"><strong>{name}</strong><span>{status === "authenticated" ? (language === "he" ? "חשבון" : "Account") : (language === "he" ? "אורח" : "Guest")}</span></span>
     </button>
     {menu && createPortal(menu, document.body)}
   </div>;

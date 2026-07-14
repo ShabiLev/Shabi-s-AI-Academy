@@ -169,14 +169,14 @@ const master = readFileSync(
 if (kitVersion !== "1.0.0" || !index.includes("Engineering Kit: **1.0.0**"))
   errors.push("Engineering Kit version 1.0.0 is not documented consistently.");
 if (
-  !index.includes("Current application: **1.2.0-beta.1**") ||
+  !index.includes("Current application: **1.3.0-beta.1**") ||
   !master.includes("Application baseline: **0.6.1**")
 )
   errors.push(
-    "Current application 1.2.0-beta.1 or Sprint baseline 0.6.1 is not documented consistently.",
+    "Current application 1.3.0-beta.1 or Sprint baseline 0.6.1 is not documented consistently.",
   );
 if (
-  !index.includes("Planned application: **Post-1.2 discovery**") ||
+  !index.includes("Planned application: **1.4.0-beta.1**") ||
   !master.includes("Target application: **0.7.0**")
 )
   errors.push("Application plan or archived Sprint target is not documented consistently.");

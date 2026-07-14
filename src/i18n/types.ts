@@ -39,6 +39,8 @@ export type TranslationKey =
   | "nav.settings"
   | "nav.qa"
   | "nav.howTo"
+  | "nav.help"
+  | "nav.glossary"
   | "header.workspace"
   | "header.online"
   | "header.hebrew"

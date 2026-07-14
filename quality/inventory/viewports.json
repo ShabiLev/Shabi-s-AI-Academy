@@ -1,0 +1,44 @@
+[
+  {
+    "id": "small-mobile",
+    "width": 320,
+    "height": 568,
+    "primary": true
+  },
+  {
+    "id": "mobile",
+    "width": 360,
+    "height": 800,
+    "primary": true
+  },
+  {
+    "id": "large-mobile",
+    "width": 390,
+    "height": 844,
+    "primary": true
+  },
+  {
+    "id": "tablet-portrait",
+    "width": 768,
+    "height": 1024,
+    "primary": true
+  },
+  {
+    "id": "tablet-landscape",
+    "width": 1024,
+    "height": 768,
+    "primary": true
+  },
+  {
+    "id": "desktop",
+    "width": 1440,
+    "height": 900,
+    "primary": true
+  },
+  {
+    "id": "large-desktop",
+    "width": 1920,
+    "height": 1080,
+    "primary": true
+  }
+]

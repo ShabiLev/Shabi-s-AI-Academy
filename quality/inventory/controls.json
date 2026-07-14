@@ -1,0 +1,2212 @@
+[
+  {
+    "controlId": "landing:primary-action",
+    "pageId": "landing",
+    "route": "/",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "landing:navigation",
+    "pageId": "landing",
+    "route": "/",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "landing:help",
+    "pageId": "landing",
+    "route": "/",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "login:labeled-fields",
+    "pageId": "login",
+    "route": "/login",
+    "kind": "labeled fields",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "login:submit",
+    "pageId": "login",
+    "route": "/login",
+    "kind": "submit",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "login:cancel-or-back",
+    "pageId": "login",
+    "route": "/login",
+    "kind": "cancel or back",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "login:help",
+    "pageId": "login",
+    "route": "/login",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.login:labeled-fields",
+    "pageId": "auth.login",
+    "route": "/auth/login",
+    "kind": "labeled fields",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.login:submit",
+    "pageId": "auth.login",
+    "route": "/auth/login",
+    "kind": "submit",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.login:cancel-or-back",
+    "pageId": "auth.login",
+    "route": "/auth/login",
+    "kind": "cancel or back",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.login:help",
+    "pageId": "auth.login",
+    "route": "/auth/login",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.register:labeled-fields",
+    "pageId": "auth.register",
+    "route": "/auth/register",
+    "kind": "labeled fields",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.register:submit",
+    "pageId": "auth.register",
+    "route": "/auth/register",
+    "kind": "submit",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.register:cancel-or-back",
+    "pageId": "auth.register",
+    "route": "/auth/register",
+    "kind": "cancel or back",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.register:help",
+    "pageId": "auth.register",
+    "route": "/auth/register",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.forgot-password:labeled-fields",
+    "pageId": "auth.forgot-password",
+    "route": "/auth/forgot-password",
+    "kind": "labeled fields",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.forgot-password:submit",
+    "pageId": "auth.forgot-password",
+    "route": "/auth/forgot-password",
+    "kind": "submit",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.forgot-password:cancel-or-back",
+    "pageId": "auth.forgot-password",
+    "route": "/auth/forgot-password",
+    "kind": "cancel or back",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.forgot-password:help",
+    "pageId": "auth.forgot-password",
+    "route": "/auth/forgot-password",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.verify-email:primary-action",
+    "pageId": "auth.verify-email",
+    "route": "/auth/verify-email",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.verify-email:navigation",
+    "pageId": "auth.verify-email",
+    "route": "/auth/verify-email",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.verify-email:help",
+    "pageId": "auth.verify-email",
+    "route": "/auth/verify-email",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.reset-password:labeled-fields",
+    "pageId": "auth.reset-password",
+    "route": "/auth/reset-password",
+    "kind": "labeled fields",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.reset-password:submit",
+    "pageId": "auth.reset-password",
+    "route": "/auth/reset-password",
+    "kind": "submit",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.reset-password:cancel-or-back",
+    "pageId": "auth.reset-password",
+    "route": "/auth/reset-password",
+    "kind": "cancel or back",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.reset-password:help",
+    "pageId": "auth.reset-password",
+    "route": "/auth/reset-password",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.callback:primary-action",
+    "pageId": "auth.callback",
+    "route": "/auth/callback",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.callback:navigation",
+    "pageId": "auth.callback",
+    "route": "/auth/callback",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.callback:help",
+    "pageId": "auth.callback",
+    "route": "/auth/callback",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.error:primary-action",
+    "pageId": "auth.error",
+    "route": "/auth/error",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.error:navigation",
+    "pageId": "auth.error",
+    "route": "/auth/error",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "auth.error:help",
+    "pageId": "auth.error",
+    "route": "/auth/error",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "about:primary-action",
+    "pageId": "about",
+    "route": "/about",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "about:navigation",
+    "pageId": "about",
+    "route": "/about",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "about:help",
+    "pageId": "about",
+    "route": "/about",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "privacy:primary-action",
+    "pageId": "privacy",
+    "route": "/privacy",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "privacy:navigation",
+    "pageId": "privacy",
+    "route": "/privacy",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "privacy:help",
+    "pageId": "privacy",
+    "route": "/privacy",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "terms:primary-action",
+    "pageId": "terms",
+    "route": "/terms",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "terms:navigation",
+    "pageId": "terms",
+    "route": "/terms",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "terms:help",
+    "pageId": "terms",
+    "route": "/terms",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "not-found:primary-action",
+    "pageId": "not-found",
+    "route": "/*",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "not-found:navigation",
+    "pageId": "not-found",
+    "route": "/*",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "not-found:help",
+    "pageId": "not-found",
+    "route": "/*",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "dashboard:primary-action",
+    "pageId": "dashboard",
+    "route": "/dashboard",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "dashboard:navigation",
+    "pageId": "dashboard",
+    "route": "/dashboard",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "dashboard:help",
+    "pageId": "dashboard",
+    "route": "/dashboard",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "onboarding:labeled-fields",
+    "pageId": "onboarding",
+    "route": "/onboarding",
+    "kind": "labeled fields",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "onboarding:submit",
+    "pageId": "onboarding",
+    "route": "/onboarding",
+    "kind": "submit",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "onboarding:cancel-or-back",
+    "pageId": "onboarding",
+    "route": "/onboarding",
+    "kind": "cancel or back",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "onboarding:help",
+    "pageId": "onboarding",
+    "route": "/onboarding",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "lessons:primary-action",
+    "pageId": "lessons",
+    "route": "/lessons",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "lessons:navigation",
+    "pageId": "lessons",
+    "route": "/lessons",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "lessons:help",
+    "pageId": "lessons",
+    "route": "/lessons",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "lessons.by-lessonSlug:primary-action",
+    "pageId": "lessons.by-lessonSlug",
+    "route": "/lessons/:lessonSlug",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "lessons.by-lessonSlug:navigation",
+    "pageId": "lessons.by-lessonSlug",
+    "route": "/lessons/:lessonSlug",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "lessons.by-lessonSlug:help",
+    "pageId": "lessons.by-lessonSlug",
+    "route": "/lessons/:lessonSlug",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "journey:primary-action",
+    "pageId": "journey",
+    "route": "/journey",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "journey:navigation",
+    "pageId": "journey",
+    "route": "/journey",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "journey:help",
+    "pageId": "journey",
+    "route": "/journey",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "radar:primary-action",
+    "pageId": "radar",
+    "route": "/radar",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "radar:navigation",
+    "pageId": "radar",
+    "route": "/radar",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "radar:help",
+    "pageId": "radar",
+    "route": "/radar",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompt-library:primary-action",
+    "pageId": "prompt-library",
+    "route": "/prompt-library",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompt-library:navigation",
+    "pageId": "prompt-library",
+    "route": "/prompt-library",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompt-library:help",
+    "pageId": "prompt-library",
+    "route": "/prompt-library",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts:primary-action",
+    "pageId": "prompts",
+    "route": "/prompts",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts:navigation",
+    "pageId": "prompts",
+    "route": "/prompts",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts:help",
+    "pageId": "prompts",
+    "route": "/prompts",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.new:labeled-fields",
+    "pageId": "prompts.new",
+    "route": "/prompts/new",
+    "kind": "labeled fields",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.new:submit",
+    "pageId": "prompts.new",
+    "route": "/prompts/new",
+    "kind": "submit",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.new:cancel-or-back",
+    "pageId": "prompts.new",
+    "route": "/prompts/new",
+    "kind": "cancel or back",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.new:help",
+    "pageId": "prompts.new",
+    "route": "/prompts/new",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.catalog:primary-action",
+    "pageId": "prompts.catalog",
+    "route": "/prompts/catalog",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.catalog:navigation",
+    "pageId": "prompts.catalog",
+    "route": "/prompts/catalog",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.catalog:help",
+    "pageId": "prompts.catalog",
+    "route": "/prompts/catalog",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.catalog.by-catalogId:primary-action",
+    "pageId": "prompts.catalog.by-catalogId",
+    "route": "/prompts/catalog/:catalogId",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.catalog.by-catalogId:navigation",
+    "pageId": "prompts.catalog.by-catalogId",
+    "route": "/prompts/catalog/:catalogId",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.catalog.by-catalogId:help",
+    "pageId": "prompts.catalog.by-catalogId",
+    "route": "/prompts/catalog/:catalogId",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.packs:primary-action",
+    "pageId": "prompts.packs",
+    "route": "/prompts/packs",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.packs:navigation",
+    "pageId": "prompts.packs",
+    "route": "/prompts/packs",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.packs:help",
+    "pageId": "prompts.packs",
+    "route": "/prompts/packs",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.by-promptId:primary-action",
+    "pageId": "prompts.by-promptId",
+    "route": "/prompts/:promptId",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.by-promptId:navigation",
+    "pageId": "prompts.by-promptId",
+    "route": "/prompts/:promptId",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.by-promptId:help",
+    "pageId": "prompts.by-promptId",
+    "route": "/prompts/:promptId",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.by-promptId.edit:labeled-fields",
+    "pageId": "prompts.by-promptId.edit",
+    "route": "/prompts/:promptId/edit",
+    "kind": "labeled fields",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.by-promptId.edit:submit",
+    "pageId": "prompts.by-promptId.edit",
+    "route": "/prompts/:promptId/edit",
+    "kind": "submit",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.by-promptId.edit:cancel-or-back",
+    "pageId": "prompts.by-promptId.edit",
+    "route": "/prompts/:promptId/edit",
+    "kind": "cancel or back",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "prompts.by-promptId.edit:help",
+    "pageId": "prompts.by-promptId.edit",
+    "route": "/prompts/:promptId/edit",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "playground.prompts:primary-action",
+    "pageId": "playground.prompts",
+    "route": "/playground/prompts",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "playground.prompts:navigation",
+    "pageId": "playground.prompts",
+    "route": "/playground/prompts",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "playground.prompts:help",
+    "pageId": "playground.prompts",
+    "route": "/playground/prompts",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents:primary-action",
+    "pageId": "agents",
+    "route": "/agents",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents:navigation",
+    "pageId": "agents",
+    "route": "/agents",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents:help",
+    "pageId": "agents",
+    "route": "/agents",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents.catalog:primary-action",
+    "pageId": "agents.catalog",
+    "route": "/agents/catalog",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents.catalog:navigation",
+    "pageId": "agents.catalog",
+    "route": "/agents/catalog",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents.catalog:help",
+    "pageId": "agents.catalog",
+    "route": "/agents/catalog",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents.new:labeled-fields",
+    "pageId": "agents.new",
+    "route": "/agents/new",
+    "kind": "labeled fields",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents.new:submit",
+    "pageId": "agents.new",
+    "route": "/agents/new",
+    "kind": "submit",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents.new:cancel-or-back",
+    "pageId": "agents.new",
+    "route": "/agents/new",
+    "kind": "cancel or back",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents.new:help",
+    "pageId": "agents.new",
+    "route": "/agents/new",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents.by-agentId:primary-action",
+    "pageId": "agents.by-agentId",
+    "route": "/agents/:agentId",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents.by-agentId:navigation",
+    "pageId": "agents.by-agentId",
+    "route": "/agents/:agentId",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents.by-agentId:help",
+    "pageId": "agents.by-agentId",
+    "route": "/agents/:agentId",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents.by-agentId.edit:labeled-fields",
+    "pageId": "agents.by-agentId.edit",
+    "route": "/agents/:agentId/edit",
+    "kind": "labeled fields",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents.by-agentId.edit:submit",
+    "pageId": "agents.by-agentId.edit",
+    "route": "/agents/:agentId/edit",
+    "kind": "submit",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents.by-agentId.edit:cancel-or-back",
+    "pageId": "agents.by-agentId.edit",
+    "route": "/agents/:agentId/edit",
+    "kind": "cancel or back",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents.by-agentId.edit:help",
+    "pageId": "agents.by-agentId.edit",
+    "route": "/agents/:agentId/edit",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents.by-agentId.simulate:primary-action",
+    "pageId": "agents.by-agentId.simulate",
+    "route": "/agents/:agentId/simulate",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents.by-agentId.simulate:navigation",
+    "pageId": "agents.by-agentId.simulate",
+    "route": "/agents/:agentId/simulate",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "agents.by-agentId.simulate:help",
+    "pageId": "agents.by-agentId.simulate",
+    "route": "/agents/:agentId/simulate",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "playground.agents:primary-action",
+    "pageId": "playground.agents",
+    "route": "/playground/agents",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "playground.agents:navigation",
+    "pageId": "playground.agents",
+    "route": "/playground/agents",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "playground.agents:help",
+    "pageId": "playground.agents",
+    "route": "/playground/agents",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "projects:primary-action",
+    "pageId": "projects",
+    "route": "/projects",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "projects:navigation",
+    "pageId": "projects",
+    "route": "/projects",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "projects:help",
+    "pageId": "projects",
+    "route": "/projects",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "projects.new:labeled-fields",
+    "pageId": "projects.new",
+    "route": "/projects/new",
+    "kind": "labeled fields",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "projects.new:submit",
+    "pageId": "projects.new",
+    "route": "/projects/new",
+    "kind": "submit",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "projects.new:cancel-or-back",
+    "pageId": "projects.new",
+    "route": "/projects/new",
+    "kind": "cancel or back",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "projects.new:help",
+    "pageId": "projects.new",
+    "route": "/projects/new",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "projects.by-projectId:primary-action",
+    "pageId": "projects.by-projectId",
+    "route": "/projects/:projectId",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "projects.by-projectId:navigation",
+    "pageId": "projects.by-projectId",
+    "route": "/projects/:projectId",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "projects.by-projectId:help",
+    "pageId": "projects.by-projectId",
+    "route": "/projects/:projectId",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "projects.by-projectId.settings:labeled-fields",
+    "pageId": "projects.by-projectId.settings",
+    "route": "/projects/:projectId/settings",
+    "kind": "labeled fields",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "projects.by-projectId.settings:submit",
+    "pageId": "projects.by-projectId.settings",
+    "route": "/projects/:projectId/settings",
+    "kind": "submit",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "projects.by-projectId.settings:cancel-or-back",
+    "pageId": "projects.by-projectId.settings",
+    "route": "/projects/:projectId/settings",
+    "kind": "cancel or back",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "projects.by-projectId.settings:help",
+    "pageId": "projects.by-projectId.settings",
+    "route": "/projects/:projectId/settings",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "knowledge:primary-action",
+    "pageId": "knowledge",
+    "route": "/knowledge",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "knowledge:navigation",
+    "pageId": "knowledge",
+    "route": "/knowledge",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "knowledge:help",
+    "pageId": "knowledge",
+    "route": "/knowledge",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "knowledge.new:labeled-fields",
+    "pageId": "knowledge.new",
+    "route": "/knowledge/new",
+    "kind": "labeled fields",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "knowledge.new:submit",
+    "pageId": "knowledge.new",
+    "route": "/knowledge/new",
+    "kind": "submit",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "knowledge.new:cancel-or-back",
+    "pageId": "knowledge.new",
+    "route": "/knowledge/new",
+    "kind": "cancel or back",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "knowledge.new:help",
+    "pageId": "knowledge.new",
+    "route": "/knowledge/new",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "knowledge.by-documentId:primary-action",
+    "pageId": "knowledge.by-documentId",
+    "route": "/knowledge/:documentId",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "knowledge.by-documentId:navigation",
+    "pageId": "knowledge.by-documentId",
+    "route": "/knowledge/:documentId",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "knowledge.by-documentId:help",
+    "pageId": "knowledge.by-documentId",
+    "route": "/knowledge/:documentId",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "knowledge.by-documentId.edit:labeled-fields",
+    "pageId": "knowledge.by-documentId.edit",
+    "route": "/knowledge/:documentId/edit",
+    "kind": "labeled fields",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "knowledge.by-documentId.edit:submit",
+    "pageId": "knowledge.by-documentId.edit",
+    "route": "/knowledge/:documentId/edit",
+    "kind": "submit",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "knowledge.by-documentId.edit:cancel-or-back",
+    "pageId": "knowledge.by-documentId.edit",
+    "route": "/knowledge/:documentId/edit",
+    "kind": "cancel or back",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "knowledge.by-documentId.edit:help",
+    "pageId": "knowledge.by-documentId.edit",
+    "route": "/knowledge/:documentId/edit",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "workflows:primary-action",
+    "pageId": "workflows",
+    "route": "/workflows",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "workflows:navigation",
+    "pageId": "workflows",
+    "route": "/workflows",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "workflows:help",
+    "pageId": "workflows",
+    "route": "/workflows",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "workflows.new:labeled-fields",
+    "pageId": "workflows.new",
+    "route": "/workflows/new",
+    "kind": "labeled fields",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "workflows.new:submit",
+    "pageId": "workflows.new",
+    "route": "/workflows/new",
+    "kind": "submit",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "workflows.new:cancel-or-back",
+    "pageId": "workflows.new",
+    "route": "/workflows/new",
+    "kind": "cancel or back",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "workflows.new:help",
+    "pageId": "workflows.new",
+    "route": "/workflows/new",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "workflows.by-workflowId:primary-action",
+    "pageId": "workflows.by-workflowId",
+    "route": "/workflows/:workflowId",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "workflows.by-workflowId:navigation",
+    "pageId": "workflows.by-workflowId",
+    "route": "/workflows/:workflowId",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "workflows.by-workflowId:help",
+    "pageId": "workflows.by-workflowId",
+    "route": "/workflows/:workflowId",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "runs:primary-action",
+    "pageId": "runs",
+    "route": "/runs",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "runs:navigation",
+    "pageId": "runs",
+    "route": "/runs",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "runs:help",
+    "pageId": "runs",
+    "route": "/runs",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "runs.by-runId:primary-action",
+    "pageId": "runs.by-runId",
+    "route": "/runs/:runId",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "runs.by-runId:navigation",
+    "pageId": "runs.by-runId",
+    "route": "/runs/:runId",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "runs.by-runId:help",
+    "pageId": "runs.by-runId",
+    "route": "/runs/:runId",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "how-to:primary-action",
+    "pageId": "how-to",
+    "route": "/how-to",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "how-to:navigation",
+    "pageId": "how-to",
+    "route": "/how-to",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "how-to:help",
+    "pageId": "how-to",
+    "route": "/how-to",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "help:primary-action",
+    "pageId": "help",
+    "route": "/help",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "help:navigation",
+    "pageId": "help",
+    "route": "/help",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "help:help",
+    "pageId": "help",
+    "route": "/help",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "glossary:primary-action",
+    "pageId": "glossary",
+    "route": "/glossary",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "glossary:navigation",
+    "pageId": "glossary",
+    "route": "/glossary",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "glossary:help",
+    "pageId": "glossary",
+    "route": "/glossary",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "roadmap:primary-action",
+    "pageId": "roadmap",
+    "route": "/roadmap",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "roadmap:navigation",
+    "pageId": "roadmap",
+    "route": "/roadmap",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "roadmap:help",
+    "pageId": "roadmap",
+    "route": "/roadmap",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "changelog:primary-action",
+    "pageId": "changelog",
+    "route": "/changelog",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "changelog:navigation",
+    "pageId": "changelog",
+    "route": "/changelog",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "changelog:help",
+    "pageId": "changelog",
+    "route": "/changelog",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "docs:primary-action",
+    "pageId": "docs",
+    "route": "/docs",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "docs:navigation",
+    "pageId": "docs",
+    "route": "/docs",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "docs:help",
+    "pageId": "docs",
+    "route": "/docs",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "release:primary-action",
+    "pageId": "release",
+    "route": "/release",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "release:navigation",
+    "pageId": "release",
+    "route": "/release",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "release:help",
+    "pageId": "release",
+    "route": "/release",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "developer:primary-action",
+    "pageId": "developer",
+    "route": "/developer",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "developer:navigation",
+    "pageId": "developer",
+    "route": "/developer",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "developer:help",
+    "pageId": "developer",
+    "route": "/developer",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "search:primary-action",
+    "pageId": "search",
+    "route": "/search",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "search:navigation",
+    "pageId": "search",
+    "route": "/search",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "search:help",
+    "pageId": "search",
+    "route": "/search",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "assistant:primary-action",
+    "pageId": "assistant",
+    "route": "/assistant",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "assistant:navigation",
+    "pageId": "assistant",
+    "route": "/assistant",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "assistant:help",
+    "pageId": "assistant",
+    "route": "/assistant",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "analytics:primary-action",
+    "pageId": "analytics",
+    "route": "/analytics",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "analytics:navigation",
+    "pageId": "analytics",
+    "route": "/analytics",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "analytics:help",
+    "pageId": "analytics",
+    "route": "/analytics",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "settings:labeled-fields",
+    "pageId": "settings",
+    "route": "/settings",
+    "kind": "labeled fields",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "settings:submit",
+    "pageId": "settings",
+    "route": "/settings",
+    "kind": "submit",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "settings:cancel-or-back",
+    "pageId": "settings",
+    "route": "/settings",
+    "kind": "cancel or back",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "settings:help",
+    "pageId": "settings",
+    "route": "/settings",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "profile:primary-action",
+    "pageId": "profile",
+    "route": "/profile",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "profile:navigation",
+    "pageId": "profile",
+    "route": "/profile",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "profile:help",
+    "pageId": "profile",
+    "route": "/profile",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "account.security:primary-action",
+    "pageId": "account.security",
+    "route": "/account/security",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "account.security:navigation",
+    "pageId": "account.security",
+    "route": "/account/security",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "account.security:help",
+    "pageId": "account.security",
+    "route": "/account/security",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "account.migration:labeled-fields",
+    "pageId": "account.migration",
+    "route": "/account/migration",
+    "kind": "labeled fields",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "account.migration:submit",
+    "pageId": "account.migration",
+    "route": "/account/migration",
+    "kind": "submit",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "account.migration:cancel-or-back",
+    "pageId": "account.migration",
+    "route": "/account/migration",
+    "kind": "cancel or back",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "account.migration:help",
+    "pageId": "account.migration",
+    "route": "/account/migration",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "admin:primary-action",
+    "pageId": "admin",
+    "route": "/admin",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "admin:navigation",
+    "pageId": "admin",
+    "route": "/admin",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "admin:help",
+    "pageId": "admin",
+    "route": "/admin",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "admin.users:primary-action",
+    "pageId": "admin.users",
+    "route": "/admin/users",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "admin.users:navigation",
+    "pageId": "admin.users",
+    "route": "/admin/users",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "admin.users:help",
+    "pageId": "admin.users",
+    "route": "/admin/users",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "admin.content:primary-action",
+    "pageId": "admin.content",
+    "route": "/admin/content",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "admin.content:navigation",
+    "pageId": "admin.content",
+    "route": "/admin/content",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "admin.content:help",
+    "pageId": "admin.content",
+    "route": "/admin/content",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "admin.audit:primary-action",
+    "pageId": "admin.audit",
+    "route": "/admin/audit",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "admin.audit:navigation",
+    "pageId": "admin.audit",
+    "route": "/admin/audit",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "admin.audit:help",
+    "pageId": "admin.audit",
+    "route": "/admin/audit",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "qa:primary-action",
+    "pageId": "qa",
+    "route": "/qa",
+    "kind": "primary action",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Visible state change, route change, validation, or completion message",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "qa:navigation",
+    "pageId": "qa",
+    "route": "/qa",
+    "kind": "navigation",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  },
+  {
+    "controlId": "qa:help",
+    "pageId": "qa",
+    "route": "/qa",
+    "kind": "help",
+    "destructive": false,
+    "expectedAccessibleName": true,
+    "expectedFeedback": "Clear response appropriate to the control",
+    "audit": "automated-and-manual"
+  }
+]

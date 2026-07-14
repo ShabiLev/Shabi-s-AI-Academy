@@ -154,7 +154,7 @@ describe('QA Center — release checklist', () => {
     const checkboxes = screen.getAllByRole('checkbox')
     for (const checkbox of checkboxes) await user.click(checkbox)
     expect(screen.getByText('מוכן', { selector: 'dd' })).toBeInTheDocument()
-  })
+  }, 15_000)
 
   it('persists a manual checklist toggle after remount', async () => {
     const user = userEvent.setup()

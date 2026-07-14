@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "statuses": ["Pass", "Warning", "Fail", "Not Applicable"],
+  "heuristics": [
+    "Visibility of system status",
+    "Match between system and real-world language",
+    "User control and freedom",
+    "Consistency and standards",
+    "Error prevention",
+    "Recognition rather than recall",
+    "Flexibility and efficiency",
+    "Minimal and focused design",
+    "Error recovery",
+    "Help and documentation"
+  ],
+  "requiredFindingFields": ["finding", "screenshot", "impact", "recommendation", "owner", "releaseDecision"],
+  "manualApprovalRequired": true,
+  "instructions": "Review every primary page. Automation may prefill evidence, but only a human reviewer may approve subjective UX."
+}

@@ -5,9 +5,9 @@
 This directory is the authoritative engineering source of truth for architecture, standards, decisions, and Sprint specifications. It turns product intent into implementable constraints without replacing the application README or CHANGELOG.
 
 - Engineering Kit: **1.0.0**
-- Current application: **1.2.0-beta.1**
-- Planned application: **Post-1.2 discovery**
-- Active work: **AI Radar & UX Hardening release validation**
+- Current application: **1.3.0-beta.1**
+- Planned application: **1.4.0-beta.1**
+- Active work: **User Accounts & Guided Experience release validation**
 
 ## Table of contents
 
@@ -27,6 +27,8 @@ This directory is the authoritative engineering source of truth for architecture
 - [1.1 AI Workspace handoff](release-1.1-ai-workspace/handoff.md)
 - [1.2 AI Radar & UX Hardening master specification](release-1.2-ai-radar-ux/00-master-spec.md)
 - [1.2 AI Radar & UX Hardening handoff](release-1.2-ai-radar-ux/handoff.md)
+- [1.3 User Accounts & Guided Experience master specification](release-1.3-auth-guided-ux/00-master-spec.md)
+- [1.3 User Accounts & Guided Experience handoff](release-1.3-auth-guided-ux/handoff.md)
 - [Templates](templates/feature.md)
 - [Codex prompts](prompts/feature-template.md)
 
@@ -54,6 +56,7 @@ An active accepted ADR overrides older architecture prose. Security and privacy 
 - `release-1.0-beta/`: preserved 1.0.0-beta.1 release specification.
 - `release-1.1-ai-workspace/`: controlling 1.1.0-beta.1 release specification.
 - `release-1.2-ai-radar-ux/`: controlling 1.2.0-beta.1 release specification.
+- `release-1.3-auth-guided-ux/`: controlling 1.3.0-beta.1 release specification.
 - `templates/`: fill-in engineering artifacts.
 - `prompts/`: operational prompts for Codex workflows.
 - `VERSION`: Engineering Kit version only.

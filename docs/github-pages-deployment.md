@@ -22,7 +22,9 @@ npm run test:e2e:pages
 
 In the repository, open **Settings → Pages** and set **Build and deployment → Source** to **GitHub Actions**. A push to `main` or a manual dispatch starts `.github/workflows/deploy-pages.yml`. Inspect the **Actions → Deploy GitHub Pages** run: the build job must pass before the deploy job publishes its `dist` artifact, and the deploy environment exposes the resulting URL.
 
-Do not add credentials to `VITE_` variables: Vite embeds those values in public browser assets. This workflow requires only the scoped `pages: write` and `id-token: write` permissions used by the official deployment action.
+The optional `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` values are public client configuration and are passed from GitHub Actions secrets. Never add a service-role credential: Vite embeds `VITE_` values in browser assets. Configure the deployed callback as `https://shabilev.github.io/Shabi-s-AI-Academy/#/auth/callback`; the Pages Playwright suite verifies Login, Register, protected redirects, and invalid callbacks under the repository base.
+
+The workflow requires only the scoped `pages: write` and `id-token: write` permissions used by the official deployment action. If the Supabase values are absent, the same artifact remains fully usable in local-only and Guest modes.
 
 ## Rollback or disable Pages
 

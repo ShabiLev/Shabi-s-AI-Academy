@@ -1,0 +1,3 @@
+import type { DataProvider } from "../DataProvider"; import { createDomainRepository } from "./domainRepository";
+export function createRepositories(provider: DataProvider) { return { progressRepository: createDomainRepository(provider,"progress"), promptRepository: createDomainRepository(provider,"prompts"), agentRepository: createDomainRepository(provider,"agents"), projectRepository: createDomainRepository(provider,"projects"), knowledgeRepository: createDomainRepository(provider,"knowledge"), workflowRepository: createDomainRepository(provider,"workflows"), runtimeRepository: createDomainRepository(provider,"runtime"), preferencesRepository: createDomainRepository(provider,"preferences") }; }
+export * from "./domainRepository";

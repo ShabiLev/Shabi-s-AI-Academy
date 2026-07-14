@@ -12,7 +12,7 @@ test("authenticated login redirects and sign out returns to Login", async ({
 }) => {
   await login(page);
   await page.goto("/login");
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/dashboard$/);
   await page.getByRole("button", { name: "פתיחת תפריט הפרופיל" }).click();
   await page.getByRole("menuitem", { name: "התנתקות" }).click();
   await expect(page.getByRole("heading", { name: "כניסה" })).toBeVisible();

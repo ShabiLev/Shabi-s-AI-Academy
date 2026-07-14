@@ -1,0 +1,818 @@
+[
+  {
+    "route": "/",
+    "pageId": "landing",
+    "group": "public",
+    "production": true,
+    "parameterExample": "/",
+    "access": "public",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/login",
+    "pageId": "login",
+    "group": "public",
+    "production": true,
+    "parameterExample": "/login",
+    "access": "public",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/auth/login",
+    "pageId": "auth.login",
+    "group": "public",
+    "production": true,
+    "parameterExample": "/auth/login",
+    "access": "public",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/auth/register",
+    "pageId": "auth.register",
+    "group": "public",
+    "production": true,
+    "parameterExample": "/auth/register",
+    "access": "public",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/auth/forgot-password",
+    "pageId": "auth.forgot-password",
+    "group": "public",
+    "production": true,
+    "parameterExample": "/auth/forgot-password",
+    "access": "public",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/auth/verify-email",
+    "pageId": "auth.verify-email",
+    "group": "public",
+    "production": true,
+    "parameterExample": "/auth/verify-email",
+    "access": "public",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/auth/reset-password",
+    "pageId": "auth.reset-password",
+    "group": "public",
+    "production": true,
+    "parameterExample": "/auth/reset-password",
+    "access": "public",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/auth/callback",
+    "pageId": "auth.callback",
+    "group": "public",
+    "production": true,
+    "parameterExample": "/auth/callback",
+    "access": "public",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/auth/error",
+    "pageId": "auth.error",
+    "group": "public",
+    "production": true,
+    "parameterExample": "/auth/error",
+    "access": "public",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/about",
+    "pageId": "about",
+    "group": "public",
+    "production": true,
+    "parameterExample": "/about",
+    "access": "public",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/privacy",
+    "pageId": "privacy",
+    "group": "public",
+    "production": true,
+    "parameterExample": "/privacy",
+    "access": "public",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/terms",
+    "pageId": "terms",
+    "group": "public",
+    "production": true,
+    "parameterExample": "/terms",
+    "access": "public",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/*",
+    "pageId": "not-found",
+    "group": "public",
+    "production": true,
+    "parameterExample": "/quality-route-that-does-not-exist",
+    "access": "public",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/dashboard",
+    "pageId": "dashboard",
+    "group": "learning",
+    "production": true,
+    "parameterExample": "/dashboard",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/onboarding",
+    "pageId": "onboarding",
+    "group": "learning",
+    "production": true,
+    "parameterExample": "/onboarding",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/lessons",
+    "pageId": "lessons",
+    "group": "learning",
+    "production": true,
+    "parameterExample": "/lessons",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/lessons/:lessonSlug",
+    "pageId": "lessons.by-lessonSlug",
+    "group": "learning",
+    "production": true,
+    "parameterExample": "/lessons/api-testing-basics",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/journey",
+    "pageId": "journey",
+    "group": "learning",
+    "production": true,
+    "parameterExample": "/journey",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/radar",
+    "pageId": "radar",
+    "group": "learning",
+    "production": true,
+    "parameterExample": "/radar",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/prompt-library",
+    "pageId": "prompt-library",
+    "group": "prompts",
+    "production": true,
+    "parameterExample": "/prompt-library",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/prompts",
+    "pageId": "prompts",
+    "group": "prompts",
+    "production": true,
+    "parameterExample": "/prompts",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/prompts/new",
+    "pageId": "prompts.new",
+    "group": "prompts",
+    "production": true,
+    "parameterExample": "/prompts/new",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/prompts/catalog",
+    "pageId": "prompts.catalog",
+    "group": "prompts",
+    "production": true,
+    "parameterExample": "/prompts/catalog",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/prompts/catalog/:catalogId",
+    "pageId": "prompts.catalog.by-catalogId",
+    "group": "prompts",
+    "production": true,
+    "parameterExample": "/prompts/catalog/api-test-generator",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/prompts/packs",
+    "pageId": "prompts.packs",
+    "group": "prompts",
+    "production": true,
+    "parameterExample": "/prompts/packs",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/prompts/:promptId",
+    "pageId": "prompts.by-promptId",
+    "group": "prompts",
+    "production": true,
+    "parameterExample": "/prompts/test-prompt",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/prompts/:promptId/edit",
+    "pageId": "prompts.by-promptId.edit",
+    "group": "prompts",
+    "production": true,
+    "parameterExample": "/prompts/test-prompt/edit",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/playground/prompts",
+    "pageId": "playground.prompts",
+    "group": "prompts",
+    "production": true,
+    "parameterExample": "/playground/prompts",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/agents",
+    "pageId": "agents",
+    "group": "agents",
+    "production": true,
+    "parameterExample": "/agents",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/agents/catalog",
+    "pageId": "agents.catalog",
+    "group": "agents",
+    "production": true,
+    "parameterExample": "/agents/catalog",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/agents/new",
+    "pageId": "agents.new",
+    "group": "agents",
+    "production": true,
+    "parameterExample": "/agents/new",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/agents/:agentId",
+    "pageId": "agents.by-agentId",
+    "group": "agents",
+    "production": true,
+    "parameterExample": "/agents/regression-scope-planner",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/agents/:agentId/edit",
+    "pageId": "agents.by-agentId.edit",
+    "group": "agents",
+    "production": true,
+    "parameterExample": "/agents/regression-scope-planner/edit",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/agents/:agentId/simulate",
+    "pageId": "agents.by-agentId.simulate",
+    "group": "agents",
+    "production": true,
+    "parameterExample": "/agents/regression-scope-planner/simulate",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/playground/agents",
+    "pageId": "playground.agents",
+    "group": "agents",
+    "production": true,
+    "parameterExample": "/playground/agents",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/projects",
+    "pageId": "projects",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/projects",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/projects/new",
+    "pageId": "projects.new",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/projects/new",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/projects/:projectId",
+    "pageId": "projects.by-projectId",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/projects/test-project",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/projects/:projectId/settings",
+    "pageId": "projects.by-projectId.settings",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/projects/test-project/settings",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/knowledge",
+    "pageId": "knowledge",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/knowledge",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/knowledge/new",
+    "pageId": "knowledge.new",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/knowledge/new",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/knowledge/:documentId",
+    "pageId": "knowledge.by-documentId",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/knowledge/test-document",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/knowledge/:documentId/edit",
+    "pageId": "knowledge.by-documentId.edit",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/knowledge/test-document/edit",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/workflows",
+    "pageId": "workflows",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/workflows",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/workflows/new",
+    "pageId": "workflows.new",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/workflows/new",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/workflows/:workflowId",
+    "pageId": "workflows.by-workflowId",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/workflows/test-workflow",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/runs",
+    "pageId": "runs",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/runs",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/runs/:runId",
+    "pageId": "runs.by-runId",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/runs/test-run",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/how-to",
+    "pageId": "how-to",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/how-to",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/help",
+    "pageId": "help",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/help",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/glossary",
+    "pageId": "glossary",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/glossary",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/roadmap",
+    "pageId": "roadmap",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/roadmap",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/changelog",
+    "pageId": "changelog",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/changelog",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/docs",
+    "pageId": "docs",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/docs",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/release",
+    "pageId": "release",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/release",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/developer",
+    "pageId": "developer",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/developer",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/search",
+    "pageId": "search",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/search",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/assistant",
+    "pageId": "assistant",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/assistant",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/analytics",
+    "pageId": "analytics",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/analytics",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/settings",
+    "pageId": "settings",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/settings",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/profile",
+    "pageId": "profile",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/profile",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/account/security",
+    "pageId": "account.security",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/account/security",
+    "access": "authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/account/migration",
+    "pageId": "account.migration",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/account/migration",
+    "access": "authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/admin",
+    "pageId": "admin",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/admin",
+    "access": "admin",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/admin/users",
+    "pageId": "admin.users",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/admin/users",
+    "access": "admin",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/admin/content",
+    "pageId": "admin.content",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/admin/content",
+    "access": "admin",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/admin/audit",
+    "pageId": "admin.audit",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/admin/audit",
+    "access": "admin",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/qa",
+    "pageId": "qa",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/qa",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  }
+]

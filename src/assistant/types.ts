@@ -1,5 +1,5 @@
 import type { Language } from "../i18n/types";
-export type AssistantIntent = "findPrompt" | "findAgent" | "findLesson" | "openRoute" | "createPrompt" | "createAgent" | "createProject" | "explainScreen" | "showRecentActivity" | "showProjectContents" | "startMockRun" | "startDryRun" | "openQaReport" | "exportWorkspace" | "showHelp" | "unsupported";
+export type AssistantIntent = "findPrompt" | "findAgent" | "findLesson" | "openRoute" | "createPrompt" | "createAgent" | "createProject" | "explainScreen" | "defineConcept" | "showRecentActivity" | "showProjectContents" | "startMockRun" | "startDryRun" | "openQaReport" | "exportWorkspace" | "showHelp" | "unsupported";
 export type AssistantResponseType = "informational" | "searchResults" | "commandSuggestion" | "actionConfirmation" | "navigation" | "entityPreview" | "warning" | "unsupportedRequest";
 export type AssistantActionType = "navigate" | "search" | "createDraftPrompt" | "createDraftAgent" | "createProject" | "openPlayground" | "startMockRun" | "startDryRun" | "linkToProject" | "favorite" | "export" | "openHelp";
 export type AssistantRisk = "informational" | "low" | "medium" | "high";

@@ -1,0 +1,3 @@
+import { test, expect, login } from "../fixtures/academy";
+const viewports = [{ width: 320, height: 568 }, { width: 390, height: 844 }, { width: 768, height: 1024 }, { width: 1024, height: 768 }, { width: 1440, height: 900 }, { width: 1920, height: 1080 }];
+for (const viewport of viewports) test(`primary controls remain reachable at ${viewport.width}x${viewport.height}`, async ({ page }) => { await page.setViewportSize(viewport); await login(page); await page.goto("/dashboard"); expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBeTruthy(); await page.locator("body").press("End"); await expect(page.locator("main")).toBeVisible(); });

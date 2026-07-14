@@ -29,7 +29,7 @@ test("opening marks progress and completion updates Dashboard and survives refre
 }) => {
   await login(page, "/lessons/ai-llm-agent");
   await page.getByRole("button", { name: "סימון השיעור כהושלם" }).click();
-  await page.goto("/");
+  await page.goto("/dashboard");
   await expect(page.getByText("2%").first()).toBeVisible();
   await page.reload();
   await page.goto("/lessons");

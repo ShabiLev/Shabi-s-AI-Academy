@@ -1,0 +1,2454 @@
+[
+  {
+    "route": "/",
+    "pageId": "landing",
+    "title": "Landing",
+    "accessRequirement": "public",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "not-applicable"
+    ],
+    "primaryTask": "Understand the academy and choose how to begin",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "not-applicable",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:landing",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/login",
+    "pageId": "login",
+    "title": "Login",
+    "accessRequirement": "public",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "not-applicable"
+    ],
+    "primaryTask": "Complete the primary login task",
+    "primaryAction": "Submit the form safely",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "labeled fields",
+      "submit",
+      "cancel or back",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "not-applicable",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:login",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/auth/login",
+    "pageId": "auth.login",
+    "title": "Auth - Login",
+    "accessRequirement": "public",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "not-applicable"
+    ],
+    "primaryTask": "Complete the primary auth - login task",
+    "primaryAction": "Submit the form safely",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "labeled fields",
+      "submit",
+      "cancel or back",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "not-applicable",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:auth.login",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/auth/register",
+    "pageId": "auth.register",
+    "title": "Auth - Register",
+    "accessRequirement": "public",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "not-applicable"
+    ],
+    "primaryTask": "Complete the primary auth - register task",
+    "primaryAction": "Submit the form safely",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "labeled fields",
+      "submit",
+      "cancel or back",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "not-applicable",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:auth.register",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/auth/forgot-password",
+    "pageId": "auth.forgot-password",
+    "title": "Auth - Forgot Password",
+    "accessRequirement": "public",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "not-applicable"
+    ],
+    "primaryTask": "Complete the primary auth - forgot password task",
+    "primaryAction": "Submit the form safely",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "labeled fields",
+      "submit",
+      "cancel or back",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "not-applicable",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:auth.forgot-password",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/auth/verify-email",
+    "pageId": "auth.verify-email",
+    "title": "Auth - Verify Email",
+    "accessRequirement": "public",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "not-applicable"
+    ],
+    "primaryTask": "Complete the primary auth - verify email task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "not-applicable",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:auth.verify-email",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/auth/reset-password",
+    "pageId": "auth.reset-password",
+    "title": "Auth - Reset Password",
+    "accessRequirement": "public",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "not-applicable"
+    ],
+    "primaryTask": "Complete the primary auth - reset password task",
+    "primaryAction": "Submit the form safely",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "labeled fields",
+      "submit",
+      "cancel or back",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "not-applicable",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:auth.reset-password",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/auth/callback",
+    "pageId": "auth.callback",
+    "title": "Auth - Callback",
+    "accessRequirement": "public",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "not-applicable"
+    ],
+    "primaryTask": "Complete the primary auth - callback task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "not-applicable",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:auth.callback",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/auth/error",
+    "pageId": "auth.error",
+    "title": "Auth - Error",
+    "accessRequirement": "public",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "not-applicable"
+    ],
+    "primaryTask": "Complete the primary auth - error task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "not-applicable",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:auth.error",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/about",
+    "pageId": "about",
+    "title": "About",
+    "accessRequirement": "public",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "not-applicable"
+    ],
+    "primaryTask": "Complete the primary about task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "not-applicable",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:about",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/privacy",
+    "pageId": "privacy",
+    "title": "Privacy",
+    "accessRequirement": "public",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "not-applicable"
+    ],
+    "primaryTask": "Complete the primary privacy task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "not-applicable",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:privacy",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/terms",
+    "pageId": "terms",
+    "title": "Terms",
+    "accessRequirement": "public",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "not-applicable"
+    ],
+    "primaryTask": "Complete the primary terms task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "not-applicable",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:terms",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/*",
+    "pageId": "not-found",
+    "title": "*",
+    "accessRequirement": "public",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "not-applicable"
+    ],
+    "primaryTask": "Complete the primary * task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "not-applicable",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:not-found",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/dashboard",
+    "pageId": "dashboard",
+    "title": "Dashboard",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary dashboard task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "not-applicable",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:dashboard",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/onboarding",
+    "pageId": "onboarding",
+    "title": "Onboarding",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary onboarding task",
+    "primaryAction": "Submit the form safely",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "labeled fields",
+      "submit",
+      "cancel or back",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Onboarding",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:onboarding",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/lessons",
+    "pageId": "lessons",
+    "title": "Lessons",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary lessons task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Lessons",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:lessons",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/lessons/:lessonSlug",
+    "pageId": "lessons.by-lessonSlug",
+    "title": "Lessons - Details",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary lessons - details task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Lessons - Details",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:lessons.by-lessonSlug",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/journey",
+    "pageId": "journey",
+    "title": "Journey",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary journey task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Journey",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:journey",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/radar",
+    "pageId": "radar",
+    "title": "Radar",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary radar task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Radar",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:radar",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/prompt-library",
+    "pageId": "prompt-library",
+    "title": "Prompt Library",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary prompt library task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Prompt Library",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:prompt-library",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/prompts",
+    "pageId": "prompts",
+    "title": "Prompts",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary prompts task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Prompts",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:prompts",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/prompts/new",
+    "pageId": "prompts.new",
+    "title": "Prompts - New",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary prompts - new task",
+    "primaryAction": "Submit the form safely",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "labeled fields",
+      "submit",
+      "cancel or back",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Prompts - New",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:prompts.new",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/prompts/catalog",
+    "pageId": "prompts.catalog",
+    "title": "Prompts - Catalog",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary prompts - catalog task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Prompts - Catalog",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:prompts.catalog",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/prompts/catalog/:catalogId",
+    "pageId": "prompts.catalog.by-catalogId",
+    "title": "Prompts - Catalog - Details",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary prompts - catalog - details task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Prompts - Catalog - Details",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:prompts.catalog.by-catalogId",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/prompts/packs",
+    "pageId": "prompts.packs",
+    "title": "Prompts - Packs",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary prompts - packs task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Prompts - Packs",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:prompts.packs",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/prompts/:promptId",
+    "pageId": "prompts.by-promptId",
+    "title": "Prompts - Details",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary prompts - details task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Prompts - Details",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:prompts.by-promptId",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/prompts/:promptId/edit",
+    "pageId": "prompts.by-promptId.edit",
+    "title": "Prompts - Details - Edit",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary prompts - details - edit task",
+    "primaryAction": "Submit the form safely",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "labeled fields",
+      "submit",
+      "cancel or back",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Prompts - Details - Edit",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:prompts.by-promptId.edit",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/playground/prompts",
+    "pageId": "playground.prompts",
+    "title": "Playground - Prompts",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary playground - prompts task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Playground - Prompts",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:playground.prompts",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/agents",
+    "pageId": "agents",
+    "title": "Agents",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary agents task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Agents",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:agents",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/agents/catalog",
+    "pageId": "agents.catalog",
+    "title": "Agents - Catalog",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary agents - catalog task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Agents - Catalog",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:agents.catalog",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/agents/new",
+    "pageId": "agents.new",
+    "title": "Agents - New",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary agents - new task",
+    "primaryAction": "Submit the form safely",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "labeled fields",
+      "submit",
+      "cancel or back",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Agents - New",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:agents.new",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/agents/:agentId",
+    "pageId": "agents.by-agentId",
+    "title": "Agents - Details",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary agents - details task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Agents - Details",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:agents.by-agentId",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/agents/:agentId/edit",
+    "pageId": "agents.by-agentId.edit",
+    "title": "Agents - Details - Edit",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary agents - details - edit task",
+    "primaryAction": "Submit the form safely",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "labeled fields",
+      "submit",
+      "cancel or back",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Agents - Details - Edit",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:agents.by-agentId.edit",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/agents/:agentId/simulate",
+    "pageId": "agents.by-agentId.simulate",
+    "title": "Agents - Details - Simulate",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary agents - details - simulate task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Agents - Details - Simulate",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:agents.by-agentId.simulate",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/playground/agents",
+    "pageId": "playground.agents",
+    "title": "Playground - Agents",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary playground - agents task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Playground - Agents",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:playground.agents",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/projects",
+    "pageId": "projects",
+    "title": "Projects",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary projects task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Projects",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:projects",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/projects/new",
+    "pageId": "projects.new",
+    "title": "Projects - New",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary projects - new task",
+    "primaryAction": "Submit the form safely",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "labeled fields",
+      "submit",
+      "cancel or back",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Projects - New",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:projects.new",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/projects/:projectId",
+    "pageId": "projects.by-projectId",
+    "title": "Projects - Details",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary projects - details task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Projects - Details",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:projects.by-projectId",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/projects/:projectId/settings",
+    "pageId": "projects.by-projectId.settings",
+    "title": "Projects - Details - Settings",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary projects - details - settings task",
+    "primaryAction": "Submit the form safely",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "labeled fields",
+      "submit",
+      "cancel or back",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Projects - Details - Settings",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:projects.by-projectId.settings",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/knowledge",
+    "pageId": "knowledge",
+    "title": "Knowledge",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary knowledge task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Knowledge",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:knowledge",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/knowledge/new",
+    "pageId": "knowledge.new",
+    "title": "Knowledge - New",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary knowledge - new task",
+    "primaryAction": "Submit the form safely",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "labeled fields",
+      "submit",
+      "cancel or back",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Knowledge - New",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:knowledge.new",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/knowledge/:documentId",
+    "pageId": "knowledge.by-documentId",
+    "title": "Knowledge - Details",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary knowledge - details task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Knowledge - Details",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:knowledge.by-documentId",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/knowledge/:documentId/edit",
+    "pageId": "knowledge.by-documentId.edit",
+    "title": "Knowledge - Details - Edit",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary knowledge - details - edit task",
+    "primaryAction": "Submit the form safely",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "labeled fields",
+      "submit",
+      "cancel or back",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Knowledge - Details - Edit",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:knowledge.by-documentId.edit",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/workflows",
+    "pageId": "workflows",
+    "title": "Workflows",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary workflows task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Workflows",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:workflows",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/workflows/new",
+    "pageId": "workflows.new",
+    "title": "Workflows - New",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary workflows - new task",
+    "primaryAction": "Submit the form safely",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "labeled fields",
+      "submit",
+      "cancel or back",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Workflows - New",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:workflows.new",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/workflows/:workflowId",
+    "pageId": "workflows.by-workflowId",
+    "title": "Workflows - Details",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary workflows - details task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Workflows - Details",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:workflows.by-workflowId",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/runs",
+    "pageId": "runs",
+    "title": "Runs",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary runs task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Runs",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:runs",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/runs/:runId",
+    "pageId": "runs.by-runId",
+    "title": "Runs - Details",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary runs - details task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Runs - Details",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:runs.by-runId",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/how-to",
+    "pageId": "how-to",
+    "title": "How To",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary how to task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > How To",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:how-to",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/help",
+    "pageId": "help",
+    "title": "Help",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary help task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Help",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:help",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/glossary",
+    "pageId": "glossary",
+    "title": "Glossary",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary glossary task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Glossary",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:glossary",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/roadmap",
+    "pageId": "roadmap",
+    "title": "Roadmap",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary roadmap task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Roadmap",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:roadmap",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/changelog",
+    "pageId": "changelog",
+    "title": "Changelog",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary changelog task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Changelog",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:changelog",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/docs",
+    "pageId": "docs",
+    "title": "Docs",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary docs task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Docs",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:docs",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/release",
+    "pageId": "release",
+    "title": "Release",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary release task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Release",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:release",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/developer",
+    "pageId": "developer",
+    "title": "Developer",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary developer task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Developer",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:developer",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/search",
+    "pageId": "search",
+    "title": "Search",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary search task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Search",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:search",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/assistant",
+    "pageId": "assistant",
+    "title": "Assistant",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary assistant task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Assistant",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:assistant",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/analytics",
+    "pageId": "analytics",
+    "title": "Analytics",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary analytics task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Analytics",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:analytics",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/settings",
+    "pageId": "settings",
+    "title": "Settings",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary settings task",
+    "primaryAction": "Submit the form safely",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "labeled fields",
+      "submit",
+      "cancel or back",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Settings",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:settings",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/profile",
+    "pageId": "profile",
+    "title": "Profile",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary profile task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Profile",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:profile",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/account/security",
+    "pageId": "account.security",
+    "title": "Account - Security",
+    "accessRequirement": "authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary account - security task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Account - Security",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:account.security",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/account/migration",
+    "pageId": "account.migration",
+    "title": "Account - Migration",
+    "accessRequirement": "authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary account - migration task",
+    "primaryAction": "Submit the form safely",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "labeled fields",
+      "submit",
+      "cancel or back",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Account - Migration",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:account.migration",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/admin",
+    "pageId": "admin",
+    "title": "Admin",
+    "accessRequirement": "admin",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary admin task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Admin",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:admin",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/admin/users",
+    "pageId": "admin.users",
+    "title": "Admin - Users",
+    "accessRequirement": "admin",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary admin - users task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Admin - Users",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:admin.users",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/admin/content",
+    "pageId": "admin.content",
+    "title": "Admin - Content",
+    "accessRequirement": "admin",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary admin - content task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Admin - Content",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:admin.content",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/admin/audit",
+    "pageId": "admin.audit",
+    "title": "Admin - Audit",
+    "accessRequirement": "admin",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary admin - audit task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Admin - Audit",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:admin.audit",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/qa",
+    "pageId": "qa",
+    "title": "Qa",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary qa task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Qa",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:qa",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  }
+]

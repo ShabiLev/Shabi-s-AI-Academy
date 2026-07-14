@@ -1,6 +1,6 @@
 # Testing strategy
 
-Version 1.2.0-beta.1 extends the complete beta coverage with AI Radar, profile overlays, responsive UX hardening, Search, Command Palette, Local Assistant and safe actions, advanced builders, deterministic workflows, notifications, recents, favorites, analytics, storage estimates, and Workspace import/export. Runtime tests use injected clocks/IDs and never wait for backoff or call external services.
+Version 1.3.0-beta.1 extends the complete beta coverage with public landing and auth routes, Guest onboarding, Beginner/Advanced navigation, page guidance, Help, Glossary, Tours, profiles, provider repositories, migration/conflicts, RLS documentation, Admin denial, and the machine-readable browser quality program documented in [system-quality-program.md](system-quality-program.md). Runtime and cloud-provider tests use injected boundaries and never call real external services.
 
 The release browser matrix covers the required desktop/mobile viewports, Hebrew RTL and English LTR, refresh persistence, keyboard operation, no-network boundaries, corruption recovery, visual baselines, and axe scans for every complex AI Workspace surface. Lighthouse audits Dashboard, Search, Assistant, Workflow Builder, and Analytics on desktop and mobile without lowering thresholds.
 
@@ -15,7 +15,7 @@ Vitest and Testing Library provide fast component/integration coverage. Playwrig
 - `npm run test:e2e` / `test:e2e:full`: fast Chromium or all five projects.
 - `npm run build:pages`: create and validate the GitHub Pages artifact with its repository base path, HashRouter mode, production metadata, and bundle safety checks.
 - `npm run preview:pages`: serve the already-built Pages artifact locally.
-- `npm run test:e2e:pages`: build the Pages variant and verify direct public and protected hash routes in Chromium.
+- `npm run test:e2e:pages`: build the Pages variant and verify public, protected, Login, Register, and callback hash routes in Chromium.
 - `npm run test:e2e:headed`, `test:e2e:ui`, `test:e2e:report`: diagnosis.
 - `npm run test:a11y`: axe-core accessibility suite — see `docs/accessibility-testing.md`.
 - `npm run test:visual` / `test:visual:update` / `test:visual:report`: Playwright visual regression — see `docs/visual-regression.md`.

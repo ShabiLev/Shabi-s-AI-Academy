@@ -12,3 +12,4 @@ Accepted ADRs override older architecture prose. Supersede decisions with a new 
 - [ADR-008: Specification-Driven Development](ADR-008-spec-driven-development.md)
 - [ADR-009: No Secrets in Browser Storage](ADR-009-no-secrets-in-browser-storage.md)
 - [ADR-010: Human Approval for Risky Actions](ADR-010-human-approval-for-risky-actions.md)
+- [ADR-011: Optional Supabase Authentication](ADR-011-optional-supabase-authentication.md)

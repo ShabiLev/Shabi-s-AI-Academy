@@ -41,6 +41,7 @@
     "validate:release": "npm run lint && npm run test:run && npm run test:coverage && npm run build && npm run catalog:check && npm run docs:check && npm run test:e2e:full && npm run test:a11y && npm run test:visual && npm run test:performance && npm run quality:collect && npm run quality:analyze && git diff --check"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.57.4",
     "@tailwindcss/vite": "latest",
     "react": "latest",
     "react-dom": "latest",

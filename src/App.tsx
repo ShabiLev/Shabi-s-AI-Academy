@@ -34,6 +34,8 @@ import { configuredRouterMode, type RouterMode } from "./config/routerMode";
 import { ExperienceProvider } from "./experience";
 import { OnboardingProvider } from "./onboarding";
 import { GuidedTourProvider } from "./guidance/tours";
+import { GuestRoute } from "./auth/GuestRoute";
+import { AuthCallbackPage, AuthErrorPage, AuthLoginPage, AuthRegisterPage, ForgotPasswordPage, ResetPasswordPage, VerifyEmailPage } from "./pages/auth";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
 const DashboardPage = lazy(() => import("./pages/GuidedDashboardPage").then((module) => ({ default: module.GuidedDashboardPage })));
@@ -88,6 +90,15 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                   <AssistantProvider>
                 <Routes>
                 <Route path="login" element={<LoginPage />} />
+                <Route element={<GuestRoute />}>
+                  <Route path="auth/login" element={<AuthLoginPage />} />
+                  <Route path="auth/register" element={<AuthRegisterPage />} />
+                  <Route path="auth/forgot-password" element={<ForgotPasswordPage />} />
+                </Route>
+                <Route path="auth/verify-email" element={<VerifyEmailPage />} />
+                <Route path="auth/reset-password" element={<ResetPasswordPage />} />
+                <Route path="auth/callback" element={<AuthCallbackPage />} />
+                <Route path="auth/error" element={<AuthErrorPage />} />
                 <Route path="about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
                 <Route element={<ProtectedRoute />}>
                   <Route element={<AppLayout />}>

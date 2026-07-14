@@ -290,3 +290,23 @@ test.describe("accessibility — AI Workspace", () => {
     await runAxeScan(page, test.info(), { label: "import-preview" });
   });
 });
+
+test.describe("accessibility — Agent Operating System", () => {
+  for (const [name, route] of [["AOS dashboard", "/aos"], ["Modules", "/aos/modules"], ["Research pipeline", "/aos/research"], ["Evidence viewer", "/aos/evidence"], ["Handoffs", "/aos/handoffs"], ["Security policy", "/aos/security"], ["Releases", "/aos/releases"]] as const) {
+    test(`${name} Hebrew`, async ({ page }) => {
+      await login(page, route);
+      await runAxeScan(page, test.info(), { label: `aos-${name.toLowerCase().replaceAll(" ", "-")}-he` });
+    });
+    test(`${name} English`, async ({ page }) => {
+      await login(page);
+      await english(page);
+      await page.goto(route);
+      await runAxeScan(page, test.info(), { label: `aos-${name.toLowerCase().replaceAll(" ", "-")}-en` });
+    });
+  }
+
+  test("Module list keyboard filtering", async ({ page }) => {
+    await login(page, "/aos/modules");
+    await runAxeScan(page, test.info(), { label: "aos-modules-filters" });
+  });
+});

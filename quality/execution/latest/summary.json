@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
   "identity": {
-    "runId": "2026-07-14_16-33-24_feature-1-4-0-agent-operating-system",
+    "runId": "2026-07-14_17-02-31_feature-1-4-0-agent-operating-system",
     "profile": "full",
-    "startedAt": "2026-07-14T13:33:24.382Z",
-    "endedAt": "2026-07-14T13:49:19.980Z",
+    "startedAt": "2026-07-14T14:02:31.987Z",
+    "endedAt": "2026-07-14T14:19:35.852Z",
     "version": "1.4.0-beta.1",
     "branch": "feature/1.4.0-agent-operating-system",
-    "startingCommit": "1e984a02dc83ac995cc4184a35bcdb24c2d32f68",
-    "finalCommit": "78c9485b0adf355fc3357a5ee1ef12a1dee6882d",
+    "startingCommit": "f922b55fc2cd8766beb8de0fa91a1749ce7e7114",
+    "finalCommit": "f922b55fc2cd8766beb8de0fa91a1749ce7e7114",
     "agent": "Codex",
     "operatingSystem": "win32 10.0.26200 x64",
     "nodeVersion": "v20.17.0",
@@ -23,114 +23,114 @@
     "Docs": {
       "status": "passed",
       "command": "npm run docs:check",
-      "durationMs": 444,
+      "durationMs": 413,
       "resultCount": 125,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/docs-check.log"
+      "logPath": "quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/docs-check.log"
     },
     "Lint": {
       "status": "passed",
       "command": "npm run lint",
-      "durationMs": 9230,
+      "durationMs": 8124,
       "resultCount": null,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/lint.log"
+      "logPath": "quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/lint.log"
     },
     "Unit tests": {
       "status": "passed",
       "command": "npm run test:evidence; npm run test:run",
-      "durationMs": 20661,
+      "durationMs": 19672,
       "resultCount": 6,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/focused-tests.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/unit-tests.log"
+      "logPath": "quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/focused-tests.log, quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/unit-tests.log"
     },
     "Coverage": {
       "status": "passed",
       "command": "npm run test:coverage",
-      "durationMs": 23365,
+      "durationMs": 23468,
       "resultCount": null,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/coverage.log"
+      "logPath": "quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/coverage.log"
     },
     "Build": {
       "status": "failed",
       "command": "npm run build",
-      "durationMs": 10823,
+      "durationMs": 10189,
       "resultCount": null,
       "failureCount": 1,
-      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/build.log"
+      "logPath": "quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/build.log"
     },
     "GitHub Pages build": {
       "status": "failed",
       "command": "npm run build:pages; npm run test:e2e:pages",
-      "durationMs": 13240,
+      "durationMs": 11645,
       "resultCount": null,
       "failureCount": 1,
-      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/build-pages.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/e2e-pages.log"
+      "logPath": "quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/build-pages.log, quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/e2e-pages.log"
     },
     "E2E": {
       "status": "failed",
       "command": "npm run test:e2e; npm run test:e2e:full",
-      "durationMs": 313688,
-      "resultCount": 266,
-      "failureCount": 2,
-      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/e2e.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/e2e-full.log"
+      "durationMs": 324672,
+      "resultCount": 274,
+      "failureCount": 1,
+      "logPath": "quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/e2e.log, quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/e2e-full.log"
     },
     "Journeys": {
       "status": "passed",
       "command": "npm run test:journeys",
-      "durationMs": 38482,
+      "durationMs": 40410,
       "resultCount": 13,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/journeys.log"
+      "logPath": "quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/journeys.log"
     },
     "UX": {
       "status": "passed",
       "command": "npm run test:click-audit; npm run test:route-crawl; npm run test:forms; npm run test:overlays; npm run test:responsive:interactions; npm run test:keyboard; npm run test:copy; npm run test:errors; npm run test:ux",
-      "durationMs": 273096,
+      "durationMs": 304406,
       "resultCount": 54,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/click-audit.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/route-crawl.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/forms.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/overlays.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/responsive-interactions.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/keyboard.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/copy.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/errors.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/ux.log"
+      "logPath": "quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/click-audit.log, quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/route-crawl.log, quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/forms.log, quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/overlays.log, quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/responsive-interactions.log, quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/keyboard.log, quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/copy.log, quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/errors.log, quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/ux.log"
     },
     "Accessibility": {
       "status": "passed",
       "command": "npm run test:a11y",
-      "durationMs": 68373,
+      "durationMs": 76473,
       "resultCount": 70,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/accessibility.log"
+      "logPath": "quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/accessibility.log"
     },
     "Visual": {
       "status": "failed",
       "command": "npm run test:visual",
-      "durationMs": 71885,
-      "resultCount": 24,
+      "durationMs": 85531,
+      "resultCount": 25,
       "failureCount": 1,
-      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/visual.log"
+      "logPath": "quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/visual.log"
     },
     "Performance": {
       "status": "failed",
       "command": "npm run test:performance",
-      "durationMs": 9634,
+      "durationMs": 11256,
       "resultCount": null,
       "failureCount": 1,
-      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/performance.log"
+      "logPath": "quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/performance.log"
     },
     "Release validation": {
       "status": "failed",
       "command": "npm run test:release-candidate; npm run test:release-candidate:pages; npm run validate:release",
-      "durationMs": 84798,
+      "durationMs": 88435,
       "resultCount": null,
       "failureCount": 3,
-      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/release-candidate.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/release-candidate-pages.log, quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/validate-release.log"
+      "logPath": "quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/release-candidate.log, quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/release-candidate-pages.log, quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/validate-release.log"
     },
     "Git diff": {
       "status": "passed",
       "command": "git diff --check",
-      "durationMs": 115,
+      "durationMs": 90,
       "resultCount": null,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-14_16-33-24_feature-1-4-0-agent-operating-system/git-diff-check.log"
+      "logPath": "quality/execution/runs/2026-07-14_17-02-31_feature-1-4-0-agent-operating-system/git-diff-check.log"
     }
   },
   "coverage": {
@@ -139,25 +139,25 @@
       "percent": 76.27,
       "threshold": 75,
       "passed": true,
-      "delta": 0.84
+      "delta": 0
     },
     "branches": {
-      "percent": 74.92,
+      "percent": 74.93,
       "threshold": 65,
       "passed": true,
-      "delta": -0.56
+      "delta": 0.01
     },
     "functions": {
       "percent": 72.46,
       "threshold": 70,
       "passed": true,
-      "delta": 0.28
+      "delta": 0
     },
     "lines": {
       "percent": 76.27,
       "threshold": 75,
       "passed": true,
-      "delta": 0.84
+      "delta": 0
     }
   },
   "manualReviews": {
@@ -221,16 +221,15 @@
   },
   "git": {
     "branch": "feature/1.4.0-agent-operating-system",
-    "mainRelationship": "main...HEAD left/right counts: 0\t10",
-    "remoteRelationship": "HEAD...origin/main left/right counts: 10\t0",
+    "mainRelationship": "main...HEAD left/right counts: 0\t12",
+    "remoteRelationship": "HEAD...origin/main left/right counts: 12\t0",
     "commitsCreated": [],
-    "workingTreeStatus": "M CHANGELOG.md\n M README.md\n M e2e/specs/runtime.spec.ts\n M package-lock.json\n M package.json\n M src/assistant/assistantHistory.ts\n M src/backup/backup.test.ts\n M src/backup/workspaceBackup.ts\n M src/commands/commandHistory.ts\n M src/config/appMetadata.ts\n M src/pages/ChangelogPage.tsx\n M src/pages/HowToPage.tsx\n M src/pages/SearchPage.tsx\n M src/quality/qualityData.test.ts\n M src/quality/qualityData.ts\n M src/quality/qualityFixtures.ts\n M src/runtime/providers/ProviderRegistry.ts\n M src/runtime/runtimeUi.ts\n M src/runtime/runtimeValidation.ts\n M src/runtime/types.ts\n M src/search/searchStorage.ts\n M src/workflows/workflowStorage.ts\n M src/workspace/workspaceStorage.ts"
+    "workingTreeStatus": "clean"
   },
   "recommendation": "Blocked",
   "failedCommands": [
     "npm run build",
     "npm run build:pages",
-    "npm run test:e2e",
     "npm run test:e2e:full",
     "npm run test:visual",
     "npm run test:performance",

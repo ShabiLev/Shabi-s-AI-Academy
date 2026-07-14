@@ -1,71 +1,5 @@
 $ git status --short --branch
-## feature/1.4.0-agent-operating-system
- M .codex/README.md
- M .codex/roadmap/releases.md
- M .codex/roadmap/roadmap.md
- M AGENTS.md
- M CHANGELOG.md
- M README.md
- M docs/how-to-guide.md
- M docs/quality-gates.md
- M docs/security.md
- M docs/testing.md
- M e2e/specs/accessibility.spec.ts
- M e2e/specs/runtime.spec.ts
- M package-lock.json
- M package.json
- M quality/inventory/pages.json
- M quality/inventory/routes.json
- M scripts/check-codex-docs.mjs
- M scripts/run-quality-evidence.mjs
- M src/App.tsx
- M src/assistant/assistantHistory.ts
- M src/backup/backup.test.ts
- M src/backup/workspaceBackup.ts
- M src/commands/commandHistory.ts
- M src/components/common/Icon.tsx
- M src/components/layout/navigation.ts
- M src/config/appMetadata.ts
- M src/i18n/translations.ts
- M src/i18n/types.ts
- M src/pages/ChangelogPage.tsx
- M src/pages/HowToPage.tsx
- M src/pages/SearchPage.tsx
- M src/quality/qualityData.test.ts
- M src/quality/qualityData.ts
- M src/quality/qualityFixtures.ts
- M src/runtime/providers/ProviderRegistry.ts
- M src/runtime/runtimeUi.ts
- M src/runtime/runtimeValidation.ts
- M src/runtime/types.ts
- M src/search/searchStorage.ts
- M src/styles/index.css
- M src/workflows/workflowStorage.ts
- M src/workspace/workspaceStorage.ts
-?? .agent/
-?? .claude/workflows/
-?? .codex/workflows/
-?? CLAUDE.md
-?? docs/aos/
-?? e2e/specs/aos-evidence.spec.ts
-?? e2e/specs/aos-handoff.spec.ts
-?? e2e/specs/aos-research.spec.ts
-?? e2e/specs/aos.spec.ts
-?? research/
-?? scripts/aos-lib.mjs
-?? scripts/generate-aos-report.mjs
-?? scripts/generate-aos-snapshot.mjs
-?? scripts/research/
-?? scripts/validate-aos-duplication.mjs
-?? scripts/validate-aos-links.mjs
-?? scripts/validate-aos-manifest.mjs
-?? scripts/validate-aos-schemas.mjs
-?? scripts/validate-aos.mjs
-?? scripts/validate-aos.test.mjs
-?? src/aos/
-?? src/pages/AosPage.tsx
-?? src/pages/aos.test.tsx
-?? src/pages/aos/
+## feature/1.4.0-agent-operating-system...origin/feature/1.4.0-agent-operating-system
 
 $ git branch --show-current
 feature/1.4.0-agent-operating-system
@@ -75,13 +9,13 @@ origin	https://github.com/ShabiLev/Shabi-s-AI-Academy.git (fetch)
 origin	https://github.com/ShabiLev/Shabi-s-AI-Academy.git (push)
 
 $ git log --oneline --decorate -10
-1e984a0 (HEAD -> feature/1.4.0-agent-operating-system, origin/test/1.3.0-quality-evidence, test/1.3.0-quality-evidence) test(quality): persist execution evidence
-0bdf19b (origin/main, main) fix(docs): add missing Release 1.3 handoff
-3e9860c Merge branch 'feature/1.3.0-auth-guided-ux'
-9b4975a (origin/feature/1.3.0-auth-guided-ux, feature/1.3.0-auth-guided-ux) Add full-system browser testing, click audits, route crawling, realistic user journeys, UX task-completion checks, visual review, responsive interaction coverage, keyboard flows, error recovery and a mandatory manual UX release gate.
-fbd40bb Add guided navigation, personalized onboarding, Beginner and Advanced modes, contextual Help, Supabase authentication, user profiles, cloud synchronization architecture and safe local-data migration.
-9b0f5e9 docs(auth): document Supabase, RLS and user data
-261a234 test(auth): add authentication and guided-UX regression coverage
-fca2237 test(visual): add reviewed 1.3 auth and guided UX baselines
-288ada8 test(qa): cover guided auth sync migration and admin flows
-772495c feat(admin): add secure role-gated admin foundation
+f922b55 (HEAD -> feature/1.4.0-agent-operating-system, origin/feature/1.4.0-agent-operating-system) chore(release): prepare Version 1.4.0-beta.1
+cb9ba52 fix(aos): resolve e2e races and ambiguous locators found by the full evidence run
+78c9485 docs(aos): document Agent Operating System
+63d2d8b test(aos): add AOS validation and regression coverage
+cdf34bb feat(ui): add AOS dashboard and module explorer
+97aa30a feat(security): add AOS security and MCP policies
+7e7f14e feat(handoff): add Codex and Claude Code handoff system
+40646ea feat(evidence): add persistent execution evidence workflow
+f7c4a6d feat(research): add AI research and knowledge ingestion system
+2b06e9f feat(aos): add task classification and module registry

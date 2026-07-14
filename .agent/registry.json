@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0.0",
+  "description": "Maps each AOS task type to the ordered list of module IDs (see manifest.json) an agent must load for that task. quality.quality-policy, security.security-policy, git.git-policy, memory.memory-policy, and loaders.task-classifier apply to every task type implicitly (see manifest.json requiredModules) and are not repeated in every list below.",
+  "taskTypes": {
+    "feature": ["workflow.development", "workflow.planning", "workflow.implementation", "workflow.testing", "workflow.ui-validation", "workflow.performance", "quality.evidence", "knowledge.architecture", "knowledge.react", "knowledge.typescript", "knowledge.state-management", "knowledge.routing", "knowledge.performance", "security.frontend-security", "security.secrets", "agents.architect", "agents.developer", "templates.implementation-plan", "handoff.developer-to-qa", "workflow.self-review", "workflow.final-report"],
+    "bugfix": ["workflow.debugging", "workflow.implementation", "workflow.testing", "quality.evidence", "prompts.bugfix", "agents.developer", "templates.task-report", "handoff.developer-to-qa", "workflow.self-review", "workflow.final-report"],
+    "hotfix": ["workflow.debugging", "workflow.implementation", "workflow.testing", "quality.evidence", "prompts.hotfix", "agents.developer", "git.branch-strategy", "workflow.final-report"],
+    "refactor": ["workflow.refactoring", "workflow.planning", "workflow.testing", "quality.evidence", "prompts.refactor", "agents.developer", "workflow.self-review", "workflow.final-report"],
+    "documentation": ["workflow.documentation", "release.changelog", "prompts.documentation", "agents.documentation-agent", "workflow.final-report"],
+    "testing": ["workflow.testing", "quality.test-selection", "quality.evidence", "quality.reporting", "prompts.testing", "knowledge.testing", "agents.qa-engineer", "templates.self-review", "templates.evidence-summary", "schemas.evidence-run", "workflow.final-report"],
+    "coverage recovery": ["prompts.coverage-recovery", "quality.coverage", "workflow.testing", "quality.evidence", "workflow.final-report"],
+    "security review": ["security.security-review-template", "security.secrets", "security.frontend-security", "security.dependency-security", "security.logging", "knowledge.security", "prompts.security-review", "agents.security-reviewer", "templates.security-review", "handoff.security-to-release", "workflow.final-report"],
+    "UX review": ["workflow.ux-review", "quality.ux-validation", "quality.visual-regression", "knowledge.rtl-ltr", "knowledge.i18n", "prompts.ux-review", "agents.ux-reviewer", "templates.ux-review", "quality.manual-review", "workflow.final-report"],
+    "accessibility review": ["workflow.accessibility", "quality.accessibility", "knowledge.accessibility", "agents.accessibility-reviewer", "workflow.final-report"],
+    "research": ["research/research-policy.md", "research/source-ranking.md", "research/knowledge-ingestion.md", "quality/evidence.md", "research.research-workflow", "research.source-types", "research.freshness-policy", "research.claim-verification", "research.citation-policy", "research.duplicate-detection", "research.repository-analysis", "research.paper-analysis", "research.news-analysis", "research.release-note-analysis", "research.research-report-template", "prompts.research", "agents.research-agent", "templates.research-report", "schemas.research-source", "schemas.research-claim", "memory.research-memory", "security.prompt-injection", "security.supply-chain", "workflow.final-report"],
+    "knowledge ingestion": ["research.knowledge-ingestion", "research.content-generation", "research.review-workflow", "prompts.knowledge-ingestion", "agents.knowledge-curator", "handoff.research-to-content", "templates.knowledge-entry", "templates.lesson", "schemas.knowledge-entry", "schemas.lesson-candidate", "schemas.prompt-candidate", "schemas.agent-candidate", "schemas.workflow-candidate", "schemas.radar-entry", "schemas.review-record", "workflow.final-report"],
+    "release": ["release.release-policy", "release.versioning", "release.changelog", "release.release-checklist", "release.release-evidence", "release.rollback", "release.release-report", "workflow.testing", "quality.release-gates", "git.merge-policy", "git.pull-request", "prompts.release", "agents.release-manager", "agents.reviewer", "templates.release-report", "schemas.handoff", "schemas.module", "handoff.qa-to-release", "handoff.security-to-release", "workflow.final-report"],
+    "deployment": ["workflow.deployment", "release.deployment-verification", "knowledge.github-pages", "knowledge.github-actions", "prompts.deployment", "quality.evidence", "workflow.final-report"],
+    "Git repair": ["git.recovery", "git.cleanup", "git.commit-policy", "git.synchronization", "knowledge.git", "agents.git-maintainer", "memory.failure-memory", "templates.handoff", "handoff.agent-switch", "workflow.final-report"],
+    "data migration": ["workflow.planning", "security.data-protection", "knowledge.storage", "workflow.testing", "quality.evidence", "workflow.final-report"],
+    "authentication": ["security.authentication", "security.authorization", "knowledge.supabase", "workflow.testing", "workflow.final-report"],
+    "synchronization": ["knowledge.supabase", "security.data-protection", "workflow.testing", "quality.evidence", "workflow.final-report"],
+    "AI integration": ["knowledge.ai-safety", "knowledge.rag", "knowledge.tool-calling", "knowledge.evaluation", "knowledge.observability", "security.ai-security", "security.prompt-injection", "prompts.ai-agent", "workflow.final-report"],
+    "MCP integration": ["knowledge.mcp", "knowledge.tool-calling", "security.mcp-security", "prompts.mcp-integration", "agents.mcp-specialist", "workflow.final-report"],
+    "agent creation": ["knowledge.ai-agents", "knowledge.memory", "prompts.ai-agent", "agents.agent-designer", "templates.agent", "memory.project-memory", "memory.decision-memory", "workflow.final-report"],
+    "prompt creation": ["knowledge.prompt-engineering", "prompts.feature", "agents.prompt-engineer", "templates.prompt", "workflow.final-report"],
+    "workflow creation": ["templates.workflow", "workflow.development", "schemas.workflow-candidate", "memory.task-memory", "workflow.final-report"]
+  },
+  "taskTypeModuleListsNote": "The 'research' task type intentionally mixes the literal module paths given in the original AOS specification (research-policy.md, source-ranking.md, knowledge-ingestion.md under research/; evidence.md under quality/) with manifest module IDs used elsewhere. scripts/validate-aos-manifest.mjs resolves both a bare '<category>/<file>.md' path and a manifest module ID against manifest.json, so either form is valid; a path with no matching manifest entry is reported as an orphan task mapping, not silently ignored.",
+  "riskLevelDefaults": {
+    "Low": ["documentation", "UI copy update"],
+    "Medium": ["feature", "bugfix", "refactor", "testing", "prompt creation", "workflow creation"],
+    "High": ["authentication", "data migration", "AI integration", "external provider integration", "synchronization"],
+    "Critical": ["coverage threshold change", "MCP tool with write capability", "secret exposure risk", "force push or history rewrite"]
+  }
+}

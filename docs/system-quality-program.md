@@ -13,6 +13,12 @@ Version 1.3.0-beta.1 adds a browser-driven quality layer for the product as expe
 
 Headed review is available through `test:ui:headed`, `test:journeys:headed`, and `test:ux:headed`. Headed execution complements assertions; it does not replace the headless release gates.
 
+## Execution evidence
+
+Use `npm run quality:evidence:fast` during implementation, `npm run quality:evidence:pages` for GitHub Pages, `npm run quality:evidence:headed` for the recorded critical journeys, and `npm run quality:evidence:full` before a commit. The cross-platform runner invokes the existing quality commands, stores complete local evidence under the ignored `quality/execution/runs/<RUN_ID>/` directory, and updates sanitized lightweight summaries in `quality/execution/latest/` plus the 20-entry `quality/execution/index.json` ledger.
+
+Evidence statuses distinguish passed, failed, not run, unavailable, and `notRunDueToDependency`. Automated evidence never changes the manual UX, security, or content review records. A full run with pending manual gates can be Ready with warnings at best; a failed blocker remains Blocked.
+
 ## Evidence and privacy
 
 Critical journey evidence includes action traces, checkpoint screenshots, and video. Failed test evidence is retained by default. Tests must use controlled disposable data and must not type or capture real passwords, tokens, private documents, or production content. Browser console exceptions and unexpected product errors fail the shared Academy fixture.

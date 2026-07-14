@@ -7,6 +7,7 @@ quality/
   config/       Committed configuration — thresholds, allowlists. Small, stable, reviewed like any code change.
   scripts/      Node scripts (.mjs/.cjs) that generate and analyze quality/generated/*.json
   generated/    Output of the scripts above. Gitignored — never committed.
+  execution/    Sanitized latest-run summaries plus a bounded run index.
 ```
 
 ## config/
@@ -20,6 +21,14 @@ quality/
 - `write-build-metadata.mjs` — writes `quality/generated/build-metadata.json` (version, commit SHA, branch, build timestamp, deployment environment, and public URL) from safe package, git, and Vercel metadata. Consumed by `collect-quality-results.mjs`. The running app receives the same non-sensitive fields through Vite's `define`; neither path reads or exposes provider secrets.
 - `collect-quality-results.mjs` — reads whatever of the following already exist on disk and writes `quality/generated/latest-quality-report.json`: `quality/generated/vitest-results.json`, `coverage/coverage-summary.json`, `quality/generated/playwright-{fast,full,a11y,visual}-results.json`, `test-results/**/axe-*.json` attachments, `e2e/specs/__screenshots__/**/*.png` (for baseline count/mtime), `quality/generated/lighthouse/**`, and re-runs `eslint . --format json` and `git diff --check` itself (fast, read-only, safe to repeat). Missing inputs become `notRun`/`notAvailable` — never `passed`. Also copies the result to `public/generated/latest-quality-report.json` so a locally running app can pick it up (see `docs/qa-center.md`).
 - `analyze-quality-results.mjs` — reads `quality/generated/latest-quality-report.json`, computes the release status and a deterministic bilingual analyzer summary (a plain-JS mirror of `src/quality/qualityStatus.ts` + `qualityAnalyzer.ts` — see that file's header for why it's a separate copy, and keep both in sync), writes the result back into the same JSON file, and exits non-zero if the status is **Blocked**.
+
+## Persistent execution evidence
+
+`npm run quality:evidence:fast`, `quality:evidence:full`, `quality:evidence:pages`, and `quality:evidence:headed` invoke existing npm scripts through a cross-platform Node runner. Each invocation creates a local archive under `quality/execution/runs/<RUN_ID>/`, captures timestamps, exit codes, sanitized stdout/stderr, coverage, Git state, manual-gate state, and an honest recommendation, then refreshes the lightweight tracked pointer in `quality/execution/latest/`.
+
+Complete archives, Playwright media, traces, HTML coverage, and generated reports remain ignored. `quality/execution/index.json` retains at most 20 lightweight run records. Logs redact authorization values, credential-like assignments, tokens, email addresses, the workspace path, and user-home paths. The runner never reads or serializes raw environment values.
+
+The full profile deliberately invokes the existing release commands instead of copying their test logic. A failed blocker remains failed; dependent commands become `notRunDueToDependency`; independent read-only diagnostics may continue. Manual UX, security, and content reviews remain explicit and automation cannot promote them.
 - `run-lighthouse.mjs` — orchestrates the two Lighthouse audit paths (`collect` / `assert`); see `docs/performance-testing.md`.
 - `lighthouse-authenticated-flow.mjs` — audits Dashboard, Search, Assistant, Workflow Builder, and Analytics via Lighthouse's User Flow API; see `docs/performance-testing.md` for why this exists separately from the LHCI-config-based public-route audit.
 

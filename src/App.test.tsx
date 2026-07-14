@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { App } from "./App";
@@ -122,6 +122,36 @@ describe("Shabi's AI Academy", () => {
     first.unmount();
     renderApp("/settings");
     expect(screen.getByRole("radio", { name: /English/ })).toBeChecked();
+  });
+
+  it("applies advanced, developer, motion, and scoped reset controls", async () => {
+    const user = userEvent.setup();
+    const confirm = vi.spyOn(window, "confirm").mockReturnValue(true);
+    renderApp("/settings");
+    await demoLogin(user);
+    await user.click(screen.getByRole("radio", { name: /English/ }));
+
+    await user.click(screen.getByRole("radio", { name: /Advanced Mode/ }));
+    const developerMode = screen.getByRole("checkbox", { name: "Show Developer Mode" });
+    await user.click(developerMode);
+    expect(developerMode).toBeChecked();
+    await user.click(screen.getByRole("radio", { name: /Beginner Mode/ }));
+    expect(screen.queryByRole("checkbox", { name: "Show Developer Mode" })).not.toBeInTheDocument();
+
+    const motion = screen.getByRole("checkbox", { name: "Reduce motion" });
+    await user.click(motion);
+    expect(localStorage.getItem("shabis-ai-academy.motion")).toBe("reduced");
+    expect(document.documentElement.dataset.motion).toBe("reduced");
+
+    for (const name of [
+      "My Prompts", "My Agents", "Run History", "Projects", "Knowledge Base",
+      "Workflows", "Notifications", "Analytics",
+    ]) {
+      await user.click(screen.getByRole("button", { name }));
+    }
+    await user.click(screen.getByRole("button", { name: "Reset Course Progress" }));
+    expect(confirm).toHaveBeenCalledOnce();
+    expect(screen.getByRole("status")).toHaveTextContent("Course progress was reset successfully.");
   });
 
   it("shows the active-language user name in the profile menu", async () => {

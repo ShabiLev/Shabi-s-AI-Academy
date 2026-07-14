@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "identity": {
+    "runId": "2026-07-14_15-16-35_test-1-3-0-quality-evidence",
+    "profile": "full",
+    "startedAt": "2026-07-14T12:16:35.297Z",
+    "endedAt": "2026-07-14T12:32:12.080Z",
+    "version": "1.3.0-beta.1",
+    "branch": "test/1.3.0-quality-evidence",
+    "startingCommit": "0bdf19b729a8409b5f7d0bc990a026e2f708a2c2",
+    "finalCommit": "0bdf19b729a8409b5f7d0bc990a026e2f708a2c2",
+    "agent": "Codex",
+    "operatingSystem": "win32 10.0.26200 x64",
+    "nodeVersion": "v20.17.0",
+    "npmVersion": "10.8.2"
+  },
+  "scope": {
+    "requestedTask": "Add persistent, sanitized quality-execution evidence and reusable command profiles.",
+    "implementedChanges": "Evidence orchestration, command logs, bounded index, tracked latest pointer, manual gates, focused tests, and documentation.",
+    "dataMigrations": []
+  },
+  "results": {
+    "Docs": {
+      "status": "passed",
+      "command": "npm run docs:check",
+      "durationMs": 416,
+      "resultCount": 124,
+      "failureCount": 0,
+      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/docs-check.log"
+    },
+    "Lint": {
+      "status": "passed",
+      "command": "npm run lint",
+      "durationMs": 7702,
+      "resultCount": null,
+      "failureCount": 0,
+      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/lint.log"
+    },
+    "Unit tests": {
+      "status": "passed",
+      "command": "npm run test:evidence; npm run test:run",
+      "durationMs": 19372,
+      "resultCount": 6,
+      "failureCount": 0,
+      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/focused-tests.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/unit-tests.log"
+    },
+    "Coverage": {
+      "status": "passed",
+      "command": "npm run test:coverage",
+      "durationMs": 22651,
+      "resultCount": null,
+      "failureCount": 0,
+      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/coverage.log"
+    },
+    "Build": {
+      "status": "failed",
+      "command": "npm run build",
+      "durationMs": 8650,
+      "resultCount": null,
+      "failureCount": 1,
+      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/build.log"
+    },
+    "GitHub Pages build": {
+      "status": "failed",
+      "command": "npm run build:pages; npm run test:e2e:pages",
+      "durationMs": 9161,
+      "resultCount": null,
+      "failureCount": 1,
+      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/build-pages.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/e2e-pages.log"
+    },
+    "E2E": {
+      "status": "failed",
+      "command": "npm run test:e2e; npm run test:e2e:full",
+      "durationMs": 276554,
+      "resultCount": 243,
+      "failureCount": 2,
+      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/e2e.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/e2e-full.log"
+    },
+    "Journeys": {
+      "status": "passed",
+      "command": "npm run test:journeys",
+      "durationMs": 40682,
+      "resultCount": 13,
+      "failureCount": 0,
+      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/journeys.log"
+    },
+    "UX": {
+      "status": "passed",
+      "command": "npm run test:click-audit; npm run test:route-crawl; npm run test:forms; npm run test:overlays; npm run test:responsive:interactions; npm run test:keyboard; npm run test:copy; npm run test:errors; npm run test:ux",
+      "durationMs": 282330,
+      "resultCount": 54,
+      "failureCount": 0,
+      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/click-audit.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/route-crawl.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/forms.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/overlays.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/responsive-interactions.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/keyboard.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/copy.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/errors.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/ux.log"
+    },
+    "Accessibility": {
+      "status": "passed",
+      "command": "npm run test:a11y",
+      "durationMs": 65124,
+      "resultCount": 55,
+      "failureCount": 0,
+      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/accessibility.log"
+    },
+    "Visual": {
+      "status": "failed",
+      "command": "npm run test:visual",
+      "durationMs": 79578,
+      "resultCount": 25,
+      "failureCount": 1,
+      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/visual.log"
+    },
+    "Performance": {
+      "status": "failed",
+      "command": "npm run test:performance",
+      "durationMs": 12398,
+      "resultCount": null,
+      "failureCount": 1,
+      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/performance.log"
+    },
+    "Release validation": {
+      "status": "failed",
+      "command": "npm run test:release-candidate; npm run test:release-candidate:pages; npm run validate:release",
+      "durationMs": 92180,
+      "resultCount": null,
+      "failureCount": 3,
+      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/release-candidate.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/release-candidate-pages.log, quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/validate-release.log"
+    },
+    "Git diff": {
+      "status": "passed",
+      "command": "git diff --check",
+      "durationMs": 132,
+      "resultCount": null,
+      "failureCount": 0,
+      "logPath": "quality/execution/runs/2026-07-14_15-16-35_test-1-3-0-quality-evidence/git-diff-check.log"
+    }
+  },
+  "coverage": {
+    "status": "passed",
+    "statements": {
+      "percent": 75.43,
+      "threshold": 75,
+      "passed": true,
+      "delta": 0
+    },
+    "branches": {
+      "percent": 75.48,
+      "threshold": 65,
+      "passed": true,
+      "delta": -0.01
+    },
+    "functions": {
+      "percent": 72.18,
+      "threshold": 70,
+      "passed": true,
+      "delta": 0
+    },
+    "lines": {
+      "percent": 75.43,
+      "threshold": 75,
+      "passed": true,
+      "delta": 0
+    }
+  },
+  "manualReviews": {
+    "manualUxReview": {
+      "status": "notRun",
+      "approvedBy": null,
+      "reviewedAt": null,
+      "scope": [
+        "new user comprehension",
+        "page orientation",
+        "navigation clarity",
+        "visual hierarchy",
+        "wording and primary-action clarity",
+        "mobile usability",
+        "Hebrew quality",
+        "English quality",
+        "terminology and complexity",
+        "overlap and clipping",
+        "dark-mode controls",
+        "overall trust"
+      ],
+      "warnings": [],
+      "note": "A human reviewer must change this record only after completing the structured review. Automation and Codex cannot self-approve subjective UX."
+    },
+    "manualSecurityReview": {
+      "status": "notRun",
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "scope": [
+        "secret and credential exposure",
+        "log redaction",
+        "authorization boundaries",
+        "untrusted input handling",
+        "dependency and build-output review"
+      ],
+      "warnings": [],
+      "note": "A human reviewer must update this record after completing the security review. Automation cannot approve it."
+    },
+    "manualContentReview": {
+      "status": "notRun",
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "scope": [
+        "Hebrew content accuracy",
+        "English content accuracy",
+        "terminology consistency",
+        "documentation accuracy",
+        "user-facing claims"
+      ],
+      "warnings": [],
+      "note": "A human reviewer must update this record after completing the content review. Automation cannot approve it."
+    }
+  },
+  "findings": {
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0,
+    "warningCount": 14,
+    "manualReviewRequired": true
+  },
+  "git": {
+    "branch": "test/1.3.0-quality-evidence",
+    "mainRelationship": "main...HEAD left/right counts: 0\t0",
+    "remoteRelationship": "HEAD...origin/main left/right counts: 0\t0",
+    "commitsCreated": [],
+    "workingTreeStatus": "M .gitignore\n M README.md\n M docs/system-quality-program.md\n M eslint.config.js\n M package.json\n M quality/README.md\n M src/App.test.tsx\n?? quality/checklists/manual-content-review.json\n?? quality/checklists/manual-security-review.json\n?? quality/execution/\n?? scripts/evidence-utils.mjs\n?? scripts/evidence-utils.test.mjs\n?? scripts/run-quality-evidence.mjs\n?? src/components/runtime/ApprovalDialog.test.tsx\n?? src/pages/auth/authFlows.test.tsx"
+  },
+  "recommendation": "Blocked",
+  "failedCommands": [
+    "npm run build",
+    "npm run build:pages",
+    "npm run test:e2e",
+    "npm run test:e2e:full",
+    "npm run test:visual",
+    "npm run test:performance",
+    "npm run test:release-candidate",
+    "npm run test:release-candidate:pages",
+    "npm run quality:analyze",
+    "npm run validate:release"
+  ]
+}

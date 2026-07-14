@@ -1,0 +1,31 @@
+M	.gitignore
+M	README.md
+M	docs/system-quality-program.md
+M	eslint.config.js
+M	package.json
+M	quality/README.md
+M	src/App.test.tsx
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/system-quality-program.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'eslint.config.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'package.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'quality/README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/App.test.tsx', LF will be replaced by CRLF the next time Git touches it
+quality/checklists/manual-content-review.json
+quality/checklists/manual-security-review.json
+quality/execution/index.json
+quality/execution/latest/README.md
+quality/execution/latest/changed-files.txt
+quality/execution/latest/coverage-summary.json
+quality/execution/latest/failures.md
+quality/execution/latest/manual-review.md
+quality/execution/latest/self-review.md
+quality/execution/latest/summary.json
+quality/execution/latest/summary.md
+quality/execution/latest/warnings.md
+scripts/evidence-utils.mjs
+scripts/evidence-utils.test.mjs
+scripts/run-quality-evidence.mjs
+src/components/runtime/ApprovalDialog.test.tsx
+src/pages/auth/authFlows.test.tsx

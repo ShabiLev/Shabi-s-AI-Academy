@@ -1,0 +1,14 @@
+{
+  "status": "notRun",
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "scope": [
+    "Hebrew content accuracy",
+    "English content accuracy",
+    "terminology consistency",
+    "documentation accuracy",
+    "user-facing claims"
+  ],
+  "warnings": [],
+  "note": "A human reviewer must update this record after completing the content review. Automation cannot approve it."
+}

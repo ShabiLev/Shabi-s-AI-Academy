@@ -11,3 +11,4 @@ playwright/.cache/
 .lighthouseci/
 quality/generated/
 public/generated/
+quality/execution/runs/

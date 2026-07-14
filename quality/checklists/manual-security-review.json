@@ -1,0 +1,14 @@
+{
+  "status": "notRun",
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "scope": [
+    "secret and credential exposure",
+    "log redaction",
+    "authorization boundaries",
+    "untrusted input handling",
+    "dependency and build-output review"
+  ],
+  "warnings": [],
+  "note": "A human reviewer must update this record after completing the security review. Automation cannot approve it."
+}

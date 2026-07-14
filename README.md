@@ -93,6 +93,10 @@ npm run test:a11y
 npm run test:visual
 npm run test:performance
 npm run quality:report
+npm run quality:evidence:fast
+npm run quality:evidence:full
+npm run quality:evidence:pages
+npm run quality:evidence:headed
 npm run validate
 npm run validate:full
 npm run validate:quality

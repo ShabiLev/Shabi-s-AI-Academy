@@ -32,9 +32,11 @@ import { WorkflowProvider } from "./workflows";
 import { WorkspaceProvider } from "./workspace";
 import { configuredRouterMode, type RouterMode } from "./config/routerMode";
 import { ExperienceProvider } from "./experience";
+import { OnboardingProvider } from "./onboarding";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
-const DashboardPage = lazy(() => import("./pages/DashboardPage").then((module) => ({ default: module.DashboardPage })));
+const DashboardPage = lazy(() => import("./pages/GuidedDashboardPage").then((module) => ({ default: module.GuidedDashboardPage })));
+const OnboardingPage = lazy(() => import("./pages/OnboardingPage").then((module) => ({ default: module.OnboardingPage })));
 const RunDetailsPage = lazy(() => import("./pages/RunDetailsPage").then((module) => ({ default: module.RunDetailsPage })));
 const StarterAgentsPage = lazy(() => import("./pages/StarterAgentsPage").then((module) => ({ default: module.StarterAgentsPage })));
 const PromptPacksPage = lazy(() => import("./pages/PromptPacksPage").then((module) => ({ default: module.PromptPacksPage })));
@@ -69,6 +71,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
     <Router>
       <AuthProvider>
         <ExperienceProvider>
+          <OnboardingProvider>
         <CourseProgressProvider>
           <PromptLibraryProvider>
             <AgentLibraryProvider>
@@ -86,6 +89,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                   <Route element={<AppLayout />}>
                     <Route index element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
                     <Route path="dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
+                    <Route path="onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
                     <Route path="lessons" element={<LessonsPage />} />
                     <Route
                       path="lessons/:lessonSlug"
@@ -164,6 +168,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
             </AgentLibraryProvider>
           </PromptLibraryProvider>
         </CourseProgressProvider>
+          </OnboardingProvider>
         </ExperienceProvider>
       </AuthProvider>
     </Router>

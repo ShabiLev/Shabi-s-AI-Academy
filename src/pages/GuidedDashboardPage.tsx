@@ -14,6 +14,7 @@ import { usePromptLibrary } from "../prompts/PromptLibraryContext";
 import { radarItems } from "../radar";
 import { useWorkspace } from "../workspace";
 import { SyncStatusIndicator } from "../components/data/SyncStatusIndicator";
+import { MigrationNotice } from "../components/data/MigrationNotice";
 
 export function GuidedDashboardPage() {
   const { language } = useLanguage();
@@ -33,6 +34,7 @@ export function GuidedDashboardPage() {
   const favoriteCount = prompts.prompts.filter((item) => item.isFavorite).length + agents.agents.filter((item) => item.isFavorite).length + workspace.preferences.filter((item) => item.favorite).length;
 
   return <div className="page guided-dashboard">
+    <MigrationNotice />
     <section className="dashboard-continue"><span className="eyebrow">{he ? "המשך מהמקום שבו עצרת" : "Continue where you left off"}</span><h1>{he ? `ברוך שובך, ${user?.displayNameHe ?? "אורח"}` : `Welcome back, ${user?.displayNameEn ?? "Guest"}`}</h1><h2>{currentLesson.title[language]}</h2><p>{he ? "המשך בפריט המשמעותי האחרון שלך, או בחר משימה חדשה." : "Continue your most meaningful current item, or choose a new task."}</p><PrimaryButton to={`/lessons/${currentLesson.slug}`}>{he ? "המשך השיעור" : "Continue lesson"}</PrimaryButton></section>
     <section aria-labelledby="today-title"><h2 id="today-title">{he ? "מה תרצה לעשות היום?" : "What would you like to do today?"}</h2><div className="dashboard-primary-actions"><Link to="/lessons">{he ? "ללמוד שיעור" : "Learn a lesson"}</Link><Link to="/prompts">{he ? "למצוא פרומפט" : "Find a prompt"}</Link><Link to="/agents/catalog">{he ? "להשתמש בסוכן" : "Use an agent"}</Link><Link to="/projects/new">{he ? "להתחיל פרויקט" : "Start a project"}</Link></div></section>
     <div className="dashboard-support-grid">

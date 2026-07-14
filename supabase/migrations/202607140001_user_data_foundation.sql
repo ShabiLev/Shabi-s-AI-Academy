@@ -25,6 +25,7 @@ create table if not exists public.notifications (id uuid primary key default gen
 create table if not exists public.onboarding_profiles (id uuid primary key default gen_random_uuid(), user_id uuid not null unique references auth.users(id) on delete cascade, content jsonb not null default '{}', created_at timestamptz not null default now(), updated_at timestamptz not null default now(), schema_version integer not null default 1);
 create table if not exists public.sync_metadata (id uuid primary key default gen_random_uuid(), user_id uuid not null references auth.users(id) on delete cascade, domain text not null, device_id_hash text, content_hash text, last_confirmed_at timestamptz, content jsonb not null default '{}', created_at timestamptz not null default now(), updated_at timestamptz not null default now(), schema_version integer not null default 1, unique(user_id,domain));
 create table if not exists public.audit_events (id uuid primary key default gen_random_uuid(), user_id uuid not null references auth.users(id) on delete cascade, event_type text not null, content jsonb not null default '{}', created_at timestamptz not null default now(), updated_at timestamptz not null default now(), schema_version integer not null default 1);
+create table if not exists public.analytics_events (id uuid primary key, user_id uuid not null references auth.users(id) on delete cascade, content jsonb not null default '{}', created_at timestamptz not null default now(), updated_at timestamptz not null default now(), schema_version integer not null default 1);
 create table if not exists public.account_roles (id uuid primary key default gen_random_uuid(), user_id uuid not null unique references auth.users(id) on delete cascade, role text not null check (role in ('learner','admin')), created_at timestamptz not null default now(), updated_at timestamptz not null default now(), schema_version integer not null default 1);
 
 alter table public.profiles enable row level security;
@@ -36,7 +37,7 @@ create policy "profiles delete own" on public.profiles for delete using (auth.ui
 do $$
 declare table_name text;
 begin
-  foreach table_name in array array['user_preferences','user_progress','user_prompts','user_agents','projects','project_entities','knowledge_documents','workflows','runtime_runs','favorites','recent_items','notifications','onboarding_profiles','sync_metadata','audit_events']
+  foreach table_name in array array['user_preferences','user_progress','user_prompts','user_agents','projects','project_entities','knowledge_documents','workflows','runtime_runs','favorites','recent_items','notifications','onboarding_profiles','sync_metadata','audit_events','analytics_events']
   loop
     execute format('alter table public.%I enable row level security', table_name);
     execute format('create index if not exists %I on public.%I(user_id, updated_at desc)', table_name || '_owner_updated_idx', table_name);
@@ -57,7 +58,7 @@ $$;
 do $$
 declare table_name text;
 begin
-  foreach table_name in array array['profiles','user_preferences','user_progress','user_prompts','user_agents','projects','project_entities','knowledge_documents','workflows','runtime_runs','favorites','recent_items','notifications','onboarding_profiles','sync_metadata','audit_events','account_roles']
+  foreach table_name in array array['profiles','user_preferences','user_progress','user_prompts','user_agents','projects','project_entities','knowledge_documents','workflows','runtime_runs','favorites','recent_items','notifications','onboarding_profiles','sync_metadata','audit_events','analytics_events','account_roles']
   loop
     execute format('drop trigger if exists set_updated_at on public.%I',table_name);
     execute format('create trigger set_updated_at before update on public.%I for each row execute function public.set_updated_at()',table_name);

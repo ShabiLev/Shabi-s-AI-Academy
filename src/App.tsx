@@ -69,6 +69,7 @@ const HelpCenterPage = lazy(() => import("./pages/HelpCenterPage").then((module)
 const GlossaryPage = lazy(() => import("./pages/GlossaryPage").then((module) => ({ default: module.GlossaryPage })));
 const ProfilePage = lazy(() => import("./pages/ProfilePage").then((module) => ({ default: module.ProfilePage })));
 const AccountSecurityPage = lazy(() => import("./pages/AccountSecurityPage").then((module) => ({ default: module.AccountSecurityPage })));
+const AccountMigrationPage = lazy(() => import("./pages/AccountMigrationPage").then((module) => ({ default: module.AccountMigrationPage })));
 
 export interface AppProps {
   routerMode?: RouterMode;
@@ -177,7 +178,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                     <Route path="radar" element={<RadarPage />} />
                     <Route path="settings" element={<SettingsPage />} />
                     <Route path="profile" element={<Suspense fallback={null}><ProfilePage /></Suspense>} />
-                    <Route element={<AuthenticatedRoute />}><Route path="account/security" element={<Suspense fallback={null}><AccountSecurityPage /></Suspense>} /></Route>
+                    <Route element={<AuthenticatedRoute />}><Route path="account/security" element={<Suspense fallback={null}><AccountSecurityPage /></Suspense>} /><Route path="account/migration" element={<Suspense fallback={null}><AccountMigrationPage /></Suspense>} /></Route>
                     <Route path="qa" element={<QACenterPage />} />
                     <Route path="runs" element={<Suspense fallback={null}><RunHistoryPage /></Suspense>} />
                     <Route path="runs/:runId" element={<Suspense fallback={null}><RunDetailsPage /></Suspense>} />

@@ -1,7 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { DataProvider } from "./DataProvider";
 import type { DataDomain, DataRecord, DataResult, SyncStatus } from "./types";
-const tables: Record<DataDomain,string> = { progress: "user_progress", prompts: "user_prompts", agents: "user_agents", projects: "projects", knowledge: "knowledge_documents", workflows: "workflows", runtime: "runtime_runs", preferences: "user_preferences" };
+const tables: Record<DataDomain,string> = { progress: "user_progress", prompts: "user_prompts", agents: "user_agents", projects: "projects", knowledge: "knowledge_documents", workflows: "workflows", runtime: "runtime_runs", preferences: "user_preferences", favorites: "favorites", recentItems: "recent_items", analytics: "analytics_events" };
 function fromRow(row: Record<string,unknown>): DataRecord { return { ...row, id: String(row.id), userId: typeof row.user_id === "string" ? row.user_id : undefined, createdAt: String(row.created_at), updatedAt: String(row.updated_at), schemaVersion: Number(row.schema_version ?? 1) }; }
 function toRow(record: DataRecord, userId: string) { const { userId: _userId, createdAt: _createdAt, updatedAt: _updatedAt, schemaVersion: _schemaVersion, ...content } = record; void _userId; void _createdAt; void _updatedAt; void _schemaVersion; return { ...content, id: record.id, user_id: userId, created_at: record.createdAt, updated_at: record.updatedAt, schema_version: record.schemaVersion }; }
 export class SupabaseDataProvider implements DataProvider {

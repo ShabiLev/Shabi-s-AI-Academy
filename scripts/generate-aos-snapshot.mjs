@@ -81,8 +81,8 @@ function buildMemorySummary(commit) {
     },
     nextActions: actions.slice(0, 10).map(({ id, title, priority, requiredRole, status }) => ({ id, title, priority, requiredRole, status })),
     nextAction: actions.find((action) => action.status !== "completed")?.title ?? null,
-    handoff: { status: handoff.status ?? null, summary: handoff.summary ?? null, updatedAt: handoff.updatedAt ?? null },
-    updatedAt: progress.updatedAt ?? null,
+    handoff: { status: handoff.status ?? null, summary: handoff.summary ?? null, updatedAt: handoff.generatedAt ?? handoff.updatedAt ?? null },
+    updatedAt: progress.generatedAt ?? progress.updatedAt ?? null,
   };
 }
 

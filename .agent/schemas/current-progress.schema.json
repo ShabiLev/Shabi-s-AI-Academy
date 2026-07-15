@@ -1,1 +1,72 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://shabilev.github.io/aos/current-progress.schema.json","title":"Current Progress","type":"object","required":["schemaVersion","updatedAt","overallPercent","currentPhase","phasesCompleted","phasesRemaining","requirements","tests","reviews","releaseStatus","researchProgress","evidenceRunId","blockers","nextRecommendedAction"],"properties":{"schemaVersion":{"type":"string"},"updatedAt":{"type":"string"},"overallPercent":{"type":"integer","minimum":0,"maximum":100},"currentPhase":{"type":"string"},"phasesCompleted":{"type":"array","items":{"type":"string"}},"phasesRemaining":{"type":"array","items":{"type":"string"}},"requirements":{"type":"object","required":["completed","partial","missing"],"properties":{"completed":{"type":"integer","minimum":0},"partial":{"type":"integer","minimum":0},"missing":{"type":"integer","minimum":0}}},"tests":{"type":"object","required":["passed","failed"],"properties":{"passed":{"type":"integer","minimum":0},"failed":{"type":"integer","minimum":0}}},"reviews":{"type":"object","required":["passed","pending"],"properties":{"passed":{"type":"integer","minimum":0},"pending":{"type":"integer","minimum":0}}},"releaseStatus":{"type":"string"},"researchProgress":{"type":"integer","minimum":0},"evidenceRunId":{"type":["string","null"]},"blockers":{"type":"array","items":{"type":"string"},"maxItems":50},"nextRecommendedAction":{"type":"string"}}}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shabilev.github.io/aos/current-progress.schema.json",
+  "title": "Current Progress",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "generatedAt",
+    "sourceBranch",
+    "currentBranch",
+    "targetBranch",
+    "testedCommit",
+    "overallPercent",
+    "currentPhase",
+    "phasesCompleted",
+    "phasesRemaining",
+    "requirements",
+    "tests",
+    "reviews",
+    "releaseStatus",
+    "researchProgress",
+    "evidenceRunId",
+    "blockers",
+    "nextRecommendedAction"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "generatedAt": { "type": "string" },
+    "sourceBranch": { "type": "string", "minLength": 1 },
+    "currentBranch": { "type": "string", "minLength": 1 },
+    "targetBranch": { "type": "string", "minLength": 1 },
+    "testedCommit": { "type": "string", "minLength": 1 },
+    "overallPercent": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "currentPhase": { "type": "string" },
+    "phasesCompleted": { "type": "array", "items": { "type": "string" } },
+    "phasesRemaining": { "type": "array", "items": { "type": "string" } },
+    "requirements": {
+      "type": "object",
+      "required": ["completed", "partial", "missing"],
+      "properties": {
+        "completed": { "type": "integer", "minimum": 0 },
+        "partial": { "type": "integer", "minimum": 0 },
+        "missing": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "tests": {
+      "type": "object",
+      "required": ["passed", "failed"],
+      "properties": {
+        "passed": { "type": "integer", "minimum": 0 },
+        "failed": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "reviews": {
+      "type": "object",
+      "required": ["passed", "pending"],
+      "properties": {
+        "passed": { "type": "integer", "minimum": 0 },
+        "pending": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "releaseStatus": { "type": "string" },
+    "researchProgress": { "type": "integer", "minimum": 0 },
+    "evidenceRunId": { "type": ["string", "null"] },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "maxItems": 50
+    },
+    "nextRecommendedAction": { "type": "string" }
+  }
+}

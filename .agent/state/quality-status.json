@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0.0",
-  "updatedAt": "2026-07-15T11:30:40.154Z",
-  "latestRunId": "2026-07-15_13-56-05_feature-1-4-0-agent-operating-system",
-  "testedCommit": "1a66592cdd0e889bb39c637cb131c444b61c65b0",
+  "updatedAt": "2026-07-15T15:33:00.610Z",
+  "latestRunId": "2026-07-15_15-45-55_main",
+  "testedCommit": "c92cac91aa3dcd6c8a40f32f10ef48094a1a91d5",
   "workingTreeCleanAtTest": false,
   "coverage": {
     "status": "passed",
@@ -13,10 +13,10 @@
       "delta": 0
     },
     "branches": {
-      "percent": 74.24,
+      "percent": 74.3,
       "threshold": 65,
       "passed": true,
-      "delta": 0
+      "delta": 0.06
     },
     "functions": {
       "percent": 72.57,
@@ -95,7 +95,7 @@
     "Human UX, security, and content reviews remain notRun."
   ],
   "evidencePaths": [
-    "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system",
+    "quality/execution/runs/2026-07-15_15-45-55_main",
     "quality/execution/latest"
   ]
 }

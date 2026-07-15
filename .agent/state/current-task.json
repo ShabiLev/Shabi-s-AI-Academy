@@ -1,10 +1,12 @@
 {
   "schemaVersion": "1.0.0",
-  "updatedAt": "2026-07-15T11:30:40.154Z",
+  "generatedAt": "2026-07-15T15:33:00.610Z",
+  "sourceBranch": "feature/1.4.0-agent-operating-system",
+  "currentBranch": "feature/1.4.0-agent-operating-system",
+  "targetBranch": "main",
+  "testedCommit": "cf6b1e712cb5b541ae871b0c209f098a6d56f215",
   "task": "Version 1.4 AOS release stabilization, memory, and progress tracking",
-  "branch": "feature/1.4.0-agent-operating-system",
   "startingCommit": "1a63f8d137cf518c21b6b19dcb28c80a328bbf9e",
-  "currentCommit": "1a66592cdd0e889bb39c637cb131c444b61c65b0",
   "objective": "Complete, validate, commit, and publish the feature branch without touching main.",
   "completedWork": [
     "AOS stabilization reviewed",
@@ -19,22 +21,16 @@
     "Human UX, security, and content reviews remain notRun."
   ],
   "filesBeingChanged": [
-    "uality/execution/index.json",
-    "quality/execution/latest/README.md",
-    "quality/execution/latest/agent-review.md",
-    "quality/execution/latest/changed-files.txt",
-    "quality/execution/latest/commands.json",
-    "quality/execution/latest/coverage-summary.json",
-    "quality/execution/latest/environment.json",
-    "quality/execution/latest/failures.md",
-    "quality/execution/latest/git-state-after.txt",
-    "quality/execution/latest/git-state-before.txt",
-    "quality/execution/latest/manual-review.md",
-    "quality/execution/latest/self-review.md",
-    "quality/execution/latest/summary.json",
-    "quality/execution/latest/summary.md",
-    "quality/execution/latest/warnings.md",
-    "quality/execution/latest/result-interpretation.md"
+    "agent/schemas/current-progress.schema.json",
+    ".agent/schemas/current-task.schema.json",
+    ".agent/schemas/latest-handoff.schema.json",
+    ".agent/schemas/project-status.schema.json",
+    ".agent/schemas/release-status.schema.json",
+    "scripts/agent-memory-lib.mjs",
+    "scripts/agent-memory.test.mjs",
+    "scripts/generate-aos-snapshot.mjs",
+    "scripts/update-agent-memory.mjs",
+    "scripts/validate-agent-memory.mjs"
   ],
   "testsRun": [
     "Docs",
@@ -59,6 +55,6 @@
     "manualSecurityReview",
     "manualContentReview"
   ],
-  "evidencePath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system",
+  "evidencePath": "quality/execution/runs/2026-07-15_15-45-55_main",
   "nextAction": "Windows visual baselines require human review before replacement."
 }

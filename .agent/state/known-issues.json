@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "updatedAt": "2026-07-15T11:30:40.154Z",
+  "updatedAt": "2026-07-15T15:33:00.610Z",
   "active": [
     {
       "id": "AOS-QUALITY-001",
@@ -12,7 +12,7 @@
       "preventionTest": "npm run test:visual",
       "status": "active",
       "affectedRelease": "1.4.0-beta.1",
-      "evidencePath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/visual.log"
+      "evidencePath": "quality/execution/runs/2026-07-15_15-45-55_main/visual.log"
     }
   ],
   "history": [
@@ -26,7 +26,7 @@
       "preventionTest": "npm run test:e2e:full",
       "status": "resolved",
       "affectedRelease": "1.4.0-beta.1",
-      "evidencePath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system"
+      "evidencePath": "quality/execution/runs/2026-07-15_15-45-55_main"
     }
   ]
 }

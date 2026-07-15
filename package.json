@@ -40,7 +40,10 @@
     "quality:evidence:pages": "node scripts/run-quality-evidence.mjs pages",
     "quality:evidence:headed": "node scripts/run-quality-evidence.mjs headed",
     "test:evidence": "node --test scripts/evidence-utils.test.mjs",
-    "test:aos": "node --test scripts/validate-aos.test.mjs scripts/research/research.test.mjs",
+    "test:aos": "node --test scripts/validate-aos.test.mjs scripts/agent-memory.test.mjs scripts/research/research.test.mjs quality/scripts/server-readiness.test.mjs",
+    "memory:update": "node scripts/update-agent-memory.mjs",
+    "memory:check": "node scripts/validate-agent-memory.mjs",
+    "memory:report": "node scripts/generate-agent-memory-report.mjs",
     "test:journeys": "playwright test --config=playwright.journeys.config.ts",
     "test:journeys:headed": "playwright test --config=playwright.journeys.config.ts --headed",
     "test:ui:headed": "cross-env PW_REPORT_NAME=headed playwright test --project=\"Desktop Chromium\" --headed",
@@ -66,6 +69,7 @@
     "aos:check:schemas": "node scripts/validate-aos-schemas.mjs",
     "aos:check:duplication": "node scripts/validate-aos-duplication.mjs",
     "aos:report": "node scripts/generate-aos-report.mjs",
+    "aos:release-audit": "node scripts/generate-aos-release-audit.mjs",
     "aos:snapshot": "node scripts/generate-aos-snapshot.mjs",
     "research:validate-sources": "node scripts/research/validate-source.mjs",
     "research:dedupe": "node scripts/research/deduplicate-sources.mjs",
@@ -76,7 +80,7 @@
     "validate": "npm run lint && npm run test:run && npm run build && npm run test:e2e",
     "validate:full": "npm run lint && npm run test:run && npm run build && npm run test:e2e:full",
     "validate:quality": "npm run lint && npm run test:run && npm run test:coverage && npm run build && npm run test:e2e && npm run test:a11y",
-    "validate:release": "npm run lint && npm run test:run && npm run test:coverage && npm run build && npm run catalog:check && npm run docs:check && npm run quality:inventory && npm run test:e2e:full && npm run test:journeys && npm run test:ux && npm run test:a11y && npm run test:visual && npm run test:performance && npm run quality:collect && npm run quality:analyze && npm run quality:system-report && npm run test:e2e:pages && git diff --check"
+    "validate:release": "npm run docs:check && npm run aos:check && npm run test:aos && npm run test:evidence && npm run memory:check && npm run lint && npm run test:run && npm run test:coverage && npm run build && npm run catalog:check && npm run quality:inventory && npm run test:e2e:full && npm run test:journeys && npm run test:ux && npm run test:a11y && npm run test:visual && npm run test:performance && npm run quality:collect && npm run quality:analyze && npm run quality:system-report && npm run test:e2e:pages && git diff --check"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",

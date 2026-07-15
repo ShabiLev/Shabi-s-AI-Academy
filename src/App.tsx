@@ -81,6 +81,8 @@ const AosEvidencePage = lazy(() => import("./pages/aos").then((module) => ({ def
 const AosHandoffsPage = lazy(() => import("./pages/aos").then((module) => ({ default: module.AosHandoffsPage })));
 const AosSecurityPage = lazy(() => import("./pages/aos").then((module) => ({ default: module.AosSecurityPage })));
 const AosReleasesPage = lazy(() => import("./pages/aos").then((module) => ({ default: module.AosReleasesPage })));
+const AosProgressPage = lazy(() => import("./pages/aos").then((module) => ({ default: module.AosProgressPage })));
+const AosMemoryPage = lazy(() => import("./pages/aos").then((module) => ({ default: module.AosMemoryPage })));
 
 export interface AppProps {
   routerMode?: RouterMode;
@@ -199,6 +201,8 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                     <Route path="aos/handoffs" element={<Suspense fallback={null}><AosHandoffsPage /></Suspense>} />
                     <Route path="aos/security" element={<Suspense fallback={null}><AosSecurityPage /></Suspense>} />
                     <Route path="aos/releases" element={<Suspense fallback={null}><AosReleasesPage /></Suspense>} />
+                    <Route path="aos/progress" element={<Suspense fallback={null}><AosProgressPage /></Suspense>} />
+                    <Route path="aos/memory" element={<Suspense fallback={null}><AosMemoryPage /></Suspense>} />
                     <Route path="runs" element={<Suspense fallback={null}><RunHistoryPage /></Suspense>} />
                     <Route path="runs/:runId" element={<Suspense fallback={null}><RunDetailsPage /></Suspense>} />
                   </Route>

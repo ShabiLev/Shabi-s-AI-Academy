@@ -1,0 +1,12 @@
+{
+  "id": "seed-knowledge-mcp-capabilities",
+  "sourceId": "seed-mcp-specification",
+  "statement": "MCP standardizes how applications expose context and capabilities such as tools, resources, and prompts to language-model clients.",
+  "category": "technical",
+  "candidateType": "knowledge",
+  "confidence": 0.95,
+  "verificationStatus": "verified",
+  "verifiedBy": "Codex source review",
+  "verifiedDate": "2026-07-15",
+  "notes": "Seed validation claim; not published application content."
+}

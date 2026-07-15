@@ -1,0 +1,16 @@
+{
+  "id": "candidate-seed-knowledge-mcp-capabilities",
+  "title": "MCP standardizes how applications expose context and capabilities such as tools,",
+  "summary": "MCP standardizes how applications expose context and capabilities such as tools, resources, and prompts to language-model clients.",
+  "sourceIds": [
+    "seed-mcp-specification"
+  ],
+  "reviewStatus": "pendingReview",
+  "freshnessStatus": "current",
+  "translationStatus": "notStarted",
+  "generatedBy": {
+    "agent": "deterministic-research-pipeline",
+    "generatedDate": "2026-07-15"
+  },
+  "version": "1.0.0"
+}

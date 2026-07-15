@@ -26,6 +26,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run docs:check
+      - run: npm run aos:check
+      - run: npm run test:aos
+      - run: npm run test:evidence
+      - run: npm run memory:check
       - run: npm run lint
       - run: npm run test:run
       - run: npm run build

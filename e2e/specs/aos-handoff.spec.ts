@@ -6,10 +6,11 @@ test.beforeAll(() => {
 });
 
 test.describe("AOS handoffs", () => {
-  test("shows no active handoff by default, honestly, not a fabricated one", async ({ page }) => {
+  test("shows the sanitized explicit handoff without fabricating or leaking paths", async ({ page }) => {
     await login(page, "/aos/handoffs");
     await expect(page.getByRole("heading", { level: 1, name: /מסירה פעילה|Active handoff/ })).toBeVisible();
-    await expect(page.getByText(/אין מסירה פעילה כרגע|No handoff is currently active/)).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2 })).toContainText(/inProgress|readyForReview/);
+    await expect(page.getByRole("heading", { level: 2 })).not.toContainText(/\[object Object\]|[A-Z]:\\Users\\/);
   });
 
   test("explains the required handoff fields", async ({ page }) => {

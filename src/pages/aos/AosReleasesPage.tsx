@@ -23,7 +23,7 @@ export function AosReleasesPage() {
       {result.kind === "ok" && (
         <section className="settings-card" aria-labelledby="aos-release-current">
           <h2 id="aos-release-current">{s.appVersion}</h2>
-          <p>{result.snapshot.applicationVersion}</p>
+          <p><bdi className="aos-technical" dir="ltr">{result.snapshot.applicationVersion}</bdi></p>
           <Link to="/release">{ui === "he" ? "מרכז שחרור" : "Release Center"}</Link>
         </section>
       )}
@@ -33,7 +33,7 @@ export function AosReleasesPage() {
           <h2 id="aos-release-modules">{s.modulesHeading}</h2>
           <ul>
             {releaseModules.map((m) => (
-              <li key={m.id}>{m.title}</li>
+              <li key={m.id}><bdi className="aos-technical" dir="ltr">{m.title}</bdi></li>
             ))}
           </ul>
         </section>

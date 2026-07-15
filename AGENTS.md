@@ -3,7 +3,7 @@
 Shabi's AI Academy is a bilingual, local-first React learning application for prompts, agents, and quality engineering.
 
 - Stack: React, TypeScript, Vite, React Router, Vitest, Playwright, axe, and Lighthouse.
-- Current release: 1.4.0-beta.1 (Agent Operating System). The controlling specification is the Agent Operating System at `.agent/`; `.codex/release-1.3-auth-guided-ux/` remains valid, historical project instruction.
+- Current release: 1.4.0-beta.1 (Agent Operating System). The controlling release specification is `.codex/release-1.4-aos/`; the operational source is `.agent/`.
 - Engineering Kit: 1.0.0. AOS: 1.0.0.
 
 ## Agent Operating System (mandatory)
@@ -29,8 +29,8 @@ Read in order:
 3. [.codex/standards/coding.md](.codex/standards/coding.md)
 4. [.codex/standards/qa.md](.codex/standards/qa.md)
 5. [.codex/standards/security.md](.codex/standards/security.md)
-6. [.codex/release-1.3-auth-guided-ux/00-master-spec.md](.codex/release-1.3-auth-guided-ux/00-master-spec.md) (prior release, still valid project instruction for the auth/guided-UX surfaces it introduced)
-7. Every User Accounts & Guided Experience release file referenced by that master specification.
+6. [.codex/release-1.4-aos/00-master-spec.md](.codex/release-1.4-aos/00-master-spec.md)
+7. Every Agent Operating System release file referenced by that master specification.
 
 Requirements:
 

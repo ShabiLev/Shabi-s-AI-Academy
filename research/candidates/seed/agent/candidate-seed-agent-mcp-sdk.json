@@ -1,0 +1,21 @@
+{
+  "id": "candidate-seed-agent-mcp-sdk",
+  "title": "A low-risk MCP learning agent can explain the official TypeScript SDK while rema",
+  "summary": "A low-risk MCP learning agent can explain the official TypeScript SDK while remaining read-only and using no tools by default.",
+  "sourceIds": [
+    "seed-mcp-typescript-sdk"
+  ],
+  "reviewStatus": "pendingReview",
+  "freshnessStatus": "current",
+  "translationStatus": "notStarted",
+  "confidence": 0.9,
+  "generatedBy": {
+    "agent": "deterministic-research-pipeline",
+    "generatedDate": "2026-07-15"
+  },
+  "version": "1.0.0",
+  "createdDate": "2026-07-15",
+  "role": "A low-risk MCP learning agent can explain the official TypeScript SDK while remaining read-only and using no tools by default.",
+  "allowedTools": [],
+  "riskTier": "low"
+}

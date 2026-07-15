@@ -1,0 +1,18 @@
+{
+  "id": "seed-mcp-specification",
+  "title": "Model Context Protocol specification 2025-06-18",
+  "sourceType": "officialSpec",
+  "publisher": "Model Context Protocol",
+  "authors": ["Model Context Protocol maintainers"],
+  "url": "https://modelcontextprotocol.io/specification/2025-06-18/changelog",
+  "publicationDate": "2025-06-18",
+  "retrievalDate": "2026-07-15",
+  "lastUpdated": "2025-06-18",
+  "license": "MIT",
+  "language": "en",
+  "qualityTier": "tier1",
+  "securityStatus": "notApplicable",
+  "archived": false,
+  "deprecated": false,
+  "tags": ["seed", "mcp", "specification"]
+}

@@ -9,9 +9,11 @@ export const researchRoot = path.join(repoRoot, "research");
 export function jsonFilesIn(subdir) {
   const dir = path.join(researchRoot, subdir);
   if (!existsSync(dir)) return [];
-  return readdirSync(dir)
-    .filter((f) => f.endsWith(".json"))
-    .map((f) => path.join(dir, f));
+  const visit = (current) => readdirSync(current, { withFileTypes: true })
+    .flatMap((entry) => entry.isDirectory()
+      ? visit(path.join(current, entry.name))
+      : entry.name.endsWith(".json") ? [path.join(current, entry.name)] : []);
+  return visit(dir).sort();
 }
 
 export function readJsonSafe(file) {

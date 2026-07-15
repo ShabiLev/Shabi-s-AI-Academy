@@ -14,15 +14,16 @@ This file is a pointer, not a workflow. The Agent Operating System lives at
    entire `.agent/` tree.
 4. Read the active `.codex/` release specification referenced by
    [`AGENTS.md`](../../AGENTS.md) (currently
-   [`.codex/release-1.3-auth-guided-ux/00-master-spec.md`](../release-1.3-auth-guided-ux/00-master-spec.md)
-   pending the 1.4.0 AOS release spec).
+   [`.codex/release-1.4-aos/00-master-spec.md`](../release-1.4-aos/00-master-spec.md)).
 5. Use the evidence workflow: [`.agent/quality/evidence.md`](../../.agent/quality/evidence.md)
    and `npm run quality:evidence:*`, saving results under
    `quality/execution/latest/`.
-6. If the task is not finished when you stop, create a handoff per
+6. Resume from the explicit sanitized state linked by `.agent/master.md`,
+   then verify Git and focused tests before trusting it.
+7. If the task is not finished when you stop, update memory and create a handoff per
    [`.agent/handoff/handoff-policy.md`](../../.agent/handoff/handoff-policy.md)
    so Claude Code (or a future Codex session) can continue.
-7. Stop before `git push` / `git merge` unless the user has explicitly
+8. Stop before `git push` / `git merge` unless the user has explicitly
    authorized it in the current session.
 
 ## What this file must never contain

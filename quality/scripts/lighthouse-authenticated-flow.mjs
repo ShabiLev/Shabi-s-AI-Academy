@@ -4,6 +4,10 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import puppeteer from "puppeteer";
 import { desktopConfig, startFlow } from "lighthouse";
+import {
+  terminateProcessTree,
+  waitForServer,
+} from "./server-readiness.mjs";
 
 const require = createRequire(import.meta.url);
 const thresholds = require("../config/lighthouseThresholds.cjs");
@@ -30,28 +34,14 @@ const routes = [
  * Flow keeps one real page/tab for the whole session: we log in once, then
  * `flow.navigate()` each route on that same tab, so sessionStorage survives.
  */
-async function waitForServer(url, timeoutMs = 60000) {
-  const start = Date.now();
-  while (Date.now() - start < timeoutMs) {
-    try {
-      const res = await fetch(url);
-      if (res.ok) return;
-    } catch {
-      /* server not ready yet */
-    }
-    await new Promise((resolve) => setTimeout(resolve, 500));
-  }
-  throw new Error(`Preview server at ${url} did not become ready within ${timeoutMs}ms`);
-}
-
 async function main() {
-  const server = spawn("npm", ["run", "preview", "--", "--port", String(port), "--host", "127.0.0.1"], {
+  const server = spawn("npm", ["run", "preview", "--", "--port", String(port), "--host", "127.0.0.1", "--strictPort"], {
     shell: true,
     stdio: "ignore",
   });
 
   try {
-    await waitForServer(`${baseUrl}/login`);
+    await waitForServer(`${baseUrl}/login`, { timeoutMs: 60_000, intervalMs: 500 });
 
     const browser = await puppeteer.launch({ headless: true });
     try {
@@ -113,7 +103,7 @@ async function main() {
       await browser.close();
     }
   } finally {
-    server.kill();
+    terminateProcessTree(server);
   }
 }
 

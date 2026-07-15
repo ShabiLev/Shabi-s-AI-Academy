@@ -14,6 +14,13 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
+      - run: npm run docs:check
+      - run: npm run aos:check
+      - run: npm run test:aos
+      - run: npm run test:evidence
+      - run: npm run memory:check
+      - run: npm run aos:report
+      - run: npm run aos:snapshot
       - run: npm run lint
       - run: npm run test:coverage
       - run: npm run build
@@ -24,6 +31,11 @@ jobs:
           path: |
             coverage/
             quality/generated/vitest-results.json
+            quality/generated/aos-report.json
+            quality/generated/aos-report.md
+            public/generated/aos-snapshot.json
+            quality/execution/latest/summary.json
+            quality/execution/latest/failures.md
           retention-days: 14
           if-no-files-found: ignore
 

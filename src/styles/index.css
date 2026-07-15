@@ -2591,6 +2591,7 @@ html[data-motion="reduced"] * { scroll-behavior: auto !important; animation-dura
 @media(max-width:42rem){.landing-features{grid-template-columns:1fr}.landing-page{align-content:start}}
 .visually-hidden { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .aos-generated-at { color: var(--muted); font-size: .9rem; }
+.aos-technical { direction: ltr; unicode-bidi: isolate; overflow-wrap: anywhere; }
 .aos-category-list { display: grid; grid-template-columns: repeat(auto-fit,minmax(10rem,1fr)); gap: var(--space-2); list-style: none; padding: 0; }
 .aos-subnav { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-block-start: var(--space-4); }
 .aos-filter-row { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-block-end: var(--space-4); }

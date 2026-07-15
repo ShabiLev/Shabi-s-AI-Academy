@@ -1,0 +1,12 @@
+{
+  "id": "seed-radar-react-19-2",
+  "sourceId": "seed-react-19-2-release",
+  "statement": "React 19.2 introduced Activity, useEffectEvent, cacheSignal, and React Performance Tracks, making the release relevant for future framework-upgrade evaluation.",
+  "category": "technical",
+  "candidateType": "radar",
+  "confidence": 0.95,
+  "verificationStatus": "verified",
+  "verifiedBy": "Codex source review",
+  "verifiedDate": "2026-07-15",
+  "notes": "Seed radar candidate; no upgrade recommendation is implied."
+}

@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "1.0.0",
+  "updatedAt": "2026-07-15T07:34:13.451Z",
+  "application": "Shabi's AI Academy",
+  "purpose": "Bilingual local-first learning application for prompts, agents, and quality engineering.",
+  "version": "1.4.0-beta.1",
+  "languages": [
+    "he",
+    "en"
+  ],
+  "deployment": "GitHub Pages",
+  "architecture": "React + TypeScript + Vite with file-based AOS state",
+  "status": "active"
+}

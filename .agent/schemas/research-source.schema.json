@@ -76,8 +76,8 @@
       "description": "BCP 47 language tag of the source content, e.g. en, he."
     },
     "qualityTier": {
-      "type": "integer",
-      "enum": [1, 2, 3, 4],
+      "type": "string",
+      "enum": ["tier1", "tier2", "tier3", "tier4"],
       "description": "See .agent/research/source-ranking.md."
     },
     "authorityScore": {
@@ -123,6 +123,6 @@
       "items": { "type": "string" }
     }
   },
-  "required": ["id", "title", "sourceType", "url", "retrievalDate", "qualityTier"],
+  "required": ["id", "title", "sourceType", "url", "publicationDate", "retrievalDate", "license", "qualityTier"],
   "additionalProperties": false
 }

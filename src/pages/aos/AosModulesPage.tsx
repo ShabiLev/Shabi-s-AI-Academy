@@ -98,10 +98,10 @@ export function AosModulesPage() {
               <tbody>
                 {visible.map((m) => (
                   <tr key={m.id}>
-                    <td>{m.title}</td>
-                    <td>{m.category}</td>
-                    <td>{m.status}</td>
-                    <td>{m.requiredFor.join(", ")}</td>
+                    <td><bdi className="aos-technical" dir="ltr">{m.title}</bdi></td>
+                    <td><bdi className="aos-technical" dir="ltr">{m.category}</bdi></td>
+                    <td><bdi className="aos-technical" dir="ltr">{m.status}</bdi></td>
+                    <td><bdi className="aos-technical" dir="ltr">{m.requiredFor.join(", ")}</bdi></td>
                   </tr>
                 ))}
               </tbody>

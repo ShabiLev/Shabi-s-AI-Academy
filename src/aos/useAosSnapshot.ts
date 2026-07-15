@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import type { AosSnapshot, AosSnapshotLoadResult } from "./types";
 
-const SNAPSHOT_URL = "/generated/aos-snapshot.json";
+export function resolveAosSnapshotUrl(baseUrl: string): string {
+  return `${baseUrl.replace(/\/?$/, "/")}generated/aos-snapshot.json`;
+}
 
 function isAosSnapshot(value: unknown): value is AosSnapshot {
   if (!value || typeof value !== "object") return false;
@@ -25,7 +27,7 @@ export function useAosSnapshot(): AosSnapshotLoadResult {
 
   useEffect(() => {
     let cancelled = false;
-    fetch(SNAPSHOT_URL, { cache: "no-store" })
+    fetch(resolveAosSnapshotUrl(import.meta.env.BASE_URL), { cache: "no-store" })
       .then((res) => {
         if (!res.ok) return null;
         return res.json();

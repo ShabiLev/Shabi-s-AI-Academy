@@ -1,6 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { loadManifest, loadRegistry } from "./aos-lib.mjs";
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import { loadManifest, loadRegistry, repoRoot } from "./aos-lib.mjs";
 import { validateManifest } from "./validate-aos-manifest.mjs";
 import { validateLinks } from "./validate-aos-links.mjs";
 import { validateSchemas } from "./validate-aos-schemas.mjs";
@@ -41,6 +43,13 @@ test("Codex and Claude Code entry points stay thin pointers, not duplicated work
 
 test("manifest and package.json agree on the application version", () => {
   const manifest = loadManifest();
-  assert.equal(typeof manifest.applicationVersion, "string");
-  assert.match(manifest.applicationVersion, /^\d+\.\d+\.\d+(-[\w.]+)?$/);
+  const packageJson = JSON.parse(readFileSync(path.join(repoRoot, "package.json"), "utf8"));
+  const packageLock = JSON.parse(readFileSync(path.join(repoRoot, "package-lock.json"), "utf8"));
+  const metadata = readFileSync(path.join(repoRoot, "src/config/appMetadata.ts"), "utf8");
+  const masterSpec = readFileSync(path.join(repoRoot, ".codex/release-1.4-aos/00-master-spec.md"), "utf8");
+  assert.equal(manifest.applicationVersion, packageJson.version);
+  assert.equal(packageLock.version, packageJson.version);
+  assert.equal(packageLock.packages[""].version, packageJson.version);
+  assert.match(metadata, new RegExp(`version: ["']${packageJson.version.replaceAll(".", "\\.")}["']`));
+  assert.match(masterSpec, new RegExp(packageJson.version.replaceAll(".", "\\.")));
 });

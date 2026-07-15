@@ -34,6 +34,8 @@ it does not replace anything below.
 - [1.2 AI Radar & UX Hardening handoff](release-1.2-ai-radar-ux/handoff.md)
 - [1.3 User Accounts & Guided Experience master specification](release-1.3-auth-guided-ux/00-master-spec.md)
 - [1.3 User Accounts & Guided Experience handoff](release-1.3-auth-guided-ux/handoff.md)
+- [1.4 Agent Operating System master specification](release-1.4-aos/00-master-spec.md)
+- [1.4 Agent Operating System handoff](release-1.4-aos/handoff.md)
 - [Templates](templates/feature.md)
 - [Codex prompts](prompts/feature-template.md)
 
@@ -61,7 +63,8 @@ An active accepted ADR overrides older architecture prose. Security and privacy 
 - `release-1.0-beta/`: preserved 1.0.0-beta.1 release specification.
 - `release-1.1-ai-workspace/`: controlling 1.1.0-beta.1 release specification.
 - `release-1.2-ai-radar-ux/`: controlling 1.2.0-beta.1 release specification.
-- `release-1.3-auth-guided-ux/`: controlling 1.3.0-beta.1 release specification.
+- `release-1.3-auth-guided-ux/`: preserved 1.3.0-beta.1 release specification.
+- `release-1.4-aos/`: controlling 1.4.0-beta.1 release specification.
 - `templates/`: fill-in engineering artifacts.
 - `prompts/`: operational prompts for Codex workflows.
 - `VERSION`: Engineering Kit version only.

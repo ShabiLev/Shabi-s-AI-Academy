@@ -1,0 +1,20 @@
+{
+  "id": "candidate-seed-prompt-responses-api",
+  "title": "Design an agent task that uses the Responses API with explicit tool boundaries, ",
+  "summary": "Design an agent task that uses the Responses API with explicit tool boundaries, observable results, and human oversight for consequential actions.",
+  "sourceIds": [
+    "seed-openai-responses-api"
+  ],
+  "reviewStatus": "pendingReview",
+  "freshnessStatus": "current",
+  "translationStatus": "notStarted",
+  "confidence": 0.9,
+  "generatedBy": {
+    "agent": "deterministic-research-pipeline",
+    "generatedDate": "2026-07-15"
+  },
+  "version": "1.0.0",
+  "createdDate": "2026-07-15",
+  "promptText": "Design an agent task that uses the Responses API with explicit tool boundaries, observable results, and human oversight for consequential actions.",
+  "category": "research-seed"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "seed-workflow-llm-security-review",
+  "sourceId": "seed-owasp-llm-top-10",
+  "statement": "Review LLM features for prompt injection, unsafe output handling, excessive agency, and sensitive-information disclosure before release.",
+  "category": "security",
+  "candidateType": "workflow",
+  "confidence": 0.95,
+  "verificationStatus": "verified",
+  "verifiedBy": "Codex source review",
+  "verifiedDate": "2026-07-15",
+  "notes": "Seed workflow candidate; security decisions still require human review."
+}

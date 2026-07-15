@@ -1,6 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { daysBetween } from "./research-lib.mjs";
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import { daysBetween, jsonFilesIn, readJsonSafe, repoRoot } from "./research-lib.mjs";
 import { scoreSource } from "./score-source.mjs";
 import { classifyFreshness } from "./check-freshness.mjs";
 
@@ -30,12 +32,30 @@ test("scoreSource never produces a score outside 0-100", () => {
 
 test("classifyFreshness applies day-based thresholds for generic/news sources", () => {
   const now = "2026-07-14T00:00:00.000Z";
-  assert.equal(classifyFreshness({ sourceType: "news", retrievalDate: "2026-07-10T00:00:00.000Z" }, now), "current");
-  assert.equal(classifyFreshness({ sourceType: "news", retrievalDate: "2026-06-01T00:00:00.000Z" }, now), "aging");
-  assert.equal(classifyFreshness({ sourceType: "news", retrievalDate: "2026-01-01T00:00:00.000Z" }, now), "stale");
+  assert.equal(classifyFreshness({ sourceType: "newsArticle", retrievalDate: "2026-07-10T00:00:00.000Z" }, now), "current");
+  assert.equal(classifyFreshness({ sourceType: "newsArticle", retrievalDate: "2026-06-01T00:00:00.000Z" }, now), "aging");
+  assert.equal(classifyFreshness({ sourceType: "newsArticle", retrievalDate: "2026-01-01T00:00:00.000Z" }, now), "stale");
 });
 
 test("classifyFreshness never marks a paper stale by age alone — it requires manual review", () => {
-  const result = classifyFreshness({ sourceType: "paper", retrievalDate: "2020-01-01T00:00:00.000Z" }, "2026-07-14T00:00:00.000Z");
+  const result = classifyFreshness({ sourceType: "peerReviewedPaper", retrievalDate: "2020-01-01T00:00:00.000Z" }, "2026-07-14T00:00:00.000Z");
   assert.match(result, /requiresManualReview/);
+});
+
+test("seed candidates stay review-gated, untranslated, cited, and outside published content", () => {
+  const sourceIds = new Set(jsonFilesIn("sources/seed").map((file) => readJsonSafe(file).data?.id));
+  const candidateFiles = jsonFilesIn("candidates/seed");
+  assert.equal(candidateFiles.length, 6);
+  assert.equal(jsonFilesIn("published").length, 0);
+  const types = new Set();
+  for (const file of candidateFiles) {
+    const candidate = JSON.parse(readFileSync(file, "utf8"));
+    types.add(path.basename(path.dirname(file)));
+    assert.equal(candidate.reviewStatus, "pendingReview");
+    assert.equal(candidate.translationStatus, "notStarted");
+    assert.ok(candidate.sourceIds.length > 0);
+    assert.ok(candidate.sourceIds.every((id) => sourceIds.has(id)));
+    assert.ok(path.relative(repoRoot, file).startsWith(path.join("research", "candidates", "seed")));
+  }
+  assert.deepEqual([...types].sort(), ["agent", "knowledge", "lesson", "prompt", "radar", "workflow"]);
 });

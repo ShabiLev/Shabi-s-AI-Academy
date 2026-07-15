@@ -1,0 +1,18 @@
+{
+  "id": "seed-attention-is-all-you-need",
+  "title": "Attention Is All You Need",
+  "sourceType": "peerReviewedPaper",
+  "publisher": "NeurIPS",
+  "authors": ["Ashish Vaswani", "Noam Shazeer", "Niki Parmar", "Jakob Uszkoreit", "Llion Jones", "Aidan N. Gomez", "Lukasz Kaiser", "Illia Polosukhin"],
+  "url": "https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf",
+  "publicationDate": "2017-12-04",
+  "retrievalDate": "2026-07-15",
+  "lastUpdated": "2017-12-04",
+  "license": "NeurIPS proceedings terms",
+  "language": "en",
+  "qualityTier": "tier1",
+  "securityStatus": "notApplicable",
+  "archived": false,
+  "deprecated": false,
+  "tags": ["seed", "paper", "transformer", "attention"]
+}

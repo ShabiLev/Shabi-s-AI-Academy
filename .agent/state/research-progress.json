@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "updatedAt": "2026-07-15T07:34:13.451Z",
+  "sources": 6,
+  "validated": 6,
+  "duplicates": 0,
+  "claimsExtracted": 6,
+  "claimsVerified": 6,
+  "candidatesGenerated": 6,
+  "candidatesPendingReview": 6,
+  "approvedCandidates": 0,
+  "publishedItems": 0,
+  "staleItems": 0,
+  "rejectedItems": 0,
+  "topicCoverage": [
+    "model APIs",
+    "MCP",
+    "frontend releases",
+    "AI safety",
+    "foundational papers"
+  ],
+  "missingTopicCoverage": [
+    "evaluation tooling",
+    "multilingual AI education"
+  ],
+  "latestResearchRun": "seed-2026-07-15",
+  "nextResearchTopics": [
+    "evaluation tooling",
+    "multilingual AI education"
+  ]
+}

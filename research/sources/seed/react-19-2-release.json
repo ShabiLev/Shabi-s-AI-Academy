@@ -1,0 +1,18 @@
+{
+  "id": "seed-react-19-2-release",
+  "title": "React 19.2",
+  "sourceType": "releaseNote",
+  "publisher": "React",
+  "authors": ["The React Team"],
+  "url": "https://react.dev/blog/2025/10/01/react-19-2",
+  "publicationDate": "2025-10-01",
+  "retrievalDate": "2026-07-15",
+  "lastUpdated": "2025-10-01",
+  "license": "CC BY 4.0",
+  "language": "en",
+  "qualityTier": "tier1",
+  "securityStatus": "notApplicable",
+  "archived": false,
+  "deprecated": false,
+  "tags": ["seed", "release-note", "react"]
+}

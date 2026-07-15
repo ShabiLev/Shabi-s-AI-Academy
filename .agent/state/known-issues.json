@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0.0",
+  "updatedAt": "2026-07-15T07:34:13.451Z",
+  "active": [
+    {
+      "id": "AOS-QUALITY-001",
+      "date": "2026-07-15",
+      "command": "npm run test:visual",
+      "symptom": "35 Windows visual snapshots differ from stale baselines.",
+      "rootCause": "Several expected baselines predate the fully loaded Version 1.3/1.4 UI.",
+      "fix": "Human-review each diff and update only approved platform-correct baselines.",
+      "preventionTest": "npm run test:visual",
+      "status": "active",
+      "affectedRelease": "1.4.0-beta.1",
+      "evidencePath": "quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/visual.log"
+    }
+  ],
+  "history": [
+    {
+      "id": "AOS-QUALITY-000",
+      "date": "2026-07-15",
+      "command": "npm run test:e2e:full",
+      "symptom": "Transient locator and worker races.",
+      "rootCause": "Ambiguous locators and excessive concurrency.",
+      "fix": "Use accessible locators and four deliberate workers.",
+      "preventionTest": "npm run test:e2e:full",
+      "status": "resolved",
+      "affectedRelease": "1.4.0-beta.1",
+      "evidencePath": "quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system"
+    }
+  ]
+}

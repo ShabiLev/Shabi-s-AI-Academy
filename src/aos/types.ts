@@ -51,6 +51,26 @@ export interface AosValidationSummary {
   checks: AosValidationCheck[];
 }
 
+export interface AosMemorySummary {
+  currentTask: string | null;
+  currentPhase: string | null;
+  releaseState: string;
+  completionPercent: number;
+  requirements: { completed: number; partial: number; missing: number };
+  blockers: string[];
+  blockerCount: number;
+  knownIssueCount: number;
+  latestEvidenceRunId: string | null;
+  testedCommit: string | null;
+  evidenceCurrent: boolean;
+  coverage: number | null;
+  research: { sources: number; candidatesPendingReview: number; publishedItems: number };
+  nextActions: Array<{ id: string; title: string; priority: string; requiredRole: string; status: string }>;
+  nextAction: string | null;
+  handoff: { status: string | null; summary: string | null; updatedAt: string | null };
+  updatedAt: string | null;
+}
+
 export interface AosSnapshot {
   generatedAt: string;
   aosVersion: string;
@@ -64,6 +84,7 @@ export interface AosSnapshot {
   evidence: AosEvidenceSummary;
   research: AosResearchSummary;
   validation: AosValidationSummary;
+  memory: AosMemorySummary;
   activeHandoff: unknown | null;
 }
 

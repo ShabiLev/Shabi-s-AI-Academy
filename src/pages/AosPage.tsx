@@ -50,19 +50,19 @@ export function AosPage() {
             <dl className="qa-header-grid">
               <div>
                 <dt>{s.aosVersion}</dt>
-                <dd>{result.snapshot.aosVersion}</dd>
+                <dd><bdi className="aos-technical" dir="ltr">{result.snapshot.aosVersion}</bdi></dd>
               </div>
               <div>
                 <dt>{s.appVersion}</dt>
-                <dd>{result.snapshot.applicationVersion}</dd>
+                <dd><bdi className="aos-technical" dir="ltr">{result.snapshot.applicationVersion}</bdi></dd>
               </div>
               <div>
                 <dt>{s.branch}</dt>
-                <dd data-visual-mask="branch">{result.snapshot.branch ?? "—"}</dd>
+                <dd data-visual-mask="branch"><bdi className="aos-technical" dir="ltr">{result.snapshot.branch ?? "—"}</bdi></dd>
               </div>
               <div>
                 <dt>{s.commit}</dt>
-                <dd data-visual-mask="commit">{result.snapshot.commit ?? "—"}</dd>
+                <dd data-visual-mask="commit"><bdi className="aos-technical" dir="ltr">{result.snapshot.commit ?? "—"}</bdi></dd>
               </div>
             </dl>
           </section>
@@ -75,7 +75,7 @@ export function AosPage() {
             <ul className="aos-category-list">
               {Object.entries(result.snapshot.modules.byCategory).map(([category, count]) => (
                 <li key={category}>
-                  {category}: {count}
+                  <bdi className="aos-technical" dir="ltr">{category}: {count}</bdi>
                 </li>
               ))}
             </ul>
@@ -86,11 +86,11 @@ export function AosPage() {
             <h2 id="aos-supported-title">{s.supportedAgentsHeading}</h2>
             <ul>
               {result.snapshot.supportedAgents.map((agent) => (
-                <li key={agent}>{agent}</li>
+                <li key={agent}><bdi className="aos-technical" dir="ltr">{agent}</bdi></li>
               ))}
             </ul>
             <h3>{s.taskTypesHeading}</h3>
-            <p>{result.snapshot.taskTypes.join(", ")}</p>
+            <p><bdi className="aos-technical" dir="ltr">{result.snapshot.taskTypes.join(", ")}</bdi></p>
           </section>
 
           <section className="settings-card" aria-labelledby="aos-evidence-title">
@@ -164,6 +164,18 @@ export function AosPage() {
             </p>
           </section>
 
+          <section className="settings-card" aria-labelledby="aos-progress-widget-title">
+            <h2 id="aos-progress-widget-title">{ui === "he" ? "התקדמות וזיכרון" : "Progress and memory"}</h2>
+            <dl className="qa-header-grid">
+              <div><dt>{ui === "he" ? "מצב שחרור" : "Release state"}</dt><dd>{result.snapshot.memory.releaseState}</dd></div>
+              <div><dt>{ui === "he" ? "השלמה" : "Progress"}</dt><dd>{result.snapshot.memory.completionPercent}%</dd></div>
+              <div><dt>{ui === "he" ? "חסמים" : "Blockers"}</dt><dd>{result.snapshot.memory.blockerCount}</dd></div>
+              <div><dt>{ui === "he" ? "עדכניות ראיות" : "Evidence freshness"}</dt><dd>{result.snapshot.memory.evidenceCurrent ? (ui === "he" ? "עדכני" : "Current") : (ui === "he" ? "נדרש אימות מחדש" : "Rerun required")}</dd></div>
+            </dl>
+            <p>{ui === "he" ? "הפעולה הבאה" : "Next action"}: {result.snapshot.memory.nextAction ?? "—"}</p>
+            <div className="aos-subnav"><Link to="/aos/progress">{ui === "he" ? "התקדמות" : "Progress"}</Link><Link to="/aos/memory">{ui === "he" ? "זיכרון" : "Memory"}</Link></div>
+          </section>
+
           <nav className="aos-subnav" aria-label={s.title}>
             <Link to="/aos/modules">{s.subNavModules}</Link>
             <Link to="/aos/research">{s.subNavResearch}</Link>
@@ -171,6 +183,8 @@ export function AosPage() {
             <Link to="/aos/handoffs">{s.subNavHandoffs}</Link>
             <Link to="/aos/security">{s.subNavSecurity}</Link>
             <Link to="/aos/releases">{s.subNavReleases}</Link>
+            <Link to="/aos/progress">{ui === "he" ? "התקדמות" : "Progress"}</Link>
+            <Link to="/aos/memory">{ui === "he" ? "זיכרון" : "Memory"}</Link>
           </nav>
         </>
       )}

@@ -11,10 +11,9 @@ export function classifyFreshness(source, nowIso) {
   const type = source.sourceType;
   const age = daysBetween(source.retrievalDate ?? source.publicationDate, nowIso);
 
-  if (type === "paper") return "requiresManualReview: do not classify papers as stale by age alone";
-  if (type === "standard") return "requiresManualReview: track version and effective date";
-  if (type === "repository") return "requiresManualReview: classify by releases/commits/issue activity";
-  if (type === "documentation") return "requiresManualReview: current only if it matches the latest supported major version";
+  if (["peerReviewedPaper", "researchLabReport"].includes(type)) return "requiresManualReview: do not classify papers as stale by age alone";
+  if (["standardsBody", "officialSpec"].includes(type)) return "requiresManualReview: track version and effective date";
+  if (["officialRepository", "githubDiscussion"].includes(type)) return "requiresManualReview: classify by releases/commits/issue activity";
 
   if (age === null) return "unknown: missing or invalid date";
   if (age <= 14) return "current";

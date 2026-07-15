@@ -3,6 +3,110 @@
   "maximumRuns": 20,
   "runs": [
     {
+      "runId": "2026-07-15_10-32-03_feature-1-4-0-agent-operating-system",
+      "date": "2026-07-15T07:32:49.399Z",
+      "branch": "feature/1.4.0-agent-operating-system",
+      "commit": "1a63f8d137cf518c21b6b19dcb28c80a328bbf9e",
+      "version": "1.4.0-beta.1",
+      "overallStatus": "Not fully evaluated",
+      "coverageSummary": null,
+      "reportPath": "quality/execution/latest/summary.md",
+      "localRunPath": "quality/execution/runs/2026-07-15_10-32-03_feature-1-4-0-agent-operating-system/",
+      "failedCommands": [],
+      "warningCount": 7
+    },
+    {
+      "runId": "2026-07-15_10-01-56_feature-1-4-0-agent-operating-system",
+      "date": "2026-07-15T07:31:52.455Z",
+      "branch": "feature/1.4.0-agent-operating-system",
+      "commit": "1a63f8d137cf518c21b6b19dcb28c80a328bbf9e",
+      "version": "1.4.0-beta.1",
+      "overallStatus": "Blocked",
+      "coverageSummary": {
+        "status": "passed",
+        "statements": {
+          "percent": 76.34,
+          "threshold": 75,
+          "passed": true,
+          "delta": -0.17
+        },
+        "branches": {
+          "percent": 74.24,
+          "threshold": 65,
+          "passed": true,
+          "delta": -0.7
+        },
+        "functions": {
+          "percent": 72.57,
+          "threshold": 70,
+          "passed": true,
+          "delta": 0.07
+        },
+        "lines": {
+          "percent": 76.34,
+          "threshold": 75,
+          "passed": true,
+          "delta": -0.17
+        }
+      },
+      "reportPath": "quality/execution/latest/summary.md",
+      "localRunPath": "quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/",
+      "failedCommands": [
+        "npm run test:e2e:full",
+        "npm run test:visual",
+        "npm run test:release-candidate",
+        "npm run quality:analyze",
+        "npm run validate:release"
+      ],
+      "warningCount": 186
+    },
+    {
+      "runId": "2026-07-15_07-10-28_feature-1-4-0-agent-operating-system",
+      "date": "2026-07-15T05:22:52.222Z",
+      "branch": "feature/1.4.0-agent-operating-system",
+      "commit": "1a63f8d137cf518c21b6b19dcb28c80a328bbf9e",
+      "version": "1.4.0-beta.1",
+      "overallStatus": "Blocked",
+      "coverageSummary": {
+        "status": "passed",
+        "statements": {
+          "percent": 76.51,
+          "threshold": 75,
+          "passed": true,
+          "delta": 0.24
+        },
+        "branches": {
+          "percent": 74.94,
+          "threshold": 65,
+          "passed": true,
+          "delta": 0.01
+        },
+        "functions": {
+          "percent": 72.5,
+          "threshold": 70,
+          "passed": true,
+          "delta": 0.04
+        },
+        "lines": {
+          "percent": 76.51,
+          "threshold": 75,
+          "passed": true,
+          "delta": 0.24
+        }
+      },
+      "reportPath": "quality/execution/latest/summary.md",
+      "localRunPath": "quality/execution/runs/2026-07-15_07-10-28_feature-1-4-0-agent-operating-system/",
+      "failedCommands": [
+        "npm run test:e2e:full",
+        "npm run test:ux",
+        "npm run test:visual",
+        "npm run test:release-candidate",
+        "npm run quality:analyze",
+        "npm run validate:release"
+      ],
+      "warningCount": 150
+    },
+    {
       "runId": "2026-07-14_17-02-31_feature-1-4-0-agent-operating-system",
       "date": "2026-07-14T14:19:35.852Z",
       "branch": "feature/1.4.0-agent-operating-system",

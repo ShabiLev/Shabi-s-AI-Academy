@@ -1,0 +1,19 @@
+{
+  "id": "seed-mcp-typescript-sdk",
+  "title": "Official MCP TypeScript SDK repository",
+  "sourceType": "officialRepository",
+  "publisher": "Model Context Protocol",
+  "authors": ["Model Context Protocol maintainers"],
+  "url": "https://github.com/modelcontextprotocol/typescript-sdk",
+  "repository": "modelcontextprotocol/typescript-sdk",
+  "publicationDate": "2026-07-15",
+  "retrievalDate": "2026-07-15",
+  "lastUpdated": "2026-07-15",
+  "license": "Apache-2.0 and MIT",
+  "language": "en",
+  "qualityTier": "tier1",
+  "securityStatus": "none",
+  "archived": false,
+  "deprecated": false,
+  "tags": ["seed", "mcp", "typescript", "repository"]
+}

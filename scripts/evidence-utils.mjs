@@ -89,7 +89,8 @@ export function summarizeCoverage(raw, thresholds, previous = null) {
 
 export function deriveRecommendation({ profile, commands, coverage, manualReviews }) {
   const blockerFailed = commands.some(
-    (command) => command.criticality === "blocker" && command.status === "failed",
+    (command) => command.criticality === "blocker"
+      && ["failed", "notAvailable"].includes(command.status),
   );
   const manualFailed = Object.values(manualReviews).some(
     (review) => review.status === "failed",

@@ -14,6 +14,7 @@ All notable changes to this project are documented here following the Keep a Cha
 - Research operating system: source ranking (four-tier model), freshness policy, claim verification, citation policy, duplicate detection, and per-source-type analysis guides, plus an explicit, non-crawling research data pipeline under `research/` with validation/scoring/freshness/candidate-generation scripts
 - Security, Git, and release policy modules, including MCP tool risk classification
 - Multi-agent handoff protocol for Codex/Claude Code continuity and an explicit file-based memory model
+- Explicit Agent Memory and Progress with ten schema-validated runtime records, bounded durable summaries, deterministic update/check/report scripts, and cross-agent startup/shutdown continuity
 - AOS validation scripts (`npm run aos:check` and subcommands) detecting broken links, orphan modules, circular dependencies, invalid schemas, and stale version references
 - Authenticated AOS dashboard at `/aos` with `/aos/modules`, `/aos/research`, `/aos/evidence`, `/aos/handoffs`, `/aos/security`, and `/aos/releases`, backed by a generated status snapshot (`npm run aos:snapshot`) — never a hardcoded status
 - `docs/aos/` documentation set covering the AOS architecture, task classification, research system, evidence system, security, Git workflow, release workflow, handoffs, troubleshooting, and extension guide
@@ -30,6 +31,7 @@ All notable changes to this project are documented here following the Keep a Cha
 - Research content is treated as inert data and is never executed
 - Evidence logs remain sanitized; MCP write-capable and destructive tools require explicit approval per the new MCP security policy
 - Secret-bearing data is explicitly prohibited from AOS memory files
+- Sanitized `/aos/progress` and `/aos/memory` views never present stale evidence as current, and memory validation rejects secret-like values and unnecessary absolute private paths
 
 ## [1.3.0-beta.1] - 2026-07-14
 

@@ -1,0 +1,12 @@
+{
+  "id": "seed-agent-mcp-sdk",
+  "sourceId": "seed-mcp-typescript-sdk",
+  "statement": "A low-risk MCP learning agent can explain the official TypeScript SDK while remaining read-only and using no tools by default.",
+  "category": "technical",
+  "candidateType": "agent",
+  "confidence": 0.9,
+  "verificationStatus": "verified",
+  "verifiedBy": "Codex source review",
+  "verifiedDate": "2026-07-15",
+  "notes": "Seed agent candidate only; repository code and commands were not executed."
+}

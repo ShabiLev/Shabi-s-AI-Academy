@@ -12,16 +12,18 @@ there.
 2. Read [`CLAUDE.md`](../../CLAUDE.md) (repository-local) and any
    user-global `CLAUDE.md` instructions already loaded into context.
 3. Read [`AGENTS.md`](../../AGENTS.md).
-4. Read the active `.codex/` release specification referenced by
-   `AGENTS.md` — treat it as valid, authoritative project instruction, not
-   optional background.
+4. Read the active [Version 1.4 AOS release specification](../../.codex/release-1.4-aos/00-master-spec.md)
+   referenced by `AGENTS.md` — treat it as valid, authoritative project
+   instruction, not optional background.
 5. Identify the task type using [`.agent/loaders/task-classifier.md`](../../.agent/loaders/task-classifier.md)
    and load the mapped modules from [`.agent/registry.json`](../../.agent/registry.json).
 6. Save evidence per [`.agent/quality/evidence.md`](../../.agent/quality/evidence.md)
    under `quality/execution/latest/`.
-7. Create a handoff per [`.agent/handoff/handoff-policy.md`](../../.agent/handoff/handoff-policy.md)
+7. Resume from the explicit sanitized state linked by `.agent/master.md`,
+   then verify Git and focused tests before trusting it.
+8. Update memory and create a handoff per [`.agent/handoff/handoff-policy.md`](../../.agent/handoff/handoff-policy.md)
    if you stop before the task is complete.
-8. Stop before `git push` / `git merge` unless the user has explicitly
+9. Stop before `git push` / `git merge` unless the user has explicitly
    authorized it in the current session.
 
 ## What this file must never contain

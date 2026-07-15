@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0.0",
+  "updatedAt": "2026-07-15T07:34:13.451Z",
+  "version": "1.4.0-beta.1",
+  "milestone": "AI Agent Operating System - Release Stabilization, Automation, Memory and Progress Tracking",
+  "branch": "feature/1.4.0-agent-operating-system",
+  "targetMainCommit": "0bdf19b729a8409b5f7d0bc990a026e2f708a2c2",
+  "implementationState": "inProgress",
+  "automatedValidationState": "failed",
+  "manualReviewState": "pending",
+  "researchState": "seedCandidatesPendingReview",
+  "documentationState": "complete",
+  "deploymentState": "notDeployed",
+  "mergeReadiness": "blocked",
+  "releaseState": "blocked",
+  "releaseBlockers": [
+    "Windows visual baselines require human review before replacement.",
+    "Human UX, security, and content reviews remain notRun."
+  ],
+  "finalRecommendation": "Do not finalize the release until blockers are resolved."
+}

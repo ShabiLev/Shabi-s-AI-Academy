@@ -19,6 +19,12 @@ JSON Schemas each file type must satisfy.
 | `published/` | Approved candidates that graduated to published content | matches the corresponding candidate schema plus a `publishedDate` |
 | `reports/` | Generated research reports (output of `scripts/research/build-report.mjs`) | `research-report-template.md` structure |
 
+The `sources/seed/`, `claims/seed/`, and `candidates/seed/` trees are a
+bounded validation dataset, not a live crawl or published academy catalog.
+Their records cite individually reviewed primary sources, remain isolated
+from `published/`, and all generated candidates start at `pendingReview` with
+translation status `notStarted`.
+
 ## Pipeline scripts
 
 ```

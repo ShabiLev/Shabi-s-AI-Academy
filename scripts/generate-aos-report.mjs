@@ -1,4 +1,4 @@
-import { writeFileSync, readFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { repoRoot, loadManifest, loadRegistry } from "./aos-lib.mjs";
@@ -54,16 +54,30 @@ export function buildReport() {
     }
   }
   lines.push("");
-  return { text: lines.join("\n"), totalErrors, totalWarnings };
+  return {
+    text: lines.join("\n"),
+    generatedAt: new Date().toISOString(),
+    aosVersion: manifest.aosVersion,
+    applicationVersion: manifest.applicationVersion,
+    totalModules: manifest.modules?.length ?? 0,
+    modulesByCategory: counts,
+    totalErrors,
+    totalWarnings,
+  };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const { text, totalErrors } = buildReport();
+  const report = buildReport();
+  const { text, totalErrors } = report;
   console.log(text);
-  const outPath = path.join(repoRoot, "quality", "execution", "latest", "aos-report.md");
+  const outputDirectory = path.join(repoRoot, "quality", "generated");
+  const markdownPath = path.join(outputDirectory, "aos-report.md");
+  const jsonPath = path.join(outputDirectory, "aos-report.json");
   try {
-    writeFileSync(outPath, text, "utf8");
-    console.log(`\nSaved to ${path.relative(repoRoot, outPath)}`);
+    mkdirSync(outputDirectory, { recursive: true });
+    writeFileSync(markdownPath, text, "utf8");
+    writeFileSync(jsonPath, `${JSON.stringify({ ...report, text: undefined }, null, 2)}\n`, "utf8");
+    console.log(`\nSaved to ${path.relative(repoRoot, markdownPath)} and ${path.relative(repoRoot, jsonPath)}`);
   } catch (err) {
     console.log(`\nCould not save report file: ${err.message}`);
   }

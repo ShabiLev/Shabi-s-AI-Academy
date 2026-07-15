@@ -21,7 +21,9 @@ export function AosHandoffsPage() {
       {result.kind === "ok" && (
         <section className="settings-card" aria-labelledby="aos-handoff-status">
           <h2 id="aos-handoff-status">
-            {result.snapshot.activeHandoff ? String(result.snapshot.activeHandoff) : s.handoffNone}
+            {result.snapshot.memory.handoff.status
+              ? `${result.snapshot.memory.handoff.status}: ${result.snapshot.memory.handoff.summary ?? "—"}`
+              : s.handoffNone}
           </h2>
           <p>
             {ui === "he"

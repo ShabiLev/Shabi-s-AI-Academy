@@ -1,6 +1,9 @@
 import { execFileSync, spawn } from "node:child_process";
 import { existsSync, rmSync } from "node:fs";
-import { waitForServer } from "./server-readiness.mjs";
+import {
+  terminateProcessTree,
+  waitForServer,
+} from "./server-readiness.mjs";
 
 const mode = process.argv[2];
 const profiles = [
@@ -35,15 +38,7 @@ async function collectProfile(config, port) {
     await waitForServer(`http://127.0.0.1:${port}/login`);
     run("npx", ["lhci", "collect", `--config=${config}`]);
   } finally {
-    if (process.platform === "win32") {
-      try {
-        execFileSync("taskkill", ["/pid", String(server.pid), "/T", "/F"], {
-          stdio: "ignore",
-        });
-      } catch {
-        // The process may already have exited.
-      }
-    } else server.kill("SIGTERM");
+    terminateProcessTree(server);
   }
 }
 

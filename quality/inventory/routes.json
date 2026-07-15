@@ -898,5 +898,23 @@
       "browser",
       "hash"
     ]
+  },
+  {
+    "route": "/aos/progress",
+    "pageId": "aos.progress",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/aos/progress",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/aos/memory",
+    "pageId": "aos.memory",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/aos/memory",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
   }
 ]

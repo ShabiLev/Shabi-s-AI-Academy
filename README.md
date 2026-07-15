@@ -1,6 +1,6 @@
 # Shabi's AI Academy
 
-Shabi's AI Academy is a bilingual, local-first AI learning and building workspace. The active release is **Version 1.4.0-beta.1**, which adds the Agent Operating System (AOS) — see [`.agent/README.md`](.agent/README.md) and the in-app `/aos` dashboard.
+Shabi's AI Academy is a bilingual, local-first AI learning and building workspace. The active release is **Version 1.4.0-beta.1**, which adds the Agent Operating System (AOS), explicit Agent Memory, and requirement-derived progress — see [`.agent/README.md`](.agent/README.md) and the in-app `/aos`, `/aos/progress`, and `/aos/memory` views.
 
 The AI Workspace connects 45 open bilingual lessons, 250 structured prompts in 11 packs, 32 immutable starter-agent templates, personal builders, Playgrounds, Projects, Knowledge Base, Global Search, Command Palette, Local Assistant, deterministic workflows, activity analytics, notifications, and complete backup. Mock and Dry Run are executable; Live remains intentionally disabled and no browser API key input exists.
 
@@ -15,7 +15,7 @@ Sprint 7.1 adds a deterministic browser-local Runtime Engine with Mock and Dry R
 - Settings-based, persistent language selection
 - Mobile menu plus route-aware Home and Back navigation
 - Authentication-ready context, protected routes, Demo Login, profile menu, and sign out
-- Typed course engine with two bilingual lessons, quizzes, exercises, drafts, and local progress
+- Typed course engine with 45 bilingual lessons, quizzes, exercises, drafts, and local progress
 - Playwright browser regression coverage and GitHub Actions CI
 - Interactive Prompt Workshop with live preview, deterministic structural scoring, samples, and a persistent local Prompt Library
 - Accessible landmarks, keyboard controls, focus indicators, focus-managed overlays, and reduced-motion support
@@ -122,7 +122,7 @@ None of this replaces human judgment: the QA Center never fabricates a "Passed" 
 
 ## Course and local privacy
 
-Course types, bilingual content, and progress live under `src/course`; lesson routes use `/lessons/:lessonSlug`. Version 0.3.0 provides “AI, LLM and Agent” and “Anatomy of a Professional Prompt”. Three further lessons are Coming soon and do not affect progress.
+Course types, all 45 bilingual lessons, and progress live under `src/course`; lesson routes use `/lessons/:lessonSlug`.
 
 Progress, scores, last lesson, and prompt draft use `shabi-ai-academy.course-progress.v1` in localStorage. Data is browser-specific and clearing storage removes it. Nothing is uploaded. Settings resets course data without changing authentication or language.
 

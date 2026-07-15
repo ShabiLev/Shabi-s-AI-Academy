@@ -1,0 +1,24 @@
+{
+  "id": "candidate-seed-workflow-llm-security-review",
+  "title": "Review LLM features for prompt injection, unsafe output handling, excessive agen",
+  "summary": "Review LLM features for prompt injection, unsafe output handling, excessive agency, and sensitive-information disclosure before release.",
+  "sourceIds": [
+    "seed-owasp-llm-top-10"
+  ],
+  "reviewStatus": "pendingReview",
+  "freshnessStatus": "current",
+  "translationStatus": "notStarted",
+  "confidence": 0.95,
+  "generatedBy": {
+    "agent": "deterministic-research-pipeline",
+    "generatedDate": "2026-07-15"
+  },
+  "version": "1.0.0",
+  "createdDate": "2026-07-15",
+  "steps": [
+    {
+      "order": 1,
+      "description": "Review LLM features for prompt injection, unsafe output handling, excessive agency, and sensitive-information disclosure before release."
+    }
+  ]
+}

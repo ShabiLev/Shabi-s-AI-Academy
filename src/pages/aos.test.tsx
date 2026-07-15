@@ -4,6 +4,12 @@ import userEvent from '@testing-library/user-event'
 import { App } from '../App'
 import { LanguageProvider } from '../i18n/LanguageContext'
 import type { AosSnapshot } from '../aos/types'
+import { resolveAosSnapshotUrl } from '../aos/useAosSnapshot'
+
+it('resolves the generated snapshot under both local and Pages base paths', () => {
+  expect(resolveAosSnapshotUrl('/')).toBe('/generated/aos-snapshot.json')
+  expect(resolveAosSnapshotUrl('/Shabi-s-AI-Academy/')).toBe('/Shabi-s-AI-Academy/generated/aos-snapshot.json')
+})
 
 function renderApp(path = '/') {
   window.history.replaceState({}, '', path)
@@ -11,7 +17,9 @@ function renderApp(path = '/') {
 }
 
 async function demoLogin(user: ReturnType<typeof userEvent.setup>) {
-  await user.click(screen.getByRole('button', { name: 'כניסה למצב הדגמה' }))
+  const loginButton = screen.getByRole('button', { name: 'כניסה למצב הדגמה' })
+  await user.click(loginButton)
+  await waitFor(() => expect(loginButton).not.toBeInTheDocument())
 }
 
 const sampleSnapshot: AosSnapshot = {
@@ -34,6 +42,14 @@ const sampleSnapshot: AosSnapshot = {
   evidence: { available: true, runId: 'sample-run', profile: 'fast', gateCount: 3, passedCount: 2, failedCount: 1, notAvailableCount: 0, failedGates: ['build'] },
   research: { sources: 1, claims: 2, candidates: 0, reviews: 0, published: 0 },
   validation: { totalErrors: 0, totalChecks: 4, checks: [] },
+  memory: {
+    currentTask: 'Stabilize Version 1.4', currentPhase: 'validation', releaseState: 'blocked', completionPercent: 89,
+    requirements: { completed: 24, partial: 2, missing: 2 }, blockers: ['Visual review pending'], blockerCount: 1,
+    knownIssueCount: 1, latestEvidenceRunId: 'sample-run', testedCommit: 'abc1234', evidenceCurrent: false, coverage: 76.5,
+    research: { sources: 6, candidatesPendingReview: 6, publishedItems: 0 },
+    nextActions: [{ id: 'ACTION-001', title: 'Review visuals', priority: 'Critical', requiredRole: 'Human UX reviewer', status: 'blocked' }],
+    nextAction: 'Review visuals', handoff: { status: 'inProgress', summary: 'Continue validation', updatedAt: '2026-07-14T12:00:00.000Z' }, updatedAt: '2026-07-14T12:00:00.000Z',
+  },
   activeHandoff: null,
 }
 
@@ -113,12 +129,12 @@ describe('AOS subroutes render without crashing', () => {
     expect(await screen.findByText('sample-run')).toBeInTheDocument()
   })
 
-  it('handoffs page shows no active handoff honestly', async () => {
+  it('handoffs page shows the explicit sanitized handoff honestly', async () => {
     mockSnapshotFetch(sampleSnapshot)
     const user = userEvent.setup()
     renderApp('/aos/handoffs')
     await demoLogin(user)
-    expect(await screen.findByText('אין מסירה פעילה כרגע.')).toBeInTheDocument()
+    expect(await screen.findByText(/inProgress: Continue validation/)).toBeInTheDocument()
   })
 
   it('security page', async () => {
@@ -135,5 +151,16 @@ describe('AOS subroutes render without crashing', () => {
     renderApp('/aos/releases')
     await demoLogin(user)
     expect(await screen.findAllByText('1.4.0-beta.1')).not.toHaveLength(0)
+  })
+
+  it('progress page shows requirement-derived progress and blockers', async () => {
+    mockSnapshotFetch(sampleSnapshot); const user = userEvent.setup(); renderApp('/aos/progress'); await demoLogin(user)
+    expect(await screen.findByRole('heading', { name: 'התקדמות AOS' })).toBeInTheDocument()
+    expect(screen.getByText('Visual review pending')).toBeInTheDocument()
+  })
+
+  it('memory page warns when evidence is stale', async () => {
+    mockSnapshotFetch(sampleSnapshot); const user = userEvent.setup(); renderApp('/aos/memory'); await demoLogin(user)
+    expect(await screen.findByText('הראיות אינן תואמות למצב הנוכחי')).toBeInTheDocument()
   })
 })

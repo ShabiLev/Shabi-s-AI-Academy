@@ -1,0 +1,20 @@
+{
+  "id": "candidate-seed-radar-react-19-2",
+  "title": "React 19.2 introduced Activity, useEffectEvent, cacheSignal, and React Performan",
+  "summary": "React 19.2 introduced Activity, useEffectEvent, cacheSignal, and React Performance Tracks, making the release relevant for future framework-upgrade evaluation.",
+  "sourceIds": [
+    "seed-react-19-2-release"
+  ],
+  "reviewStatus": "pendingReview",
+  "freshnessStatus": "current",
+  "translationStatus": "notStarted",
+  "confidence": 0.95,
+  "generatedBy": {
+    "agent": "deterministic-research-pipeline",
+    "generatedDate": "2026-07-15"
+  },
+  "version": "1.0.0",
+  "createdDate": "2026-07-15",
+  "radarCategory": "framework",
+  "impactLevel": "medium"
+}

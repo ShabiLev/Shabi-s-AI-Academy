@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0.0",
+  "updatedAt": "2026-07-15T07:34:13.451Z",
+  "items": [
+    {
+      "id": "DEBT-001",
+      "title": "Review and refresh platform visual baselines",
+      "priority": "High",
+      "status": "open",
+      "reason": "Baselines must not be updated without human visual judgment."
+    }
+  ]
+}

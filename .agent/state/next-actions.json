@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "1.0.0",
+  "updatedAt": "2026-07-15T07:34:13.451Z",
+  "actions": [
+    {
+      "id": "ACTION-001",
+      "title": "Review visual regression differences",
+      "reason": "Release visual gate is failing against stale Windows baselines.",
+      "priority": "Critical",
+      "requiredRole": "Human UX reviewer",
+      "requiredModules": [
+        "quality.visual-regression",
+        "quality.manual-review"
+      ],
+      "prerequisites": [],
+      "expectedEvidence": "Reviewed Playwright diff report and approved baseline decision",
+      "completionCriteria": "Every visual mismatch is accepted and updated or fixed; npm run test:visual passes.",
+      "status": "blocked"
+    },
+    {
+      "id": "ACTION-002",
+      "title": "Complete manual release reviews",
+      "reason": "Automation cannot approve subjective UX, security, or bilingual content.",
+      "priority": "High",
+      "requiredRole": "Human reviewers",
+      "requiredModules": [
+        "quality.manual-review"
+      ],
+      "prerequisites": [
+        "ACTION-001"
+      ],
+      "expectedEvidence": "Signed manual-review records",
+      "completionCriteria": "manualUxReview, manualSecurityReview, and manualContentReview have honest reviewer decisions.",
+      "status": "pending"
+    },
+    {
+      "id": "ACTION-003",
+      "title": "Merge the verified feature branch",
+      "reason": "Main must remain untouched until the user executes the printed merge sequence.",
+      "priority": "Medium",
+      "requiredRole": "Release manager",
+      "requiredModules": [
+        "git.merge-policy",
+        "release.release-policy"
+      ],
+      "prerequisites": [
+        "ACTION-002"
+      ],
+      "expectedEvidence": "Local and remote main SHAs plus containment checks",
+      "completionCriteria": "Fast-forward merge, full evidence rerun, push, and containment verification all pass.",
+      "status": "pending"
+    }
+  ]
+}

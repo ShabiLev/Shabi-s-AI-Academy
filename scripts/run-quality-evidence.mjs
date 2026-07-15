@@ -39,6 +39,7 @@ if (!validProfiles.has(profile)) {
 
 const npm = (id, script, log, options = {}) => ({
   id,
+  script,
   label: options.label ?? script,
   executable: npmExecutable,
   args: [...npmPrefixArgs, "run", script],
@@ -111,6 +112,10 @@ const commandProfiles = {
     git("git-diff", ["diff", "--check"], "git-diff-check.log"),
   ],
 };
+
+const availableNpmScripts = new Set(
+  Object.keys(readJson(path.join(ROOT, "package.json"), { scripts: {} }).scripts ?? {}),
+);
 
 function output(executable, args) {
   const result = spawnSync(executable, args, { cwd: ROOT, encoding: "utf8" });
@@ -195,6 +200,22 @@ async function runCommand(spec, runDirectory, priorResults) {
     startedAt: startedAt.toISOString(),
     logPath: `quality/execution/runs/${path.basename(runDirectory)}/${spec.log}`,
   };
+
+  if (spec.script && !availableNpmScripts.has(spec.script)) {
+    const result = {
+      ...base,
+      status: "notAvailable",
+      endedAt: startedAt.toISOString(),
+      durationMs: 0,
+      exitCode: null,
+      resultCount: null,
+      failureCount: null,
+      warningCount: 0,
+      summary: `Package script is not available: ${spec.script}.`,
+    };
+    writeFileSync(path.join(runDirectory, spec.log), `${result.summary}\n`, "utf8");
+    return result;
+  }
 
   if (dependencyFailed) {
     const result = {
@@ -306,9 +327,10 @@ function statusFor(commandResults, ids) {
   const matching = commandResults.filter((command) => ids.includes(command.id));
   if (!matching.length) return { status: "notRun", command: null, durationMs: 0, resultCount: null, failureCount: null, logPath: null };
   const failed = matching.filter((command) => command.status === "failed");
+  const unavailable = matching.filter((command) => command.status === "notAvailable");
   const skipped = matching.filter((command) => command.status === "notRunDueToDependency");
   return {
-    status: failed.length ? "failed" : skipped.length ? "notRunDueToDependency" : "passed",
+    status: failed.length ? "failed" : unavailable.length ? "notAvailable" : skipped.length ? "notRunDueToDependency" : "passed",
     command: matching.map((command) => command.command).join("; "),
     durationMs: matching.reduce((total, command) => total + command.durationMs, 0),
     resultCount: matching.reduce((total, command) => total + (command.resultCount ?? 0), 0) || null,
@@ -427,7 +449,7 @@ async function main() {
   const indexPath = path.join(EXECUTION, "index.json");
   const existingIndex = readJson(indexPath, { schemaVersion: 1, runs: [] });
   const previousCoverage = existingIndex.runs?.find((run) => run.coverageSummary)?.coverageSummary ?? null;
-  const coverageRan = commands.some((command) => command.id === "coverage" && command.status !== "notRunDueToDependency");
+  const coverageRan = commands.some((command) => command.id === "coverage" && ["passed", "failed"].includes(command.status));
   const rawCoverage = coverageRan
     ? readJson(path.join(ROOT, "coverage", "coverage-summary.json"), null)
     : null;
@@ -479,8 +501,8 @@ async function main() {
       nodeVersion: environment.nodeVersion, npmVersion: environment.npmVersion,
     },
     scope: {
-      requestedTask: "Add persistent, sanitized quality-execution evidence and reusable command profiles.",
-      implementedChanges: "Evidence orchestration, command logs, bounded index, tracked latest pointer, manual gates, focused tests, and documentation.",
+      requestedTask: process.env.QUALITY_EVIDENCE_REQUESTED_TASK ?? `Run the ${profile} quality-evidence profile.`,
+      implementedChanges: process.env.QUALITY_EVIDENCE_IMPLEMENTED_CHANGES ?? "No implementation scope was supplied; this run records validation evidence only.",
       dataMigrations: [],
     },
     results,
@@ -518,6 +540,7 @@ async function main() {
     ...pendingManual.map(([name]) => `- ${name}: notRun.`),
     ...commands.filter((command) => command.warningCount > 0).map((command) => `- ${command.command}: emitted ${command.warningCount} warning line(s); see \`${command.logPath}\`.`),
     ...commands.filter((command) => command.status === "notRunDueToDependency").map((command) => `- ${command.command}: ${command.summary}`),
+    ...commands.filter((command) => command.status === "notAvailable").map((command) => `- ${command.command}: ${command.summary}`),
   ];
   writeFileSync(path.join(runDirectory, "warnings.md"), warnings.length
     ? `# Warnings\n\n${warnings.join("\n")}\n`

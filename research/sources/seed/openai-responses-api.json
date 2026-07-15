@@ -1,0 +1,18 @@
+{
+  "id": "seed-openai-responses-api",
+  "title": "New tools for building agents",
+  "sourceType": "officialSpec",
+  "publisher": "OpenAI",
+  "authors": ["OpenAI"],
+  "url": "https://openai.com/index/new-tools-for-building-agents/",
+  "publicationDate": "2025-03-11",
+  "retrievalDate": "2026-07-15",
+  "lastUpdated": "2025-03-11",
+  "license": "OpenAI website terms",
+  "language": "en",
+  "qualityTier": "tier1",
+  "securityStatus": "notApplicable",
+  "archived": false,
+  "deprecated": false,
+  "tags": ["seed", "official-ai-documentation", "responses-api", "agents"]
+}

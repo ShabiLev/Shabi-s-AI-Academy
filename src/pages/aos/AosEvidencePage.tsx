@@ -34,19 +34,19 @@ export function AosEvidencePage() {
 
       {evidence?.available && (
         <section className="settings-card" aria-labelledby="aos-evidence-detail">
-          <h2 id="aos-evidence-detail">{evidence.runId}</h2>
+          <h2 id="aos-evidence-detail"><bdi className="aos-technical" dir="ltr">{evidence.runId}</bdi></h2>
           <dl className="qa-header-grid">
             <div>
               <dt>{ui === "he" ? "פרופיל" : "Profile"}</dt>
-              <dd>{evidence.profile}</dd>
+              <dd><bdi className="aos-technical" dir="ltr">{evidence.profile}</bdi></dd>
             </div>
             <div>
               <dt>{ui === "he" ? "גרסה" : "Version"}</dt>
-              <dd>{evidence.version}</dd>
+              <dd><bdi className="aos-technical" dir="ltr">{evidence.version}</bdi></dd>
             </div>
             <div>
               <dt>{s.branch}</dt>
-              <dd data-visual-mask="branch">{evidence.branch}</dd>
+              <dd data-visual-mask="branch"><bdi className="aos-technical" dir="ltr">{evidence.branch}</bdi></dd>
             </div>
             <div>
               <dt>{ui === "he" ? "התחלה" : "Started"}</dt>
@@ -80,7 +80,7 @@ export function AosEvidencePage() {
               <h3>{s.evidenceFailed}</h3>
               <ul>
                 {evidence.failedGates.map((gate) => (
-                  <li key={gate}>{gate}</li>
+                  <li key={gate}><bdi className="aos-technical" dir="ltr">{gate}</bdi></li>
                 ))}
               </ul>
             </>

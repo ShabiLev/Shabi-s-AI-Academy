@@ -1,0 +1,19 @@
+{
+  "id": "candidate-seed-lesson-transformer-attention",
+  "title": "The Transformer architecture replaces recurrence with attention mechanisms for s",
+  "summary": "The Transformer architecture replaces recurrence with attention mechanisms for sequence transduction.",
+  "sourceIds": [
+    "seed-attention-is-all-you-need"
+  ],
+  "reviewStatus": "pendingReview",
+  "freshnessStatus": "current",
+  "translationStatus": "notStarted",
+  "confidence": 0.95,
+  "generatedBy": {
+    "agent": "deterministic-research-pipeline",
+    "generatedDate": "2026-07-15"
+  },
+  "version": "1.0.0",
+  "createdDate": "2026-07-15",
+  "lessonSlugSuggestion": "seed-lesson-transformer-attention"
+}

@@ -14,7 +14,19 @@ change. It tells you what to load, in what order, and when to stop.
    or [`.claude/workflows/aos.md`](../.claude/workflows/aos.md).
 3. Read [`AGENTS.md`](../AGENTS.md) and, if present, [`CLAUDE.md`](../CLAUDE.md).
 4. Read the active `.codex/` release specification referenced by `AGENTS.md`.
-5. Classify the task using [`loaders/task-classifier.md`](loaders/task-classifier.md).
+5. For a substantial task, read the sanitized runtime state in this order:
+   [`state/current-task.json`](state/current-task.json),
+   [`state/current-progress.json`](state/current-progress.json),
+   [`state/release-status.json`](state/release-status.json),
+   [`state/known-issues.json`](state/known-issues.json),
+   [`state/quality-status.json`](state/quality-status.json),
+   [`state/research-progress.json`](state/research-progress.json),
+   [`state/latest-handoff.json`](state/latest-handoff.json),
+   [`state/next-actions.json`](state/next-actions.json), then
+   [`quality/execution/latest/summary.md`](../quality/execution/latest/summary.md).
+   Verify Git before trusting remembered state; memory never overrides the
+   repository.
+6. Classify the task using [`loaders/task-classifier.md`](loaders/task-classifier.md).
 6. Resolve required modules for that task type from [`registry.json`](registry.json).
 7. Load only those modules — never load the entire `.agent/` tree at once.
 8. Follow [`precedence.md`](precedence.md) if any loaded instruction conflicts
@@ -77,6 +89,9 @@ For any substantial task, before reporting completion:
    [`quality/evidence.md`](quality/evidence.md)).
 6. Self-review (see [`workflow/self-review.md`](workflow/self-review.md)).
 7. Final report (see [`workflow/final-report.md`](workflow/final-report.md)).
+8. Update task, progress, quality, failure, research (when relevant), release,
+   next-action, and handoff state with `npm run memory:update`; run
+   `npm run memory:check`; and commit only lightweight state/evidence files.
 
 ## 6. Evidence behavior
 

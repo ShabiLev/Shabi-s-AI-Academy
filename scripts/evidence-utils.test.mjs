@@ -80,4 +80,10 @@ test("manual gates and blocker failures cannot be promoted to Ready", () => {
     coverage: null,
     manualReviews,
   }), "Blocked");
+  assert.equal(deriveRecommendation({
+    profile: "full",
+    commands: [{ status: "notAvailable", criticality: "blocker" }],
+    coverage: null,
+    manualReviews,
+  }), "Blocked");
 });

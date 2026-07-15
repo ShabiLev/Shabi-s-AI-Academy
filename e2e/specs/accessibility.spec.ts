@@ -292,7 +292,7 @@ test.describe("accessibility — AI Workspace", () => {
 });
 
 test.describe("accessibility — Agent Operating System", () => {
-  for (const [name, route] of [["AOS dashboard", "/aos"], ["Modules", "/aos/modules"], ["Research pipeline", "/aos/research"], ["Evidence viewer", "/aos/evidence"], ["Handoffs", "/aos/handoffs"], ["Security policy", "/aos/security"], ["Releases", "/aos/releases"]] as const) {
+  for (const [name, route] of [["AOS dashboard", "/aos"], ["Modules", "/aos/modules"], ["Research pipeline", "/aos/research"], ["Evidence viewer", "/aos/evidence"], ["Handoffs", "/aos/handoffs"], ["Security policy", "/aos/security"], ["Releases", "/aos/releases"], ["Progress", "/aos/progress"], ["Memory", "/aos/memory"]] as const) {
     test(`${name} Hebrew`, async ({ page }) => {
       await login(page, route);
       await runAxeScan(page, test.info(), { label: `aos-${name.toLowerCase().replaceAll(" ", "-")}-he` });

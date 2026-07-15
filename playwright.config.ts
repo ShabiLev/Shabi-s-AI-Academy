@@ -7,7 +7,7 @@ const reportName = process.env.PW_REPORT_NAME || "functional";
 export default defineConfig({
   testDir: "./e2e/specs",
   fullyParallel: true,
-  workers: process.env.CI ? 8 : 12,
+  workers: 4,
   retries: process.env.CI ? 2 : 0,
   reporter: [["list"], ["html", { open: "never" }], ["json", { outputFile: `quality/generated/playwright-${reportName}-results.json` }]],
   use: {

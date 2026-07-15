@@ -1,17 +1,21 @@
 # Research Pipeline Report
 
-Generated: 2026-07-14T13:00:46.295Z
+Generated: 2026-07-15T06:30:37.102Z
 
 ## Sources
-- Total: 0
+- Total: 6
 - Validation errors: 0
 - Possible duplicates: 0
 
 ## Freshness
-- No sources classified yet.
+- requiresManualReview: do not classify papers as stale by age alone: 1
+- requiresManualReview: track version and effective date: 2
+- requiresManualReview: classify by releases/commits/issue activity: 1
+- current: 2
 
 ## Candidates
-- Total: 0
+- Total: 6
+- pendingReview: 6
 
 ## Reviews and published content
 - Review records: 0

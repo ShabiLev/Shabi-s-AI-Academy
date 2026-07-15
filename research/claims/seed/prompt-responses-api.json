@@ -1,0 +1,12 @@
+{
+  "id": "seed-prompt-responses-api",
+  "sourceId": "seed-openai-responses-api",
+  "statement": "Design an agent task that uses the Responses API with explicit tool boundaries, observable results, and human oversight for consequential actions.",
+  "category": "technical",
+  "candidateType": "prompt",
+  "confidence": 0.9,
+  "verificationStatus": "verified",
+  "verifiedBy": "Codex source review",
+  "verifiedDate": "2026-07-15",
+  "notes": "Seed prompt candidate derived from official product documentation; not model-specific production guidance."
+}

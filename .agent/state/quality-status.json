@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "1.0.0",
+  "updatedAt": "2026-07-15T07:34:13.451Z",
+  "latestRunId": "2026-07-15_10-01-56_feature-1-4-0-agent-operating-system",
+  "testedCommit": "1a63f8d137cf518c21b6b19dcb28c80a328bbf9e",
+  "workingTreeCleanAtTest": false,
+  "coverage": {
+    "status": "passed",
+    "statements": {
+      "percent": 76.34,
+      "threshold": 75,
+      "passed": true,
+      "delta": -0.17
+    },
+    "branches": {
+      "percent": 74.24,
+      "threshold": 65,
+      "passed": true,
+      "delta": -0.7
+    },
+    "functions": {
+      "percent": 72.57,
+      "threshold": 70,
+      "passed": true,
+      "delta": 0.07
+    },
+    "lines": {
+      "percent": 76.34,
+      "threshold": 75,
+      "passed": true,
+      "delta": -0.17
+    }
+  },
+  "unit": "passed",
+  "e2e": "failed",
+  "visual": "failed",
+  "accessibility": "passed",
+  "performance": "passed",
+  "pages": "passed",
+  "aos": "pendingRerun",
+  "manualReviews": {
+    "manualUxReview": {
+      "status": "notRun",
+      "approvedBy": null,
+      "reviewedAt": null,
+      "scope": [
+        "new user comprehension",
+        "page orientation",
+        "navigation clarity",
+        "visual hierarchy",
+        "wording and primary-action clarity",
+        "mobile usability",
+        "Hebrew quality",
+        "English quality",
+        "terminology and complexity",
+        "overlap and clipping",
+        "dark-mode controls",
+        "overall trust"
+      ],
+      "warnings": [],
+      "note": "A human reviewer must change this record only after completing the structured review. Automation and Codex cannot self-approve subjective UX."
+    },
+    "manualSecurityReview": {
+      "status": "notRun",
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "scope": [
+        "secret and credential exposure",
+        "log redaction",
+        "authorization boundaries",
+        "untrusted input handling",
+        "dependency and build-output review"
+      ],
+      "warnings": [],
+      "note": "A human reviewer must update this record after completing the security review. Automation cannot approve it."
+    },
+    "manualContentReview": {
+      "status": "notRun",
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "scope": [
+        "Hebrew content accuracy",
+        "English content accuracy",
+        "terminology consistency",
+        "documentation accuracy",
+        "user-facing claims"
+      ],
+      "warnings": [],
+      "note": "A human reviewer must update this record after completing the content review. Automation cannot approve it."
+    }
+  },
+  "releaseRecommendation": "blocked",
+  "unresolvedWarnings": [
+    "Windows visual baselines require human review before replacement.",
+    "Human UX, security, and content reviews remain notRun."
+  ],
+  "evidencePaths": [
+    "quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system",
+    "quality/execution/latest"
+  ]
+}

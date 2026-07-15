@@ -12,7 +12,6 @@ export function generateCandidates(nowIso = new Date().toISOString()) {
   const claimFiles = jsonFilesIn("claims");
   const created = [];
   const skipped = [];
-  const outDir = ensureDir("candidates");
 
   for (const file of claimFiles) {
     const rel = path.relative(repoRoot, file);
@@ -26,21 +25,41 @@ export function generateCandidates(nowIso = new Date().toISOString()) {
       continue;
     }
 
+    const candidateType = data.candidateType;
+    if (!["knowledge", "lesson", "prompt", "agent", "workflow", "radar"].includes(candidateType)) {
+      skipped.push(`${rel}: candidateType is missing or unsupported`);
+      continue;
+    }
     const candidateId = `candidate-${data.id ?? path.basename(file, ".json")}`;
-    const candidate = {
+    const date = nowIso.slice(0, 10);
+    const base = {
       id: candidateId,
       title: data.statement?.slice(0, 80) ?? "Untitled candidate",
       summary: data.statement ?? "",
       sourceIds: [data.sourceId].filter(Boolean),
       reviewStatus: "pendingReview",
-      freshnessStatus: "unknown",
-      translationStatus: "notTranslated",
-      confidence: data.confidence ?? "unspecified",
-      generatedBy: "scripts/research/generate-candidates.mjs",
+      freshnessStatus: "current",
+      translationStatus: "notStarted",
+      confidence: typeof data.confidence === "number" ? data.confidence : 0,
+      generatedBy: { agent: "deterministic-research-pipeline", generatedDate: date },
       version: "1.0.0",
-      createdDate: nowIso,
+      createdDate: date,
     };
+    const variants = {
+      knowledge: () => {
+        const { confidence, createdDate, ...knowledge } = base;
+        return knowledge;
+      },
+      lesson: () => ({ ...base, lessonSlugSuggestion: candidateId.replace(/^candidate-/, "") }),
+      prompt: () => ({ ...base, promptText: data.statement ?? "", category: "research-seed" }),
+      agent: () => ({ ...base, role: data.statement ?? "", allowedTools: [], riskTier: "low" }),
+      workflow: () => ({ ...base, steps: [{ order: 1, description: data.statement ?? "Review the cited source." }] }),
+      radar: () => ({ ...base, radarCategory: "framework", impactLevel: "medium" }),
+    };
+    const candidate = variants[candidateType]();
 
+    const isSeed = rel.split(path.sep).includes("seed");
+    const outDir = ensureDir(isSeed ? path.join("candidates", "seed", candidateType) : path.join("candidates", candidateType));
     const outFile = path.join(outDir, `${candidateId}.json`);
     writeFileSync(outFile, `${JSON.stringify(candidate, null, 2)}\n`, "utf8");
     created.push(path.relative(repoRoot, outFile));

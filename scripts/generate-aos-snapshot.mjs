@@ -19,7 +19,11 @@ function readJsonSafe(file) {
 function countFilesIn(relDir) {
   const dir = path.join(repoRoot, relDir);
   if (!existsSync(dir)) return 0;
-  return readdirSync(dir).filter((f) => f.endsWith(".json")).length;
+  const visit = (current) => readdirSync(current, { withFileTypes: true })
+    .reduce((total, entry) => total + (entry.isDirectory()
+      ? visit(path.join(current, entry.name))
+      : Number(entry.name.endsWith(".json"))), 0);
+  return visit(dir);
 }
 
 function currentBranch() {
@@ -36,6 +40,50 @@ function currentCommit() {
   } catch {
     return null;
   }
+}
+
+function workingTreeDirty() {
+  try {
+    return Boolean(execSync("git status --porcelain=v1", { cwd: repoRoot }).toString().trim());
+  } catch {
+    return true;
+  }
+}
+
+function buildMemorySummary(commit) {
+  const readState = (name) => readJsonSafe(path.join(repoRoot, ".agent", "state", `${name}.json`)) ?? {};
+  const task = readState("current-task");
+  const progress = readState("current-progress");
+  const release = readState("release-status");
+  const issues = readState("known-issues");
+  const quality = readState("quality-status");
+  const research = readState("research-progress");
+  const handoff = readState("latest-handoff");
+  const actions = readState("next-actions").actions ?? [];
+  const evidenceCurrent = quality.testedCommit === commit && quality.workingTreeCleanAtTest === true && !workingTreeDirty();
+  return {
+    currentTask: task.task ?? null,
+    currentPhase: progress.currentPhase ?? null,
+    releaseState: release.releaseState ?? "planning",
+    completionPercent: progress.overallPercent ?? 0,
+    requirements: progress.requirements ?? { completed: 0, partial: 0, missing: 0 },
+    blockers: (progress.blockers ?? []).slice(0, 10),
+    blockerCount: (progress.blockers ?? []).length,
+    knownIssueCount: (issues.active ?? []).length,
+    latestEvidenceRunId: quality.latestRunId ?? null,
+    testedCommit: quality.testedCommit ?? null,
+    evidenceCurrent,
+    coverage: quality.coverage?.statements?.percent ?? null,
+    research: {
+      sources: research.sources ?? 0,
+      candidatesPendingReview: research.candidatesPendingReview ?? 0,
+      publishedItems: research.publishedItems ?? 0,
+    },
+    nextActions: actions.slice(0, 10).map(({ id, title, priority, requiredRole, status }) => ({ id, title, priority, requiredRole, status })),
+    nextAction: actions.find((action) => action.status !== "completed")?.title ?? null,
+    handoff: { status: handoff.status ?? null, summary: handoff.summary ?? null, updatedAt: handoff.updatedAt ?? null },
+    updatedAt: progress.updatedAt ?? null,
+  };
 }
 
 function buildEvidenceSummary() {
@@ -113,6 +161,8 @@ export function buildSnapshot() {
   const validation = buildValidationSummary();
   const totalErrors = validation.reduce((sum, r) => sum + r.errorCount, 0);
 
+  const commit = currentCommit();
+  const memory = buildMemorySummary(commit);
   return {
     generatedAt: new Date().toISOString(),
     aosVersion: manifest.aosVersion,
@@ -120,7 +170,7 @@ export function buildSnapshot() {
     schemaVersion: manifest.schemaVersion,
     supportedAgents: manifest.supportedAgents,
     branch: currentBranch(),
-    commit: currentCommit(),
+    commit,
     modules: buildModuleSummary(manifest),
     taskTypes: Object.keys(registry.taskTypes ?? {}),
     evidence: buildEvidenceSummary(),
@@ -130,7 +180,8 @@ export function buildSnapshot() {
       totalChecks: validation.length,
       checks: validation,
     },
-    activeHandoff: null,
+    memory,
+    activeHandoff: memory.handoff.status ? memory.handoff : null,
   };
 }
 

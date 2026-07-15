@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "updatedAt": "2026-07-15T07:34:13.451Z",
+  "updatedAt": "2026-07-15T11:30:40.154Z",
   "overallPercent": 89,
   "currentPhase": "validation",
   "phasesCompleted": [
@@ -28,7 +28,7 @@
   },
   "releaseStatus": "blocked",
   "researchProgress": 6,
-  "evidenceRunId": "2026-07-15_10-01-56_feature-1-4-0-agent-operating-system",
+  "evidenceRunId": "2026-07-15_13-56-05_feature-1-4-0-agent-operating-system",
   "blockers": [
     "Windows visual baselines require human review before replacement.",
     "Human UX, security, and content reviews remain notRun."

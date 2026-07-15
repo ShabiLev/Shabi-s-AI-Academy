@@ -3,7 +3,7 @@
 - Version: 1.4.0-beta.1
 - Milestone: AI Agent Operating System - Release Stabilization, Automation, Memory and Progress Tracking
 - Branch: `feature/1.4.0-agent-operating-system`
-- Target main: `0bdf19b729a8409b5f7d0bc990a026e2f708a2c2`
+- Target main: `7023c5a6d73dccdaecb0fc7a6679c7213db64f0c`
 - State: blocked
 - Research: seed candidates pending review
 - Documentation: complete

@@ -37,7 +37,7 @@ Full-page screenshots are used for regular-length pages. QA Center — the longe
 
 - It lets `npm run test:visual` run and pass end-to-end today, on this machine, as a real working feature.
 - Per the `{platform}` token above, these Windows baselines (`-win32.png`) are structurally incapable of being mistaken for Linux CI baselines (`-linux.png`) — CI running `npm run test:visual` today would report **missing baseline**, not a false pass and not a false diff.
-- The `regenerate-visual-baselines` job in `.github/workflows/ci.yml` (triggered only via `workflow_dispatch`, never on push/PR) runs `npm run test:visual:update` on an actual Ubuntu GitHub Actions runner and uploads the resulting `-linux.png` files as a downloadable artifact.
+- The separate `.github/workflows/generate-visual-baselines.yml` workflow is manual-only. It requires the exact confirmation phrase `GENERATE_LINUX_VISUAL_BASELINES`, uses read-only repository permissions, runs the update and comparison on Ubuntu, and uploads the Linux snapshots, Playwright report, and test results.
 - A human must download that artifact, review every image (are the differences from "no baseline" to "this baseline" actually correct?), and commit them intentionally. The workflow never commits anything itself.
 
 Until that manual step happens, this is the known gap: visual comparisons are real and passing locally, but not yet CI-canonical for Linux. Report this distinction explicitly rather than claiming full CI coverage.

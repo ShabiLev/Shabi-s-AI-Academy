@@ -1,13 +1,13 @@
 name: CI
+
 on:
-  push: { branches: [main] }
-  pull_request: { branches: [main] }
-  # Manual-only: regenerates canonical Linux visual baselines as a reviewable artifact.
-  # Never runs on push/PR and never commits anything by itself — see docs/visual-regression.md.
-  workflow_dispatch: {}
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
 jobs:
   quality-core:
-    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -39,8 +39,27 @@ jobs:
           retention-days: 14
           if-no-files-found: ignore
 
-  e2e:
-    if: github.event_name != 'workflow_dispatch'
+  functional-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20.19.0, cache: npm }
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e:functional
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: functional-e2e-artifacts
+          path: |
+            playwright-report/
+            test-results/
+            quality/generated/playwright-functional-results.json
+          retention-days: 14
+          if-no-files-found: ignore
+
+  cross-browser:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -48,20 +67,19 @@ jobs:
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
       - run: npx playwright install --with-deps
-      - run: npm run test:e2e:full
+      - run: npm run test:cross-browser
       - if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: e2e-artifacts
+          name: cross-browser-artifacts
           path: |
             playwright-report/
             test-results/
-            quality/generated/playwright-full-results.json
+            quality/generated/playwright-cross-browser-results.json
           retention-days: 14
           if-no-files-found: ignore
 
   accessibility:
-    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -82,7 +100,6 @@ jobs:
           if-no-files-found: ignore
 
   visual:
-    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -90,9 +107,6 @@ jobs:
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      # Compares against the committed baselines in e2e/specs/__screenshots__. A
-      # missing baseline fails clearly rather than silently passing — see
-      # docs/visual-regression.md for the controlled baseline-update process.
       - run: npm run test:visual
       - if: always()
         uses: actions/upload-artifact@v4
@@ -106,7 +120,6 @@ jobs:
           if-no-files-found: ignore
 
   performance:
-    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -124,8 +137,16 @@ jobs:
 
   quality-summary:
     runs-on: ubuntu-latest
-    needs: [quality-core, e2e, accessibility, visual, performance]
-    if: always() && github.event_name != 'workflow_dispatch'
+    needs:
+      [
+        quality-core,
+        functional-e2e,
+        cross-browser,
+        accessibility,
+        visual,
+        performance,
+      ]
+    if: always()
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -136,7 +157,10 @@ jobs:
         with: { name: quality-core-artifacts }
       - uses: actions/download-artifact@v4
         continue-on-error: true
-        with: { name: e2e-artifacts }
+        with: { name: functional-e2e-artifacts }
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with: { name: cross-browser-artifacts }
       - uses: actions/download-artifact@v4
         continue-on-error: true
         with: { name: accessibility-artifacts }
@@ -145,7 +169,8 @@ jobs:
         with: { name: visual-artifacts }
       - uses: actions/download-artifact@v4
         continue-on-error: true
-        with: { name: performance-artifacts, path: quality/generated/lighthouse }
+        with:
+          { name: performance-artifacts, path: quality/generated/lighthouse }
       - run: npm run quality:collect
       - run: npm run quality:analyze
       - if: always()
@@ -155,22 +180,3 @@ jobs:
           path: quality/generated/latest-quality-report.json
           retention-days: 30
           if-no-files-found: ignore
-
-  # Regenerates canonical Linux visual baselines on demand. Never runs automatically
-  # and never commits — a human downloads the artifact, reviews every changed image,
-  # and commits intentionally. See docs/visual-regression.md.
-  regenerate-visual-baselines:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch'
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 20.19.0, cache: npm }
-      - run: npm ci
-      - run: npx playwright install --with-deps chromium
-      - run: npm run test:visual:update
-      - uses: actions/upload-artifact@v4
-        with:
-          name: regenerated-visual-baselines
-          path: e2e/specs/__screenshots__/
-          retention-days: 14

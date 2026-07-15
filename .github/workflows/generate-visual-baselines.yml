@@ -1,0 +1,61 @@
+name: Generate Linux visual baselines
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch to check out
+        required: true
+        default: feature/1.4.0-agent-operating-system
+      confirm_generation:
+        description: Type GENERATE_LINUX_VISUAL_BASELINES
+        required: true
+      test_filter:
+        description: Optional Playwright grep filter
+        required: false
+        default: ""
+
+jobs:
+  generate:
+    if: inputs.confirm_generation == 'GENERATE_LINUX_VISUAL_BASELINES'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - uses: actions/setup-node@v4
+        with: { node-version: 20.19.0, cache: npm }
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Generate platform baselines
+        env:
+          AOS_ALLOW_VISUAL_UPDATE: "1"
+          TEST_FILTER: ${{ inputs.test_filter }}
+        run: |
+          if [ -n "$TEST_FILTER" ]; then
+            npm run test:visual:update -- --grep="$TEST_FILTER"
+          else
+            npm run test:visual:update
+          fi
+      - name: Verify generated baselines
+        env:
+          TEST_FILTER: ${{ inputs.test_filter }}
+        run: |
+          if [ -n "$TEST_FILTER" ]; then
+            npm run test:visual -- --grep="$TEST_FILTER"
+          else
+            npm run test:visual
+          fi
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-visual-baseline-review-${{ github.run_id }}
+          path: |
+            e2e/specs/__screenshots__/*-linux.png
+            playwright-report/
+            test-results/
+            quality/generated/playwright-visual-results.json
+          retention-days: 14
+          if-no-files-found: error

@@ -139,6 +139,8 @@ function loadPlaywrightReport(name) {
 function collectPlaywright() {
   const fast = loadPlaywrightReport("fast");
   const full = loadPlaywrightReport("full");
+  const functional = loadPlaywrightReport("functional");
+  const crossBrowser = loadPlaywrightReport("cross-browser");
   const a11y = loadPlaywrightReport("a11y");
   const visualReport = loadPlaywrightReport("visual");
 
@@ -147,9 +149,14 @@ function collectPlaywright() {
     : fast.failed > 0
       ? gate("failed")
       : gate("passed");
-  const e2eFull = !full
+  const splitFull =
+    functional && crossBrowser
+      ? { failed: functional.failed + crossBrowser.failed }
+      : null;
+  const fullGate = full ?? splitFull;
+  const e2eFull = !fullGate
     ? gate("notRun")
-    : full.failed > 0
+    : fullGate.failed > 0
       ? gate("failed")
       : gate("passed");
 
@@ -168,7 +175,14 @@ function collectPlaywright() {
         status: visualReport.failed > 0 ? "failed" : "passed",
       };
 
-  const reports = [fast, full, a11y, visualReport].filter(Boolean);
+  const reports = [
+    fast,
+    full,
+    functional,
+    crossBrowser,
+    a11y,
+    visualReport,
+  ].filter(Boolean);
   const projectNames = new Set(reports.flatMap((r) => [...r.projectNames]));
   const playwrightSummary = reports.length
     ? {

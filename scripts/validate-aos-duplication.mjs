@@ -7,6 +7,25 @@ const ENTRY_POINT_LINE_LIMIT = 120;
 const PROMPT_LINE_LIMIT = 60;
 const MIN_PARAGRAPH_LENGTH = 60;
 
+// Fragments intentionally repeated verbatim across files, reviewed and
+// accepted (see quality/execution/latest/result-interpretation.md). Each is
+// deliberate shared template/disclaimer language, not duplicated workflow
+// logic — repeating it lets a file be read in isolation without missing
+// context. Do not add an entry here to silence a *new* duplication without
+// the same review; this is an allowlist, not a way to reach zero warnings.
+const ACCEPTED_DUPLICATE_FRAGMENTS = [
+  "commands actually run and their pass/fail/not-available status",
+  "path under quality/execution/latest/ or quality/execution/runs/<run_id>/",
+  "any known failing test, broken build, or unresolved defect",
+  "the single next step the receiving role/agent should take",
+  "git-policy.md", // shared "Related" link list between git/cleanup.md and git/synchronization.md
+  "this is an operational role definition used within the aos workflow, not an au", // shared agents/*.md disclaimer
+];
+
+function isAcceptedDuplicate(key) {
+  return ACCEPTED_DUPLICATE_FRAGMENTS.some((fragment) => key.includes(fragment.toLowerCase()));
+}
+
 function normalizeParagraph(p) {
   return p.replace(/\s+/g, " ").trim().toLowerCase();
 }
@@ -69,10 +88,13 @@ export function validateDuplication() {
     }
   }
   for (const [key, owners] of paragraphOwners) {
-    if (owners.size > 1) {
-      report.warn(
-        `Identical paragraph appears in ${owners.size} files (${[...owners].join(", ")}): "${key.slice(0, 80)}${key.length > 80 ? "…" : ""}"`,
-      );
+    if (owners.size <= 1) continue;
+    const summary = `Identical paragraph appears in ${owners.size} files (${[...owners].join(", ")}): "${key.slice(0, 80)}${key.length > 80 ? "…" : ""}"`;
+    if (isAcceptedDuplicate(key)) {
+      report.accepted ??= [];
+      report.accepted.push(summary);
+    } else {
+      report.warn(summary);
     }
   }
 

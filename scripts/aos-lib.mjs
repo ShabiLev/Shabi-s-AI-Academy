@@ -64,14 +64,15 @@ export class Reporter {
   }
   print() {
     console.log(`\n=== ${this.name} ===`);
-    if (this.errors.length === 0 && this.warnings.length === 0) {
+    if (this.errors.length === 0 && this.warnings.length === 0 && !this.accepted?.length) {
       console.log("OK — no issues found.");
       return;
     }
     for (const e of this.errors) console.log(`  ERROR: ${e}`);
     for (const w of this.warnings) console.log(`  WARN:  ${w}`);
+    for (const a of this.accepted ?? []) console.log(`  ACCEPTED (reviewed, intentional): ${a}`);
     console.log(
-      `${this.errors.length} error(s), ${this.warnings.length} warning(s).`,
+      `${this.errors.length} error(s), ${this.warnings.length} warning(s)${this.accepted?.length ? `, ${this.accepted.length} accepted` : ""}.`,
     );
   }
 }

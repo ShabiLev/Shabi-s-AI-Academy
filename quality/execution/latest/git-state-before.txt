@@ -1,21 +1,21 @@
 $ git status --short --branch
-## feature/1.4.0-agent-operating-system...origin/feature/1.4.0-agent-operating-system [ahead 1]
+## main...origin/main [ahead 3]
 
 $ git branch --show-current
-feature/1.4.0-agent-operating-system
+main
 
 $ git remote -v
 origin	https://github.com/ShabiLev/Shabi-s-AI-Academy.git (fetch)
 origin	https://github.com/ShabiLev/Shabi-s-AI-Academy.git (push)
 
 $ git log --oneline --decorate -10
-1a66592 (HEAD -> feature/1.4.0-agent-operating-system) fix(quality): interpret and resolve release validation findings
-7023c5a (origin/main, origin/feature/1.4.0-agent-operating-system, main) feat(aos): add memory and progress release system
+c92cac9 (HEAD -> main, origin/feature/1.4.0-agent-operating-system, feature/1.4.0-agent-operating-system) chore(evidence): record final Version 1.4 quality execution
+8703d46 fix(memory): align Agent Memory with the active Git branch
+1a66592 fix(quality): interpret and resolve release validation findings
+7023c5a (origin/main) feat(aos): add memory and progress release system
 1a63f8d Evidence, memory, handoff systems
 f922b55 chore(release): prepare Version 1.4.0-beta.1
 cb9ba52 fix(aos): resolve e2e races and ambiguous locators found by the full evidence run
 78c9485 docs(aos): document Agent Operating System
 63d2d8b test(aos): add AOS validation and regression coverage
 cdf34bb feat(ui): add AOS dashboard and module explorer
-97aa30a feat(security): add AOS security and MCP policies
-7e7f14e feat(handoff): add Codex and Claude Code handoff system

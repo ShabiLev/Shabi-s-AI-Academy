@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
   "identity": {
-    "runId": "2026-07-15_13-56-05_feature-1-4-0-agent-operating-system",
+    "runId": "2026-07-15_15-45-55_main",
     "profile": "full",
-    "startedAt": "2026-07-15T10:56:05.071Z",
-    "endedAt": "2026-07-15T11:28:29.171Z",
+    "startedAt": "2026-07-15T12:45:55.865Z",
+    "endedAt": "2026-07-15T13:06:51.652Z",
     "version": "1.4.0-beta.1",
-    "branch": "feature/1.4.0-agent-operating-system",
-    "startingCommit": "1a66592cdd0e889bb39c637cb131c444b61c65b0",
-    "finalCommit": "1a66592cdd0e889bb39c637cb131c444b61c65b0",
+    "branch": "main",
+    "startingCommit": "c92cac91aa3dcd6c8a40f32f10ef48094a1a91d5",
+    "finalCommit": "c92cac91aa3dcd6c8a40f32f10ef48094a1a91d5",
     "agent": "Codex",
     "operatingSystem": "win32 10.0.26200 x64",
     "nodeVersion": "v20.17.0",
@@ -23,114 +23,114 @@
     "Docs": {
       "status": "passed",
       "command": "npm run docs:check",
-      "durationMs": 429,
+      "durationMs": 417,
       "resultCount": 136,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/docs-check.log"
+      "logPath": "quality/execution/runs/2026-07-15_15-45-55_main/docs-check.log"
     },
     "Lint": {
       "status": "passed",
       "command": "npm run lint",
-      "durationMs": 9161,
+      "durationMs": 8062,
       "resultCount": null,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/lint.log"
+      "logPath": "quality/execution/runs/2026-07-15_15-45-55_main/lint.log"
     },
     "Unit tests": {
       "status": "passed",
       "command": "npm run test:evidence; npm run test:run",
-      "durationMs": 21921,
+      "durationMs": 19030,
       "resultCount": 6,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/focused-tests.log, quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/unit-tests.log"
+      "logPath": "quality/execution/runs/2026-07-15_15-45-55_main/focused-tests.log, quality/execution/runs/2026-07-15_15-45-55_main/unit-tests.log"
     },
     "Coverage": {
       "status": "passed",
       "command": "npm run test:coverage",
-      "durationMs": 24684,
+      "durationMs": 21539,
       "resultCount": null,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/coverage.log"
+      "logPath": "quality/execution/runs/2026-07-15_15-45-55_main/coverage.log"
     },
     "Build": {
       "status": "passed",
       "command": "npm run build",
-      "durationMs": 12708,
+      "durationMs": 9733,
       "resultCount": null,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/build.log"
+      "logPath": "quality/execution/runs/2026-07-15_15-45-55_main/build.log"
     },
     "GitHub Pages build": {
       "status": "passed",
       "command": "npm run build:pages; npm run test:e2e:pages",
-      "durationMs": 29639,
+      "durationMs": 25952,
       "resultCount": 4,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/build-pages.log, quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/e2e-pages.log"
+      "logPath": "quality/execution/runs/2026-07-15_15-45-55_main/build-pages.log, quality/execution/runs/2026-07-15_15-45-55_main/e2e-pages.log"
     },
     "E2E": {
       "status": "failed",
       "command": "npm run test:e2e; npm run test:e2e:full",
-      "durationMs": 403909,
-      "resultCount": 277,
+      "durationMs": 339849,
+      "resultCount": 279,
       "failureCount": 1,
-      "logPath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/e2e.log, quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/e2e-full.log"
+      "logPath": "quality/execution/runs/2026-07-15_15-45-55_main/e2e.log, quality/execution/runs/2026-07-15_15-45-55_main/e2e-full.log"
     },
     "Journeys": {
       "status": "passed",
       "command": "npm run test:journeys",
-      "durationMs": 46409,
+      "durationMs": 47596,
       "resultCount": 13,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/journeys.log"
+      "logPath": "quality/execution/runs/2026-07-15_15-45-55_main/journeys.log"
     },
     "UX": {
       "status": "passed",
       "command": "npm run test:click-audit; npm run test:route-crawl; npm run test:forms; npm run test:overlays; npm run test:responsive:interactions; npm run test:keyboard; npm run test:copy; npm run test:errors; npm run test:ux",
-      "durationMs": 372844,
+      "durationMs": 341310,
       "resultCount": 54,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/click-audit.log, quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/route-crawl.log, quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/forms.log, quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/overlays.log, quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/responsive-interactions.log, quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/keyboard.log, quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/copy.log, quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/errors.log, quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/ux.log"
+      "logPath": "quality/execution/runs/2026-07-15_15-45-55_main/click-audit.log, quality/execution/runs/2026-07-15_15-45-55_main/route-crawl.log, quality/execution/runs/2026-07-15_15-45-55_main/forms.log, quality/execution/runs/2026-07-15_15-45-55_main/overlays.log, quality/execution/runs/2026-07-15_15-45-55_main/responsive-interactions.log, quality/execution/runs/2026-07-15_15-45-55_main/keyboard.log, quality/execution/runs/2026-07-15_15-45-55_main/copy.log, quality/execution/runs/2026-07-15_15-45-55_main/errors.log, quality/execution/runs/2026-07-15_15-45-55_main/ux.log"
     },
     "Accessibility": {
       "status": "passed",
       "command": "npm run test:a11y",
-      "durationMs": 96599,
+      "durationMs": 91970,
       "resultCount": 74,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/accessibility.log"
+      "logPath": "quality/execution/runs/2026-07-15_15-45-55_main/accessibility.log"
     },
     "Visual": {
       "status": "failed",
       "command": "npm run test:visual",
-      "durationMs": 106301,
+      "durationMs": 104061,
       "resultCount": 25,
       "failureCount": 1,
-      "logPath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/visual.log"
+      "logPath": "quality/execution/runs/2026-07-15_15-45-55_main/visual.log"
     },
     "Performance": {
       "status": "passed",
       "command": "npm run test:performance",
-      "durationMs": 117038,
+      "durationMs": 115150,
       "resultCount": null,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/performance.log"
+      "logPath": "quality/execution/runs/2026-07-15_15-45-55_main/performance.log"
     },
     "Release validation": {
       "status": "failed",
       "command": "npm run test:release-candidate; npm run test:release-candidate:pages; npm run validate:release",
-      "durationMs": 682919,
-      "resultCount": 35,
+      "durationMs": 113388,
+      "resultCount": 36,
       "failureCount": 2,
-      "logPath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/release-candidate.log, quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/release-candidate-pages.log, quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/validate-release.log"
+      "logPath": "quality/execution/runs/2026-07-15_15-45-55_main/release-candidate.log, quality/execution/runs/2026-07-15_15-45-55_main/release-candidate-pages.log, quality/execution/runs/2026-07-15_15-45-55_main/validate-release.log"
     },
     "Git diff": {
       "status": "passed",
       "command": "git diff --check",
-      "durationMs": 95,
+      "durationMs": 110,
       "resultCount": null,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/git-diff-check.log"
+      "logPath": "quality/execution/runs/2026-07-15_15-45-55_main/git-diff-check.log"
     }
   },
   "coverage": {
@@ -142,10 +142,10 @@
       "delta": 0
     },
     "branches": {
-      "percent": 74.24,
+      "percent": 74.3,
       "threshold": 65,
       "passed": true,
-      "delta": 0
+      "delta": 0.06
     },
     "functions": {
       "percent": 72.57,
@@ -216,18 +216,19 @@
     "high": 0,
     "medium": 0,
     "low": 0,
-    "warningCount": 18,
+    "warningCount": 15,
     "manualReviewRequired": true
   },
   "git": {
-    "branch": "feature/1.4.0-agent-operating-system",
-    "mainRelationship": "main...HEAD left/right counts: 0\t1",
-    "remoteRelationship": "HEAD...origin/main left/right counts: 1\t0",
+    "branch": "main",
+    "mainRelationship": "main...HEAD left/right counts: 0\t0",
+    "remoteRelationship": "HEAD...origin/main left/right counts: 3\t0",
     "commitsCreated": [],
-    "workingTreeStatus": "?? quality/execution/latest/result-interpretation.md"
+    "workingTreeStatus": "clean"
   },
   "recommendation": "Blocked",
   "failedCommands": [
+    "npm run test:aos",
     "npm run test:e2e:full",
     "npm run test:visual",
     "npm run test:release-candidate",

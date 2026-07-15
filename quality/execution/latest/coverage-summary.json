@@ -7,10 +7,10 @@
     "delta": 0
   },
   "branches": {
-    "percent": 74.24,
+    "percent": 74.3,
     "threshold": 65,
     "passed": true,
-    "delta": 0
+    "delta": 0.06
   },
   "functions": {
     "percent": 72.57,

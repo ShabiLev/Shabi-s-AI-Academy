@@ -3,26 +3,9 @@
 - manualUxReview: notRun.
 - manualSecurityReview: notRun.
 - manualContentReview: notRun.
-- npm run aos:check: emitted 3 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/aos-check.log`.
-- npm run test:run: emitted 1 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/unit-tests.log`.
-- npm run test:e2e: emitted 4 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/e2e.log`.
-- npm run test:e2e:full: emitted 4 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/e2e-full.log`.
-- npm run test:e2e:pages: emitted 12 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/e2e-pages.log`.
-- npm run test:journeys: emitted 4 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/journeys.log`.
-- npm run test:click-audit: emitted 4 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/click-audit.log`.
-- npm run test:route-crawl: emitted 4 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/route-crawl.log`.
-- npm run test:forms: emitted 4 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/forms.log`.
-- npm run test:overlays: emitted 4 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/overlays.log`.
-- npm run test:responsive:interactions: emitted 4 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/responsive-interactions.log`.
-- npm run test:keyboard: emitted 4 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/keyboard.log`.
-- npm run test:copy: emitted 4 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/copy.log`.
-- npm run test:errors: emitted 4 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/errors.log`.
-- npm run test:ux: emitted 4 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/ux.log`.
-- npm run test:a11y: emitted 4 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/accessibility.log`.
-- npm run test:visual: emitted 4 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/visual.log`.
-- npm run test:performance: emitted 6 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/performance.log`.
-- npm run test:release-candidate: emitted 16 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/release-candidate.log`.
-- npm run test:release-candidate:pages: emitted 12 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/release-candidate-pages.log`.
-- npm run quality:analyze: emitted 1 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/quality-analyze.log`.
-- npm run validate:release: emitted 9 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/validate-release.log`.
-- git diff --check: emitted 67 warning line(s); see `quality/execution/runs/2026-07-15_10-01-56_feature-1-4-0-agent-operating-system/git-diff-check.log`.
+- npm run aos:check: emitted 2 warning line(s); see `quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/aos-check.log`.
+- npm run test:run: emitted 1 warning line(s); see `quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/unit-tests.log`.
+- npm run test:coverage: emitted 1 warning line(s); see `quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/coverage.log`.
+- npm run test:performance: emitted 6 warning line(s); see `quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/performance.log`.
+- npm run quality:analyze: emitted 1 warning line(s); see `quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/quality-analyze.log`.
+- npm run validate:release: emitted 4 warning line(s); see `quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system/validate-release.log`.

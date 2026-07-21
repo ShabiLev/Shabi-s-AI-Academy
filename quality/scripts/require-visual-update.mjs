@@ -1,7 +1,8 @@
 const localApproval =
   process.env.VISUAL_UPDATE_APPROVED === "1" && process.env.CI !== "true";
 const controlledWorkflow =
-  process.env.AOS_ALLOW_VISUAL_UPDATE === "1" &&
+  process.env.VISUAL_UPDATE_APPROVED === "1" &&
+  process.env.VISUAL_UPDATE_CONTEXT === "reviewed-linux-workflow" &&
   process.env.CI === "true" &&
   process.env.GITHUB_EVENT_NAME === "workflow_dispatch";
 

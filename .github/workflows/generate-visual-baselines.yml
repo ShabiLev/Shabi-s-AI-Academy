@@ -1,4 +1,4 @@
-name: Generate Linux visual baselines
+name: Generate reviewed Linux visual baselines
 
 on:
   workflow_dispatch:
@@ -6,52 +6,74 @@ on:
       branch:
         description: Branch to check out
         required: true
-        default: feature/1.4.0-agent-operating-system
+        default: fix/1.4.0-ci-memory-visual-release
       confirm_generation:
-        description: Type GENERATE_LINUX_VISUAL_BASELINES
+        description: Type GENERATE_REVIEWED_LINUX_BASELINES
         required: true
-      test_filter:
-        description: Optional Playwright grep filter
+      grep_filter:
+        description: Optional Playwright grep expression
         required: false
         default: ""
+      file_filter:
+        description: Optional spec file or directory
+        required: false
+        default: e2e/specs/visual.spec.ts
+      suite_group:
+        description: Optional suite label for reviewer traceability
+        required: false
+        default: representative-release
+      viewport_group:
+        description: Viewport group (desktop is the reviewed release baseline)
+        required: true
+        default: desktop
+      language_group:
+        description: Language group included by the selected tests
+        required: true
+        default: he-en
 
 jobs:
   generate:
-    if: inputs.confirm_generation == 'GENERATE_LINUX_VISUAL_BASELINES'
+    if: inputs.confirm_generation == 'GENERATE_REVIEWED_LINUX_BASELINES'
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.branch }}
+        with: { ref: "${{ inputs.branch }}" }
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - name: Generate platform baselines
-        env:
-          AOS_ALLOW_VISUAL_UPDATE: "1"
-          TEST_FILTER: ${{ inputs.test_filter }}
+      - name: Validate reviewed selection
         run: |
-          if [ -n "$TEST_FILTER" ]; then
-            npm run test:visual:update -- --grep="$TEST_FILTER"
-          else
-            npm run test:visual:update
-          fi
-      - name: Verify generated baselines
+          test "${{ inputs.viewport_group }}" = "desktop"
+          test "${{ inputs.language_group }}" = "he-en"
+          test -n "${{ inputs.suite_group }}"
+      - name: Generate review candidates (never committed automatically)
         env:
-          TEST_FILTER: ${{ inputs.test_filter }}
+          CI: "true"
+          GITHUB_EVENT_NAME: workflow_dispatch
+          VISUAL_UPDATE_APPROVED: "1"
+          VISUAL_UPDATE_CONTEXT: reviewed-linux-workflow
+          FILE_FILTER: ${{ inputs.file_filter }}
+          GREP_FILTER: ${{ inputs.grep_filter }}
         run: |
-          if [ -n "$TEST_FILTER" ]; then
-            npm run test:visual -- --grep="$TEST_FILTER"
-          else
-            npm run test:visual
-          fi
+          args=("$FILE_FILTER" "--project=visual-chromium" "--update-snapshots")
+          if [ -n "$GREP_FILTER" ]; then args+=("--grep=$GREP_FILTER"); fi
+          node quality/scripts/require-visual-update.mjs
+          npx playwright test "${args[@]}"
+      - name: Verify generated candidates
+        env:
+          FILE_FILTER: ${{ inputs.file_filter }}
+          GREP_FILTER: ${{ inputs.grep_filter }}
+        run: |
+          args=("$FILE_FILTER" "--project=visual-chromium")
+          if [ -n "$GREP_FILTER" ]; then args+=("--grep=$GREP_FILTER"); fi
+          npx playwright test "${args[@]}"
       - if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: linux-visual-baseline-review-${{ github.run_id }}
+          name: reviewed-linux-visual-candidates-${{ github.run_id }}
           path: |
             e2e/specs/__screenshots__/*-linux.png
             playwright-report/

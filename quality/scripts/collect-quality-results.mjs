@@ -153,7 +153,9 @@ function collectPlaywright() {
     functional && crossBrowser
       ? { failed: functional.failed + crossBrowser.failed }
       : null;
-  const fullGate = full ?? splitFull;
+  // Prefer the current isolated reports. A stale historical monolithic report
+  // must never override fresh functional/cross-browser evidence.
+  const fullGate = splitFull ?? full;
   const e2eFull = !fullGate
     ? gate("notRun")
     : fullGate.failed > 0
@@ -193,7 +195,9 @@ function collectPlaywright() {
       }
     : null;
 
-  return { e2eFast, e2eFull, accessibility, visual, playwrightSummary };
+  const functionalE2e = !functional ? gate("notRun") : gate(functional.failed > 0 ? "failed" : "passed");
+  const crossBrowserGate = !crossBrowser ? gate("notRun") : gate(crossBrowser.failed > 0 ? "failed" : "passed");
+  return { e2eFast, e2eFull, functionalE2e, crossBrowser: crossBrowserGate, accessibility, visual, playwrightSummary };
 }
 
 // ---------- accessibility violation severities (best effort, from axe attachments) ----------
@@ -353,6 +357,8 @@ function main() {
   const {
     e2eFast,
     e2eFull,
+    functionalE2e,
+    crossBrowser,
     accessibility: a11yFromPw,
     visual: visualFromPw,
     playwrightSummary,
@@ -397,6 +403,8 @@ function main() {
     build,
     e2eFast,
     e2eFull,
+    functionalE2e,
+    crossBrowser,
     accessibility: accessibilityGate,
     visual: visualGate,
     performance: performanceGate,

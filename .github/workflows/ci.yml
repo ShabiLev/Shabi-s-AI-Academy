@@ -2,15 +2,19 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, "fix/**"]
   pull_request:
     branches: [main]
+
+permissions:
+  contents: read
 
 jobs:
   quality-core:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
@@ -19,8 +23,6 @@ jobs:
       - run: npm run test:aos
       - run: npm run test:evidence
       - run: npm run memory:check
-      - run: npm run aos:report
-      - run: npm run aos:snapshot
       - run: npm run lint
       - run: npm run test:coverage
       - run: npm run build
@@ -31,11 +33,7 @@ jobs:
           path: |
             coverage/
             quality/generated/vitest-results.json
-            quality/generated/aos-report.json
-            quality/generated/aos-report.md
-            public/generated/aos-snapshot.json
-            quality/execution/latest/summary.json
-            quality/execution/latest/failures.md
+            quality/execution/latest/
           retention-days: 14
           if-no-files-found: ignore
 
@@ -67,7 +65,7 @@ jobs:
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
       - run: npx playwright install --with-deps
-      - run: npm run test:cross-browser
+      - run: npm run test:e2e:cross-browser
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -99,7 +97,7 @@ jobs:
           retention-days: 14
           if-no-files-found: ignore
 
-  visual:
+  visual-linux:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -111,7 +109,7 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: visual-artifacts
+          name: visual-linux-artifacts
           path: |
             playwright-report/
             test-results/
@@ -137,46 +135,39 @@ jobs:
 
   quality-summary:
     runs-on: ubuntu-latest
-    needs:
-      [
-        quality-core,
-        functional-e2e,
-        cross-browser,
-        accessibility,
-        visual,
-        performance,
-      ]
+    needs: [quality-core, functional-e2e, cross-browser, accessibility, visual-linux, performance]
     if: always()
+    env:
+      QUALITY_CORE: ${{ needs.quality-core.result }}
+      FUNCTIONAL_E2E: ${{ needs.functional-e2e.result }}
+      CROSS_BROWSER: ${{ needs.cross-browser.result }}
+      ACCESSIBILITY: ${{ needs.accessibility.result }}
+      VISUAL_LINUX: ${{ needs.visual-linux.result }}
+      PERFORMANCE: ${{ needs.performance.result }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
       - uses: actions/download-artifact@v4
+        if: always()
         continue-on-error: true
-        with: { name: quality-core-artifacts }
-      - uses: actions/download-artifact@v4
-        continue-on-error: true
-        with: { name: functional-e2e-artifacts }
-      - uses: actions/download-artifact@v4
-        continue-on-error: true
-        with: { name: cross-browser-artifacts }
-      - uses: actions/download-artifact@v4
-        continue-on-error: true
-        with: { name: accessibility-artifacts }
-      - uses: actions/download-artifact@v4
-        continue-on-error: true
-        with: { name: visual-artifacts }
-      - uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          { name: performance-artifacts, path: quality/generated/lighthouse }
+        with: { pattern: "*-artifacts", merge-multiple: true }
       - run: npm run quality:collect
+        if: always()
+        continue-on-error: true
       - run: npm run quality:analyze
+        if: always()
+        continue-on-error: true
+      - name: Write readable gate summary and enforce results
+        if: always()
+        run: node scripts/write-ci-quality-summary.mjs
       - if: always()
         uses: actions/upload-artifact@v4
         with:
           name: quality-summary
-          path: quality/generated/latest-quality-report.json
+          path: |
+            quality/generated/latest-quality-report.json
+            quality/generated/ci-quality-summary.md
           retention-days: 30
           if-no-files-found: ignore

@@ -153,6 +153,13 @@ jobs:
         if: always()
         continue-on-error: true
         with: { pattern: "*-artifacts", merge-multiple: true }
+      - name: Restore Lighthouse artifact layout
+        uses: actions/download-artifact@v4
+        if: always()
+        continue-on-error: true
+        with:
+          name: performance-artifacts
+          path: quality/generated/lighthouse
       - run: npm run quality:collect
         if: always()
         continue-on-error: true

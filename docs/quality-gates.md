@@ -26,6 +26,8 @@ Sprint 5 (v0.5.0) adds an enforced set of quality gates on top of the existing V
 
 Every gate has five possible states: **Passed**, **Failed**, **Warning**, **Not run**, **Not available**. A missing result is never displayed as Passed — see `docs/qa-center.md`.
 
+The CI summary restores the downloaded `performance-artifacts` under `quality/generated/lighthouse/` before collection. GitHub strips the common root from a single-directory artifact, so this explicit layout keeps the detailed Performance gate aligned with the independently enforced performance job result.
+
 ## Coverage policy
 
 - Enforced in `vite.config.ts` (`test.coverage.thresholds`) and in CI (`quality-core` job).

@@ -23,6 +23,7 @@ test("CI keeps mandatory suites isolated and Pages consumes successful main CI",
   assert.match(ci, /functional-e2e:[\s\S]*npm run test:e2e:functional/);
   assert.match(ci, /cross-browser:[\s\S]*npm run test:e2e:cross-browser/);
   assert.match(ci, /visual-linux:[\s\S]*npm run test:visual/);
+  assert.match(ci, /name: Restore Lighthouse artifact layout[\s\S]*name: performance-artifacts[\s\S]*path: quality\/generated\/lighthouse/);
   const pages = readFileSync(".github/workflows/deploy-pages.yml", "utf8");
   assert.match(pages, /workflow_run:[\s\S]*workflows: \[CI\]/);
   assert.match(pages, /head_branch == 'main'/);

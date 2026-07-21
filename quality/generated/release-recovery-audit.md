@@ -1,6 +1,6 @@
 # Version 1.4 release recovery audit
 
-Version: `1.4.0-beta.1`  
+Version: `1.4.0-beta.1`
 Branch: `fix/1.4.0-ci-memory-visual-release`
 
 The machine-readable record is [`release-recovery-audit.json`](release-recovery-audit.json). Fourteen confirmed findings were recorded: ten code/configuration defects were fixed, one dependency risk was deliberately not force-fixed, and Linux visual approval plus GitHub main rules remain external/human blockers. No Critical finding was confirmed. High findings are RR-001–004, RR-006–009, RR-011, RR-013, and RR-014.

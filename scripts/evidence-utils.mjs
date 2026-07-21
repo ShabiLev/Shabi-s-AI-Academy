@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 
 const AUTHORIZATION = /(authorization\s*[=:]\s*(?:Bearer\s+)?)[^\r\n]+/gi;
@@ -150,4 +152,82 @@ export function assessEvidenceIntegrity({
   if (disallowed.length)
     errors.push(`post-test changes include non-evidence files: ${disallowed.join(", ")}`);
   return { ok: errors.length === 0, errors, disallowed };
+}
+
+export function assessRuntimeEvidence(summary, { expectedSha, workspace } = {}) {
+  const errors = [];
+  const identity = summary?.identity ?? {};
+  if (summary?.schemaVersion !== 1) errors.push("unsupported evidence schemaVersion");
+  for (const field of ["runId", "profile", "testedCommit", "repository", "workflowName", "generatedAt"])
+    if (!identity[field]) errors.push(`identity.${field} is missing`);
+  if (expectedSha && identity.testedCommit !== expectedSha)
+    errors.push(`testedCommit ${identity.testedCommit ?? "missing"} does not match expected SHA ${expectedSha}`);
+  if (identity.workingTreeCleanAtTest !== true)
+    errors.push("evidence was generated from a dirty working tree");
+  if (!summary?.results || typeof summary.results !== "object")
+    errors.push("results are missing");
+  if (!Array.isArray(summary?.commands) || summary.commands.length === 0)
+    errors.push("command results are missing");
+  if (!["passed", "failed", "partial", "notAvailable"].includes(summary?.overallStatus))
+    errors.push("overallStatus is invalid");
+  const serialized = JSON.stringify(summary);
+  if (workspace) {
+    const variants = [workspace, path.resolve(workspace), String(workspace).replaceAll("\\", "/")];
+    if (variants.some((candidate) => candidate && serialized.toLowerCase().includes(candidate.toLowerCase())))
+      errors.push("evidence contains an unsafe absolute workspace path");
+  }
+  if (new RegExp(SECRET_ASSIGNMENT.source, "i").test(serialized) || new RegExp(JWT.source).test(serialized) || new RegExp(SUPABASE_KEY.source, "i").test(serialized))
+    errors.push("evidence contains a secret-like value");
+  return { ok: errors.length === 0, errors };
+}
+
+export function computeContentDigest(root, files) {
+  const digest = createHash("sha256");
+  for (const file of [...files].sort()) {
+    const normalized = String(file).replaceAll("\\", "/");
+    if (path.isAbsolute(file) || normalized.startsWith("../") || normalized.includes("/../"))
+      throw new Error(`unsafe artifact path: ${file}`);
+    const absolute = path.resolve(root, file);
+    const relative = path.relative(path.resolve(root), absolute).replaceAll("\\", "/");
+    if (relative !== normalized || !existsSync(absolute) || !statSync(absolute).isFile())
+      throw new Error(`artifact file is missing or outside its root: ${file}`);
+    digest.update(normalized);
+    digest.update("\0");
+    digest.update(readFileSync(absolute));
+    digest.update("\0");
+  }
+  return digest.digest("hex");
+}
+
+export function assessCiManifest(manifest, { expectedSha, requiredJob, expectedRunId, artifactRoot } = {}) {
+  const errors = [];
+  for (const field of ["schemaVersion", "repository", "workflowName", "workflowRunId", "workflowRunAttempt", "headSha", "sourceBranch", "targetBranch", "eventName", "generatedAt", "jobName", "conclusion", "nodeVersion", "npmVersion", "files", "contentDigest"])
+    if (manifest?.[field] === undefined || manifest?.[field] === null || manifest?.[field] === "")
+      errors.push(`${field} is missing`);
+  if (manifest?.schemaVersion !== 1) errors.push("schemaVersion is unsupported");
+  if (!/^[a-f0-9]{40}$/i.test(String(manifest?.headSha ?? "")))
+    errors.push("headSha is not a full Git SHA");
+  if (expectedSha && manifest?.headSha !== expectedSha)
+    errors.push(`manifest SHA ${manifest?.headSha ?? "missing"} does not match ${expectedSha}`);
+  if (requiredJob && manifest?.jobName !== requiredJob)
+    errors.push(`manifest job ${manifest?.jobName ?? "missing"} does not match ${requiredJob}`);
+  if (expectedRunId && String(manifest?.workflowRunId) !== String(expectedRunId))
+    errors.push(`manifest run ${manifest?.workflowRunId ?? "missing"} does not match ${expectedRunId}`);
+  if (!/^[a-f0-9]{64}$/i.test(String(manifest?.contentDigest ?? "")))
+    errors.push("contentDigest is not SHA-256");
+  if (!Array.isArray(manifest?.files)) errors.push("files is not an array");
+  else if (manifest.files.some((file) => path.isAbsolute(file) || String(file).includes("\\") || String(file).split("/").includes("..")))
+    errors.push("files contains an unsafe path");
+  const serialized = JSON.stringify(manifest);
+  if (new RegExp(SECRET_ASSIGNMENT.source, "i").test(serialized) || new RegExp(JWT.source).test(serialized) || new RegExp(SUPABASE_KEY.source, "i").test(serialized))
+    errors.push("manifest contains a secret-like value");
+  if (artifactRoot && Array.isArray(manifest?.files)) {
+    try {
+      if (computeContentDigest(artifactRoot, manifest.files) !== manifest.contentDigest)
+        errors.push("contentDigest does not match artifact content");
+    } catch (error) {
+      errors.push(error.message);
+    }
+  }
+  return { ok: errors.length === 0, errors };
 }

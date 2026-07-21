@@ -1,37 +1,59 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
-import { evaluateMainMergeReadiness } from "./release-readiness-lib.mjs";
+import { REQUIRED_CI_JOBS, evaluateWorkflowRun, selectExactRun } from "./release-readiness-lib.mjs";
 
-const green = () => ({
-  packageVersion: "1.4.0-beta.1", releaseVersion: "1.4.0-beta.1",
-  releaseStatus: { releaseState: "ready", mergeReadiness: "ready" },
-  qualityStatus: {
-    unit: "passed", e2e: "passed", visual: "passed", accessibility: "passed", performance: "passed", pages: "passed", aos: "passed",
-    manualReviews: { ux: { status: "approved" }, security: { status: "approved" }, content: { status: "approved" } },
-  },
-  evidenceIdentity: { testedCommit: "abc", evidenceCommit: "def", workingTreeCleanAtTest: true },
-  headCommit: "abc", workingTreeClean: true, linuxBaselineCount: 82,
+const successRun = { id: 20, head_sha: "abc", status: "completed", conclusion: "success" };
+const successJobs = () => REQUIRED_CI_JOBS.map((name) => ({ name, status: "completed", conclusion: "success" }));
+
+test("exact successful run and mandatory jobs are merge-ready", () => {
+  assert.equal(evaluateWorkflowRun({ expectedSha: "abc", run: successRun, jobs: successJobs() }).ready, true);
 });
-test("green state is merge-ready", () => assert.equal(evaluateMainMergeReadiness(green()).ready, true));
-test("blocked state fails closed", () => { const input = green(); input.releaseStatus.releaseState = "blocked"; assert.equal(evaluateMainMergeReadiness(input).ready, false); });
-test("stale evidence fails closed", () => { const input = green(); input.evidenceIdentity.testedCommit = "old"; assert.match(evaluateMainMergeReadiness(input).blockers.join(" "), /stale/); });
-test("reviewed evidence-only lineage may follow the tested product commit", () => { const input = green(); input.evidenceIdentity.testedCommit = "product"; input.evidenceIntegrityValid = true; assert.equal(evaluateMainMergeReadiness(input).ready, true); });
-test("dirty evidence and severe issues fail closed", () => { const input = green(); input.workingTreeClean = false; input.knownIssues = [{ id: "SEC-1", severity: "High", status: "active" }]; assert.equal(evaluateMainMergeReadiness(input).ready, false); });
-test("CI keeps mandatory suites isolated and Pages consumes successful main CI", () => {
+test("a successful older SHA cannot satisfy current HEAD", () => {
+  assert.equal(evaluateWorkflowRun({ expectedSha: "new", run: successRun, jobs: successJobs() }).ready, false);
+  assert.equal(selectExactRun([successRun], "new"), null);
+});
+test("latest attempt for the exact SHA wins even while in progress", () => {
+  const latest = { ...successRun, id: 21, run_attempt: 2, status: "in_progress", conclusion: null };
+  assert.equal(selectExactRun([{ ...successRun, run_attempt: 1 }, latest], "abc").id, 21);
+  assert.equal(evaluateWorkflowRun({ expectedSha: "abc", run: latest, jobs: successJobs() }).ready, false);
+});
+for (const conclusion of ["failure", "cancelled", "skipped", "neutral", "action_required", "timed_out", null]) {
+  test(`mandatory ${conclusion ?? "missing conclusion"} status blocks`, () => {
+    const jobs = successJobs();
+    jobs[0] = { ...jobs[0], conclusion };
+    assert.equal(evaluateWorkflowRun({ expectedSha: "abc", run: successRun, jobs }).ready, false);
+  });
+}
+for (const status of ["queued", "in_progress", "pending"]) {
+  test(`mandatory ${status} state blocks`, () => {
+    const jobs = successJobs();
+    jobs[0] = { ...jobs[0], status, conclusion: null };
+    assert.equal(evaluateWorkflowRun({ expectedSha: "abc", run: successRun, jobs }).ready, false);
+  });
+}
+test("missing run and missing mandatory job block", () => {
+  assert.equal(evaluateWorkflowRun({ expectedSha: "abc", run: null }).ready, false);
+  assert.equal(evaluateWorkflowRun({ expectedSha: "abc", run: successRun, jobs: successJobs().slice(1) }).ready, false);
+});
+test("readiness uses GitHub REST and blocks when it cannot query", () => {
+  const script = readFileSync("scripts/verify-main-merge-readiness.mjs", "utf8");
+  assert.match(script, /api\.github\.com/);
+  assert.match(script, /GitHub status is unverified/);
+  assert.doesNotMatch(script, /quality\/execution\/latest|evidenceCommit|pendingPostEvidenceCommit/);
+});
+test("CI structure is isolated, exact-SHA, and fail-closed", () => {
   const ci = readFileSync(".github/workflows/ci.yml", "utf8");
-  assert.match(ci, /functional-e2e:[\s\S]*npm run test:e2e:functional/);
-  assert.match(ci, /cross-browser:[\s\S]*npm run test:e2e:cross-browser/);
-  assert.match(ci, /visual-linux:[\s\S]*npm run test:visual/);
-  assert.match(ci, /name: Restore Lighthouse artifact layout[\s\S]*name: performance-artifacts[\s\S]*path: quality\/generated\/lighthouse/);
-  const pages = readFileSync(".github/workflows/deploy-pages.yml", "utf8");
-  assert.match(pages, /workflow_run:[\s\S]*workflows: \[CI\]/);
-  assert.match(pages, /head_branch == 'main'/);
-  assert.match(pages, /EXPECTED_DEPLOY_SHA/);
+  for (const job of REQUIRED_CI_JOBS) assert.match(ci, new RegExp(`(?:^|\\n)  ${job}:`));
+  assert.match(ci, /quality-summary:[\s\S]*needs: \[quality-core, functional-e2e, cross-browser, accessibility, visual-linux, performance\][\s\S]*if: always\(\)/);
+  assert.match(ci, /Verify exact triggering SHA/);
+  assert.match(ci, /write-ci-job-manifest\.mjs/);
+  assert.doesNotMatch(ci, /update-snapshots/);
 });
-test("reviewed visual workflow is guarded and read-only", () => {
+test("reviewed visual workflow is guarded, read-only, and cannot publish", () => {
   const workflow = readFileSync(".github/workflows/generate-visual-baselines.yml", "utf8");
+  assert.match(workflow, /workflow_dispatch/);
   assert.match(workflow, /GENERATE_REVIEWED_LINUX_BASELINES/);
   assert.match(workflow, /contents: read/);
-  assert.doesNotMatch(workflow, /git push|git commit/);
+  assert.doesNotMatch(workflow, /git push|git commit|pull_request_target/);
 });

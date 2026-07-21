@@ -31,7 +31,7 @@ automation cannot replace.
 In `scripts/run-quality-evidence.mjs`, the `full` profile's `UX` rollup
 (`statusFor(commands, ["click-audit", "route-crawl", "forms", "overlays",
 "responsive", "keyboard", "copy", "errors", "ux"])`) reports as a single
-`UX` row in `quality/execution/latest/summary.md`; `Journeys` is a separate
+`UX` row in `quality/runtime/execution/latest/summary.md`; `Journeys` is a separate
 row covering `journeys`/`journeys-headed`. A failure in any one of these
 component specs marks the whole `UX` (or `Journeys`) row `failed` — check
 the individual `.log` files (see [`evidence.md`](evidence.md)) to find

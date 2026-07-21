@@ -24,7 +24,7 @@ import {
 import { resolveGitContext } from "./agent-memory-lib.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const EXECUTION = path.join(ROOT, "quality", "execution");
+const EXECUTION = path.join(ROOT, "quality", "runtime", "execution");
 const npmCli = process.env.npm_execpath
   ?? path.join(path.dirname(process.execPath), "node_modules", "npm", "bin", "npm-cli.js");
 const npmExecutable = process.platform === "win32" ? process.execPath : "npm";
@@ -199,7 +199,7 @@ async function runCommand(spec, runDirectory, priorResults) {
     command: spec.command,
     criticality: spec.criticality,
     startedAt: startedAt.toISOString(),
-    logPath: `quality/execution/runs/${path.basename(runDirectory)}/${spec.log}`,
+    logPath: `quality/runtime/execution/runs/${path.basename(runDirectory)}/${spec.log}`,
   };
 
   if (spec.script && !availableNpmScripts.has(spec.script)) {
@@ -361,8 +361,9 @@ function markdownSummary(summary) {
 - Target branch: ${summary.identity.targetBranch}
 - Execution context: ${summary.identity.executionContext}
 - Tested commit: ${summary.identity.testedCommit}
-- Evidence commit: ${summary.identity.evidenceCommit}
-- Parent commit: ${summary.identity.parentCommit ?? "Not available"}
+- Repository: ${summary.identity.repository}
+- Workflow: ${summary.identity.workflowName}
+- Workflow run: ${summary.identity.workflowRunId ?? "Local run"} (attempt ${summary.identity.workflowRunAttempt ?? "Not applicable"})
 - Generated at: ${summary.identity.generatedAt}
 - Working tree clean at test: ${summary.identity.workingTreeCleanAtTest ? "Yes" : "No"}
 - Agent used: Codex
@@ -437,7 +438,11 @@ async function main() {
   }
   const startedAt = new Date();
   const branch = output(gitExecutable, ["branch", "--show-current"]) || "detached";
-  const startingCommit = output(gitExecutable, ["rev-parse", "HEAD"]);
+  const checkedOutCommit = output(gitExecutable, ["rev-parse", "HEAD"]);
+  const startingCommit = process.env.GITHUB_SHA || checkedOutCommit;
+  if (process.env.GITHUB_SHA && checkedOutCommit !== process.env.GITHUB_SHA) {
+    throw new Error(`Checked-out commit ${checkedOutCommit} does not match GITHUB_SHA ${process.env.GITHUB_SHA}.`);
+  }
   const workingTreeStatusBefore = output(gitExecutable, ["status", "--porcelain=v1"]);
   const workingTreeCleanAtTest = workingTreeStatusBefore.length === 0;
   const gitContext = resolveGitContext();
@@ -535,8 +540,10 @@ async function main() {
       targetBranch: gitContext.targetBranch,
       executionContext: gitContext.executionContext,
       testedCommit: startingCommit,
-      evidenceCommit: "pending",
-      parentCommit: output(gitExecutable, ["rev-parse", `${startingCommit}^`]) || null,
+      repository: process.env.GITHUB_REPOSITORY || "ShabiLev/Shabi-s-AI-Academy",
+      workflowName: process.env.GITHUB_WORKFLOW || "local-quality-evidence",
+      workflowRunId: process.env.GITHUB_RUN_ID || null,
+      workflowRunAttempt: process.env.GITHUB_RUN_ATTEMPT || null,
       generatedAt: endedAt.toISOString(),
       workingTreeCleanAtTest,
       agent: "Codex", operatingSystem: environment.operatingSystem,
@@ -547,6 +554,7 @@ async function main() {
       implementedChanges: process.env.QUALITY_EVIDENCE_IMPLEMENTED_CHANGES ?? "No implementation scope was supplied; this run records validation evidence only.",
       dataMigrations: [],
     },
+    commands,
     results,
     coverage,
     manualReviews,
@@ -567,6 +575,11 @@ async function main() {
       workingTreeStatusBefore: workingTreeStatusBefore || "clean",
     },
     recommendation,
+    overallStatus: recommendation === "Blocked"
+      ? "failed"
+      : recommendation === "Ready"
+        ? "passed"
+        : "partial",
     failedCommands: failedCommands.map((command) => command.command),
   };
   writeJson(path.join(runDirectory, "summary.json"), summary);
@@ -600,8 +613,8 @@ async function main() {
     version,
     overallStatus: recommendation,
     coverageSummary: coverage,
-    reportPath: `quality/execution/latest/summary.md`,
-    localRunPath: `quality/execution/runs/${runId}/`,
+    reportPath: `quality/runtime/execution/latest/summary.md`,
+    localRunPath: `quality/runtime/execution/runs/${runId}/`,
     failedCommands: summary.failedCommands,
     warningCount,
   };
@@ -614,14 +627,14 @@ async function main() {
   const latest = path.join(EXECUTION, "latest");
   rmSync(latest, { recursive: true, force: true });
   mkdirSync(latest, { recursive: true });
-  for (const file of ["summary.md", "summary.json", "coverage-summary.json", "failures.md", "warnings.md", "manual-review.md", "changed-files.txt", "self-review.md", "environment.json", "commands.json", "git-state-before.txt", "git-state-after.txt"]) {
+  for (const file of ["summary.md", "summary.json", "test-results.json", "coverage-summary.json", "failures.md", "warnings.md", "manual-review.md", "changed-files.txt", "self-review.md", "environment.json", "commands.json", "git-state-before.txt", "git-state-after.txt"]) {
     const sourcePath = path.join(runDirectory, file);
     if (existsSync(sourcePath)) cpSync(sourcePath, path.join(latest, file));
   }
   const commandsPassed = commands.filter((command) => command.status === "passed").map((command) => command.command);
-  writeFileSync(path.join(latest, "README.md"), `# Latest quality execution\n\n- Occurred: ${startedAt.toISOString()} to ${endedAt.toISOString()}\n- Source branch: ${gitContext.sourceBranch}\n- Runtime branch: ${gitContext.runtimeBranch}\n- Target branch: ${gitContext.targetBranch}\n- Execution context: ${gitContext.executionContext}\n- Tested commit: ${startingCommit}\n- Evidence commit: pending until \`npm run quality:evidence:finalize\` runs after the evidence commit\n- Working tree clean at test: ${workingTreeCleanAtTest ? "Yes" : "No"}\n- Profile: ${profile}\n- Commands run: ${commands.map((command) => command.command).join(", ")}\n- Commands passed: ${commandsPassed.join(", ") || "None"}\n- Commands failed: ${summary.failedCommands.join(", ") || "None"}\n- Heavy local artifacts: \`quality/execution/runs/${runId}/\` (ignored), plus copied Playwright, coverage, and quality-generated reports when available.\n- Safe to commit: ${workingTreeCleanAtTest ? "Yes" : "No"}; latest files are sanitized summaries and contain no environment values. Review the diff before staging.\n- Manual review pending: ${pendingManual.length ? pendingManual.map(([name]) => name).join(", ") : "No"}\n\n## Synchronization (not executed)\n\n\`\`\`bash\ngit status\ngit branch --show-current\ngit fetch origin\ngit status -sb\ngit push -u origin ${branch}\n\`\`\`\n`, "utf8");
+  writeFileSync(path.join(latest, "README.md"), `# Latest quality execution\n\n- Occurred: ${startedAt.toISOString()} to ${endedAt.toISOString()}\n- Source branch: ${gitContext.sourceBranch}\n- Runtime branch: ${gitContext.runtimeBranch}\n- Target branch: ${gitContext.targetBranch}\n- Execution context: ${gitContext.executionContext}\n- Tested commit: ${startingCommit}\n- Evidence storage: ignored runtime output locally; immutable workflow artifacts in CI\n- Working tree clean at test: ${workingTreeCleanAtTest ? "Yes" : "No"}\n- Profile: ${profile}\n- Commands run: ${commands.map((command) => command.command).join(", ")}\n- Commands passed: ${commandsPassed.join(", ") || "None"}\n- Commands failed: ${summary.failedCommands.join(", ") || "None"}\n- Heavy local artifacts: \`quality/runtime/execution/runs/${runId}/\` (ignored), plus copied Playwright, coverage, and quality-generated reports when available.\n- Commit policy: runtime evidence is never committed.\n- Manual review pending: ${pendingManual.length ? pendingManual.map(([name]) => name).join(", ") : "No"}\n`, "utf8");
 
-  console.log(`\n[evidence] ${recommendation}: quality/execution/latest/summary.md`);
+  console.log(`\n[evidence] ${recommendation}: quality/runtime/execution/latest/summary.md`);
   if (recommendation === "Blocked") process.exitCode = 1;
 }
 

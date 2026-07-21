@@ -102,7 +102,7 @@ in `requiredModules` in [`../manifest.json`](../manifest.json) with
    changes require `manualUxReview`; anything touching authentication,
    secrets, or external calls requires `manualSecurityReview`; user-facing
    copy changes require `manualContentReview`. These three gates exist today
-   as `notRun` records in `quality/execution/latest/manual-review.md` and
+   as runtime `notRun` records in `quality/runtime/execution/latest/manual-review.md` and
    must never be marked passed by automation.
 
 7. **Determine required evidence.** Resolve which

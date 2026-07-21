@@ -6,7 +6,7 @@ _[what this evidence run covers]_
 
 ## Run ID
 
-_[quality/execution/runs/<RUN_ID>/ identifier, if applicable]_
+_[quality/runtime/execution/runs/<RUN_ID>/ identifier, if applicable]_
 
 ## Commands executed
 
@@ -27,7 +27,7 @@ inferred]_
 
 ## Artifacts location
 
-_[path to full logs/traces under quality/execution/runs/, gitignored]_
+_[path to full logs/traces under quality/runtime/execution/runs/, gitignored]_
 
 ## Summary verdict
 

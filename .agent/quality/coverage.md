@@ -29,8 +29,8 @@ agent must follow when coverage regresses. See also
 
 ## Coverage in evidence
 
-`quality/execution/latest/coverage-summary.json` and the `## Coverage`
-table in `quality/execution/latest/summary.md` report, per metric
+`quality/runtime/execution/latest/coverage-summary.json` and the `## Coverage`
+table in `quality/runtime/execution/latest/summary.md` report, per metric
 (statements/branches/functions/lines): `percent`, `threshold`, `delta`
 (vs. the previous indexed run), and `passed`. If `test:coverage` did not
 run in a given evidence profile (e.g. `fast`), the file instead contains

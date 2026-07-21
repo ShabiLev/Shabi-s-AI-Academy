@@ -28,6 +28,20 @@ const markdown = [
 ].join("\n");
 mkdirSync("quality/generated", { recursive: true });
 writeFileSync("quality/generated/ci-quality-summary.md", markdown, "utf8");
+writeFileSync("quality/generated/ci-quality-summary.json", `${JSON.stringify({
+  schemaVersion: 1,
+  repository: process.env.GITHUB_REPOSITORY ?? null,
+  workflowName: process.env.GITHUB_WORKFLOW ?? null,
+  workflowRunId: process.env.GITHUB_RUN_ID ?? null,
+  workflowRunAttempt: process.env.GITHUB_RUN_ATTEMPT ?? null,
+  headSha: process.env.GITHUB_SHA ?? null,
+  sourceBranch: process.env.GITHUB_HEAD_REF || process.env.GITHUB_REF_NAME || null,
+  targetBranch: process.env.GITHUB_BASE_REF || "main",
+  generatedAt: new Date().toISOString(),
+  gates: Object.fromEntries(gates.map(([label, key]) => [label, process.env[key] ?? "missing"])),
+  reportRecommendation,
+  conclusion: rows.every(({ result }) => result === "success") ? "success" : "failure",
+}, null, 2)}\n`, "utf8");
 if (process.env.GITHUB_STEP_SUMMARY) writeFileSync(process.env.GITHUB_STEP_SUMMARY, markdown, { flag: "a" });
 
 const failed = rows.filter(({ result }) => result !== "success");

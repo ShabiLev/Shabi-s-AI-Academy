@@ -26,17 +26,16 @@ never `passed` — this is a hard rule from
 
 ## What gets written
 
-Each run creates `quality/execution/runs/<RUN_ID>/` (gitignored — heavy
+Each run creates `quality/runtime/execution/runs/<RUN_ID>/` (gitignored — heavy
 Playwright artifacts, full logs, and raw coverage live here or become CI
-artifacts) and then updates the lightweight, tracked
-`quality/execution/latest/` with `README.md`, `summary.md`, `summary.json`,
+artifacts) and then updates the ignored runtime pointer
+`quality/runtime/execution/latest/` with `README.md`, `summary.md`, `summary.json`,
 `coverage-summary.json`, `failures.md`, `warnings.md`, `manual-review.md`,
 `self-review.md`, and `changed-files.txt`. See `evidence.md` for the exact
 per-file breakdown, including a documented gap: `environment.json`,
-`commands.json`, and the git-state snapshots are currently written only to
-the per-run archive, not copied into `latest/` — treat `summary.json`'s
-`identity` block and `summary.md`'s Git section as the committed substitute
-until that copy step is extended.
+`commands.json`, and the git-state snapshots are copied into the runtime
+`latest/` directory. In CI the corresponding output and exact-SHA provenance
+manifest are uploaded as GitHub Actions artifacts and never committed.
 
 ## Redaction
 

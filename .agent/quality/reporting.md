@@ -48,7 +48,7 @@ different shape.
 
 ## `README.md` as the human entry point
 
-`quality/execution/latest/README.md` is written directly (not copied from
+`quality/runtime/execution/latest/README.md` is written directly (not copied from
 the run directory) and is the fastest way to answer "what happened in the
 last run": occurrence window, branch, commit tested, profile, the full list
 of commands run/passed/failed, where heavy local artifacts live, an

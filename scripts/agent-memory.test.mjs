@@ -31,6 +31,17 @@ test("validates required fields and numeric bounds", () => {
   assert.ok(validateAgainstSchema({ percent: 101 }, schema).length > 0);
 });
 
+test("validates schema constants", () => {
+  assert.deepEqual(
+    validateAgainstSchema("runtimeArtifact", { const: "runtimeArtifact" }),
+    [],
+  );
+  assert.ok(
+    validateAgainstSchema("trackedCommit", { const: "runtimeArtifact" })
+      .length > 0,
+  );
+});
+
 const fakeGit =
   (branch = "feature/aos", head = "abc123") =>
   (...args) =>
@@ -43,7 +54,6 @@ test("resolves local feature and main branch contexts", () => {
     runtimeBranch: "feature/aos",
     targetBranch: "main",
     testedCommit: "abc123",
-    evidenceCommit: "unrecorded",
     generatedAt: "2026-07-21T00:00:00.000Z",
     executionContext: "localFeature",
   });
@@ -79,7 +89,6 @@ test("resolves GitHub push and pull request contexts", () => {
     runtimeBranch: "main",
     targetBranch: "main",
     testedCommit: "pushsha",
-    evidenceCommit: "unrecorded",
     generatedAt: "2026-07-21T00:00:00.000Z",
     executionContext: "githubPush",
   });
@@ -101,7 +110,6 @@ test("resolves GitHub push and pull request contexts", () => {
     runtimeBranch: "123/merge",
     targetBranch: "main",
     testedCommit: "mergesha",
-    evidenceCommit: "unrecorded",
     generatedAt: "2026-07-21T00:00:00.000Z",
     executionContext: "githubMergeRef",
   });

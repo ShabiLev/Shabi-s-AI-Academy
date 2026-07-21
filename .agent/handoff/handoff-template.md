@@ -36,8 +36,8 @@ _[commands actually run and their pass/fail/not-available status]_
 
 ## Evidence path
 
-_[path under quality/execution/latest/ or
-quality/execution/runs/<RUN_ID>/ holding evidence for this task]_
+_[path under quality/runtime/execution/latest/ or
+quality/runtime/execution/runs/<RUN_ID>/ holding evidence for this task]_
 
 ## Open failures
 

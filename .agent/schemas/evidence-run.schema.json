@@ -7,7 +7,7 @@
   "properties": {
     "identity": {
       "type": "object",
-      "required": ["runId", "sourceBranch", "runtimeBranch", "targetBranch", "executionContext", "testedCommit", "evidenceCommit", "generatedAt", "workingTreeCleanAtTest"],
+      "required": ["runId", "sourceBranch", "runtimeBranch", "targetBranch", "executionContext", "testedCommit", "repository", "workflowName", "generatedAt", "workingTreeCleanAtTest"],
       "properties": {
         "runId": {"type":"string"},
         "sourceBranch": {"type":"string"},
@@ -15,8 +15,10 @@
         "targetBranch": {"type":"string"},
         "executionContext": {"enum":["localFeature","localMain","githubPush","githubPullRequest","githubMergeRef","detachedHead","unknown"]},
         "testedCommit": {"type":"string"},
-        "evidenceCommit": {"type":"string"},
-        "parentCommit": {"type":["string","null"]},
+        "repository": {"type":"string"},
+        "workflowName": {"type":"string"},
+        "workflowRunId": {"type":["string","null"]},
+        "workflowRunAttempt": {"type":["string","null"]},
         "generatedAt": {"type":"string"},
         "workingTreeCleanAtTest": {"type":"boolean"},
         "integrityValidation": {"type":"string"}

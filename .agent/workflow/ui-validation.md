@@ -56,7 +56,7 @@ change affects rendered output, interaction, or navigation. This is phase
 - Marking `manualUxReview` as passed automatically — it can only be updated
   by a human reviewer per
   [`../quality/manual-review.md`](../quality/manual-review.md) and the
-  `quality/execution/latest/manual-review.md` record.
+  `quality/runtime/execution/latest/manual-review.md` record.
 
 ## Deliverables
 
@@ -68,9 +68,9 @@ change affects rendered output, interaction, or navigation. This is phase
 
 ## Evidence requirements
 
-Test run output feeds `quality/execution/latest/` via
+Test run output feeds `quality/runtime/execution/latest/` via
 [`../quality/evidence.md`](../quality/evidence.md). The `manualUxReview`
-gate in `quality/execution/latest/manual-review.md` stays `notRun` until an
+gate in `quality/runtime/execution/latest/manual-review.md` stays `notRun` until an
 actual human completes it — automated UI execution does not substitute for
 it, per [`../quality/manual-review.md`](../quality/manual-review.md).
 

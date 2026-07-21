@@ -19,7 +19,8 @@ an AI agent (Codex or Claude Code) must use them. See also
    they never invent a second implementation of testing or coverage logic.
 2. **Evidence over claims.** A task is not "tested" because an agent says
    so. It is tested because the relevant npm scripts were actually run and
-   their results are captured under `quality/execution/latest/` (see
+   their results are captured under ignored `quality/runtime/execution/latest/`
+   or exact-SHA CI artifacts (see
    [`evidence.md`](evidence.md)). Fabricated, assumed, or remembered test
    results are never acceptable.
 3. **Honest unavailability.** If a check does not exist in this repository,
@@ -37,9 +38,8 @@ an AI agent (Codex or Claude Code) must use them. See also
    decision, not a test-writing decision. See [`coverage.md`](coverage.md).
 6. **Heavy artifacts stay out of Git.** Full logs, Playwright traces,
    screenshots, and HTML coverage reports live under
-   `quality/execution/runs/` (gitignored) or become CI artifacts. Only the
-   lightweight, sanitized summaries under `quality/execution/latest/` are
-   committed. See [`evidence.md`](evidence.md).
+   `quality/runtime/execution/runs/` (gitignored) or become CI artifacts.
+   Generated summaries are not committed. See [`evidence.md`](evidence.md).
 
 ## Where quality logic actually lives
 
@@ -51,7 +51,7 @@ an AI agent (Codex or Claude Code) must use them. See also
 | Result collection | `quality/scripts/collect-quality-results.mjs` |
 | Result analysis / release status | `quality/scripts/analyze-quality-results.mjs` |
 | Evidence orchestration | `scripts/run-quality-evidence.mjs` |
-| Evidence output | `quality/execution/latest/` and `quality/execution/runs/<RUN_ID>/` |
+| Evidence output | Ignored `quality/runtime/execution/` and exact-SHA CI artifacts |
 
 ## How this applies to a task
 

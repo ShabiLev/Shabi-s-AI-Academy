@@ -17,7 +17,7 @@ function renderApp(path = '/') {
 }
 
 async function demoLogin(user: ReturnType<typeof userEvent.setup>) {
-  const loginButton = screen.getByRole('button', { name: 'כניסה למצב הדגמה' })
+  const loginButton = screen.getByRole('button', { name: /כניסה למצב הדגמה|Demo Login/ })
   await user.click(loginButton)
   await waitFor(() => expect(loginButton).not.toBeInTheDocument())
 }
@@ -43,6 +43,7 @@ const sampleSnapshot: AosSnapshot = {
   research: { sources: 1, claims: 2, candidates: 0, reviews: 0, published: 0 },
   validation: { totalErrors: 0, totalChecks: 4, checks: [] },
   memory: {
+    available: true,
     currentTask: 'Stabilize Version 1.4', currentPhase: 'validation', releaseState: 'blocked', completionPercent: 89,
     requirements: { completed: 24, partial: 2, missing: 2 }, blockers: ['Visual review pending'], blockerCount: 1,
     knownIssueCount: 1, latestEvidenceRunId: 'sample-run', testedCommit: 'abc1234', evidenceCurrent: false, coverage: 76.5,
@@ -162,5 +163,12 @@ describe('AOS subroutes render without crashing', () => {
   it('memory page warns when evidence is stale', async () => {
     mockSnapshotFetch(sampleSnapshot); const user = userEvent.setup(); renderApp('/aos/memory'); await demoLogin(user)
     expect(await screen.findByText('הראיות אינן תואמות למצב הנוכחי')).toBeInTheDocument()
+  })
+
+  it('runtime pages show unavailable instead of stale committed state', async () => {
+    window.localStorage.setItem('shabis-ai-academy-language', 'en')
+    mockSnapshotFetch({ ...sampleSnapshot, memory: { ...sampleSnapshot.memory, available: false } })
+    const user = userEvent.setup(); renderApp('/aos/memory'); await demoLogin(user)
+    expect(await screen.findByRole('status')).toHaveTextContent('No snapshot generated yet')
   })
 })

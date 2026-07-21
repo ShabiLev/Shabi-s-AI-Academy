@@ -1,1 +1,47 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://shabilev.github.io/aos/quality-status.schema.json","title":"Quality Status","type":"object","required":["schemaVersion","updatedAt","latestRunId","testedCommit","evidenceCommit","parentCommit","workingTreeCleanAtTest","coverage","unit","e2e","visual","accessibility","performance","pages","aos","manualReviews","releaseRecommendation","unresolvedWarnings","evidencePaths"],"properties":{"schemaVersion":{"type":"string"},"updatedAt":{"type":"string"},"latestRunId":{"type":["string","null"]},"testedCommit":{"type":["string","null"]},"evidenceCommit":{"type":["string","null"]},"parentCommit":{"type":["string","null"]},"workingTreeCleanAtTest":{"type":"boolean"},"coverage":{"type":["object","null"]},"unit":{"type":"string"},"e2e":{"type":"string"},"visual":{"type":"string"},"accessibility":{"type":"string"},"performance":{"type":"string"},"pages":{"type":"string"},"aos":{"type":"string"},"manualReviews":{"type":"object"},"releaseRecommendation":{"type":"string"},"unresolvedWarnings":{"type":"array","items":{"type":"string"}},"evidencePaths":{"type":"array","items":{"type":"string"}}}}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shabilev.github.io/aos/quality-status.schema.json",
+  "title": "Quality Status",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "updatedAt",
+    "latestRunId",
+    "testedCommit",
+    "verificationSource",
+    "workingTreeCleanAtTest",
+    "coverage",
+    "unit",
+    "e2e",
+    "visual",
+    "accessibility",
+    "performance",
+    "pages",
+    "aos",
+    "manualReviews",
+    "releaseRecommendation",
+    "unresolvedWarnings",
+    "evidencePaths"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "updatedAt": { "type": "string" },
+    "latestRunId": { "type": ["string", "null"] },
+    "testedCommit": { "type": ["string", "null"] },
+    "verificationSource": { "const": "runtimeArtifact" },
+    "workingTreeCleanAtTest": { "type": "boolean" },
+    "coverage": { "type": ["object", "null"] },
+    "unit": { "type": "string" },
+    "e2e": { "type": "string" },
+    "visual": { "type": "string" },
+    "accessibility": { "type": "string" },
+    "performance": { "type": "string" },
+    "pages": { "type": "string" },
+    "aos": { "type": "string" },
+    "manualReviews": { "type": "object" },
+    "releaseRecommendation": { "type": "string" },
+    "unresolvedWarnings": { "type": "array", "items": { "type": "string" } },
+    "evidencePaths": { "type": "array", "items": { "type": "string" } }
+  }
+}

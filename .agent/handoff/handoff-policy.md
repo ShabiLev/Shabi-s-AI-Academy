@@ -44,7 +44,7 @@ warnings, manual review, next action, prohibited assumptions.
 Handoff documents are lightweight Markdown files describing task state at a
 point in time; they are not large generated artifacts and are tracked in
 Git like any other `.agent/` content, distinct from the gitignored
-`quality/execution/runs/`.
+`quality/runtime/execution/runs/`.
 
 ## Relationship to other modules
 

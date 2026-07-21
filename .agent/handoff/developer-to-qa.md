@@ -16,7 +16,7 @@ when a code change is ready for testing. Uses the field set defined in
 - **Tests executed** — which tests `developer` already ran locally (focused
   tests, build, lint) and their results; this is not a substitute for
   `qa-engineer` re-running the full suite.
-- **Evidence path** — the `quality/execution/latest/` files already
+- **Evidence path** — the `quality/runtime/execution/latest/` files already
   produced.
 - **Open failures** — any known failing test or edge case not yet handled,
   stated plainly rather than hidden.

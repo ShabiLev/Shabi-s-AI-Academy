@@ -16,8 +16,12 @@ written down, it is not known.
 
 ## Categories
 
-Memory is organized into eight categories, covered by five files (some
-files cover more than one closely related category):
+Durable, hand-authored memory remains under `.agent/memory/`. Mutable task,
+quality, release, progress, and handoff summaries are generated under the
+ignored `.agent/runtime/memory/` directory and are never release proof.
+
+Historical generated Markdown already committed under `.agent/memory/` is
+retained for compatibility, but tools must not update or present it as current.
 
 1. **Stable project facts** — see `.agent/memory/project-memory.md`.
 2. **Architecture decisions** — see `.agent/memory/decision-memory.md`.
@@ -43,8 +47,9 @@ the deployment platform's secret manager"), never the value itself.
 
 ## Rules
 
-- Memory files are plain Markdown, human-reviewable, and tracked in Git
-  like any other `.agent/` content.
+- Durable memory files are plain Markdown, human-reviewable, and tracked in Git.
+- Generated runtime memory is ignored and may be deleted or recreated without a
+  commit. `npm run memory:update` writes only `.agent/runtime/`.
 - An entry must state where it came from (which task, decision, or
   research effort) so it can be traced back.
 - Stale or superseded entries are marked as such, not deleted silently —

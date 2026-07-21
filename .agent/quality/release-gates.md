@@ -42,7 +42,7 @@ every downstream check. Running the equivalent evidence profile
 (`npm run quality:evidence:full`) is preferable when preparing a release
 report, because it runs every command independently (failures don't hide
 downstream results) and produces the persistent, sanitized evidence trail
-under `quality/execution/latest/` — see [`evidence.md`](evidence.md). Note
+under `quality/runtime/execution/latest/` — see [`evidence.md`](evidence.md). Note
 that the `full` evidence profile's own command list is a superset that also
 includes `test:release-candidate`, `test:release-candidate:pages`, and
 `validate:release` itself as one of its steps (see
@@ -114,5 +114,5 @@ A real observed run on this branch shows exactly this kind of unresolved
 state: `build`, `build:pages`, `test:e2e`, `test:e2e:full`, `test:visual`,
 `test:performance`, `test:release-candidate`, `test:release-candidate:pages`,
 and `validate:release` all failed, with recommendation `Blocked`
-(`quality/execution/latest/summary.md`) — that run is not release-ready,
+(`quality/runtime/execution/latest/summary.md`) — that run is not release-ready,
 and no amount of documentation should present it as such.

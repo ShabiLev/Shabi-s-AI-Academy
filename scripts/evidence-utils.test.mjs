@@ -1,7 +1,13 @@
 import assert from "node:assert/strict";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import test from "node:test";
 import {
+  assessCiManifest,
+  assessRuntimeEvidence,
   boundedRunIndex,
+  computeContentDigest,
   assessEvidenceIntegrity,
   deriveRecommendation,
   isEvidenceMetadataPath,
@@ -133,4 +139,93 @@ test("rejects stale, dirty, or product-changing evidence lineage", () => {
   assert.equal(result.ok, false);
   assert.ok(result.errors.some((error) => error.includes("dirty")));
   assert.deepEqual(result.disallowed, ["src/App.tsx"]);
+});
+
+test("runtime evidence binds directly to the expected SHA without an evidence commit", () => {
+  const summary = {
+    schemaVersion: 1,
+    identity: {
+      runId: "run-1",
+      profile: "full",
+      testedCommit: "abc123",
+      repository: "owner/repo",
+      workflowName: "local-quality-evidence",
+      generatedAt: "2026-07-21T00:00:00.000Z",
+      workingTreeCleanAtTest: true,
+    },
+    results: { Build: { status: "passed" } },
+    commands: [{ command: "npm run build", status: "passed" }],
+    overallStatus: "passed",
+  };
+  assert.deepEqual(assessRuntimeEvidence(summary, { expectedSha: "abc123" }).errors, []);
+  assert.match(assessRuntimeEvidence(summary, { expectedSha: "different" }).errors.join(" "), /does not match/);
+});
+
+test("CI manifest requires exact SHA, run identity, tool versions, and digest", () => {
+  const sha = "a".repeat(40);
+  const manifest = {
+    schemaVersion: 1,
+    repository: "owner/repo",
+    workflowName: "CI",
+    workflowRunId: "20",
+    workflowRunAttempt: "1",
+    headSha: sha,
+    sourceBranch: "fix/example",
+    targetBranch: "main",
+    eventName: "push",
+    generatedAt: "2026-07-21T00:00:00.000Z",
+    jobName: "quality-core",
+    conclusion: "success",
+    nodeVersion: "v20.19.0",
+    npmVersion: "10.8.2",
+    files: ["report.json"],
+    contentDigest: "a".repeat(64),
+  };
+  assert.deepEqual(assessCiManifest(manifest, { expectedSha: sha, requiredJob: "quality-core", expectedRunId: "20" }).errors, []);
+  assert.match(assessCiManifest(manifest, { expectedSha: "different" }).errors.join(" "), /does not match/);
+  assert.match(assessCiManifest({ ...manifest, files: ["../secret"] }).errors.join(" "), /unsafe/);
+});
+
+test("CI manifest digest is recomputed from relative artifact content", () => {
+  const root = mkdtempSync(path.join(os.tmpdir(), "aos-artifact-"));
+  try {
+    writeFileSync(path.join(root, "report.json"), "{}\n", "utf8");
+    const sha = "b".repeat(40);
+    const manifest = {
+      schemaVersion: 1,
+      repository: "owner/repo",
+      workflowName: "CI",
+      workflowRunId: "21",
+      workflowRunAttempt: "1",
+      headSha: sha,
+      sourceBranch: "fix/example",
+      targetBranch: "main",
+      eventName: "push",
+      generatedAt: "2026-07-21T00:00:00.000Z",
+      jobName: "quality-core",
+      conclusion: "success",
+      nodeVersion: "v20.19.0",
+      npmVersion: "10.8.2",
+      files: ["report.json"],
+      contentDigest: computeContentDigest(root, ["report.json"]),
+    };
+    assert.deepEqual(assessCiManifest(manifest, { artifactRoot: root }).errors, []);
+    writeFileSync(path.join(root, "report.json"), "changed\n", "utf8");
+    assert.match(assessCiManifest(manifest, { artifactRoot: root }).errors.join(" "), /does not match/);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("quality and Agent Memory producers write only ignored runtime paths", () => {
+  const runner = readFileSync("scripts/run-quality-evidence.mjs", "utf8");
+  const memory = readFileSync("scripts/update-agent-memory.mjs", "utf8");
+  const finalizer = readFileSync("scripts/finalize-quality-evidence.mjs", "utf8");
+  const ignores = readFileSync(".gitignore", "utf8");
+  assert.match(runner, /quality", "runtime", "execution/);
+  assert.match(memory, /\.agent", "runtime", "state/);
+  assert.match(memory, /\.agent", "runtime", "memory/);
+  assert.match(ignores, /\.agent\/runtime\//);
+  assert.match(ignores, /quality\/runtime\//);
+  assert.doesNotMatch(finalizer, /writeFileSync|evidenceCommit|pendingPostEvidenceCommit/);
 });

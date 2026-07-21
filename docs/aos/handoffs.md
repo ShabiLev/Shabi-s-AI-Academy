@@ -41,7 +41,7 @@ direction:
 1. Read `.agent/master.md`.
 2. Read the active task prompt under `.agent/prompts/`.
 3. Read the latest handoff document.
-4. Read `quality/execution/latest/summary.md`.
+4. Read `quality/runtime/execution/latest/summary.md`.
 5. Verify actual Git state against what the handoff claims.
 6. Verify actual changed files against the handoff's file list.
 7. Re-run focused tests for the affected area.
@@ -67,4 +67,4 @@ safe when state may have drifted since the handoff was written.
 
 Handoff documents are lightweight Markdown, tracked in Git like any other
 `.agent/` content — distinct from the gitignored
-`quality/execution/runs/`. Browse recorded handoffs at `/aos/handoffs`.
+`quality/runtime/execution/runs/`. Browse recorded handoffs at `/aos/handoffs`.

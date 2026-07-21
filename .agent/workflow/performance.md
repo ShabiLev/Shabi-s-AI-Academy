@@ -59,7 +59,7 @@ required gate.
 
 Lighthouse collect/assert output feeds
 [`../quality/performance.md`](../quality/performance.md) and
-`quality/execution/latest/` via
+`quality/runtime/execution/latest/` via
 [`../quality/evidence.md`](../quality/evidence.md) as part of the `full`
 evidence profile in `scripts/run-quality-evidence.mjs`.
 

@@ -1,43 +1,33 @@
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { assessEvidenceIntegrity } from "./evidence-utils.mjs";
+import { assessRuntimeEvidence } from "./evidence-utils.mjs";
+import { readJson, validateAgainstSchema } from "./agent-memory-lib.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const summary = JSON.parse(
-  readFileSync(path.join(root, "quality", "execution", "latest", "summary.json"), "utf8"),
+const summaryPath = path.join(root, "quality", "runtime", "execution", "latest", "summary.json");
+const head = execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim();
+
+if (!existsSync(summaryPath)) {
+  console.error("ERROR: runtime evidence is not generated");
+  process.exit(1);
+}
+
+const summary = JSON.parse(readFileSync(summaryPath, "utf8"));
+const result = assessRuntimeEvidence(summary, { expectedSha: head, workspace: root });
+result.errors.push(
+  ...validateAgainstSchema(summary, readJson(path.join(root, ".agent", "schemas", "evidence-run.schema.json"))),
 );
-const git = (...args) =>
-  execFileSync("git", args, { cwd: root, encoding: "utf8" }).trim();
-const succeeds = (...args) => {
-  try {
-    execFileSync("git", args, { cwd: root, stdio: "ignore" });
-    return true;
-  } catch {
-    return false;
-  }
-};
-const identity = summary.identity ?? {};
-const headCommit = git("rev-parse", "HEAD");
-const changedPaths = identity.testedCommit
-  ? git("diff", "--name-only", identity.testedCommit, headCommit)
-      .split(/\r?\n/)
-      .filter(Boolean)
-  : [];
-const result = assessEvidenceIntegrity({
-  ...identity,
-  headCommit,
-  testedIsAncestor: succeeds("merge-base", "--is-ancestor", identity.testedCommit, headCommit),
-  evidenceIsAncestor: succeeds("merge-base", "--is-ancestor", identity.evidenceCommit, headCommit),
-  changedPaths,
-});
-if (git("status", "--porcelain=v1")) result.errors.push("working tree is dirty during integrity validation");
-result.ok = result.errors.length === 0;
-if (!result.ok) {
+for (const name of ["environment.json", "commands.json", "summary.json", "test-results.json", "coverage-summary.json", "git-state-before.txt", "git-state-after.txt"]) {
+  if (!existsSync(path.join(root, "quality", "runtime", "execution", "latest", name)))
+    result.errors.push(`required runtime output is missing: ${name}`);
+}
+if (execFileSync("git", ["status", "--porcelain=v1"], { cwd: root, encoding: "utf8" }).trim()) {
+  result.errors.push("working tree is dirty during integrity validation");
+}
+if (result.errors.length) {
   result.errors.forEach((error) => console.error(`ERROR: ${error}`));
   process.exit(1);
 }
-console.log(
-  `Evidence integrity passed: tested ${identity.testedCommit}; evidence ${identity.evidenceCommit}; HEAD ${headCommit}.`,
-);
+console.log(`Runtime evidence integrity passed for exact HEAD ${head}.`);

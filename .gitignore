@@ -12,3 +12,7 @@ playwright/.cache/
 quality/generated/
 public/generated/
 quality/execution/runs/
+.agent/runtime/
+quality/runtime/
+.artifacts/
+.tmp/quality/

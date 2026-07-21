@@ -31,6 +31,7 @@ const pkg = JSON.parse(
 const evidenceFile = path.join(
   repoRoot,
   "quality",
+  "runtime",
   "execution",
   "latest",
   "summary.json",
@@ -39,8 +40,7 @@ const evidence = existsSync(evidenceFile)
   ? JSON.parse(readFileSync(evidenceFile, "utf8"))
   : {};
 const testedCommit = evidence.identity?.testedCommit ?? "unknown";
-const evidenceCommit = evidence.identity?.evidenceCommit ?? "unrecorded";
-const parentCommit = evidence.identity?.parentCommit ?? null;
+const verificationSource = "runtimeArtifact";
 const workingTreeCleanAtTest = evidence.identity?.workingTreeCleanAtTest === true;
 const manual = evidence.manualReviews ?? {};
 const researchReport = readFileSync(
@@ -98,7 +98,7 @@ const states = {
     runtimeBranch,
     targetBranch,
     testedCommit,
-    evidenceCommit,
+    verificationSource,
     executionContext,
     task: "Version 1.4 CI, Agent Memory, Evidence, visual, and deployment release recovery",
     startingCommit: git("merge-base", "origin/main", "HEAD"),
@@ -124,7 +124,7 @@ const states = {
       .filter(([, value]) => value.status !== "passed")
       .map(([name]) => name),
     evidencePath: evidence.identity?.runId
-      ? `quality/execution/runs/${evidence.identity.runId}`
+      ? `quality/runtime/execution/runs/${evidence.identity.runId}`
       : null,
     nextAction:
       blockers[0] ?? "Run post-evidence integrity validation and publish the fix branch.",
@@ -136,7 +136,7 @@ const states = {
     runtimeBranch,
     targetBranch,
     testedCommit,
-    evidenceCommit,
+    verificationSource,
     executionContext,
     overallPercent,
     currentPhase: "validation",
@@ -177,7 +177,7 @@ const states = {
     runtimeBranch,
     targetBranch,
     testedCommit,
-    evidenceCommit,
+    verificationSource,
     executionContext,
     application: "Shabi's AI Academy",
     purpose:
@@ -195,7 +195,7 @@ const states = {
     runtimeBranch,
     targetBranch,
     testedCommit,
-    evidenceCommit,
+    verificationSource,
     executionContext,
     version: pkg.version,
     milestone:
@@ -234,7 +234,7 @@ const states = {
             status: "active",
             affectedRelease: pkg.version,
             evidencePath: evidence.identity?.runId
-              ? `quality/execution/runs/${evidence.identity.runId}/visual.log`
+              ? `quality/runtime/execution/runs/${evidence.identity.runId}/visual.log`
               : null,
           },
         ]
@@ -251,7 +251,7 @@ const states = {
         status: "resolved",
         affectedRelease: pkg.version,
         evidencePath: evidence.identity?.runId
-          ? `quality/execution/runs/${evidence.identity.runId}`
+          ? `quality/runtime/execution/runs/${evidence.identity.runId}`
           : null,
       },
     ],
@@ -289,8 +289,7 @@ const states = {
     updatedAt: now,
     latestRunId: evidence.identity?.runId ?? null,
     testedCommit: evidence.identity?.testedCommit ?? null,
-    evidenceCommit: evidence.identity?.evidenceCommit ?? null,
-    parentCommit,
+    verificationSource,
     workingTreeCleanAtTest,
     coverage: evidence.coverage ?? null,
     unit: evidence.results?.["Unit tests"]?.status ?? "notRun",
@@ -312,10 +311,10 @@ const states = {
     unresolvedWarnings: blockers,
     evidencePaths: evidence.identity?.runId
       ? [
-          `quality/execution/runs/${evidence.identity.runId}`,
-          "quality/execution/latest",
+          `quality/runtime/execution/runs/${evidence.identity.runId}`,
+          "quality/runtime/execution/latest",
         ]
-      : ["quality/execution/latest"],
+      : ["quality/runtime/execution/latest"],
   },
   "latest-handoff": {
     schemaVersion: "1.0.0",
@@ -324,14 +323,14 @@ const states = {
     runtimeBranch,
     targetBranch,
     testedCommit,
-    evidenceCommit,
+    verificationSource,
     executionContext,
     fromAgent: "Codex",
     toAgent: "Codex or Claude Code",
     status: dirty ? "inProgress" : "readyForReview",
     summary:
       "Continue from explicit AOS state, verify Git, rerun focused tests, and preserve human-owned review gates.",
-    evidencePath: "quality/execution/latest",
+    evidencePath: "quality/runtime/execution/latest",
     nextAction: blockers[0] ?? "Run final release gates.",
   },
   "next-actions": {
@@ -385,7 +384,7 @@ const states = {
   },
 };
 
-mkdirSync(path.join(repoRoot, ".agent", "state"), { recursive: true });
+mkdirSync(path.join(repoRoot, ".agent", "runtime", "state"), { recursive: true });
 for (const [name, value] of Object.entries(states))
   writeFileSync(statePath(name), `${JSON.stringify(value, null, 2)}\n`, "utf8");
 
@@ -401,15 +400,16 @@ const memoryDocs = {
     .join("\n")}\n`,
   "decision-memory.md": `# Decision Memory\n\nSignificant decisions only; ADRs remain authoritative.\n\n- 2026-07-15: Agent memory is explicit, bounded, sanitized Markdown plus schema-validated JSON. Hidden or remote memory was rejected because it is not inspectable or agent-neutral. Affected: memory, state, evidence, UI.\n- 2026-07-15: Public AOS pages consume one generated sanitized snapshot, never raw repository files. Bundling raw state was rejected to prevent private paths and stale status leaks. Affected: snapshot, UI, Pages.\n- 2026-07-15: Manual UX/security/content reviews remain human-owned. Automated promotion was rejected under the quality and release policies.\n`,
   "research-memory.md": `# Research Memory\n\n- Latest run: seed-2026-07-15\n- Sources: ${research.sources} discovered / ${research.validated} validated / ${research.duplicates} duplicates\n- Claims: ${research.claimsExtracted} extracted / ${research.claimsVerified} verified\n- Candidates: ${research.candidatesGenerated} generated / ${research.candidatesPendingReview} pending review / 0 published\n- Coverage is a small seed set, not comprehensive. Missing: ${states["research-progress"].missingTopicCoverage.join(", ")}.\n`,
-  "quality-memory.md": `# Quality Memory\n\n- Latest run: ${evidence.identity?.runId ?? "not available"}\n- Tested commit: ${testedCommit}\n- Evidence commit: ${evidenceCommit}\n- Working tree clean at test: ${workingTreeCleanAtTest ? "Yes" : "No"}\n- Coverage: ${evidence.coverage?.statements?.percent ?? "not available"}% statements\n- Unit: ${states["quality-status"].unit}; E2E: ${states["quality-status"].e2e}; visual: ${states["quality-status"].visual}; accessibility: ${states["quality-status"].accessibility}; performance: ${states["quality-status"].performance}; Pages: ${states["quality-status"].pages}\n- Manual reviews: notRun; automation cannot promote them.\n- Recommendation: ${releaseState}. Prior green results are never copied to a new commit without rerunning.\n`,
+  "quality-memory.md": `# Quality Memory\n\n- Latest run: ${evidence.identity?.runId ?? "not available"}\n- Tested commit: ${testedCommit}\n- Verification source: immutable runtime or CI artifact\n- Working tree clean at test: ${workingTreeCleanAtTest ? "Yes" : "No"}\n- Coverage: ${evidence.coverage?.statements?.percent ?? "not available"}% statements\n- Unit: ${states["quality-status"].unit}; E2E: ${states["quality-status"].e2e}; visual: ${states["quality-status"].visual}; accessibility: ${states["quality-status"].accessibility}; performance: ${states["quality-status"].performance}; Pages: ${states["quality-status"].pages}\n- Manual reviews: notRun; automation cannot promote them.\n- Recommendation: ${releaseState}. Prior green results are never copied to a new commit without rerunning.\n`,
   "release-memory.md": `# Release Memory\n\n- Version: ${pkg.version}\n- Milestone: ${states["release-status"].milestone}\n- Branch: \`${branch}\`\n- Target main: \`${states["release-status"].targetMainCommit}\`\n- State: ${releaseState}\n- Research: seed candidates pending review\n- Documentation: complete\n- Deployment: not deployed\n- Blockers: ${blockers.join("; ") || "None"}\n- Recommendation: ${states["release-status"].finalRecommendation}\n`,
   "next-actions.md": `# Next Actions\n\n${states["next-actions"].actions.map((action) => `## ${action.id}: ${action.title}\n\n- Priority: ${action.priority}\n- Role: ${action.requiredRole}\n- Reason: ${action.reason}\n- Modules: ${action.requiredModules.join(", ")}\n- Prerequisites: ${action.prerequisites.join(", ") || "None"}\n- Evidence: ${action.expectedEvidence}\n- Complete when: ${action.completionCriteria}\n- Status: ${action.status}\n`).join("\n")}\n`,
 };
 for (const [name, content] of Object.entries(memoryDocs)) {
-  const target = path.join(repoRoot, ".agent", "memory", name);
+  const target = path.join(repoRoot, ".agent", "runtime", "memory", name);
+  mkdirSync(path.dirname(target), { recursive: true });
   if (name === "decision-memory.md" && existsSync(target)) continue;
   writeFileSync(target, redact(content), "utf8");
 }
 console.log(
-  `Updated ${Object.keys(states).length} state files and ${Object.keys(memoryDocs).length} bounded memory summaries.`,
+  `Updated ${Object.keys(states).length} runtime state files and ${Object.keys(memoryDocs).length} runtime memory summaries.`,
 );

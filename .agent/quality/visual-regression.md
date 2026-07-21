@@ -18,15 +18,15 @@ of scripts. See also [`test-selection.md`](test-selection.md) and
 ## In the evidence system
 
 `test:visual` is command id `visual` in the `full` evidence profile,
-rolling up into the `Visual` row of `quality/execution/latest/summary.md`.
+rolling up into the `Visual` row of `quality/runtime/execution/latest/summary.md`.
 Failed visual comparisons produce `*-diff.png` files, which
 `copyHeavyArtifacts()` in `scripts/run-quality-evidence.mjs` sorts into
-`quality/execution/runs/<RUN_ID>/visual-diffs/` (matched by filename suffix
+`quality/runtime/execution/runs/<RUN_ID>/visual-diffs/` (matched by filename suffix
 `-diff.png`) alongside `screenshots/`, `traces/`, and `videos/` — all local/
 gitignored, never committed (see [`evidence.md`](evidence.md)). In a real
 observed run on this branch, `Visual` failed with 1 failure out of 25
-results in ~80s (`quality/execution/latest/summary.md`, `Visual` row) —
-check `quality/execution/runs/<RUN_ID>/visual.log` and the corresponding
+results in ~80s (`quality/runtime/execution/latest/summary.md`, `Visual` row) —
+check `quality/runtime/execution/runs/<RUN_ID>/visual.log` and the corresponding
 `visual-diffs/` entry to see exactly which snapshot regressed before
 deciding whether it's a real regression or an intended change.
 

@@ -21,7 +21,7 @@ export function validateLinks() {
 
   const files = scanRoots.flatMap((root) =>
     walkFiles(root, (f) => f.endsWith(".md")),
-  );
+  ).filter((file) => !relFromRoot(file).startsWith(".agent/runtime/"));
 
   for (const file of files) {
     const text = readFileSync(file, "utf8");

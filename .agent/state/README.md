@@ -1,3 +1,7 @@
-# Agent Runtime State
+# Historical Agent State
 
-These lightweight JSON files are the explicit, sanitized, schema-validated current state shared by Codex and Claude Code. Regenerate them with `npm run memory:update`, verify them with `npm run memory:check`, and never treat them as a substitute for current Git verification.
+These JSON files are a frozen Version 1.4 migration record. They are retained for
+historical compatibility and must not be regenerated or treated as current
+release proof. Current sanitized state is written to the ignored
+`.agent/runtime/state/` directory by `npm run memory:update`; when it is absent,
+the UI and validators report the runtime state as unverified.

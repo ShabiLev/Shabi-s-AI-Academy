@@ -87,8 +87,8 @@ export function AosEvidencePage() {
           )}
           <p>
             {ui === "he"
-              ? "מקור: quality/execution/latest/summary.json — נתונים אמיתיים מהרצה האחרונה, לא סימולציה."
-              : "Source: quality/execution/latest/summary.json — real data from the last run, not simulated."}
+              ? "מקור: quality/runtime/execution/latest/summary.json — נתוני Runtime מקומיים, לא הוכחת שחרור מ-Git."
+              : "Source: quality/runtime/execution/latest/summary.json — local runtime data, not Git-based release proof."}
           </p>
         </section>
       )}

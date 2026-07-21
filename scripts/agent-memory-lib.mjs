@@ -17,7 +17,7 @@ export const stateFiles = [
 ];
 
 export const statePath = (name) =>
-  path.join(repoRoot, ".agent", "state", `${name}.json`);
+  path.join(repoRoot, ".agent", "runtime", "state", `${name}.json`);
 export const schemaPath = (name) =>
   path.join(repoRoot, ".agent", "schemas", `${name}.schema.json`);
 
@@ -98,7 +98,6 @@ export function resolveGitContext({
     runtimeBranch: runtimeBranch || "unknown",
     targetBranch: targetBranch || "main",
     testedCommit: env.GITHUB_SHA || localHead,
-    evidenceCommit: previous.evidenceCommit || "unrecorded",
     generatedAt: now(),
     executionContext,
   };
@@ -140,6 +139,8 @@ export function validateAgainstSchema(value, schema, at = "$") {
     ];
   if (schema.enum && !schema.enum.includes(value))
     errors.push(`${at}: value is not allowed`);
+  if (Object.hasOwn(schema, "const") && value !== schema.const)
+    errors.push(`${at}: value must equal the schema constant`);
   if (
     typeof value === "string" &&
     schema.minLength &&

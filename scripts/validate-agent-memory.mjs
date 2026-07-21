@@ -2,8 +2,6 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { repoRoot } from "./aos-lib.mjs";
-import { execFileSync } from "node:child_process";
-import { isEvidenceMetadataPath } from "./evidence-utils.mjs";
 import {
   isValidBranchContext,
   readJson,
@@ -19,11 +17,18 @@ export function validateAgentMemory() {
   const errors = [];
   const warnings = [];
   const loaded = {};
+  if (!existsSync(statePath("current-task"))) {
+    return {
+      ok: true,
+      errors: [],
+      warnings: ["Agent runtime state is not generated; current status is unverified."],
+    };
+  }
   for (const name of stateFiles) {
     const dataFile = statePath(name);
     const schemaFile = schemaPath(name);
     if (!existsSync(dataFile)) {
-      errors.push(`Missing .agent/state/${name}.json`);
+      errors.push(`Missing .agent/runtime/state/${name}.json`);
       continue;
     }
     if (!existsSync(schemaFile)) {
@@ -68,8 +73,8 @@ export function validateAgentMemory() {
     }
     if (state.testedCommit !== loaded["current-task"]?.testedCommit)
       errors.push(`${name}: testedCommit differs from current-task evidence`);
-    if (state.evidenceCommit !== loaded["current-task"]?.evidenceCommit)
-      errors.push(`${name}: evidenceCommit differs from current-task evidence`);
+    if (state.verificationSource !== loaded["current-task"]?.verificationSource)
+      errors.push(`${name}: verificationSource differs from current-task evidence`);
     const impossibleContext =
       (state.executionContext === "localMain" && state.runtimeBranch !== "main") ||
       (state.executionContext === "localFeature" && ["main", "detached", "unknown"].includes(state.runtimeBranch)) ||
@@ -89,19 +94,9 @@ export function validateAgentMemory() {
     warnings.push(
       "quality-status testedCommit is stale relative to Agent Memory; validation must not be shown as current",
     );
-  const evidenceCommit = loaded["current-task"]?.evidenceCommit;
-  let validEvidenceOnlyLineage = false;
-  if (tested && evidenceCommit && !["pending", "unrecorded"].includes(evidenceCommit)) {
-    try {
-      execFileSync("git", ["merge-base", "--is-ancestor", tested, head], { cwd: repoRoot, stdio: "ignore" });
-      execFileSync("git", ["merge-base", "--is-ancestor", evidenceCommit, head], { cwd: repoRoot, stdio: "ignore" });
-      const paths = execFileSync("git", ["diff", "--name-only", tested, head], { cwd: repoRoot, encoding: "utf8" }).split(/\r?\n/).filter(Boolean);
-      validEvidenceOnlyLineage = paths.every(isEvidenceMetadataPath);
-    } catch {}
-  }
-  if (loaded["current-task"]?.testedCommit !== head && !validEvidenceOnlyLineage)
+  if (loaded["current-task"]?.testedCommit !== head)
     warnings.push(
-      "Agent Memory testedCommit is stale; validation must not be shown as current",
+      "Agent runtime testedCommit differs from HEAD; status must remain unverified",
     );
   if (loaded["quality-status"]?.workingTreeCleanAtTest !== true)
     warnings.push(

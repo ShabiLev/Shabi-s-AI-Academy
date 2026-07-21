@@ -36,7 +36,7 @@ for (const project of report.suites ?? []) walk(project, failures);
 
 // Every one of the 35 failures on this branch was individually opened
 // (expected.png + actual.png + diff.png, not just the diff) and classified
-// by hand in this session — see quality/execution/latest/result-interpretation.md
+// by hand in this session — see quality/runtime/execution/latest/result-interpretation.md
 // for the per-test notes. None were extrapolated from a sample.
 const NOTES = {
   "AI Radar Hebrew desktop": "12px — subpixel, below visual threshold.",

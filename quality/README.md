@@ -7,7 +7,8 @@ quality/
   config/       Committed configuration — thresholds, allowlists. Small, stable, reviewed like any code change.
   scripts/      Node scripts (.mjs/.cjs) that generate and analyze quality/generated/*.json
   generated/    Output of the scripts above. Gitignored — never committed.
-  execution/    Sanitized latest-run summaries plus a bounded run index.
+  execution/    Frozen historical Version 1.4 evidence retained for compatibility.
+  runtime/      Ignored local execution evidence and CI manifest staging.
 ```
 
 ## config/
@@ -24,9 +25,9 @@ quality/
 
 ## Persistent execution evidence
 
-`npm run quality:evidence:fast`, `quality:evidence:full`, `quality:evidence:pages`, and `quality:evidence:headed` invoke existing npm scripts through a cross-platform Node runner. Each invocation creates a local archive under `quality/execution/runs/<RUN_ID>/`, captures timestamps, exit codes, sanitized stdout/stderr, coverage, Git state, manual-gate state, and an honest recommendation, then refreshes the lightweight tracked pointer in `quality/execution/latest/`.
+`npm run quality:evidence:fast`, `quality:evidence:full`, `quality:evidence:pages`, and `quality:evidence:headed` invoke existing npm scripts through a cross-platform Node runner. Each invocation creates a local archive under the ignored `quality/runtime/execution/runs/<RUN_ID>/`, captures timestamps, exit codes, sanitized stdout/stderr, coverage, Git state, manual-gate state, exact tested SHA, and an honest recommendation, then refreshes the ignored runtime pointer in `quality/runtime/execution/latest/`.
 
-Complete archives, Playwright media, traces, HTML coverage, and generated reports remain ignored. `quality/execution/index.json` retains at most 20 lightweight run records. Logs redact authorization values, credential-like assignments, tokens, email addresses, the workspace path, and user-home paths. The runner never reads or serializes raw environment values.
+Complete archives, Playwright media, traces, HTML coverage, generated reports, and `quality/runtime/execution/index.json` remain ignored. CI publishes job manifests and reports as GitHub Actions artifacts for the exact `GITHUB_SHA`; no execution output is committed. Logs redact authorization values, credential-like assignments, tokens, email addresses, the workspace path, and user-home paths. The runner never reads or serializes raw environment values.
 
 The full profile deliberately invokes the existing release commands instead of copying their test logic. A failed blocker remains failed; dependent commands become `notRunDueToDependency`; independent read-only diagnostics may continue. Manual UX, security, and content reviews remain explicit and automation cannot promote them.
 - `run-lighthouse.mjs` — orchestrates the two Lighthouse audit paths (`collect` / `assert`); see `docs/performance-testing.md`.

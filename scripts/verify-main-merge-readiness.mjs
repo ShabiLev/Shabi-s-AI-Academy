@@ -1,48 +1,43 @@
 import { execFileSync } from "node:child_process";
-import { readFileSync, readdirSync } from "node:fs";
-import { join } from "node:path";
-import { evaluateMainMergeReadiness } from "./release-readiness-lib.mjs";
-import { assessEvidenceIntegrity } from "./evidence-utils.mjs";
+import { evaluateWorkflowRun, selectExactRun } from "./release-readiness-lib.mjs";
 
-const readJson = (file) => JSON.parse(readFileSync(file, "utf8"));
 const git = (...args) => execFileSync("git", args, { encoding: "utf8" }).trim();
-const packageJson = readJson("package.json");
-const release = readJson(".agent/state/release-status.json");
-const quality = readJson(".agent/state/quality-status.json");
-const issues = readJson(".agent/state/known-issues.json");
-let evidence = {};
-try { evidence = readJson("quality/execution/latest/summary.json").identity ?? {}; } catch {}
-let linuxBaselineCount = 0;
-try { linuxBaselineCount = readdirSync(join("e2e", "specs", "__screenshots__")).filter((file) => file.endsWith("-linux.png")).length; } catch {}
-const headCommit = git("rev-parse", "HEAD");
-const succeeds = (...args) => {
-  try { execFileSync("git", args, { stdio: "ignore" }); return true; } catch { return false; }
-};
-const changedPaths = evidence.testedCommit
-  ? git("diff", "--name-only", evidence.testedCommit, headCommit).split(/\r?\n/).filter(Boolean)
-  : [];
-const evidenceIntegrity = assessEvidenceIntegrity({
-  ...evidence,
-  headCommit,
-  testedIsAncestor: succeeds("merge-base", "--is-ancestor", evidence.testedCommit, headCommit),
-  evidenceIsAncestor: succeeds("merge-base", "--is-ancestor", evidence.evidenceCommit, headCommit),
-  changedPaths,
-});
+const head = git("rev-parse", "HEAD");
+const branch = git("branch", "--show-current");
+const allowedBranches = new Set(["main", "fix/1.4.0-ci-memory-visual-release"]);
+const blockers = [];
+if (git("status", "--porcelain=v1")) blockers.push("working tree is dirty");
+if (!allowedBranches.has(branch)) blockers.push(`branch ${branch || "detached"} is not an allowed release context`);
 
-const result = evaluateMainMergeReadiness({
-  packageVersion: packageJson.version,
-  releaseVersion: release.version,
-  releaseStatus: release,
-  qualityStatus: quality,
-  knownIssues: issues.active,
-  evidenceIdentity: evidence,
-  headCommit,
-  evidenceIntegrityValid: evidenceIntegrity.ok,
-  workingTreeClean: !git("status", "--porcelain=v1"),
-  linuxBaselineCount,
-});
-if (!result.ready) {
-  console.error(`Main merge readiness BLOCKED:\n- ${result.blockers.join("\n- ")}`);
-  process.exit(1);
+const remote = git("remote", "get-url", "origin");
+const match = remote.match(/github\.com[/:]([^/]+)\/([^/.]+)(?:\.git)?$/i);
+if (!match) blockers.push("origin is not a supported GitHub repository URL");
+
+if (!blockers.length) {
+  const repository = `${match[1]}/${match[2]}`;
+  const headers = { Accept: "application/vnd.github+json", "User-Agent": "shabis-ai-academy-release-readiness", "X-GitHub-Api-Version": "2022-11-28" };
+  const token = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
+  if (token) headers.Authorization = `Bearer ${token}`;
+  try {
+    const request = async (url) => {
+      const response = await fetch(url, { headers, signal: AbortSignal.timeout(15000) });
+      if (!response.ok) throw new Error(`GitHub API returned ${response.status}`);
+      return response.json();
+    };
+    const encodedBranch = encodeURIComponent(branch);
+    const runsPayload = await request(`https://api.github.com/repos/${repository}/actions/workflows/ci.yml/runs?branch=${encodedBranch}&per_page=100`);
+    const run = selectExactRun(runsPayload.workflow_runs, head);
+    const jobs = run ? (await request(`https://api.github.com/repos/${repository}/actions/runs/${run.id}/jobs?per_page=100`)).jobs : [];
+    const result = evaluateWorkflowRun({ expectedSha: head, run, jobs });
+    blockers.push(...result.blockers);
+    if (!blockers.length) {
+      console.log(`Main merge readiness passed for exact HEAD ${head}; CI run ${run.id}.`);
+      process.exit(0);
+    }
+  } catch (error) {
+    blockers.push(`GitHub status is unverified: ${error.message}`);
+  }
 }
-console.log("Main merge readiness passed.");
+
+console.error(`Main merge readiness BLOCKED:\n- ${blockers.join("\n- ")}`);
+process.exit(1);

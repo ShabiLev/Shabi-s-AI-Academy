@@ -1,29 +1,31 @@
-export function evaluateMainMergeReadiness({
-  packageVersion,
-  releaseVersion,
-  releaseStatus,
-  qualityStatus,
-  knownIssues = [],
-  evidenceIdentity = {},
-  headCommit,
-  evidenceIntegrityValid = false,
-  workingTreeClean,
-  linuxBaselineCount = 0,
-}) {
+export const REQUIRED_CI_JOBS = [
+  "quality-core",
+  "functional-e2e",
+  "cross-browser",
+  "accessibility",
+  "performance",
+  "visual-linux",
+  "quality-summary",
+];
+
+export function selectExactRun(runs, expectedSha) {
+  return [...(runs ?? [])]
+    .filter((run) => run.head_sha === expectedSha)
+    .sort((left, right) => Number(right.run_attempt ?? 1) - Number(left.run_attempt ?? 1) || Number(right.id) - Number(left.id))[0] ?? null;
+}
+
+export function evaluateWorkflowRun({ expectedSha, run, jobs = [], requiredJobs = REQUIRED_CI_JOBS }) {
   const blockers = [];
-  if (packageVersion !== releaseVersion) blockers.push(`version mismatch: package=${packageVersion}, release=${releaseVersion}`);
-  if (releaseStatus?.releaseState !== "ready" || releaseStatus?.mergeReadiness !== "ready") blockers.push("release state is not merge-ready");
-  for (const [gate, status] of Object.entries(qualityStatus ?? {})) {
-    if (["unit", "e2e", "visual", "accessibility", "performance", "pages", "aos"].includes(gate) && status !== "passed") blockers.push(`mandatory gate ${gate} is ${status}`);
+  if (!run) return { ready: false, blockers: [`no CI run exists for exact HEAD ${expectedSha}`] };
+  if (run.head_sha !== expectedSha) blockers.push(`CI run SHA ${run.head_sha ?? "missing"} does not match HEAD ${expectedSha}`);
+  if (run.status !== "completed") blockers.push(`CI run is ${run.status ?? "missing"}`);
+  if (run.conclusion !== "success") blockers.push(`CI run conclusion is ${run.conclusion ?? "missing"}`);
+  const byName = new Map(jobs.map((job) => [job.name, job]));
+  for (const name of requiredJobs) {
+    const job = byName.get(name);
+    if (!job) blockers.push(`mandatory job ${name} is missing`);
+    else if (job.status !== "completed") blockers.push(`mandatory job ${name} is ${job.status}`);
+    else if (job.conclusion !== "success") blockers.push(`mandatory job ${name} is ${job.conclusion ?? "missing"}`);
   }
-  const unapproved = Object.entries(qualityStatus?.manualReviews ?? {}).filter(([, review]) => review?.status !== "approved");
-  if (unapproved.length) blockers.push(`manual reviews not approved: ${unapproved.map(([name]) => name).join(", ")}`);
-  const severe = knownIssues.filter((issue) => issue.status === "active" && ["critical", "high"].includes(String(issue.severity).toLowerCase()));
-  if (severe.length) blockers.push(`active Critical/High issues: ${severe.map((issue) => issue.id).join(", ")}`);
-  if (!workingTreeClean) blockers.push("working tree is dirty");
-  if (!evidenceIdentity.workingTreeCleanAtTest) blockers.push("evidence was not captured from a clean tested tree");
-  if (!evidenceIdentity.testedCommit || (evidenceIdentity.testedCommit !== headCommit && !evidenceIntegrityValid)) blockers.push("tested commit is stale or lacks valid evidence-only lineage to HEAD");
-  if (!evidenceIdentity.evidenceCommit) blockers.push("evidence commit is missing");
-  if (linuxBaselineCount === 0) blockers.push("reviewed Linux visual baselines are missing");
   return { ready: blockers.length === 0, blockers };
 }

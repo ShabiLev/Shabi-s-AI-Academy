@@ -37,7 +37,7 @@ These are the concrete commands that make up the `full` evidence profile's
 UX block in `scripts/run-quality-evidence.mjs` (ids `click-audit`,
 `route-crawl`, `forms`, `overlays`, `responsive`, `keyboard`, `copy`,
 `errors`, `ux`) and roll up into the `UX` row of
-`quality/execution/latest/summary.md`.
+`quality/runtime/execution/latest/summary.md`.
 
 ## Manual UI execution
 
@@ -54,7 +54,7 @@ change with a visible UI surface:
 2. Exercise the exact flow the task changed, not just an adjacent one.
 3. Record what was checked in the self-review
    ([`../workflow/self-review.md`](../workflow/self-review.md)) — manual UI
-   inspection is not itself a file under `quality/execution/latest/`; it
+   inspection is not itself a file under `quality/runtime/execution/latest/`; it
    feeds the human judgment behind `self-review.md` and the manual UX gate
    in [`manual-review.md`](manual-review.md).
 

@@ -1,4 +1,10 @@
-# Latest quality execution
+# Historical quality execution
+
+This directory is a frozen migration record from the former tracked-evidence
+architecture. It is not current release proof and normal quality execution must
+not modify it. Current local output lives under ignored
+`quality/runtime/execution/`; authoritative CI evidence is stored as GitHub
+Actions artifacts for the exact tested SHA.
 
 - Occurred: 2026-07-21T14:30:22.155Z to 2026-07-21T14:43:26.941Z
 - Source branch: fix/1.4.0-ci-memory-visual-release

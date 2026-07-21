@@ -26,7 +26,7 @@ here, not duplicated here.
 5. Use the evidence workflow
    ([`../../.agent/quality/evidence.md`](../../.agent/quality/evidence.md)
    and `npm run quality:evidence:*`), saving results under
-   `quality/execution/latest/`.
+   `quality/runtime/execution/latest/`.
 6. Write a handoff per
    [`../../.agent/handoff/handoff-policy.md`](../../.agent/handoff/handoff-policy.md)
    if the task is not finished when Codex stops.

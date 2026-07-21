@@ -39,7 +39,12 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-        with: { ref: "${{ inputs.branch }}" }
+        with:
+          ref: "${{ inputs.branch }}"
+          fetch-depth: 0
+      - name: Resolve candidate source SHA
+        id: source
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
@@ -70,6 +75,20 @@ jobs:
           args=("$FILE_FILTER" "--project=visual-chromium")
           if [ -n "$GREP_FILTER" ]; then args+=("--grep=$GREP_FILTER"); fi
           npx playwright test "${args[@]}"
+      - name: Write candidate provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          EXPECTED_HEAD_SHA: ${{ steps.source.outputs.sha }}
+          SOURCE_BRANCH: ${{ inputs.branch }}
+          TARGET_BRANCH: main
+          JOB_NAME: visual-baseline-candidates
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: |
+            e2e/specs/__screenshots__/
+            playwright-report/
+            test-results/
+            quality/generated/playwright-visual-results.json
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -79,5 +98,6 @@ jobs:
             playwright-report/
             test-results/
             quality/generated/playwright-visual-results.json
+            quality/runtime/ci/visual-baseline-candidates/manifest.json
           retention-days: 14
           if-no-files-found: error

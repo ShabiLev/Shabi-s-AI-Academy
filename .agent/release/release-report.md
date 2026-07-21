@@ -20,7 +20,7 @@ documented consistently and its actual state is never overstated.
    pass/fail for the whole chain if anything failed partway).
 5. **Evidence** — reference to the [`release-evidence.md`](release-evidence.md)
    run (`npm run quality:evidence:full`) and where its artifacts live
-   under `quality/execution/latest/`.
+   under `quality/runtime/execution/latest/`.
 6. **Manual review status** — explicit status of every item required by
    [`../quality/manual-review.md`](../quality/manual-review.md): done,
    not done, or not applicable — never omitted.

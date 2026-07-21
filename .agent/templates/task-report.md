@@ -18,8 +18,8 @@ _[commands run and pass/fail/not-available status]_
 
 ## Evidence
 
-_[path under quality/execution/latest/ or
-quality/execution/runs/<RUN_ID>/]_
+_[path under quality/runtime/execution/latest/ or
+quality/runtime/execution/runs/<RUN_ID>/]_
 
 ## Manual review status
 

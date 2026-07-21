@@ -15,6 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
+      - name: Verify exact triggering SHA
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
@@ -22,10 +24,20 @@ jobs:
       - run: npm run aos:check
       - run: npm run test:aos
       - run: npm run test:evidence
+      - run: npm run memory:update
       - run: npm run memory:check
       - run: npm run lint
       - run: npm run test:coverage
       - run: npm run build
+      - name: Write immutable job provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          JOB_NAME: quality-core
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: |
+            coverage/
+            quality/generated/vitest-results.json
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -33,7 +45,7 @@ jobs:
           path: |
             coverage/
             quality/generated/vitest-results.json
-            quality/execution/latest/
+            quality/runtime/ci/quality-core/manifest.json
           retention-days: 14
           if-no-files-found: ignore
 
@@ -41,11 +53,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Verify exact triggering SHA
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e:functional
+      - name: Write immutable job provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          JOB_NAME: functional-e2e
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: |
+            playwright-report/
+            test-results/
+            quality/generated/playwright-functional-results.json
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -54,6 +78,7 @@ jobs:
             playwright-report/
             test-results/
             quality/generated/playwright-functional-results.json
+            quality/runtime/ci/functional-e2e/manifest.json
           retention-days: 14
           if-no-files-found: ignore
 
@@ -61,11 +86,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Verify exact triggering SHA
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
       - run: npx playwright install --with-deps
       - run: npm run test:e2e:cross-browser
+      - name: Write immutable job provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          JOB_NAME: cross-browser
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: |
+            playwright-report/
+            test-results/
+            quality/generated/playwright-cross-browser-results.json
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -74,6 +111,7 @@ jobs:
             playwright-report/
             test-results/
             quality/generated/playwright-cross-browser-results.json
+            quality/runtime/ci/cross-browser/manifest.json
           retention-days: 14
           if-no-files-found: ignore
 
@@ -81,11 +119,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Verify exact triggering SHA
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run test:a11y
+      - name: Write immutable job provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          JOB_NAME: accessibility
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: |
+            playwright-report/
+            test-results/
+            quality/generated/playwright-a11y-results.json
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -94,6 +144,7 @@ jobs:
             playwright-report/
             test-results/
             quality/generated/playwright-a11y-results.json
+            quality/runtime/ci/accessibility/manifest.json
           retention-days: 14
           if-no-files-found: ignore
 
@@ -101,11 +152,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Verify exact triggering SHA
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run test:visual
+      - name: Write immutable job provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          JOB_NAME: visual-linux
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: |
+            playwright-report/
+            test-results/
+            quality/generated/playwright-visual-results.json
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -114,6 +177,7 @@ jobs:
             playwright-report/
             test-results/
             quality/generated/playwright-visual-results.json
+            quality/runtime/ci/visual-linux/manifest.json
           retention-days: 14
           if-no-files-found: ignore
 
@@ -121,15 +185,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Verify exact triggering SHA
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
       - run: npm run test:performance
+      - name: Write immutable job provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          JOB_NAME: performance
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: quality/generated/lighthouse/
       - if: always()
         uses: actions/upload-artifact@v4
         with:
           name: performance-artifacts
-          path: quality/generated/lighthouse/
+          path: |
+            quality/generated/lighthouse/
+            quality/runtime/ci/performance/manifest.json
           retention-days: 14
           if-no-files-found: ignore
 
@@ -146,29 +221,37 @@ jobs:
       PERFORMANCE: ${{ needs.performance.result }}
     steps:
       - uses: actions/checkout@v4
+      - name: Verify exact triggering SHA
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
       - uses: actions/download-artifact@v4
         if: always()
-        continue-on-error: true
         with: { pattern: "*-artifacts", merge-multiple: true }
       - name: Restore Lighthouse artifact layout
         uses: actions/download-artifact@v4
         if: always()
-        continue-on-error: true
         with:
           name: performance-artifacts
           path: quality/generated/lighthouse
       - run: npm run quality:collect
         if: always()
-        continue-on-error: true
       - run: npm run quality:analyze
         if: always()
-        continue-on-error: true
       - name: Write readable gate summary and enforce results
         if: always()
         run: node scripts/write-ci-quality-summary.mjs
+      - name: Write immutable job provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          JOB_NAME: quality-summary
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: |
+            quality/generated/latest-quality-report.json
+            quality/generated/ci-quality-summary.md
+            quality/generated/ci-quality-summary.json
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -176,5 +259,7 @@ jobs:
           path: |
             quality/generated/latest-quality-report.json
             quality/generated/ci-quality-summary.md
+            quality/generated/ci-quality-summary.json
+            quality/runtime/ci/quality-summary/manifest.json
           retention-days: 30
           if-no-files-found: ignore

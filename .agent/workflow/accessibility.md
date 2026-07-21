@@ -64,7 +64,7 @@ introduced (dialogs, forms, navigation, custom widgets).
 
 ## Evidence requirements
 
-`test:a11y` output feeds `quality/execution/latest/` via
+`test:a11y` output feeds `quality/runtime/execution/latest/` via
 [`../quality/evidence.md`](../quality/evidence.md) and
 [`../quality/accessibility.md`](../quality/accessibility.md). Do not report
 an accessibility gate as passed unless the command was actually run and

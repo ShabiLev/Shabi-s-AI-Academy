@@ -12,7 +12,7 @@ Vitest and Testing Library provide fast component/integration coverage. Playwrig
 
 - `npm run test:run` and `npm test`: Vitest once or watch mode.
 - `npm run test:coverage` / `test:coverage:open`: Vitest with enforced coverage thresholds — see `docs/quality-gates.md`.
-- `npm run test:e2e` / `test:e2e:full`: fast Chromium or all five projects.
+- `npm run test:e2e:functional`: functional Desktop Chromium only; `test:e2e:cross-browser`: Firefox, WebKit, and mobile compatibility; `test:a11y` and `test:visual`: isolated specialist suites. `test:e2e:full` aggregates those four commands for local release use, while CI runs each independently.
 - `npm run build:pages`: create and validate the GitHub Pages artifact with its repository base path, HashRouter mode, production metadata, and bundle safety checks.
 - `npm run preview:pages`: serve the already-built Pages artifact locally.
 - `npm run test:e2e:pages`: build the Pages variant and verify public, protected, Login, Register, and callback hash routes in Chromium.

@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-07-21T14:03:36.686Z",
+  "generatedAt": "2026-07-21T14:44:16.560Z",
   "sourceBranch": "fix/1.4.0-ci-memory-visual-release",
   "runtimeBranch": "fix/1.4.0-ci-memory-visual-release",
   "targetBranch": "main",
-  "testedCommit": "fae3d8d37d0d639e5836ca5e903ef329b04eb5ca",
-  "evidenceCommit": "46bca701c9e6e53d4b0b51219475c3a5a7f86c37",
+  "testedCommit": "498a1976ffb0f4f2c1c9609ec5133616ca3a70a8",
+  "evidenceCommit": "pending",
   "executionContext": "localFeature",
   "task": "Version 1.4 CI, Agent Memory, Evidence, visual, and deployment release recovery",
   "startingCommit": "cf6b1e712cb5b541ae871b0c209f098a6d56f215",
@@ -24,9 +24,20 @@
     "Human UX, security, and content reviews remain notRun."
   ],
   "filesBeingChanged": [
-    "uality/execution/latest/README.md",
+    "uality/execution/index.json",
+    "quality/execution/latest/README.md",
+    "quality/execution/latest/commands.json",
+    "quality/execution/latest/coverage-summary.json",
+    "quality/execution/latest/environment.json",
+    "quality/execution/latest/failures.md",
+    "quality/execution/latest/git-state-after.txt",
+    "quality/execution/latest/git-state-before.txt",
+    "quality/execution/latest/self-review.md",
     "quality/execution/latest/summary.json",
-    "quality/execution/latest/summary.md"
+    "quality/execution/latest/summary.md",
+    "quality/execution/latest/warnings.md",
+    "quality/execution/latest/agent-review.md",
+    "quality/execution/latest/result-interpretation.md"
   ],
   "testsRun": [
     "Docs",
@@ -52,6 +63,6 @@
     "manualSecurityReview",
     "manualContentReview"
   ],
-  "evidencePath": "quality/execution/runs/2026-07-21_16-49-13_fix-1-4-0-ci-memory-visual-release",
+  "evidencePath": "quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release",
   "nextAction": "Mandatory quality gate failed: Visual."
 }

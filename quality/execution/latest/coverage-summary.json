@@ -4,13 +4,13 @@
     "percent": 76.57,
     "threshold": 75,
     "passed": true,
-    "delta": 0.23
+    "delta": 0
   },
   "branches": {
     "percent": 74.33,
     "threshold": 65,
     "passed": true,
-    "delta": 0.08
+    "delta": 0
   },
   "functions": {
     "percent": 72.57,
@@ -22,6 +22,6 @@
     "percent": 76.57,
     "threshold": 75,
     "passed": true,
-    "delta": 0.23
+    "delta": 0
   }
 }

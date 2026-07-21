@@ -1,14 +1,14 @@
 {
-  "runId": "2026-07-21_17-15-13_fix-1-4-0-ci-memory-visual-release",
+  "runId": "2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release",
   "profile": "full",
   "agent": "Codex",
   "operatingSystem": "win32 10.0.26200 x64",
   "nodeVersion": "v20.17.0",
   "npmVersion": "10.8.2",
   "branch": "fix/1.4.0-ci-memory-visual-release",
-  "startingCommit": "b603550c435da48af34cf68d2a7c4ea328343c0f",
-  "testedCommit": "b603550c435da48af34cf68d2a7c4ea328343c0f",
+  "startingCommit": "498a1976ffb0f4f2c1c9609ec5133616ca3a70a8",
+  "testedCommit": "498a1976ffb0f4f2c1c9609ec5133616ca3a70a8",
   "workingTreeCleanAtTest": true,
   "version": "1.4.0-beta.1",
-  "startedAt": "2026-07-21T14:15:13.678Z"
+  "startedAt": "2026-07-21T14:30:22.155Z"
 }

@@ -1,10 +1,10 @@
 {
   "schemaVersion": "1.0.0",
-  "updatedAt": "2026-07-21T14:44:16.560Z",
+  "updatedAt": "2026-07-21T14:44:39.129Z",
   "latestRunId": "2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release",
   "testedCommit": "498a1976ffb0f4f2c1c9609ec5133616ca3a70a8",
-  "evidenceCommit": "pending",
-  "parentCommit": "58bd4c1dcfe24de309812e10ed1c44b1f75ecfdb",
+  "evidenceCommit": "bf05ce2766d4a4984ec8ceb724c29951b6464122",
+  "parentCommit": "498a1976ffb0f4f2c1c9609ec5133616ca3a70a8",
   "workingTreeCleanAtTest": true,
   "coverage": {
     "status": "passed",

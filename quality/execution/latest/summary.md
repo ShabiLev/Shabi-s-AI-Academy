@@ -11,10 +11,11 @@
 - Target branch: main
 - Execution context: localFeature
 - Tested commit: 498a1976ffb0f4f2c1c9609ec5133616ca3a70a8
-- Evidence commit: pending
-- Parent commit: 58bd4c1dcfe24de309812e10ed1c44b1f75ecfdb
-- Generated at: 2026-07-21T14:43:26.941Z
+- Evidence commit: bf05ce2766d4a4984ec8ceb724c29951b6464122
+- Parent commit: 498a1976ffb0f4f2c1c9609ec5133616ca3a70a8
+- Generated at: 2026-07-21T14:44:38.563Z
 - Working tree clean at test: Yes
+- Integrity validation: pending post-evidence commit
 - Agent used: Codex
 - Operating system: win32 10.0.26200 x64
 - Node version: v20.17.0

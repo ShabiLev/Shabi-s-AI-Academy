@@ -14,14 +14,15 @@
     "targetBranch": "main",
     "executionContext": "localFeature",
     "testedCommit": "498a1976ffb0f4f2c1c9609ec5133616ca3a70a8",
-    "evidenceCommit": "pending",
-    "parentCommit": "58bd4c1dcfe24de309812e10ed1c44b1f75ecfdb",
-    "generatedAt": "2026-07-21T14:43:26.941Z",
+    "evidenceCommit": "bf05ce2766d4a4984ec8ceb724c29951b6464122",
+    "parentCommit": "498a1976ffb0f4f2c1c9609ec5133616ca3a70a8",
+    "generatedAt": "2026-07-21T14:44:38.563Z",
     "workingTreeCleanAtTest": true,
     "agent": "Codex",
     "operatingSystem": "win32 10.0.26200 x64",
     "nodeVersion": "v20.17.0",
-    "npmVersion": "10.8.2"
+    "npmVersion": "10.8.2",
+    "integrityValidation": "pendingPostEvidenceCommit"
   },
   "scope": {
     "requestedTask": "Run the full quality-evidence profile.",

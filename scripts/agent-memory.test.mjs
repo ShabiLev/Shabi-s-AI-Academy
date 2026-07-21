@@ -157,12 +157,8 @@ test("the checked-in Agent Memory state is consistent", () => {
   assert.deepEqual(result.errors, []);
 });
 
-test("stale quality testedCommit is reported without invalidating historical state", () => {
+test("finalized evidence-only lineage is current even when testedCommit predates HEAD", () => {
   const result = validateAgentMemory();
-  assert.ok(
-    result.warnings.some((warning) =>
-      warning.includes("testedCommit is stale"),
-    ),
-  );
+  assert.equal(result.warnings.some((warning) => warning.includes("testedCommit is stale")), false);
   assert.equal(result.ok, true);
 });

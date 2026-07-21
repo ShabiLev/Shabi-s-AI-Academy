@@ -2,6 +2,8 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { repoRoot } from "./aos-lib.mjs";
+import { execFileSync } from "node:child_process";
+import { isEvidenceMetadataPath } from "./evidence-utils.mjs";
 import {
   isValidBranchContext,
   readJson,
@@ -87,7 +89,17 @@ export function validateAgentMemory() {
     warnings.push(
       "quality-status testedCommit is stale relative to Agent Memory; validation must not be shown as current",
     );
-  if (loaded["current-task"]?.testedCommit !== head)
+  const evidenceCommit = loaded["current-task"]?.evidenceCommit;
+  let validEvidenceOnlyLineage = false;
+  if (tested && evidenceCommit && !["pending", "unrecorded"].includes(evidenceCommit)) {
+    try {
+      execFileSync("git", ["merge-base", "--is-ancestor", tested, head], { cwd: repoRoot, stdio: "ignore" });
+      execFileSync("git", ["merge-base", "--is-ancestor", evidenceCommit, head], { cwd: repoRoot, stdio: "ignore" });
+      const paths = execFileSync("git", ["diff", "--name-only", tested, head], { cwd: repoRoot, encoding: "utf8" }).split(/\r?\n/).filter(Boolean);
+      validEvidenceOnlyLineage = paths.every(isEvidenceMetadataPath);
+    } catch {}
+  }
+  if (loaded["current-task"]?.testedCommit !== head && !validEvidenceOnlyLineage)
     warnings.push(
       "Agent Memory testedCommit is stale; validation must not be shown as current",
     );

@@ -16,6 +16,7 @@ const green = () => ({
 test("green state is merge-ready", () => assert.equal(evaluateMainMergeReadiness(green()).ready, true));
 test("blocked state fails closed", () => { const input = green(); input.releaseStatus.releaseState = "blocked"; assert.equal(evaluateMainMergeReadiness(input).ready, false); });
 test("stale evidence fails closed", () => { const input = green(); input.evidenceIdentity.testedCommit = "old"; assert.match(evaluateMainMergeReadiness(input).blockers.join(" "), /stale/); });
+test("reviewed evidence-only lineage may follow the tested product commit", () => { const input = green(); input.evidenceIdentity.testedCommit = "product"; input.evidenceIntegrityValid = true; assert.equal(evaluateMainMergeReadiness(input).ready, true); });
 test("dirty evidence and severe issues fail closed", () => { const input = green(); input.workingTreeClean = false; input.knownIssues = [{ id: "SEC-1", severity: "High", status: "active" }]; assert.equal(evaluateMainMergeReadiness(input).ready, false); });
 test("CI keeps mandatory suites isolated and Pages consumes successful main CI", () => {
   const ci = readFileSync(".github/workflows/ci.yml", "utf8");

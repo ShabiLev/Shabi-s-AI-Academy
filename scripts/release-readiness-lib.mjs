@@ -6,6 +6,7 @@ export function evaluateMainMergeReadiness({
   knownIssues = [],
   evidenceIdentity = {},
   headCommit,
+  evidenceIntegrityValid = false,
   workingTreeClean,
   linuxBaselineCount = 0,
 }) {
@@ -21,7 +22,7 @@ export function evaluateMainMergeReadiness({
   if (severe.length) blockers.push(`active Critical/High issues: ${severe.map((issue) => issue.id).join(", ")}`);
   if (!workingTreeClean) blockers.push("working tree is dirty");
   if (!evidenceIdentity.workingTreeCleanAtTest) blockers.push("evidence was not captured from a clean tested tree");
-  if (!evidenceIdentity.testedCommit || evidenceIdentity.testedCommit !== headCommit) blockers.push("tested commit is stale or differs from HEAD");
+  if (!evidenceIdentity.testedCommit || (evidenceIdentity.testedCommit !== headCommit && !evidenceIntegrityValid)) blockers.push("tested commit is stale or lacks valid evidence-only lineage to HEAD");
   if (!evidenceIdentity.evidenceCommit) blockers.push("evidence commit is missing");
   if (linuxBaselineCount === 0) blockers.push("reviewed Linux visual baselines are missing");
   return { ready: blockers.length === 0, blockers };

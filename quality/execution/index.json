@@ -3,6 +3,54 @@
   "maximumRuns": 20,
   "runs": [
     {
+      "runId": "2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release",
+      "date": "2026-07-21T13:28:27.899Z",
+      "branch": "fix/1.4.0-ci-memory-visual-release",
+      "commit": "ef38c2247ec1b08a2c277f101ea1f34575ddc9b9",
+      "version": "1.4.0-beta.1",
+      "overallStatus": "Blocked",
+      "coverageSummary": {
+        "status": "passed",
+        "statements": {
+          "percent": 76.57,
+          "threshold": 75,
+          "passed": true,
+          "delta": 0
+        },
+        "branches": {
+          "percent": 74.33,
+          "threshold": 65,
+          "passed": true,
+          "delta": 0
+        },
+        "functions": {
+          "percent": 72.57,
+          "threshold": 70,
+          "passed": true,
+          "delta": 0
+        },
+        "lines": {
+          "percent": 76.57,
+          "threshold": 75,
+          "passed": true,
+          "delta": 0
+        }
+      },
+      "reportPath": "quality/execution/latest/summary.md",
+      "localRunPath": "quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/",
+      "failedCommands": [
+        "npm run test:e2e:functional",
+        "npm run test:forms",
+        "npm run test:copy",
+        "npm run test:errors",
+        "npm run test:ux",
+        "npm run test:a11y",
+        "npm run test:visual",
+        "npm run quality:analyze"
+      ],
+      "warningCount": 13
+    },
+    {
       "runId": "2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release",
       "date": "2026-07-21T13:01:38.108Z",
       "branch": "fix/1.4.0-ci-memory-visual-release",

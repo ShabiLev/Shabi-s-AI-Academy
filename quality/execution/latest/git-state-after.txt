@@ -9,7 +9,9 @@ origin	https://github.com/ShabiLev/Shabi-s-AI-Academy.git (fetch)
 origin	https://github.com/ShabiLev/Shabi-s-AI-Academy.git (push)
 
 $ git log --oneline --decorate -10
-ccbeddf (HEAD -> fix/1.4.0-ci-memory-visual-release) fix(release): accept verified evidence-only lineage
+ef38c22 (HEAD -> fix/1.4.0-ci-memory-visual-release) chore(evidence): record interrupted network validation
+176e150 test(browser): bound functional and accessibility workers
+ccbeddf fix(release): accept verified evidence-only lineage
 830c8c1 chore(evidence): finalize recovery evidence identity
 1c325a2 chore(evidence): record release recovery validation
 efc9b1b fix(evidence): preserve tracked audit during collection
@@ -17,5 +19,3 @@ d84f8e8 test(unit): bound jsdom worker concurrency
 8e38b87 docs(release): normalize recovery audit evidence
 0c85a6f docs(release): record recovery audit and review controls
 76f6384 ci(release): isolate gates and bind Pages to tested SHA
-875660f fix(evidence): separate tested and recording identities
-5525b17 (origin/feature/1.4.0-agent-operating-system, feature/1.4.0-agent-operating-system) docs(ci): record failure analysis and validation

@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
   "identity": {
-    "runId": "2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release",
+    "runId": "2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release",
     "profile": "full",
-    "startedAt": "2026-07-21T12:44:19.558Z",
-    "endedAt": "2026-07-21T13:01:38.108Z",
+    "startedAt": "2026-07-21T13:07:42.749Z",
+    "endedAt": "2026-07-21T13:28:27.899Z",
     "version": "1.4.0-beta.1",
     "branch": "fix/1.4.0-ci-memory-visual-release",
-    "startingCommit": "ccbeddf92640c48c423dfe56f9e20f01ea55ce13",
-    "finalCommit": "ccbeddf92640c48c423dfe56f9e20f01ea55ce13",
+    "startingCommit": "ef38c2247ec1b08a2c277f101ea1f34575ddc9b9",
+    "finalCommit": "ef38c2247ec1b08a2c277f101ea1f34575ddc9b9",
     "sourceBranch": "fix/1.4.0-ci-memory-visual-release",
     "runtimeBranch": "fix/1.4.0-ci-memory-visual-release",
     "targetBranch": "main",
     "executionContext": "localFeature",
-    "testedCommit": "ccbeddf92640c48c423dfe56f9e20f01ea55ce13",
+    "testedCommit": "ef38c2247ec1b08a2c277f101ea1f34575ddc9b9",
     "evidenceCommit": "pending",
-    "parentCommit": "830c8c18a49393d6d7ea766f2494a9772a3a149c",
-    "generatedAt": "2026-07-21T13:01:38.108Z",
+    "parentCommit": "176e1504800318d6ac6c15220d5fbdf95f86cc43",
+    "generatedAt": "2026-07-21T13:28:27.899Z",
     "workingTreeCleanAtTest": true,
     "agent": "Codex",
     "operatingSystem": "win32 10.0.26200 x64",
@@ -32,122 +32,122 @@
     "Docs": {
       "status": "passed",
       "command": "npm run docs:check",
-      "durationMs": 437,
+      "durationMs": 432,
       "resultCount": 136,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/docs-check.log"
+      "logPath": "quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/docs-check.log"
     },
     "Lint": {
       "status": "passed",
       "command": "npm run lint",
-      "durationMs": 11396,
+      "durationMs": 9575,
       "resultCount": null,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/lint.log"
+      "logPath": "quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/lint.log"
     },
     "Unit tests": {
-      "status": "failed",
+      "status": "passed",
       "command": "npm run test:evidence; npm run test:aos; npm run test:release; npm run test:run",
-      "durationMs": 30588,
+      "durationMs": 30835,
       "resultCount": 41,
-      "failureCount": 1,
-      "logPath": "quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/focused-tests.log, quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/aos-tests.log, quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/release-tests.log, quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/unit-tests.log"
+      "failureCount": 0,
+      "logPath": "quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/focused-tests.log, quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/aos-tests.log, quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/release-tests.log, quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/unit-tests.log"
     },
     "Coverage": {
       "status": "passed",
       "command": "npm run test:coverage",
-      "durationMs": 35002,
+      "durationMs": 34106,
       "resultCount": null,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/coverage.log"
+      "logPath": "quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/coverage.log"
     },
     "Build": {
       "status": "passed",
       "command": "npm run build",
-      "durationMs": 12330,
+      "durationMs": 13685,
       "resultCount": null,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/build.log"
+      "logPath": "quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/build.log"
     },
     "GitHub Pages build": {
       "status": "passed",
       "command": "npm run build:pages; npm run test:e2e:pages",
-      "durationMs": 33694,
+      "durationMs": 34938,
       "resultCount": 4,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/build-pages.log, quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/e2e-pages.log"
+      "logPath": "quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/build-pages.log, quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/e2e-pages.log"
     },
     "Functional E2E": {
       "status": "failed",
       "command": "npm run test:e2e:functional",
-      "durationMs": 50017,
+      "durationMs": 59762,
       "resultCount": 14,
       "failureCount": 1,
-      "logPath": "quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/e2e-functional.log"
+      "logPath": "quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/e2e-functional.log"
     },
     "Cross-browser": {
       "status": "passed",
       "command": "npm run test:e2e:cross-browser",
-      "durationMs": 45592,
+      "durationMs": 47703,
       "resultCount": 10,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/e2e-cross-browser.log"
+      "logPath": "quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/e2e-cross-browser.log"
     },
     "Journeys": {
       "status": "passed",
       "command": "npm run test:journeys",
-      "durationMs": 49166,
+      "durationMs": 52944,
       "resultCount": 13,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/journeys.log"
+      "logPath": "quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/journeys.log"
     },
     "UX": {
-      "status": "passed",
+      "status": "failed",
       "command": "npm run test:click-audit; npm run test:route-crawl; npm run test:forms; npm run test:overlays; npm run test:responsive:interactions; npm run test:keyboard; npm run test:copy; npm run test:errors; npm run test:ux",
-      "durationMs": 398583,
-      "resultCount": 54,
-      "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/click-audit.log, quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/route-crawl.log, quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/forms.log, quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/overlays.log, quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/responsive-interactions.log, quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/keyboard.log, quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/copy.log, quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/errors.log, quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/ux.log"
+      "durationMs": 506698,
+      "resultCount": 49,
+      "failureCount": 4,
+      "logPath": "quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/click-audit.log, quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/route-crawl.log, quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/forms.log, quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/overlays.log, quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/responsive-interactions.log, quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/keyboard.log, quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/copy.log, quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/errors.log, quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/ux.log"
     },
     "Accessibility": {
       "status": "failed",
       "command": "npm run test:a11y",
-      "durationMs": 132633,
-      "resultCount": 70,
+      "durationMs": 158828,
+      "resultCount": 72,
       "failureCount": 1,
-      "logPath": "quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/accessibility.log"
+      "logPath": "quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/accessibility.log"
     },
     "Visual": {
       "status": "failed",
       "command": "npm run test:visual",
-      "durationMs": 101503,
-      "resultCount": 25,
+      "durationMs": 130697,
+      "resultCount": 24,
       "failureCount": 1,
-      "logPath": "quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/visual.log"
+      "logPath": "quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/visual.log"
     },
     "Performance": {
       "status": "passed",
       "command": "npm run test:performance",
-      "durationMs": 116970,
+      "durationMs": 137179,
       "resultCount": null,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/performance.log"
+      "logPath": "quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/performance.log"
     },
     "Release validation": {
       "status": "passed",
       "command": "npm run memory:check; npm run quality:inventory",
-      "durationMs": 1537,
+      "durationMs": 1195,
       "resultCount": null,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/memory-check.log, quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/quality-inventory.log"
+      "logPath": "quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/memory-check.log, quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/quality-inventory.log"
     },
     "Git diff": {
       "status": "passed",
       "command": "git diff --check",
-      "durationMs": 107,
+      "durationMs": 116,
       "resultCount": null,
       "failureCount": 0,
-      "logPath": "quality/execution/runs/2026-07-21_15-44-19_fix-1-4-0-ci-memory-visual-release/git-diff-check.log"
+      "logPath": "quality/execution/runs/2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release/git-diff-check.log"
     }
   },
   "coverage": {
@@ -233,21 +233,24 @@
     "high": 0,
     "medium": 0,
     "low": 0,
-    "warningCount": 12,
+    "warningCount": 13,
     "manualReviewRequired": true
   },
   "git": {
     "branch": "fix/1.4.0-ci-memory-visual-release",
-    "mainRelationship": "main...HEAD left/right counts: 0\t12",
-    "remoteRelationship": "HEAD...origin/main left/right counts: 12\t0",
+    "mainRelationship": "main...HEAD left/right counts: 0\t14",
+    "remoteRelationship": "HEAD...origin/main left/right counts: 14\t0",
     "commitsCreated": [],
     "workingTreeStatus": "clean",
     "workingTreeStatusBefore": "clean"
   },
   "recommendation": "Blocked",
   "failedCommands": [
-    "npm run test:aos",
     "npm run test:e2e:functional",
+    "npm run test:forms",
+    "npm run test:copy",
+    "npm run test:errors",
+    "npm run test:ux",
     "npm run test:a11y",
     "npm run test:visual",
     "npm run quality:analyze"

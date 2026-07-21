@@ -105,7 +105,7 @@ npm run validate:release
 
 The optimized build is written to the ignored `dist/` directory.
 
-Playwright covers Desktop Chromium, Firefox, WebKit, Pixel 7, and iPhone 14, plus dedicated `Accessibility` and `visual-chromium` projects. It starts Vite automatically. Reports are stored in `playwright-report/`; traces, screenshots, and videos in `test-results/`. See `docs/testing.md` and `docs/quality-gates.md`.
+Playwright covers Desktop Chromium, Firefox, WebKit, Pixel 7, and iPhone 14, plus dedicated `Accessibility` and `visual-chromium` projects. It builds and starts a Vite production preview automatically so browser gates exercise the deployable bundle without cold dev-server transforms. Reports are stored in `playwright-report/`; traces, screenshots, and videos in `test-results/`. See `docs/testing.md` and `docs/quality-gates.md`.
 
 ## Quality Engineering platform
 

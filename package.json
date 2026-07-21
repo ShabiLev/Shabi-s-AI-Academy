@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "build:pages": "cross-env VITE_BASE_PATH=/Shabi-s-AI-Academy/ VITE_ROUTER_MODE=hash VITE_DEPLOYMENT_PROVIDER=github-pages VITE_PUBLIC_SITE_URL=https://shabilev.github.io/Shabi-s-AI-Academy npm run build && node scripts/write-deployment-metadata.mjs && node scripts/validate-pages-build.mjs",
     "preview": "vite preview",
+    "preview:test": "npm run build && vite preview --host 127.0.0.1 --port 5173",
     "preview:pages": "cross-env VITE_BASE_PATH=/Shabi-s-AI-Academy/ VITE_ROUTER_MODE=hash VITE_DEPLOYMENT_PROVIDER=github-pages VITE_PUBLIC_SITE_URL=https://shabilev.github.io/Shabi-s-AI-Academy vite preview --host 127.0.0.1",
     "lint": "eslint .",
     "test": "vitest",

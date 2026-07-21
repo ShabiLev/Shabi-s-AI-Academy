@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "updatedAt": "2026-07-21T12:04:30.540Z",
+  "updatedAt": "2026-07-21T12:41:10.645Z",
   "active": [
     {
       "id": "AOS-QUALITY-001",
@@ -12,7 +12,7 @@
       "preventionTest": "npm run test:visual",
       "status": "active",
       "affectedRelease": "1.4.0-beta.1",
-      "evidencePath": "quality/execution/runs/2026-07-15_15-45-55_main/visual.log"
+      "evidencePath": "quality/execution/runs/2026-07-21_15-26-05_fix-1-4-0-ci-memory-visual-release/visual.log"
     }
   ],
   "history": [
@@ -26,7 +26,7 @@
       "preventionTest": "npm run test:e2e:full",
       "status": "resolved",
       "affectedRelease": "1.4.0-beta.1",
-      "evidencePath": "quality/execution/runs/2026-07-15_15-45-55_main"
+      "evidencePath": "quality/execution/runs/2026-07-21_15-26-05_fix-1-4-0-ci-memory-visual-release"
     }
   ]
 }

@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-07-21T12:04:30.540Z",
+  "generatedAt": "2026-07-21T12:41:10.645Z",
   "sourceBranch": "fix/1.4.0-ci-memory-visual-release",
   "runtimeBranch": "fix/1.4.0-ci-memory-visual-release",
   "targetBranch": "main",
-  "testedCommit": "unknown",
-  "evidenceCommit": "unrecorded",
+  "testedCommit": "efc9b1bc8d99e277e2649164f7227578ebe9ca2b",
+  "evidenceCommit": "pending",
   "executionContext": "localFeature",
   "overallPercent": 89,
   "currentPhase": "validation",
@@ -25,8 +25,8 @@
     "missing": 2
   },
   "tests": {
-    "passed": 11,
-    "failed": 3
+    "passed": 14,
+    "failed": 1
   },
   "reviews": {
     "passed": 0,
@@ -34,13 +34,11 @@
   },
   "releaseStatus": "blocked",
   "researchProgress": 6,
-  "evidenceRunId": "2026-07-15_15-45-55_main",
+  "evidenceRunId": "2026-07-21_15-26-05_fix-1-4-0-ci-memory-visual-release",
   "blockers": [
-    "Mandatory quality gate failed: E2E.",
     "Mandatory quality gate failed: Visual.",
-    "Mandatory quality gate failed: Release validation.",
     "Windows visual baselines require human review before replacement.",
     "Human UX, security, and content reviews remain notRun."
   ],
-  "nextRecommendedAction": "Mandatory quality gate failed: E2E."
+  "nextRecommendedAction": "Mandatory quality gate failed: Visual."
 }

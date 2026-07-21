@@ -1,16 +1,16 @@
 {
   "status": "passed",
   "statements": {
-    "percent": 76.34,
+    "percent": 76.57,
     "threshold": 75,
     "passed": true,
-    "delta": 0
+    "delta": 0.23
   },
   "branches": {
-    "percent": 74.3,
+    "percent": 74.33,
     "threshold": 65,
     "passed": true,
-    "delta": 0.06
+    "delta": 0.03
   },
   "functions": {
     "percent": 72.57,
@@ -19,9 +19,9 @@
     "delta": 0
   },
   "lines": {
-    "percent": 76.34,
+    "percent": 76.57,
     "threshold": 75,
     "passed": true,
-    "delta": 0
+    "delta": 0.23
   }
 }

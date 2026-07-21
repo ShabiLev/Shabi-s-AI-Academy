@@ -8,5 +8,5 @@
 - Research: seed candidates pending review
 - Documentation: complete
 - Deployment: not deployed
-- Blockers: Mandatory quality gate failed: E2E.; Mandatory quality gate failed: Visual.; Mandatory quality gate failed: Release validation.; Windows visual baselines require human review before replacement.; Human UX, security, and content reviews remain notRun.
+- Blockers: Mandatory quality gate failed: Visual.; Windows visual baselines require human review before replacement.; Human UX, security, and content reviews remain notRun.
 - Recommendation: Do not finalize the release until blockers are resolved.

@@ -46,6 +46,7 @@ export function resolveGitContext({
   env = process.env,
   git,
   previous = {},
+  now = () => new Date().toISOString(),
 } = {}) {
   const runGit =
     git ??
@@ -62,23 +63,44 @@ export function resolveGitContext({
   const localBranch = runGit("branch", "--show-current") || "detached";
   const localHead = runGit("rev-parse", "HEAD") || "unknown";
   const isGitHub = env.GITHUB_ACTIONS === "true";
-  const isPullRequest = isGitHub && Boolean(env.GITHUB_HEAD_REF);
-  const currentBranch = isGitHub
-    ? env.GITHUB_REF_NAME || localBranch
+  const isPullRequest =
+    isGitHub &&
+    (env.GITHUB_EVENT_NAME === "pull_request" || Boolean(env.GITHUB_HEAD_REF));
+  const isMergeRef = isPullRequest && /^refs\/pull\/\d+\/merge$/.test(env.GITHUB_REF ?? "");
+  const runtimeBranch = isGitHub
+    ? env.GITHUB_REF_NAME || env.GITHUB_REF?.replace(/^refs\/heads\//, "") || localBranch
     : localBranch;
   const sourceBranch = isPullRequest
     ? env.GITHUB_HEAD_REF
-    : currentBranch === "main"
+    : runtimeBranch === "main"
       ? previous.sourceBranch || "main"
-      : currentBranch;
+      : runtimeBranch;
   const targetBranch = isPullRequest
     ? env.GITHUB_BASE_REF || "main"
     : previous.targetBranch || "main";
+  const executionContext = isGitHub
+    ? isMergeRef
+      ? "githubMergeRef"
+      : isPullRequest
+        ? "githubPullRequest"
+        : env.GITHUB_EVENT_NAME === "push"
+          ? "githubPush"
+          : "unknown"
+    : runtimeBranch === "detached"
+      ? "detachedHead"
+      : runtimeBranch === "main"
+        ? "localMain"
+        : runtimeBranch === "unknown"
+          ? "unknown"
+          : "localFeature";
   return {
     sourceBranch: sourceBranch || "unknown",
-    currentBranch: currentBranch || "unknown",
+    runtimeBranch: runtimeBranch || "unknown",
     targetBranch: targetBranch || "main",
     testedCommit: env.GITHUB_SHA || localHead,
+    evidenceCommit: previous.evidenceCommit || "unrecorded",
+    generatedAt: now(),
+    executionContext,
   };
 }
 

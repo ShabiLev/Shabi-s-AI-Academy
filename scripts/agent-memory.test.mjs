@@ -37,19 +37,28 @@ const fakeGit =
     args[0] === "branch" ? branch : head;
 
 test("resolves local feature and main branch contexts", () => {
-  assert.deepEqual(resolveGitContext({ env: {}, git: fakeGit() }), {
+  const now = () => "2026-07-21T00:00:00.000Z";
+  assert.deepEqual(resolveGitContext({ env: {}, git: fakeGit(), now }), {
     sourceBranch: "feature/aos",
-    currentBranch: "feature/aos",
+    runtimeBranch: "feature/aos",
     targetBranch: "main",
     testedCommit: "abc123",
+    evidenceCommit: "unrecorded",
+    generatedAt: "2026-07-21T00:00:00.000Z",
+    executionContext: "localFeature",
   });
   assert.equal(
     resolveGitContext({
       env: {},
       git: fakeGit("main"),
       previous: { sourceBranch: "feature/aos" },
+      now,
     }).sourceBranch,
     "feature/aos",
+  );
+  assert.equal(
+    resolveGitContext({ env: {}, git: fakeGit("main"), now }).executionContext,
+    "localMain",
   );
 });
 
@@ -57,40 +66,72 @@ test("resolves GitHub push and pull request contexts", () => {
   const push = resolveGitContext({
     env: {
       GITHUB_ACTIONS: "true",
+      GITHUB_EVENT_NAME: "push",
       GITHUB_REF_NAME: "main",
       GITHUB_SHA: "pushsha",
     },
     git: fakeGit("main"),
     previous: { sourceBranch: "feature/aos" },
+    now: () => "2026-07-21T00:00:00.000Z",
   });
   assert.deepEqual(push, {
     sourceBranch: "feature/aos",
-    currentBranch: "main",
+    runtimeBranch: "main",
     targetBranch: "main",
     testedCommit: "pushsha",
+    evidenceCommit: "unrecorded",
+    generatedAt: "2026-07-21T00:00:00.000Z",
+    executionContext: "githubPush",
   });
   const pr = resolveGitContext({
     env: {
       GITHUB_ACTIONS: "true",
+      GITHUB_EVENT_NAME: "pull_request",
+      GITHUB_REF: "refs/pull/123/merge",
       GITHUB_REF_NAME: "123/merge",
       GITHUB_HEAD_REF: "feature/aos",
       GITHUB_BASE_REF: "main",
       GITHUB_SHA: "mergesha",
     },
     git: fakeGit(""),
+    now: () => "2026-07-21T00:00:00.000Z",
   });
   assert.deepEqual(pr, {
     sourceBranch: "feature/aos",
-    currentBranch: "123/merge",
+    runtimeBranch: "123/merge",
     targetBranch: "main",
     testedCommit: "mergesha",
+    evidenceCommit: "unrecorded",
+    generatedAt: "2026-07-21T00:00:00.000Z",
+    executionContext: "githubMergeRef",
   });
+
+  assert.equal(
+    resolveGitContext({
+      env: {
+        GITHUB_ACTIONS: "true",
+        GITHUB_EVENT_NAME: "pull_request",
+        GITHUB_REF: "refs/heads/feature/aos",
+        GITHUB_REF_NAME: "feature/aos",
+        GITHUB_HEAD_REF: "feature/aos",
+        GITHUB_BASE_REF: "main",
+        GITHUB_SHA: "prsha",
+      },
+      git: fakeGit("feature/aos"),
+      now: () => "2026-07-21T00:00:00.000Z",
+    }).executionContext,
+    "githubPullRequest",
+  );
 });
 
 test("represents detached and missing Git metadata honestly", () => {
   assert.equal(
-    resolveGitContext({ env: {}, git: fakeGit("") }).currentBranch,
+    resolveGitContext({ env: {}, git: fakeGit("") }).runtimeBranch,
     "detached",
+  );
+  assert.equal(
+    resolveGitContext({ env: {}, git: fakeGit("") }).executionContext,
+    "detachedHead",
   );
   assert.equal(
     resolveGitContext({ env: {}, git: () => "" }).testedCommit,

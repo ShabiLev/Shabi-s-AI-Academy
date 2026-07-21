@@ -56,7 +56,7 @@ export function validateAgentMemory() {
   for (const name of contextualStates) {
     const state = loaded[name];
     if (!state) continue;
-    for (const field of ["sourceBranch", "currentBranch", "targetBranch"]) {
+    for (const field of ["sourceBranch", "runtimeBranch", "targetBranch"]) {
       if (
         !isValidBranchContext(state[field], {
           allowSentinel: field !== "targetBranch",
@@ -66,10 +66,19 @@ export function validateAgentMemory() {
     }
     if (state.testedCommit !== loaded["current-task"]?.testedCommit)
       errors.push(`${name}: testedCommit differs from current-task evidence`);
+    if (state.evidenceCommit !== loaded["current-task"]?.evidenceCommit)
+      errors.push(`${name}: evidenceCommit differs from current-task evidence`);
+    const impossibleContext =
+      (state.executionContext === "localMain" && state.runtimeBranch !== "main") ||
+      (state.executionContext === "localFeature" && ["main", "detached", "unknown"].includes(state.runtimeBranch)) ||
+      (state.executionContext === "detachedHead" && state.runtimeBranch !== "detached") ||
+      (state.executionContext === "githubMergeRef" && !/^\d+\/merge$/.test(state.runtimeBranch));
+    if (impossibleContext)
+      errors.push(`${name}: impossible executionContext/runtimeBranch combination`);
   }
-  if (loaded["current-task"]?.currentBranch !== runtime.currentBranch)
+  if (loaded["current-task"]?.runtimeBranch !== runtime.runtimeBranch)
     warnings.push(
-      "checked-in currentBranch differs from runtime Git context; this is historical state, not a validation failure",
+      "checked-in runtimeBranch differs from runtime Git context; this is historical state, not a validation failure",
     );
   if (loaded["release-status"]?.version !== pkg.version)
     errors.push("release version does not match package.json");
@@ -107,6 +116,20 @@ export function validateAgentMemory() {
       loaded["release-status"]?.releaseBlockers?.length
     )
       errors.push("progress/release blocker counts differ");
+    if (progress.blockers.length > 0 && ["ready", "released"].includes(loaded["release-status"]?.releaseState))
+      errors.push("release state cannot be ready while blockers remain");
+  }
+  const pathValues = [];
+  const collectPaths = (value, key = "") => {
+    if (Array.isArray(value)) return value.forEach((item) => collectPaths(item, key));
+    if (value && typeof value === "object")
+      return Object.entries(value).forEach(([childKey, child]) => collectPaths(child, childKey));
+    if (typeof value === "string" && /path|filesbeingchanged/i.test(key)) pathValues.push(value);
+  };
+  Object.values(loaded).forEach((value) => collectPaths(value));
+  for (const value of pathValues) {
+    if (/^(?:quality\/?|\.agent\/?)$/i.test(value) || value.includes("\\") || /^[A-Za-z]:/.test(value))
+      errors.push(`malformed or unsafe tracked path: ${value}`);
   }
   const actions = loaded["next-actions"]?.actions ?? [];
   const ids = new Set(actions.map((action) => action.id));

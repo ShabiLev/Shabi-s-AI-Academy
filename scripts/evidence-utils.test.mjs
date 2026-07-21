@@ -2,7 +2,10 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   boundedRunIndex,
+  assessEvidenceIntegrity,
   deriveRecommendation,
+  isEvidenceMetadataPath,
+  isWorkingTreeClean,
   redactText,
   safeSlug,
   summarizeCoverage,
@@ -86,4 +89,42 @@ test("manual gates and blocker failures cannot be promoted to Ready", () => {
     coverage: null,
     manualReviews,
   }), "Blocked");
+});
+
+test("distinguishes clean and dirty evidence generation", () => {
+  assert.equal(isWorkingTreeClean(""), true);
+  assert.equal(isWorkingTreeClean(" M src/App.tsx"), false);
+});
+
+test("accepts only bounded evidence metadata after the tested commit", () => {
+  assert.equal(isEvidenceMetadataPath("quality/execution/latest/summary.json"), true);
+  assert.equal(isEvidenceMetadataPath(".agent/state/quality-status.json"), true);
+  assert.equal(isEvidenceMetadataPath("src/App.tsx"), false);
+  const result = assessEvidenceIntegrity({
+    testedCommit: "aaa",
+    evidenceCommit: "bbb",
+    parentCommit: "aaa",
+    headCommit: "ccc",
+    workingTreeCleanAtTest: true,
+    testedIsAncestor: true,
+    evidenceIsAncestor: true,
+    changedPaths: ["quality/execution/latest/summary.json", ".agent/state/quality-status.json"],
+  });
+  assert.equal(result.ok, true);
+});
+
+test("rejects stale, dirty, or product-changing evidence lineage", () => {
+  const result = assessEvidenceIntegrity({
+    testedCommit: "aaa",
+    evidenceCommit: "pending",
+    parentCommit: null,
+    headCommit: "ccc",
+    workingTreeCleanAtTest: false,
+    testedIsAncestor: false,
+    evidenceIsAncestor: false,
+    changedPaths: ["src/App.tsx"],
+  });
+  assert.equal(result.ok, false);
+  assert.ok(result.errors.some((error) => error.includes("dirty")));
+  assert.deepEqual(result.disallowed, ["src/App.tsx"]);
 });

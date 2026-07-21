@@ -87,7 +87,7 @@ export function summarizeCoverage(raw, thresholds, previous = null) {
   };
 }
 
-export function deriveRecommendation({ profile, commands, coverage, manualReviews }) {
+export function deriveRecommendation({ profile, commands, coverage, manualReviews, workingTreeCleanAtTest = true }) {
   const blockerFailed = commands.some(
     (command) => command.criticality === "blocker"
       && ["failed", "notAvailable"].includes(command.status),
@@ -95,10 +95,55 @@ export function deriveRecommendation({ profile, commands, coverage, manualReview
   const manualFailed = Object.values(manualReviews).some(
     (review) => review.status === "failed",
   );
-  if (blockerFailed || manualFailed || coverage?.status === "failed") return "Blocked";
+  if (!workingTreeCleanAtTest || blockerFailed || manualFailed || coverage?.status === "failed") return "Blocked";
   if (profile !== "full") return "Not fully evaluated";
   const allManualPassed = Object.values(manualReviews).every(
     (review) => review.status === "passed",
   );
   return allManualPassed ? "Ready" : "Ready with warnings";
+}
+
+export const evidenceMetadataPrefixes = [
+  ".agent/state/",
+  ".agent/memory/",
+  ".agent/handoff/",
+  "quality/execution/latest/",
+];
+
+export function isEvidenceMetadataPath(file) {
+  const normalized = String(file ?? "").replaceAll("\\", "/");
+  return (
+    evidenceMetadataPrefixes.some((prefix) => normalized.startsWith(prefix)) ||
+    normalized === "quality/execution/index.json"
+  );
+}
+
+export function isWorkingTreeClean(statusOutput) {
+  return String(statusOutput ?? "").trim().length === 0;
+}
+
+export function assessEvidenceIntegrity({
+  testedCommit,
+  evidenceCommit,
+  parentCommit,
+  headCommit,
+  workingTreeCleanAtTest,
+  testedIsAncestor = false,
+  evidenceIsAncestor = false,
+  changedPaths = [],
+}) {
+  const errors = [];
+  if (!testedCommit || testedCommit === "unknown") errors.push("testedCommit is missing");
+  if (!evidenceCommit || ["unrecorded", "pending"].includes(evidenceCommit))
+    errors.push("evidenceCommit is not finalized");
+  if (!parentCommit) errors.push("parentCommit is missing");
+  if (!headCommit) errors.push("HEAD commit is missing");
+  if (workingTreeCleanAtTest !== true)
+    errors.push("evidence was generated from a dirty working tree");
+  if (!testedIsAncestor) errors.push("testedCommit is not an ancestor of HEAD");
+  if (!evidenceIsAncestor) errors.push("evidenceCommit is not an ancestor of HEAD");
+  const disallowed = changedPaths.filter((file) => !isEvidenceMetadataPath(file));
+  if (disallowed.length)
+    errors.push(`post-test changes include non-evidence files: ${disallowed.join(", ")}`);
+  return { ok: errors.length === 0, errors, disallowed };
 }

@@ -14,11 +14,16 @@ const git = (...args) =>
 const now = new Date().toISOString();
 const head = git("rev-parse", "HEAD");
 const previousTask = readJsonIfPresent(statePath("current-task"), {});
-const { sourceBranch, currentBranch, targetBranch } = resolveGitContext({
+const {
+  sourceBranch,
+  runtimeBranch,
+  targetBranch,
+  executionContext,
+} = resolveGitContext({
   previous: previousTask,
 });
 // Compatibility alias for bounded Markdown summaries; JSON state uses explicit context fields.
-const branch = currentBranch;
+const branch = runtimeBranch;
 const dirty = Boolean(git("status", "--porcelain=v1", "-uno"));
 const pkg = JSON.parse(
   readFileSync(path.join(repoRoot, "package.json"), "utf8"),
@@ -33,6 +38,10 @@ const evidenceFile = path.join(
 const evidence = existsSync(evidenceFile)
   ? JSON.parse(readFileSync(evidenceFile, "utf8"))
   : {};
+const testedCommit = evidence.identity?.testedCommit ?? "unknown";
+const evidenceCommit = evidence.identity?.evidenceCommit ?? "unrecorded";
+const parentCommit = evidence.identity?.parentCommit ?? null;
+const workingTreeCleanAtTest = evidence.identity?.workingTreeCleanAtTest === true;
 const manual = evidence.manualReviews ?? {};
 const researchReport = readFileSync(
   path.join(repoRoot, "research", "reports", "latest-research-report.md"),
@@ -59,6 +68,7 @@ const failedGates = Object.entries(evidence.results ?? {})
   .filter(([, value]) => value.status === "failed")
   .map(([name]) => name);
 const blockers = [
+  ...failedGates.map((gate) => `Mandatory quality gate failed: ${gate}.`),
   ...(failedGates.includes("Visual")
     ? ["Windows visual baselines require human review before replacement."]
     : []),
@@ -85,17 +95,19 @@ const states = {
     schemaVersion: "1.0.0",
     generatedAt: now,
     sourceBranch,
-    currentBranch,
+    runtimeBranch,
     targetBranch,
-    testedCommit: head,
-    task: "Version 1.4 AOS release stabilization, memory, and progress tracking",
-    startingCommit: "1a63f8d137cf518c21b6b19dcb28c80a328bbf9e",
+    testedCommit,
+    evidenceCommit,
+    executionContext,
+    task: "Version 1.4 CI, Agent Memory, Evidence, visual, and deployment release recovery",
+    startingCommit: git("merge-base", "origin/main", "HEAD"),
     objective:
-      "Complete, validate, commit, and publish the feature branch without touching main.",
+      "Audit and repair release automation, validate it, and publish only the authorized fix branch without writing to main.",
     completedWork: [
-      "AOS stabilization reviewed",
-      "Research seed pipeline implemented",
-      "Memory and progress architecture implemented",
+      "Repository and release-recovery audit completed",
+      "Execution-context-aware Agent Memory implemented",
+      "Evidence commit semantics and release automation implemented",
     ],
     workInProgress: dirty ? ["Uncommitted reviewed implementation"] : [],
     blockedWork: blockers,
@@ -115,15 +127,17 @@ const states = {
       ? `quality/execution/runs/${evidence.identity.runId}`
       : null,
     nextAction:
-      blockers[0] ?? "Run final validation and publish the feature branch.",
+      blockers[0] ?? "Run post-evidence integrity validation and publish the fix branch.",
   },
   "current-progress": {
     schemaVersion: "1.0.0",
     generatedAt: now,
     sourceBranch,
-    currentBranch,
+    runtimeBranch,
     targetBranch,
-    testedCommit: head,
+    testedCommit,
+    evidenceCommit,
+    executionContext,
     overallPercent,
     currentPhase: "validation",
     phasesCompleted: [
@@ -160,9 +174,11 @@ const states = {
     schemaVersion: "1.0.0",
     generatedAt: now,
     sourceBranch,
-    currentBranch,
+    runtimeBranch,
     targetBranch,
-    testedCommit: head,
+    testedCommit,
+    evidenceCommit,
+    executionContext,
     application: "Shabi's AI Academy",
     purpose:
       "Bilingual local-first learning application for prompts, agents, and quality engineering.",
@@ -176,9 +192,11 @@ const states = {
     schemaVersion: "1.0.0",
     generatedAt: now,
     sourceBranch,
-    currentBranch,
+    runtimeBranch,
     targetBranch,
-    testedCommit: head,
+    testedCommit,
+    evidenceCommit,
+    executionContext,
     version: pkg.version,
     milestone:
       "AI Agent Operating System - Release Stabilization, Automation, Memory and Progress Tracking",
@@ -270,11 +288,20 @@ const states = {
     schemaVersion: "1.0.0",
     updatedAt: now,
     latestRunId: evidence.identity?.runId ?? null,
-    testedCommit: evidence.identity?.finalCommit ?? null,
-    workingTreeCleanAtTest: false,
+    testedCommit: evidence.identity?.testedCommit ?? null,
+    evidenceCommit: evidence.identity?.evidenceCommit ?? null,
+    parentCommit,
+    workingTreeCleanAtTest,
     coverage: evidence.coverage ?? null,
     unit: evidence.results?.["Unit tests"]?.status ?? "notRun",
-    e2e: evidence.results?.E2E?.status ?? "notRun",
+    e2e:
+      evidence.results?.["Functional E2E"]?.status === "passed" &&
+      evidence.results?.["Cross-browser"]?.status === "passed"
+        ? "passed"
+        : evidence.results?.["Functional E2E"]?.status === "failed" ||
+            evidence.results?.["Cross-browser"]?.status === "failed"
+          ? "failed"
+          : "notRun",
     visual: evidence.results?.Visual?.status ?? "notRun",
     accessibility: evidence.results?.Accessibility?.status ?? "notRun",
     performance: evidence.results?.Performance?.status ?? "notRun",
@@ -294,9 +321,11 @@ const states = {
     schemaVersion: "1.0.0",
     generatedAt: now,
     sourceBranch,
-    currentBranch,
+    runtimeBranch,
     targetBranch,
-    testedCommit: head,
+    testedCommit,
+    evidenceCommit,
+    executionContext,
     fromAgent: "Codex",
     toAgent: "Codex or Claude Code",
     status: dirty ? "inProgress" : "readyForReview",
@@ -372,7 +401,7 @@ const memoryDocs = {
     .join("\n")}\n`,
   "decision-memory.md": `# Decision Memory\n\nSignificant decisions only; ADRs remain authoritative.\n\n- 2026-07-15: Agent memory is explicit, bounded, sanitized Markdown plus schema-validated JSON. Hidden or remote memory was rejected because it is not inspectable or agent-neutral. Affected: memory, state, evidence, UI.\n- 2026-07-15: Public AOS pages consume one generated sanitized snapshot, never raw repository files. Bundling raw state was rejected to prevent private paths and stale status leaks. Affected: snapshot, UI, Pages.\n- 2026-07-15: Manual UX/security/content reviews remain human-owned. Automated promotion was rejected under the quality and release policies.\n`,
   "research-memory.md": `# Research Memory\n\n- Latest run: seed-2026-07-15\n- Sources: ${research.sources} discovered / ${research.validated} validated / ${research.duplicates} duplicates\n- Claims: ${research.claimsExtracted} extracted / ${research.claimsVerified} verified\n- Candidates: ${research.candidatesGenerated} generated / ${research.candidatesPendingReview} pending review / 0 published\n- Coverage is a small seed set, not comprehensive. Missing: ${states["research-progress"].missingTopicCoverage.join(", ")}.\n`,
-  "quality-memory.md": `# Quality Memory\n\n- Latest run: ${evidence.identity?.runId ?? "not available"}\n- Tested commit: ${evidence.identity?.finalCommit ?? "not available"}\n- Current working tree matched: No\n- Coverage: ${evidence.coverage?.statements?.percent ?? "not available"}% statements\n- Unit: ${states["quality-status"].unit}; E2E: ${states["quality-status"].e2e}; visual: ${states["quality-status"].visual}; accessibility: ${states["quality-status"].accessibility}; performance: ${states["quality-status"].performance}; Pages: ${states["quality-status"].pages}\n- Manual reviews: notRun; automation cannot promote them.\n- Recommendation: ${releaseState}. Prior green results are never copied to a new commit without rerunning.\n`,
+  "quality-memory.md": `# Quality Memory\n\n- Latest run: ${evidence.identity?.runId ?? "not available"}\n- Tested commit: ${testedCommit}\n- Evidence commit: ${evidenceCommit}\n- Working tree clean at test: ${workingTreeCleanAtTest ? "Yes" : "No"}\n- Coverage: ${evidence.coverage?.statements?.percent ?? "not available"}% statements\n- Unit: ${states["quality-status"].unit}; E2E: ${states["quality-status"].e2e}; visual: ${states["quality-status"].visual}; accessibility: ${states["quality-status"].accessibility}; performance: ${states["quality-status"].performance}; Pages: ${states["quality-status"].pages}\n- Manual reviews: notRun; automation cannot promote them.\n- Recommendation: ${releaseState}. Prior green results are never copied to a new commit without rerunning.\n`,
   "release-memory.md": `# Release Memory\n\n- Version: ${pkg.version}\n- Milestone: ${states["release-status"].milestone}\n- Branch: \`${branch}\`\n- Target main: \`${states["release-status"].targetMainCommit}\`\n- State: ${releaseState}\n- Research: seed candidates pending review\n- Documentation: complete\n- Deployment: not deployed\n- Blockers: ${blockers.join("; ") || "None"}\n- Recommendation: ${states["release-status"].finalRecommendation}\n`,
   "next-actions.md": `# Next Actions\n\n${states["next-actions"].actions.map((action) => `## ${action.id}: ${action.title}\n\n- Priority: ${action.priority}\n- Role: ${action.requiredRole}\n- Reason: ${action.reason}\n- Modules: ${action.requiredModules.join(", ")}\n- Prerequisites: ${action.prerequisites.join(", ") || "None"}\n- Evidence: ${action.expectedEvidence}\n- Complete when: ${action.completionCriteria}\n- Status: ${action.status}\n`).join("\n")}\n`,
 };

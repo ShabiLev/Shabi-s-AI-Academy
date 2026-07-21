@@ -1,8 +1,10 @@
 {
   "schemaVersion": "1.0.0",
-  "updatedAt": "2026-07-15T15:33:00.610Z",
+  "updatedAt": "2026-07-21T12:04:30.540Z",
   "latestRunId": "2026-07-15_15-45-55_main",
-  "testedCommit": "c92cac91aa3dcd6c8a40f32f10ef48094a1a91d5",
+  "testedCommit": null,
+  "evidenceCommit": null,
+  "parentCommit": null,
   "workingTreeCleanAtTest": false,
   "coverage": {
     "status": "passed",
@@ -32,7 +34,7 @@
     }
   },
   "unit": "passed",
-  "e2e": "failed",
+  "e2e": "notRun",
   "visual": "failed",
   "accessibility": "passed",
   "performance": "passed",
@@ -91,6 +93,9 @@
   },
   "releaseRecommendation": "blocked",
   "unresolvedWarnings": [
+    "Mandatory quality gate failed: E2E.",
+    "Mandatory quality gate failed: Visual.",
+    "Mandatory quality gate failed: Release validation.",
     "Windows visual baselines require human review before replacement.",
     "Human UX, security, and content reviews remain notRun."
   ],

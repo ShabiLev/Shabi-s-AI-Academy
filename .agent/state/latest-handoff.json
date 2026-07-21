@@ -1,14 +1,16 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-07-15T15:33:00.610Z",
-  "sourceBranch": "feature/1.4.0-agent-operating-system",
-  "currentBranch": "feature/1.4.0-agent-operating-system",
+  "generatedAt": "2026-07-21T12:04:30.540Z",
+  "sourceBranch": "fix/1.4.0-ci-memory-visual-release",
+  "runtimeBranch": "fix/1.4.0-ci-memory-visual-release",
   "targetBranch": "main",
-  "testedCommit": "cf6b1e712cb5b541ae871b0c209f098a6d56f215",
+  "testedCommit": "unknown",
+  "evidenceCommit": "unrecorded",
+  "executionContext": "localFeature",
   "fromAgent": "Codex",
   "toAgent": "Codex or Claude Code",
   "status": "inProgress",
   "summary": "Continue from explicit AOS state, verify Git, rerun focused tests, and preserve human-owned review gates.",
   "evidencePath": "quality/execution/latest",
-  "nextAction": "Windows visual baselines require human review before replacement."
+  "nextAction": "Mandatory quality gate failed: E2E."
 }

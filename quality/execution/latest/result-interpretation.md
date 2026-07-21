@@ -1,0 +1,12 @@
+# Result interpretation
+
+| Command or gate | Status | Root cause and classification | Severity | Fix / verification | Residual risk and evidence |
+| --- | --- | --- | --- | --- | --- |
+| Automated non-visual full profile | passed | The production-preview harness removed the reproducible cold Vite transform race | High, resolved | Functional 15/15, cross-browser 10/10, journeys 13/13, UX 54/54, accessibility 74/74, Pages 4/4, unit, coverage, build, lint, docs, AOS, inventory, and performance passed at tested commit `fae3d8d37d0d639e5836ca5e903ef329b04eb5ca` | See `summary.json` and the run logs referenced there |
+| `npm run test:visual` | failed | Existing Windows baselines differ from the current render; visual review issue | High | Comparison completed without updating snapshots: 25 passed and 35 failed | Human review is required; no mismatch was auto-accepted |
+| `visual-linux` | blocked | No committed `*-linux.png` baselines exist; missing platform evidence | High | The guarded workflow can generate filtered artifacts only after the exact confirmation phrase | A human must inspect the Linux artifact and commit only approved baselines |
+| Manual UX, security, and content reviews | not run | Subjective review cannot be self-approved by automation | High | Records remain explicitly `notRun` | Assigned human reviewers must complete and record the reviews |
+| `npm audit --json` | warning | Seven transitive findings remain, including one high-severity `tmp` path through Lighthouse; dependency issue | High | Compatible dependency ranges and lockfile were reconciled; the breaking `npm audit fix --force` recommendation was rejected | Track upstream remediation; see `quality/generated/release-recovery-audit.json` finding RR-013 |
+| GitHub main ruleset | pending live verification | Repository setting is outside source control | High | Branch-protection requirements are documented and CI job names are stable | Do not claim direct-push prevention until the live ruleset is inspected |
+
+The full profile recommendation is intentionally **Blocked**. The only failed automated command is `npm run test:visual`; manual gates and reviewed Linux baselines are still outstanding.

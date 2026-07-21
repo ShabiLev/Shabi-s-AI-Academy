@@ -3,6 +3,47 @@
   "maximumRuns": 20,
   "runs": [
     {
+      "runId": "2026-07-21_16-49-13_fix-1-4-0-ci-memory-visual-release",
+      "date": "2026-07-21T14:02:09.725Z",
+      "branch": "fix/1.4.0-ci-memory-visual-release",
+      "commit": "fae3d8d37d0d639e5836ca5e903ef329b04eb5ca",
+      "version": "1.4.0-beta.1",
+      "overallStatus": "Blocked",
+      "coverageSummary": {
+        "status": "passed",
+        "statements": {
+          "percent": 76.34,
+          "threshold": 75,
+          "passed": true,
+          "delta": -0.23
+        },
+        "branches": {
+          "percent": 74.25,
+          "threshold": 65,
+          "passed": true,
+          "delta": -0.08
+        },
+        "functions": {
+          "percent": 72.57,
+          "threshold": 70,
+          "passed": true,
+          "delta": 0
+        },
+        "lines": {
+          "percent": 76.34,
+          "threshold": 75,
+          "passed": true,
+          "delta": -0.23
+        }
+      },
+      "reportPath": "quality/execution/latest/summary.md",
+      "localRunPath": "quality/execution/runs/2026-07-21_16-49-13_fix-1-4-0-ci-memory-visual-release/",
+      "failedCommands": [
+        "npm run test:visual"
+      ],
+      "warningCount": 12
+    },
+    {
       "runId": "2026-07-21_16-07-42_fix-1-4-0-ci-memory-visual-release",
       "date": "2026-07-21T13:28:27.899Z",
       "branch": "fix/1.4.0-ci-memory-visual-release",

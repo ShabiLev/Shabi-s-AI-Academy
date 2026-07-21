@@ -1,24 +1,24 @@
 {
   "schemaVersion": "1.0.0",
-  "updatedAt": "2026-07-21T12:42:13.999Z",
-  "latestRunId": "2026-07-21_15-26-05_fix-1-4-0-ci-memory-visual-release",
-  "testedCommit": "efc9b1bc8d99e277e2649164f7227578ebe9ca2b",
-  "evidenceCommit": "1c325a2aa26c10ffa4261fcd8b436d8fe24704fb",
-  "parentCommit": "efc9b1bc8d99e277e2649164f7227578ebe9ca2b",
+  "updatedAt": "2026-07-21T14:02:36.248Z",
+  "latestRunId": "2026-07-21_16-49-13_fix-1-4-0-ci-memory-visual-release",
+  "testedCommit": "fae3d8d37d0d639e5836ca5e903ef329b04eb5ca",
+  "evidenceCommit": "pending",
+  "parentCommit": "b5b5ec3c776c9c4edd78ad0c4b9610414ed25c03",
   "workingTreeCleanAtTest": true,
   "coverage": {
     "status": "passed",
     "statements": {
-      "percent": 76.57,
+      "percent": 76.34,
       "threshold": 75,
       "passed": true,
-      "delta": 0.23
+      "delta": -0.23
     },
     "branches": {
-      "percent": 74.33,
+      "percent": 74.25,
       "threshold": 65,
       "passed": true,
-      "delta": 0.03
+      "delta": -0.08
     },
     "functions": {
       "percent": 72.57,
@@ -27,10 +27,10 @@
       "delta": 0
     },
     "lines": {
-      "percent": 76.57,
+      "percent": 76.34,
       "threshold": 75,
       "passed": true,
-      "delta": 0.23
+      "delta": -0.23
     }
   },
   "unit": "passed",
@@ -98,7 +98,7 @@
     "Human UX, security, and content reviews remain notRun."
   ],
   "evidencePaths": [
-    "quality/execution/runs/2026-07-21_15-26-05_fix-1-4-0-ci-memory-visual-release",
+    "quality/execution/runs/2026-07-21_16-49-13_fix-1-4-0-ci-memory-visual-release",
     "quality/execution/latest"
   ]
 }

@@ -1,12 +1,5 @@
-# Self review
+# Self-review
 
-- Scope: reviewed all 70 changed paths against `origin/main`, including Agent Memory schemas/state, evidence utilities, GitHub workflows, Pages identity, dependency ranges, Playwright projects, release policy, generated audit/evidence, tests, and documentation.
-- Branch and history: work is confined to `fix/1.4.0-ci-memory-visual-release`; `main` and `origin/main` remain at `cf6b1e712cb5b541ae871b0c209f098a6d56f215`. No force push, history rewrite, merge, or write to main was performed.
-- Release specification: `git diff origin/main...HEAD -- .codex` is empty; the controlling release specification is unchanged.
-- Validation: the authoritative full profile tested clean commit `fae3d8d37d0d639e5836ca5e903ef329b04eb5ca`. Every automated non-visual gate passed; visual comparison reported 25 passes and 35 mismatches. Post-evidence AOS, memory, evidence, release-policy, integrity, and diff checks passed.
-- CI and Pages: jobs and artifacts are isolated by gate; the summary fails closed; Pages consumes a successful main-push CI SHA and verifies checkout/build/deployment identity. Feature-branch CI and live repository settings still require remote inspection.
-- Visual safety: Windows and Linux snapshots remain platform-specific. Baseline generation requires the exact confirmation phrase, supports filters, uploads review artifacts, and has no commit/push permission. No baseline was updated or accepted automatically.
-- Dependencies and security: `latest` specifiers were replaced with compatible ranges derived from the lockfile. Seven transitive audit findings remain disclosed; the breaking force-fix path was not used. Workflow permissions were reviewed, and the baseline workflow is read-only.
-- Artifact hygiene: no `node_modules`, `dist`, `.env` file, video, trace archive, Playwright report, or test-results directory is newly tracked. No secret was added. Generated audit and bounded release evidence are the only intentional generated additions.
-- Product safeguards: coverage thresholds, failing tests, visual checks, and mandatory release gates were not weakened or disabled. User-authored/local data boundaries and bilingual/accessibility behavior were not changed.
-- Remaining blockers: reviewed Linux baselines, Windows mismatch approval, human UX/security/content reviews, and live branch-protection verification. The local main-readiness guard correctly rejects the current state.
+Status: notRun
+
+Complete the structured code, security, accessibility, documentation, test, and scope review before committing.

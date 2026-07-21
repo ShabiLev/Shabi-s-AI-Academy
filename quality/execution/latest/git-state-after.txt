@@ -1,5 +1,5 @@
 $ git status --short --branch
-## fix/1.4.0-ci-memory-visual-release
+## fix/1.4.0-ci-memory-visual-release...origin/fix/1.4.0-ci-memory-visual-release
 
 $ git branch --show-current
 fix/1.4.0-ci-memory-visual-release
@@ -9,13 +9,13 @@ origin	https://github.com/ShabiLev/Shabi-s-AI-Academy.git (fetch)
 origin	https://github.com/ShabiLev/Shabi-s-AI-Academy.git (push)
 
 $ git log --oneline --decorate -10
-fae3d8d (HEAD -> fix/1.4.0-ci-memory-visual-release) chore(evidence): record cold server diagnosis
+b603550 (HEAD -> fix/1.4.0-ci-memory-visual-release, origin/fix/1.4.0-ci-memory-visual-release) fix(evidence): redact foreign workspace paths
+6401733 chore(evidence): add final recovery self-review
+12e0eb8 chore(evidence): finalize recovery evidence identity
+46bca70 chore(evidence): record authoritative recovery validation
+fae3d8d chore(evidence): record cold server diagnosis
 b5b5ec3 test(browser): exercise production preview
 ef38c22 chore(evidence): record interrupted network validation
 176e150 test(browser): bound functional and accessibility workers
 ccbeddf fix(release): accept verified evidence-only lineage
 830c8c1 chore(evidence): finalize recovery evidence identity
-1c325a2 chore(evidence): record release recovery validation
-efc9b1b fix(evidence): preserve tracked audit during collection
-d84f8e8 test(unit): bound jsdom worker concurrency
-8e38b87 docs(release): normalize recovery audit evidence

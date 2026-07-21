@@ -418,8 +418,21 @@ ${summary.recommendation}
 async function main() {
   mkdirSync(EXECUTION, { recursive: true });
   if (profile === "full") {
+    const persistentGeneratedFiles = [
+      "release-recovery-audit.json",
+      "release-recovery-audit.md",
+    ].map((name) => {
+      const file = path.join(ROOT, "quality", "generated", name);
+      return [file, existsSync(file) ? readFileSync(file) : null];
+    });
     for (const generatedPath of ["coverage", "playwright-report", "test-results", "quality/generated", "public/generated"]) {
       rmSync(path.join(ROOT, generatedPath), { recursive: true, force: true });
+    }
+    for (const [file, content] of persistentGeneratedFiles) {
+      if (content) {
+        mkdirSync(path.dirname(file), { recursive: true });
+        writeFileSync(file, content);
+      }
     }
   }
   const startedAt = new Date();

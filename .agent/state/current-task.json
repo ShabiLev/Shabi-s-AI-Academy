@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-07-21T12:41:10.645Z",
+  "generatedAt": "2026-07-21T12:42:13.999Z",
   "sourceBranch": "fix/1.4.0-ci-memory-visual-release",
   "runtimeBranch": "fix/1.4.0-ci-memory-visual-release",
   "targetBranch": "main",
   "testedCommit": "efc9b1bc8d99e277e2649164f7227578ebe9ca2b",
-  "evidenceCommit": "pending",
+  "evidenceCommit": "1c325a2aa26c10ffa4261fcd8b436d8fe24704fb",
   "executionContext": "localFeature",
   "task": "Version 1.4 CI, Agent Memory, Evidence, visual, and deployment release recovery",
   "startingCommit": "cf6b1e712cb5b541ae871b0c209f098a6d56f215",
@@ -24,22 +24,9 @@
     "Human UX, security, and content reviews remain notRun."
   ],
   "filesBeingChanged": [
-    "uality/execution/index.json",
-    "quality/execution/latest/README.md",
-    "quality/execution/latest/agent-review.md",
-    "quality/execution/latest/changed-files.txt",
-    "quality/execution/latest/ci-root-cause-analysis.md",
-    "quality/execution/latest/commands.json",
-    "quality/execution/latest/coverage-summary.json",
-    "quality/execution/latest/environment.json",
-    "quality/execution/latest/failures.md",
-    "quality/execution/latest/git-state-after.txt",
-    "quality/execution/latest/git-state-before.txt",
-    "quality/execution/latest/result-interpretation.md",
-    "quality/execution/latest/self-review.md",
+    "uality/execution/latest/README.md",
     "quality/execution/latest/summary.json",
-    "quality/execution/latest/summary.md",
-    "quality/execution/latest/warnings.md"
+    "quality/execution/latest/summary.md"
   ],
   "testsRun": [
     "Docs",

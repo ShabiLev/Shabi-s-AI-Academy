@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-07-21T12:41:10.645Z",
+  "generatedAt": "2026-07-21T12:42:13.999Z",
   "sourceBranch": "fix/1.4.0-ci-memory-visual-release",
   "runtimeBranch": "fix/1.4.0-ci-memory-visual-release",
   "targetBranch": "main",
   "testedCommit": "efc9b1bc8d99e277e2649164f7227578ebe9ca2b",
-  "evidenceCommit": "pending",
+  "evidenceCommit": "1c325a2aa26c10ffa4261fcd8b436d8fe24704fb",
   "executionContext": "localFeature",
   "overallPercent": 89,
   "currentPhase": "validation",

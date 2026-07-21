@@ -14,13 +14,17 @@ function escaped(value) {
 
 export function redactText(value, options = {}) {
   let text = String(value ?? "");
-  const workspace = options.workspace ? path.resolve(options.workspace) : null;
+  const rawWorkspace = options.workspace ? String(options.workspace) : null;
+  const workspace = rawWorkspace ? path.resolve(rawWorkspace) : null;
   const sensitiveValues = (options.sensitiveValues ?? []).filter(
     (item) => typeof item === "string" && item.length >= 6,
   );
 
   if (workspace) {
     const variants = new Set([
+      rawWorkspace,
+      rawWorkspace.replaceAll("\\", "/"),
+      rawWorkspace.replaceAll("/", "\\"),
       workspace,
       workspace.replaceAll("\\", "/"),
       workspace.replaceAll("/", "\\"),

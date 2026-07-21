@@ -37,6 +37,12 @@ test("replaces the workspace before broader home-path redaction", () => {
     redactText(`${workspace}\\src\\main.ts`, { workspace }),
     "[WORKSPACE]\\src\\main.ts",
   );
+  assert.equal(
+    redactText("/home/runner/work/project/src/main.ts", {
+      workspace: "/home/runner/work/project",
+    }),
+    "[WORKSPACE]/src/main.ts",
+  );
 });
 
 test("normalizes branch names into bounded run slugs", () => {

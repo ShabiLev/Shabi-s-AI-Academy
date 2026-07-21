@@ -53,6 +53,9 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
+    // Bound concurrent jsdom workers so async UI assertions are not starved on
+    // developer machines or shared CI runners.
+    maxWorkers: 4,
     setupFiles: './src/test/setup.ts',
     css: true,
     include: ['src/**/*.test.{ts,tsx}'],

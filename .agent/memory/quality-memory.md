@@ -2,7 +2,7 @@
 
 - Latest run: 2026-07-21_16-49-13_fix-1-4-0-ci-memory-visual-release
 - Tested commit: fae3d8d37d0d639e5836ca5e903ef329b04eb5ca
-- Evidence commit: pending
+- Evidence commit: 46bca701c9e6e53d4b0b51219475c3a5a7f86c37
 - Working tree clean at test: Yes
 - Coverage: 76.34% statements
 - Unit: passed; E2E: passed; visual: failed; accessibility: passed; performance: passed; Pages: passed

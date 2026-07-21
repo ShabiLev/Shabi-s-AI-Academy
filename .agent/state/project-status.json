@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-07-21T14:02:36.248Z",
+  "generatedAt": "2026-07-21T14:03:36.686Z",
   "sourceBranch": "fix/1.4.0-ci-memory-visual-release",
   "runtimeBranch": "fix/1.4.0-ci-memory-visual-release",
   "targetBranch": "main",
   "testedCommit": "fae3d8d37d0d639e5836ca5e903ef329b04eb5ca",
-  "evidenceCommit": "pending",
+  "evidenceCommit": "46bca701c9e6e53d4b0b51219475c3a5a7f86c37",
   "executionContext": "localFeature",
   "application": "Shabi's AI Academy",
   "purpose": "Bilingual local-first learning application for prompts, agents, and quality engineering.",

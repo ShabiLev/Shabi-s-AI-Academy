@@ -239,3 +239,10 @@ test("full quality evidence runs every mandatory E2E gate before collection", ()
   }
   assert.ok(fullProfile.indexOf('"test:e2e"') < fullProfile.indexOf('"quality:collect"'));
 });
+
+test("full quality evidence preserves the reviewed tracked Radar feed during cleanup", () => {
+  const runner = readFileSync("scripts/run-quality-evidence.mjs", "utf8");
+
+  assert.match(runner, /persistentGeneratedFiles[\s\S]+public\/generated\/ai-radar-feed\.json/);
+  assert.match(runner, /for \(const \[file, content\] of persistentGeneratedFiles\)[\s\S]+writeFileSync\(file, content\)/);
+});

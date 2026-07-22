@@ -421,10 +421,11 @@ async function main() {
   mkdirSync(EXECUTION, { recursive: true });
   if (profile === "full") {
     const persistentGeneratedFiles = [
-      "release-recovery-audit.json",
-      "release-recovery-audit.md",
-    ].map((name) => {
-      const file = path.join(ROOT, "quality", "generated", name);
+      "quality/generated/release-recovery-audit.json",
+      "quality/generated/release-recovery-audit.md",
+      "public/generated/ai-radar-feed.json",
+    ].map((relativePath) => {
+      const file = path.join(ROOT, relativePath);
       return [file, existsSync(file) ? readFileSync(file) : null];
     });
     for (const generatedPath of ["coverage", "playwright-report", "test-results", "quality/generated", "public/generated"]) {

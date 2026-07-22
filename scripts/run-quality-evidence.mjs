@@ -90,6 +90,7 @@ const commandProfiles = {
     npm("build", "build", "build.log"),
     npm("build-pages", "build:pages", "build-pages.log"),
     npm("catalog", "catalog:check", "catalog-check.log"),
+    npm("e2e-fast", "test:e2e", "e2e-fast.log"),
     npm("functional", "test:e2e:functional", "e2e-functional.log"),
     npm("cross-browser", "test:e2e:cross-browser", "e2e-cross-browser.log"),
     npm("e2e-pages", "test:e2e:pages", "e2e-pages.log", { dependsOn: ["build-pages"] }),

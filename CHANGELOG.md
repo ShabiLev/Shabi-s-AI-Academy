@@ -2,6 +2,34 @@
 
 All notable changes to this project are documented here following the Keep a Changelog format.
 
+## [1.5.0-beta.1] - 2026-07-22
+
+### Added
+
+- Live source-based AI Radar, seven-day history, favorites, provider states, and source-quality/freshness metadata
+- AOS Event Bus, Scheduler, background-job model, and Capability Registry foundations
+- Profile Recent Items history, expanded overlay regression coverage, and a global form-control design standard
+
+### Changed
+
+- Dashboard simplified and layouts use available space more efficiently
+- Sidebar groups are collapsed by default; Recent Items moved from Dashboard to Profile/History
+- RTL/LTR alignment hardened and AI Radar moved from static presentation to a validated provider architecture
+- Form controls remain visually identifiable when unfocused
+
+### Removed
+
+- Dashboard Workspace Overview, Workspace Status, duplicate Recent Items, and redundant workspace-state indicators
+
+### Fixed
+
+- Local Notifications dismissal, focus restoration, unclear unfocused controls, default-open sidebar sections, and directional alignment inconsistencies
+
+### Security
+
+- Online Radar content is schema-validated and inert; source content cannot execute commands
+- Provider secrets remain outside frontend bundles; Scheduler and Capability Registry use explicit permissions; Event Bus payloads are typed
+
 ## [1.4.0-beta.1] - 2026-07-14
 
 ### Added

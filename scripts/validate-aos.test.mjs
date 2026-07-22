@@ -46,7 +46,7 @@ test("manifest and package.json agree on the application version", () => {
   const packageJson = JSON.parse(readFileSync(path.join(repoRoot, "package.json"), "utf8"));
   const packageLock = JSON.parse(readFileSync(path.join(repoRoot, "package-lock.json"), "utf8"));
   const metadata = readFileSync(path.join(repoRoot, "src/config/appMetadata.ts"), "utf8");
-  const masterSpec = readFileSync(path.join(repoRoot, ".codex/release-1.4-aos/00-master-spec.md"), "utf8");
+  const masterSpec = readFileSync(path.join(repoRoot, ".codex/release-1.5-aos-core-ux-radar/00-master-spec.md"), "utf8");
   assert.equal(manifest.applicationVersion, packageJson.version);
   assert.equal(packageLock.version, packageJson.version);
   assert.equal(packageLock.packages[""].version, packageJson.version);

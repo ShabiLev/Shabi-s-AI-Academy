@@ -13,7 +13,7 @@ before it changes code, without repeating the authoritative architecture set.
 
 ## Project-specific interpretation
 
-Shabi's AI Academy (application version 1.4.0-beta.1) is a protected React +
+Shabi's AI Academy (application version 1.5.0-beta.1) is a protected React +
 TypeScript + Vite single-page app. It teaches AI-agent concepts through
 bilingual lessons, a Prompt Library/Builder, an Agent Builder, a read-only
 Starter Catalog, a deterministic Mock/Dry-Run Runtime, a Knowledge Base, and a

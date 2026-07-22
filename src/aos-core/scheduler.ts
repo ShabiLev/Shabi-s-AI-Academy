@@ -6,7 +6,6 @@ export interface SchedulerRetryPolicy {
   readonly maxAttempts: number;
   readonly delayMs: number;
 }
-
 export interface ScheduledTaskDefinition {
   readonly id: string;
   readonly title: string;
@@ -127,4 +126,3 @@ export class AosScheduler {
     return finalRecord;
   }
 }
-

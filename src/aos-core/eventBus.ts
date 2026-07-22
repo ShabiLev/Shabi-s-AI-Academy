@@ -10,7 +10,6 @@ export interface AosEventMap {
   "quality.run.completed": { version: 1; runId: string; status: "passed" | "failed" | "blocked"; occurredAt: string };
   "release.status.changed": { version: 1; status: "unverified" | "blocked" | "ready"; occurredAt: string };
 }
-
 export type AosEventName = keyof AosEventMap;
 
 export interface AosEventRecord<K extends AosEventName = AosEventName> {
@@ -86,4 +85,3 @@ export class AosEventBus {
     return this.errors.map((error) => ({ ...error }));
   }
 }
-

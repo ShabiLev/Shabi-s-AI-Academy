@@ -38,4 +38,3 @@ export const coreCapabilities: readonly CapabilityRecord[] = [
     documentationUrl: "/radar",
   },
 ] as const;
-

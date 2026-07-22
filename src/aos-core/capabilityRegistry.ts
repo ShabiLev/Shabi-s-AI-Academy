@@ -23,7 +23,6 @@ export interface CapabilityRecord {
   readonly lastVerifiedAt?: string;
   readonly documentationUrl: string;
 }
-
 const text = (value: unknown, max: number): value is string => typeof value === "string" && value.trim().length > 0 && value.length <= max;
 const stringList = (value: unknown, max = 20): value is string[] => Array.isArray(value) && value.length <= max && value.every((item) => text(item, 120));
 
@@ -73,4 +72,3 @@ export class CapabilityRegistry {
     });
   }
 }
-

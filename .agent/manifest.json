@@ -1,6 +1,6 @@
 {
-  "aosVersion": "1.0.0",
-  "applicationVersion": "1.4.0-beta.1",
+  "aosVersion": "1.1.0",
+  "applicationVersion": "1.5.0-beta.1",
   "schemaVersion": "1.0.0",
   "defaultEntryPoint": ".agent/master.md",
   "supportedAgents": ["codex", "claude-code"],
@@ -12,7 +12,7 @@
   "researchPath": "research",
   "securityPath": ".agent/security",
   "releasePath": ".agent/release",
-  "lastUpdated": "2026-07-14",
+  "lastUpdated": "2026-07-22",
   "checksumStrategy": "none-v1: module identity is tracked by path + version field; content checksums may be added in a future schemaVersion via scripts/validate-aos-manifest.mjs without breaking this shape",
   "requiredModules": [
     "workflow.development",

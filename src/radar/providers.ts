@@ -7,7 +7,6 @@ export interface RadarProviderResult {
   readonly feed?: RadarFeed;
   readonly message?: string;
 }
-
 export interface RadarProvider {
   readonly id: string;
   load(signal?: AbortSignal): Promise<RadarProviderResult>;
@@ -46,4 +45,3 @@ export class SameOriginRadarProvider implements RadarProvider {
     }
   }
 }
-

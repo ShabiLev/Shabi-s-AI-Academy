@@ -17,7 +17,6 @@ export function retainRadarHistory(records: readonly RadarRecord[], today: strin
     .sort((a, b) => b.publicationDate.localeCompare(a.publicationDate) || b.relevanceScore - a.relevanceScore)
     .slice(0, RADAR_MAX_RECORDS);
 }
-
 export function groupRadarRecords(records: readonly RadarRecord[]): Map<string, RadarRecord[]> {
   const groups = new Map<string, RadarRecord[]>();
   for (const record of records) {
@@ -26,4 +25,3 @@ export function groupRadarRecords(records: readonly RadarRecord[]): Map<string, 
   }
   return groups;
 }
-

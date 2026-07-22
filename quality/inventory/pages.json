@@ -2746,5 +2746,27 @@
     "expectedAnalyticsEvent": "page_view:aos.memory",
     "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and stale-evidence state",
     "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/aos/core",
+    "pageId": "aos.core",
+    "title": "AOS Core",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": ["he", "en"],
+    "experienceModes": ["beginner", "advanced"],
+    "primaryTask": "Inspect registered capabilities, scheduler definitions, and bounded event diagnostics",
+    "primaryAction": "Search the Capability Registry",
+    "secondaryActions": ["Filter by mode", "Review scheduler state", "Review event diagnostics"],
+    "expectedControls": ["search", "mode filter", "navigation"],
+    "expectedEmptyState": "Explains when no events exist in the current session",
+    "expectedLoadingState": "Not applicable for local AOS Core state",
+    "expectedErrorState": "Invalid capabilities are rejected before registration",
+    "expectedMobileBehavior": "Single-column controls and cards with no horizontal overflow",
+    "expectedDesktopBehavior": "Responsive capability grid and readable technical metadata",
+    "expectedBreadcrumb": "Dashboard > Agent Operating System > Core",
+    "expectedHelpContent": "Capability, scheduling, permission, and event diagnostics in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:aos.core",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, and mobile after human approval",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, and 200% zoom support"
   }
 ]

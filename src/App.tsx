@@ -43,6 +43,8 @@ import { AdminRoute } from "./admin";
 import { AdminAuditPage, AdminContentPage, AdminDashboardPage, AdminUsersPage } from "./pages/admin";
 import { LandingPage } from "./pages/LandingPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import { AosCoreProvider } from "./aos-core";
+import { RadarDataProvider } from "./radar";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
 const DashboardPage = lazy(() => import("./pages/GuidedDashboardPage").then((module) => ({ default: module.GuidedDashboardPage })));
@@ -83,6 +85,7 @@ const AosSecurityPage = lazy(() => import("./pages/aos").then((module) => ({ def
 const AosReleasesPage = lazy(() => import("./pages/aos").then((module) => ({ default: module.AosReleasesPage })));
 const AosProgressPage = lazy(() => import("./pages/aos").then((module) => ({ default: module.AosProgressPage })));
 const AosMemoryPage = lazy(() => import("./pages/aos").then((module) => ({ default: module.AosMemoryPage })));
+const AosCorePage = lazy(() => import("./pages/AosCorePage").then((module) => ({ default: module.AosCorePage })));
 
 export interface AppProps {
   routerMode?: RouterMode;
@@ -94,6 +97,8 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
   return (
     <Router>
       <AuthProvider>
+        <AosCoreProvider>
+          <RadarDataProvider>
         <ExperienceProvider>
           <OnboardingProvider>
           <GuidedTourProvider>
@@ -203,6 +208,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                     <Route path="aos/releases" element={<Suspense fallback={null}><AosReleasesPage /></Suspense>} />
                     <Route path="aos/progress" element={<Suspense fallback={null}><AosProgressPage /></Suspense>} />
                     <Route path="aos/memory" element={<Suspense fallback={null}><AosMemoryPage /></Suspense>} />
+                    <Route path="aos/core" element={<Suspense fallback={null}><AosCorePage /></Suspense>} />
                     <Route path="runs" element={<Suspense fallback={null}><RunHistoryPage /></Suspense>} />
                     <Route path="runs/:runId" element={<Suspense fallback={null}><RunDetailsPage /></Suspense>} />
                   </Route>
@@ -222,6 +228,8 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
           </GuidedTourProvider>
           </OnboardingProvider>
         </ExperienceProvider>
+          </RadarDataProvider>
+        </AosCoreProvider>
       </AuthProvider>
     </Router>
   );

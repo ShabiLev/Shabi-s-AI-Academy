@@ -916,5 +916,14 @@
     "parameterExample": "/aos/memory",
     "access": "guest-or-authenticated",
     "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/aos/core",
+    "pageId": "aos.core",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/aos/core",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
   }
 ]

@@ -1,0 +1,43 @@
+name: Validate AI Radar public sources
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+  push:
+    branches: ["feature/1.5.0-aos-core-ux-radar"]
+    paths:
+      - "src/radar/**"
+      - "public/generated/ai-radar-feed.json"
+      - "scripts/radar/**"
+      - ".github/workflows/update-ai-radar.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ai-radar-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-public-feed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact triggering SHA
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+      - uses: actions/setup-node@v4
+        with: { node-version: 20.19.0, cache: npm }
+      - run: npm ci
+      - name: Validate bounded inert feed and public source availability
+        run: node scripts/radar/validate-public-feed.mjs
+      - run: npx vitest run src/radar/records.test.ts
+      - name: Upload immutable validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-radar-validation-${{ github.sha }}
+          path: quality/runtime/ci/ai-radar/
+          retention-days: 14
+          if-no-files-found: error

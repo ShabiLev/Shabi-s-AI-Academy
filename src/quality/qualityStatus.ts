@@ -1,14 +1,8 @@
 import type { QualityGates, QualityReport, QualityReportLoadResult, ReleaseStatus } from './types'
 
 function hasBlockingGateFailure(gates: QualityGates): boolean {
-  return (
-    gates.build.status === 'failed' ||
-    gates.lint.status === 'failed' ||
-    gates.unitTests.status === 'failed' ||
-    gates.e2eFast.status === 'failed' ||
-    gates.e2eFull.status === 'failed' ||
-    gates.gitDiff.status === 'failed'
-  )
+  const mandatory = ['lint', 'unitTests', 'coverage', 'build', 'e2eFast', 'e2eFull', 'accessibility', 'visual', 'performance', 'gitDiff'] as const
+  return mandatory.some((name) => gates[name].status !== 'passed') || gates.manualChecklist.status === 'failed'
 }
 
 export function isCoverageBelowThreshold(report: QualityReport): boolean {
@@ -41,15 +35,9 @@ export function computeReleaseStatus(report: QualityReport, checklistComplete: b
   if (isCoverageBelowThreshold(report)) return 'blocked'
   if (hasSevereAccessibilityViolation(report)) return 'blocked'
 
-  const { gates } = report
-  // Visual and performance never block on their own (section 20): a mismatch or a
-  // below-target score means "review before release", not "release is broken".
-  const visualNeedsReview = gates.visual.status !== 'passed'
-  const e2eFullMissing = gates.e2eFull.status !== 'passed'
-  const performanceWarning = gates.performance.status !== 'passed'
   const manualChecklistIncomplete = !checklistComplete
 
-  if (visualNeedsReview || e2eFullMissing || performanceWarning || manualChecklistIncomplete) {
+  if (manualChecklistIncomplete) {
     return 'readyWithWarnings'
   }
 

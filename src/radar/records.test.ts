@@ -53,8 +53,18 @@ describe("Same-origin Radar provider", () => {
     const ok = new SameOriginRadarProvider(async () => new Response(JSON.stringify({ schemaVersion: 1, provider: "test", generatedAt: "2026-07-22T00:00:00Z", records: [record], partial: false }), { status: 200, headers }));
     await expect(ok.load()).resolves.toMatchObject({ status: "online", feed: { records: [record] } });
     const bad = new SameOriginRadarProvider(async () => new Response("{}", { status: 200 }));
-    await expect(bad.load()).resolves.toMatchObject({ status: "unavailable" });
-    const offline = new SameOriginRadarProvider(async () => { throw new Error("network unavailable"); });
-    await expect(offline.load()).resolves.toMatchObject({ status: "offline", message: "network unavailable" });
+    await expect(bad.load()).resolves.toEqual({ status: "unavailable", errorCode: "RADAR_INVALID_RESPONSE" });
+    const offline = new SameOriginRadarProvider(async () => { throw new TypeError("private browser detail"); });
+    await expect(offline.load()).resolves.toEqual({ status: "offline", errorCode: "RADAR_OFFLINE" });
+  });
+
+  it("binds native-like fetchers to the global receiver and maps failures to stable codes", async () => {
+    const nativeLike = function (this: unknown) {
+      if (this !== globalThis) throw new TypeError("Illegal invocation");
+      return Promise.resolve(new Response(JSON.stringify({ schemaVersion: 1, provider: "test", generatedAt: "2026-07-22T00:00:00Z", records: [record], partial: false }), { status: 200 }));
+    } as typeof fetch;
+    await expect(new SameOriginRadarProvider(nativeLike).load()).resolves.toMatchObject({ status: "online" });
+    await expect(new SameOriginRadarProvider(async () => new Response("", { status: 429 })).load()).resolves.toEqual({ status: "offline", errorCode: "RADAR_RATE_LIMITED" });
+    await expect(new SameOriginRadarProvider(async () => new Response("", { status: 503 })).load()).resolves.toEqual({ status: "offline", errorCode: "RADAR_PROVIDER_UNAVAILABLE" });
   });
 });

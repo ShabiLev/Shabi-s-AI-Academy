@@ -44,3 +44,14 @@ export function terminateProcessTree(child, options = {}) {
     // The process may already have exited.
   }
 }
+
+export async function terminateProcessTreeAndWait(child, options = {}) {
+  if (!child?.pid) return;
+  const timeoutMs = options.timeoutMs ?? 5_000;
+  terminateProcessTree(child, options);
+  if (child.exitCode !== null || typeof child.once !== "function") return;
+  await new Promise((resolve) => {
+    const timer = setTimeout(resolve, timeoutMs);
+    child.once("exit", () => { clearTimeout(timer); resolve(); });
+  });
+}

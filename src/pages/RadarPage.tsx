@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useLanguage } from "../i18n/LanguageContext";
 import { useRadar } from "../radar";
+import type { RadarErrorCode } from "../radar/providers";
 
 type View = "timeline" | "compact" | "favorites";
 
@@ -16,10 +17,19 @@ const hebrewFreshnessNames: Record<string, string> = {
   stale: "מיושן",
 };
 
+const radarErrorMessages: Record<RadarErrorCode, { he: string; en: string }> = {
+  RADAR_OFFLINE: { he: "לא ניתן לעדכן את רדאר ה־AI כרגע. מוצגים הנתונים האחרונים שנשמרו.", en: "AI Radar could not be refreshed. The latest cached information is shown." },
+  RADAR_TIMEOUT: { he: "עדכון רדאר ה־AI ארך זמן רב מדי. מוצגים הנתונים האחרונים שנשמרו.", en: "The AI Radar refresh timed out. The latest cached information is shown." },
+  RADAR_PROVIDER_UNAVAILABLE: { he: "מקור העדכון של רדאר ה־AI אינו זמין כרגע. מוצגים הנתונים האחרונים שנשמרו.", en: "The AI Radar update source is unavailable. The latest cached information is shown." },
+  RADAR_INVALID_RESPONSE: { he: "עדכון רדאר ה־AI לא עבר את בדיקות הבטיחות. מוצגים הנתונים האחרונים שנשמרו.", en: "The AI Radar update did not pass validation. The latest cached information is shown." },
+  RADAR_RATE_LIMITED: { he: "מקור העדכון עמוס כרגע. אפשר לנסות שוב מאוחר יותר; הנתונים השמורים נשארים זמינים.", en: "The update source is busy. Try again later; cached information remains available." },
+  RADAR_UNKNOWN_ERROR: { he: "לא ניתן לעדכן את רדאר ה־AI כרגע. מוצגים הנתונים האחרונים שנשמרו.", en: "AI Radar could not be refreshed. The latest cached information is shown." },
+};
+
 export function RadarPage() {
   const { language } = useLanguage();
   const he = language === "he";
-  const { records, favoriteIds, status, message, refreshing, refresh, toggleFavorite } = useRadar();
+  const { records, favoriteIds, status, errorCode, refreshing, refresh, toggleFavorite } = useRadar();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
   const [source, setSource] = useState("all");
@@ -44,11 +54,12 @@ export function RadarPage() {
     : { cached: "Reviewed cache", online: "Online", offline: "Offline — showing cache", unavailable: "Update unavailable", partial: "Partial update" }[status];
   const categoryLabel = (value: string) => he ? (hebrewCategoryNames[value] ?? value) : value;
   const freshnessLabel = (value: string) => he ? (hebrewFreshnessNames[value] ?? value) : value;
+  const errorMessage = errorCode ? radarErrorMessages[errorCode][language] : undefined;
 
   return <div className="page radar-page">
     <header className="radar-hero">
       <div><span className="eyebrow">{he ? "מקורות ציבוריים מאומתים" : "Validated public sources"}</span><h1>{he ? "רדאר AI" : "AI Radar"}</h1><p>{he ? "ציר זמן בן שבעה ימים של אותות AI שנבדקו אנושית. תוכן רשת נשאר נתון לא מהימן עד שהוא עובר אימות סכימה וביקורת." : "A seven-day timeline of human-reviewed AI signals. Network content remains untrusted until schema validation and review."}</p></div>
-      <div className="radar-freshness" data-status={status}><strong>{statusLabel}</strong><p>{he ? "אין צורך במפתח API. עדכון מקוון מתבצע רק לפי בקשה וממקור מאותה כתובת." : "No API key is required. Online refresh is manual and same-origin only."}</p><button type="button" className="button" disabled={refreshing} onClick={() => void refresh()}>{refreshing ? (he ? "מעדכן…" : "Refreshing…") : (he ? "בדיקת עדכון" : "Check for update")}</button>{message && <small role="status">{message}</small>}</div>
+      <div className="radar-freshness" data-status={status}><strong>{statusLabel}</strong><p>{he ? "אין צורך במפתח API. עדכון מקוון מתבצע רק לפי בקשה וממקור מאותה כתובת." : "No API key is required. Online refresh is manual and same-origin only."}</p><button type="button" className="button" disabled={refreshing} onClick={() => void refresh()}>{refreshing ? (he ? "מעדכן…" : "Refreshing…") : (he ? "בדיקת עדכון" : "Check for update")}</button>{errorMessage && <small role="status">{errorMessage}</small>}</div>
     </header>
     <section className="radar-controls" aria-label={he ? "מסנני רדאר" : "Radar filters"}>
       <label><span>{he ? "חיפוש" : "Search"}</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} /></label>

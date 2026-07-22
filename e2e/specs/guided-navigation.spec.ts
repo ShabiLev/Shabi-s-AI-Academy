@@ -5,7 +5,6 @@ test("beginner and advanced modes progressively disclose navigation", async ({ p
   await page.getByRole("radio", { name: /English/ }).click();
   await expect(page.getByRole("link", { name: "QA Center" })).toHaveCount(0);
   await page.getByRole("radio", { name: /Advanced Mode/ }).click();
-  await page.locator(".main-nav summary").filter({ hasText: "More" }).click();
   await expect(page.getByRole("link", { name: "QA Center" })).toBeVisible();
 });
 

@@ -3,6 +3,7 @@ const localApproval =
 const controlledWorkflow =
   process.env.VISUAL_UPDATE_APPROVED === "1" &&
   process.env.VISUAL_UPDATE_CONTEXT === "reviewed-linux-workflow" &&
+  process.env.VISUAL_BASELINE_MODE === "generate-candidates" &&
   process.env.CI === "true" &&
   process.env.GITHUB_EVENT_NAME === "workflow_dispatch";
 

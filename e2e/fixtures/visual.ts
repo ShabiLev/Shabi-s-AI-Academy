@@ -24,7 +24,10 @@ export async function stabilize(page: Page): Promise<void> {
 
 /** Elements explicitly opted out of comparison (e.g. real git commit/branch in the QA Center header). */
 export function dynamicMasks(page: Page): Locator[] {
-  return [page.locator("[data-visual-mask], .about-page .runtime-facts > div:nth-child(2) dd, .about-page .runtime-facts > div:nth-child(3) dd")];
+  return [
+    page.locator('[data-visual-mask]:not([data-visual-mask="runtime-id"]), .recent-items time, .about-page .runtime-facts > div:nth-child(2) dd, .about-page .runtime-facts > div:nth-child(3) dd'),
+    page.locator('.runtime-facts dl > div:has([data-visual-mask="runtime-id"])'),
+  ];
 }
 
 export const screenshotOptions = {

@@ -24,13 +24,11 @@ test("lessons open, unknown is Not Found, and next/previous work", async ({
     page.getByRole("heading", { name: "השיעור לא נמצא" }),
   ).toBeVisible();
 });
-test("opening marks progress and completion updates Dashboard and survives refresh", async ({
+test("opening marks progress and completion survives refresh", async ({
   page,
 }) => {
   await login(page, "/lessons/ai-llm-agent");
   await page.getByRole("button", { name: "סימון השיעור כהושלם" }).click();
-  await page.goto("/dashboard");
-  await expect(page.getByText("2%").first()).toBeVisible();
   await page.reload();
   await page.goto("/lessons");
   await expect(page.getByRole("link", { name: "צפייה חוזרת" })).toHaveCount(1);

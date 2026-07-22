@@ -34,14 +34,8 @@ function hasSevereAccessibilityViolation(report) {
 }
 
 function hasBlockingGateFailure(gates) {
-  return (
-    gates.build.status === "failed" ||
-    gates.lint.status === "failed" ||
-    gates.unitTests.status === "failed" ||
-    gates.e2eFast.status === "failed" ||
-    gates.e2eFull.status === "failed" ||
-    gates.gitDiff.status === "failed"
-  );
+  const mandatory = ["lint", "unitTests", "coverage", "build", "e2eFast", "e2eFull", "accessibility", "visual", "performance", "gitDiff"];
+  return mandatory.some((name) => gates[name].status !== "passed") || gates.manualChecklist.status === "failed";
 }
 
 /**
@@ -148,7 +142,7 @@ function analyze(report) {
     report.gates.visual.status === "failed"
   ) {
     recommendedActions.push({
-      en: "Visual differences were detected — manual review recommended to confirm they are intentional.",
+      en: "Visual differences were detected — review and resolve them; this mandatory gate blocks release until it passes.",
       he: "זוהו הבדלים ויזואליים — מומלצת בדיקה ידנית לאישור שהשינוי מכוון.",
     });
     addArea("Visual UI", "ממשק ויזואלי");
@@ -158,7 +152,7 @@ function analyze(report) {
     report.gates.performance.status === "failed"
   ) {
     recommendedActions.push({
-      en: "Performance is below a target threshold — review recommended before a production release.",
+      en: "Performance is below a target threshold — resolve it; this mandatory gate blocks release until it passes.",
       he: "הביצועים נמוכים מהיעד — מומלצת בדיקה לפני שחרור לייצור.",
     });
     addArea("Performance", "ביצועים");

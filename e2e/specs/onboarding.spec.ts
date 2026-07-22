@@ -22,7 +22,8 @@ test("new visitor completes personalized guest onboarding", async ({ page }) => 
   await page.getByRole("button", { name: "Continue as Guest" }).click();
   await page.getByRole("button", { name: "Open my Dashboard" }).click();
   await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(page.getByText("Advanced", { exact: true })).toBeVisible();
+  await page.goto("/settings");
+  await expect(page.getByRole("radio", { name: "Advanced Mode" })).toHaveAttribute("aria-checked", "true");
 });
 
 test("onboarding fits a 320px Hebrew viewport", async ({ page }) => {

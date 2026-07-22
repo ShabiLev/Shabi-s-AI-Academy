@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { terminateProcessTree } from "./server-readiness.mjs";
+import { terminateProcessTree, terminateProcessTreeAndWait } from "./server-readiness.mjs";
 
 test("terminateProcessTree kills the full Windows process tree", () => {
   const calls = [];
@@ -38,4 +38,12 @@ test("terminateProcessTree tolerates missing and already-stopped processes", () 
       },
     ),
   );
+});
+
+test("terminateProcessTreeAndWait waits for the child exit event", async () => {
+  let exitHandler;
+  const signals = [];
+  const child = { pid: 4175, exitCode: null, kill: (signal) => { signals.push(signal); queueMicrotask(() => exitHandler?.()); }, once: (event, handler) => { assert.equal(event, "exit"); exitHandler = handler; } };
+  await terminateProcessTreeAndWait(child, { platform: "linux", timeoutMs: 100 });
+  assert.deepEqual(signals, ["SIGTERM"]);
 });

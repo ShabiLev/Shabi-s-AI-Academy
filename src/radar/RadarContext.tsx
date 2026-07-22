@@ -2,7 +2,7 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import { useAosCore } from "../aos-core";
 import { retainRadarHistory } from "./history";
-import { SameOriginRadarProvider, type RadarProviderStatus } from "./providers";
+import { SameOriginRadarProvider, type RadarErrorCode, type RadarProviderStatus } from "./providers";
 import { reviewedRadarFeed } from "./reviewedFeed";
 import { loadRadarFavorites, loadRadarHistory, saveRadarFavorites, saveRadarHistory, toggleRadarFavorite } from "./storage";
 import type { RadarRecord } from "./records";
@@ -11,7 +11,7 @@ interface RadarValue {
   records: readonly RadarRecord[];
   favoriteIds: readonly string[];
   status: RadarProviderStatus;
-  message?: string;
+  errorCode?: RadarErrorCode;
   refreshing: boolean;
   refresh: () => Promise<void>;
   toggleFavorite: (canonicalId: string) => void;
@@ -25,16 +25,16 @@ export function RadarDataProvider({ children }: { children: ReactNode }) {
   const [favoriteIds, setFavoriteIds] = useState(loadRadarFavorites);
   const [records, setRecords] = useState<RadarRecord[]>(() => retainRadarHistory([...loadRadarHistory(), ...reviewedRadarFeed.records], today(), new Set(loadRadarFavorites())));
   const [status, setStatus] = useState<RadarProviderStatus>("cached");
-  const [message, setMessage] = useState<string>();
+  const [errorCode, setErrorCode] = useState<RadarErrorCode>();
   const [refreshing, setRefreshing] = useState(false);
 
   const refresh = useCallback(async () => {
     setRefreshing(true);
     try {
       const feedUrl = new URL("generated/ai-radar-feed.json", document.baseURI).toString();
-      const result = await new SameOriginRadarProvider(fetch, feedUrl).load();
+      const result = await new SameOriginRadarProvider(window.fetch, feedUrl).load();
       setStatus(result.status);
-      setMessage(result.message);
+      setErrorCode(result.errorCode);
       if (result.feed) {
         setRecords((current) => {
           const next = retainRadarHistory([...current, ...result.feed!.records], today(), new Set(favoriteIds));
@@ -60,7 +60,7 @@ export function RadarDataProvider({ children }: { children: ReactNode }) {
     eventBus.publish("radar.item.saved", { version: 1, itemId: canonicalId, saved: next.includes(canonicalId), occurredAt: new Date().toISOString() });
   }, [eventBus, favoriteIds]);
 
-  const value = useMemo<RadarValue>(() => ({ records, favoriteIds, status, message, refreshing, refresh, toggleFavorite }), [favoriteIds, message, records, refresh, refreshing, status, toggleFavorite]);
+  const value = useMemo<RadarValue>(() => ({ records, favoriteIds, status, errorCode, refreshing, refresh, toggleFavorite }), [errorCode, favoriteIds, records, refresh, refreshing, status, toggleFavorite]);
   return <Context.Provider value={value}>{children}</Context.Provider>;
 }
 

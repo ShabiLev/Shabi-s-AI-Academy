@@ -59,7 +59,7 @@ test("Hebrew prompt saves, survives refresh, edits version, duplicates and favor
     page.getByRole("button", { name: "הסרה מהמועדפים" }),
   ).toBeVisible();
 });
-test("Library search, filters, clear, export and Dashboard metrics work", async ({
+test("Library search, filters, clear, export and totals work", async ({
   page,
 }) => {
   await login(page);
@@ -75,8 +75,9 @@ test("Library search, filters, clear, export and Dashboard metrics work", async 
   const download = page.waitForEvent("download");
   await page.getByRole("button", { name: "ייצוא" }).click();
   expect((await download).suggestedFilename()).toMatch(/\.md$/);
-  await page.goto("/dashboard");
-  await expect(page.getByText(/1 פרומפטים/)).toBeVisible();
+  await page.goto("/prompts");
+  await expect(page.getByRole("heading", { name: "Unique Jira Prompt" })).toBeVisible();
+  await expect(page.locator(".prompt-page-header")).toContainText(/1 פרומפטים/);
 });
 test("delete dialog supports Escape and explicit deletion; unknown route is handled", async ({
   page,

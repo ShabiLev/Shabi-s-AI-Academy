@@ -14,13 +14,9 @@ import { Link } from "react-router-dom";
 import { useAgentLibrary } from "../agents/AgentLibraryContext";
 import { agentUi } from "../agents/agentUi";
 import { starterCatalog } from "../prompts/catalog";
-import { catalogCounts } from "../config/catalogCounts";
 import { useProjects } from "../projects";
-import { useKnowledge } from "../knowledge";
-import { useRuntime } from "../runtime/RuntimeContext";
 import { useWorkspace } from "../workspace";
-import { useWorkflows } from "../workflows";
-import { radarItems } from "../radar";
+import { useRadar } from "../radar";
 
 export function DashboardPage() {
   const { t, language } = useLanguage();
@@ -29,10 +25,8 @@ export function DashboardPage() {
   const { state: promptState } = usePromptLibrary();
   const { state: agentState } = useAgentLibrary();
   const { state: projectState } = useProjects();
-  const { state: knowledgeState } = useKnowledge();
-  const { runs } = useRuntime();
   const { state: workspaceState } = useWorkspace();
-  const { state: workflowState } = useWorkflows();
+  const { records: radarRecords } = useRadar();
   const agentStrings = agentUi[language];
   const promptStrings = promptUi[language];
   const latestPrompt = [...promptState.prompts].sort((a, b) =>
@@ -96,11 +90,6 @@ export function DashboardPage() {
           <PrimaryButton to={`/lessons/${currentLesson.slug}`}>
             {t("dashboard.continue")}
           </PrimaryButton>
-        </AppCard>
-        <AppCard>
-          <SectionHeader title={language === "he" ? "המשך עבודה" : "Continue working"} accessory={<Icon name="clock" />} />
-          {workspaceState.activities.length ? <ul className="dashboard-activity-list">{workspaceState.activities.slice(-3).reverse().map((activity) => <li key={activity.id}><Link to={activity.route}>{activity.title}</Link><small>{activity.kind}</small></li>)}</ul> : <p>{language === "he" ? "פריטים שייפתחו או יורצו יופיעו כאן." : "Opened and run items will appear here."}</p>}
-          <div className="dashboard-prompt-actions"><Link to="/workflows">{workflowState.workflows.length} {language === "he" ? "תהליכים" : "workflows"}</Link><Link to="/analytics">{language === "he" ? "מדדי סביבת עבודה" : "Workspace metrics"}</Link></div>
         </AppCard>
         <AppCard>
           <SectionHeader title={language === "he" ? "מועדפים ופעולות מהירות" : "Favorites and quick actions"} accessory={<Icon name="prompts" />} />
@@ -172,18 +161,11 @@ export function DashboardPage() {
           </PrimaryButton>
         </AppCard>
         <AppCard>
-          <SectionHeader title={language === "he" ? "פעילות מקומית" : "Local activity"} accessory={<Icon name="clock" />} />
-          <strong className="metric-title">{runs.length} {language === "he" ? "הרצות" : "runs"}</strong>
-          <p>{knowledgeState.documents.length} {language === "he" ? "מסמכי ידע" : "knowledge documents"} · {projectState.projects.length} {language === "he" ? "פרויקטים" : "projects"}</p>
-          <p>{catalogCounts.packedPrompts} {language === "he" ? "פרומפטים בחבילות" : "packed prompts"} · {catalogCounts.starterAgents} {language === "he" ? "סוכנים התחלתיים" : "starter agents"}</p>
-          <div className="dashboard-prompt-actions"><Link to="/runs">Run History</Link><Link to="/knowledge">Knowledge Base</Link></div>
-        </AppCard>
-        <AppCard>
           <SectionHeader
             title={t("dashboard.aiRadar")}
             accessory={<Icon name="radar" />}
           />
-          <strong className="metric-title">{radarItems.length} {t("dashboard.noUpdates")}</strong>
+          <strong className="metric-title">{radarRecords.length} {t("dashboard.noUpdates")}</strong>
           <p>{t("dashboard.radarDescription")}</p>
           <div className="radar-topics">
             <span>AI</span>

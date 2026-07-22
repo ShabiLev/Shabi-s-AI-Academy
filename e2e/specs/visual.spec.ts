@@ -15,6 +15,39 @@ async function createPrompt(page: Page, title = "Visual QA Prompt") {
   await page.getByRole("button", { name: "שמירה" }).click();
 }
 
+test.describe("visual — Version 1.5 reviewed scenarios", () => {
+  test("Profile Recent Items", async ({ page }) => {
+    await login(page, "/lessons");
+    await page.goto("/profile");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v15-profile-recent-items.png", { fullPage: true, mask: dynamicMasks(page) });
+  });
+
+  test("collapsed sidebar and local notifications", async ({ page }) => {
+    await login(page);
+    await page.getByRole("button", { name: /התראות|Notifications/ }).click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v15-sidebar-notifications-open.png");
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+  });
+
+  test("Radar timeline favorites and offline cache", async ({ page }) => {
+    await page.route("**/generated/ai-radar-feed.json", (route) => route.abort("internetdisconnected"));
+    await login(page, "/radar");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v15-radar-timeline.png", { fullPage: true });
+    await page.locator(".radar-card").first().getByRole("button", { name: /שמירה|Save/ }).click();
+    await page.getByRole("button", { name: /^(שמורים|Favorites)$/ }).click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v15-radar-favorites.png", { fullPage: true });
+    await page.getByRole("button", { name: /בדיקת עדכון|Check for update/ }).click();
+    await expect(page.locator(".radar-freshness")).toHaveAttribute("data-status", "offline");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v15-radar-offline.png", { fullPage: true });
+  });
+});
+
 test.describe("visual - 1.2 profile menu", () => {
   test("AI Radar Hebrew desktop", async ({ page }) => {
     await login(page, "/radar");

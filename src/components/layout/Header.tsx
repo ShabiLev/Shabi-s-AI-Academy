@@ -29,6 +29,8 @@ const routeTitles: Record<string, TranslationKey> = {
   "/assistant": "nav.assistant",
   "/workflows": "nav.workflows",
   "/analytics": "nav.analytics",
+  "/aos": "nav.aos",
+  "/aos/core": "nav.aos",
 };
 
 export const Header = forwardRef<HTMLButtonElement, { onOpenMenu: () => void }>(
@@ -99,11 +101,7 @@ export const Header = forwardRef<HTMLButtonElement, { onOpenMenu: () => void }>(
         </div>
         <div className="header-tools">
           <button type="button" className="icon-button command-trigger" onClick={openPalette} aria-label={direction === "rtl" ? "פתיחת לוח הפקודות" : "Open Command Palette"}><Icon name="prompts" /></button>
-          <NotificationCenter />
-          <span className="compact-status">
-            <span className="status-dot" />
-            {t("header.online")}
-          </span>
+          <NotificationCenter key={pathname} />
         </div>
       </header>
     );

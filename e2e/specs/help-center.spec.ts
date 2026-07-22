@@ -4,7 +4,7 @@ test("Help Center search, filters, and glossary are reachable", async ({ page })
   await login(page, "/help");
   await page.getByLabel(/חיפוש|Search/).fill("agent");
   await expect(page.locator(".help-center-grid article")).not.toHaveCount(0);
-  await page.getByRole("link", { name: /מילון מונחים|Glossary/ }).click();
+  await page.locator("#main-content").getByRole("link", { name: /מילון מונחים|Glossary/ }).click();
   await expect(page).toHaveURL(/\/glossary$/);
 });
 

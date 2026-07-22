@@ -7,7 +7,7 @@ every file here is either an instruction module an agent reads before acting,
 or a script that validates those instructions stay consistent.
 
 AOS version: see [`VERSION`](VERSION).
-Application version this AOS ships with: `1.4.0-beta.1`.
+Application version this AOS ships with: `1.5.0-beta.1`.
 
 ## Why this exists
 

@@ -53,16 +53,12 @@ Implemented in `src/quality/qualityStatus.ts` (the tested source of truth used b
 
 **Blocked** if any of:
 
-- Build, lint, unit tests, E2E fast, E2E full, or the Git diff check failed.
+- Any mandatory automated gate is not passed: build, lint, unit tests, coverage, E2E fast, E2E full, accessibility, visual regression, performance, or Git diff.
+- A mandatory visual baseline is missing or the manual checklist explicitly failed.
 - Coverage is below its enforced threshold.
 - A serious or critical accessibility violation was found (from either the accessibility gate's own status or the scanned violation-severity counts).
 
-**Ready with warnings** if nothing above blocks, and any of:
-
-- Visual regression gate is not `passed` (a mismatch awaits review, or the suite hasn't run).
-- E2E full is not `passed` (including not yet run).
-- Performance gate is not `passed`.
-- The manual release checklist is incomplete.
+**Ready with warnings** only when every mandatory automated gate passed and the manual release checklist is incomplete or another explicitly enumerated non-blocking warning remains.
 
 **Ready** only when every required automated gate passed, visual differences are none/approved, and the manual checklist is complete.
 

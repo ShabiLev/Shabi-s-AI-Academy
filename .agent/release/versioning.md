@@ -11,7 +11,7 @@ consistent, per [`../../.codex/standards/versioning.md`](../../.codex/standards/
 - The application uses **SemVer with a prerelease tag**:
   `MAJOR.MINOR.PATCH-beta.N`.
 - The current application version, per `package.json`'s `"version"`
-  field, is **`1.4.0-beta.1`**, matching `.agent/manifest.json`'s
+  field, is **`1.5.0-beta.1`**, matching `.agent/manifest.json`'s
   `applicationVersion` and `.agent/master.md`'s header. All three were
   bumped together in the same change that introduced the AOS, per the
   rule below — do not let these drift silently.

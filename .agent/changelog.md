@@ -4,6 +4,17 @@ This tracks the AOS framework itself (`.agent/VERSION`), separate from the
 application's [`CHANGELOG.md`](../CHANGELOG.md). Every AOS version change
 must be recorded here.
 
+## [1.1.0] — introduced with application 1.5.0-beta.1
+
+### Added
+
+- In-application typed Event Bus, Scheduler/background-job foundation, and Capability Registry explorer.
+- Exact-SHA public Radar validation workflow with immutable artifact output.
+
+### Changed
+
+- The active application contract now points to Version 1.5 while preserving the AOS instruction and evidence model.
+
 ## [1.0.0] — introduced with application 1.4.0-beta.1
 
 ### Added

@@ -177,6 +177,7 @@ export function AosPage() {
           </section>
 
           <nav className="aos-subnav" aria-label={s.title}>
+            <Link to="/aos/core">{ui === "he" ? "ליבת AOS" : "AOS Core"}</Link>
             <Link to="/aos/modules">{s.subNavModules}</Link>
             <Link to="/aos/research">{s.subNavResearch}</Link>
             <Link to="/aos/evidence">{s.subNavEvidence}</Link>

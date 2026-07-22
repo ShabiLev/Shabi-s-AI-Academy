@@ -43,19 +43,24 @@ describe('computeReleaseStatus', () => {
     expect(computeReleaseStatus(report, true)).toBe('blocked')
   })
 
-  it('is Ready with warnings when a visual mismatch awaits review but nothing blocks', () => {
+  it('is blocked when mandatory visual validation does not pass', () => {
     const report = makeReport({ gates: { ...makeReport().gates, visual: { status: 'warning' } } })
-    expect(computeReleaseStatus(report, true)).toBe('readyWithWarnings')
+    expect(computeReleaseStatus(report, true)).toBe('blocked')
   })
 
-  it('is Ready with warnings when performance is below target but nothing blocks', () => {
+  it('is blocked when mandatory performance validation does not pass', () => {
     const report = makeReport({ gates: { ...makeReport().gates, performance: { status: 'warning' } } })
-    expect(computeReleaseStatus(report, true)).toBe('readyWithWarnings')
+    expect(computeReleaseStatus(report, true)).toBe('blocked')
   })
 
-  it('is Ready with warnings when the full E2E run has not happened yet', () => {
+  it('is blocked when a mandatory E2E result is missing', () => {
     const report = makeReport({ gates: { ...makeReport().gates, e2eFull: { status: 'notRun' } } })
-    expect(computeReleaseStatus(report, true)).toBe('readyWithWarnings')
+    expect(computeReleaseStatus(report, true)).toBe('blocked')
+  })
+
+  it('is blocked when the manual checklist explicitly fails', () => {
+    const report = makeReport({ gates: { ...makeReport().gates, manualChecklist: { status: 'failed' } } })
+    expect(computeReleaseStatus(report, true)).toBe('blocked')
   })
 
   it('is Ready with warnings when the manual checklist is incomplete', () => {

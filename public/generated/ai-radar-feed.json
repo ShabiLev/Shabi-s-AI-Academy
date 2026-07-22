@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "provider": "reviewed-pages-artifact",
+  "generatedAt": "2026-07-22T00:00:00.000Z",
+  "partial": false,
+  "records": [
+    {
+      "id": "openai-hf-security-2026-07-21", "canonicalId": "openai-hf-security-incident",
+      "title": { "he": "אירוע אבטחה בהערכת מודלים של Hugging Face", "en": "Security incident in a Hugging Face model evaluation" },
+      "summary": { "he": "OpenAI פרסמה תחקיר רשמי על אירוע אבטחה במהלך הערכת מודל חיצוני.", "en": "OpenAI published an official account of a security incident during an external model evaluation." },
+      "whyItMatters": { "he": "האירוע מדגיש בידוד, הרשאות מצומצמות ובדיקה אנושית בהערכת מודלים חיצוניים.", "en": "The incident reinforces isolation, least privilege, and human review when evaluating external models." },
+      "affectedAudiences": ["security", "evaluation", "platform teams"],
+      "sourceId": "openai-news", "sourceName": "OpenAI", "sourceUrl": "https://openai.com/index/hugging-face-model-evaluation-security-incident/",
+      "sourceTier": 1, "sourceType": "security-advisory", "category": "safety", "topics": ["model evaluation", "sandboxing", "incident response"], "language": "en",
+      "publicationDate": "2026-07-21", "retrievalDate": "2026-07-22", "lastVerifiedAt": "2026-07-22", "freshness": "fresh",
+      "confidence": 96, "relevanceScore": 98, "historical": false, "saved": false, "provider": "reviewed-pages-artifact",
+      "checksum": "sha256:defb5561f78861b89a0f1ec60e279508d61f880060a192e91d8d188abe225459", "status": "published", "reviewed": true, "translationStatus": "complete"
+    },
+    {
+      "id": "eu-ai-transparency-2026-07-20", "canonicalId": "eu-ai-act-transparency-guidelines",
+      "title": { "he": "הנחיות האיחוד האירופי לשקיפות במערכות AI", "en": "EU guidelines for transparency in AI systems" },
+      "summary": { "he": "הנציבות האירופית פרסמה הנחיות לחובות שקיפות של ספקים ומפעילים של מערכות AI מסוימות.", "en": "The European Commission published guidance for transparency obligations affecting providers and deployers of certain AI systems." },
+      "whyItMatters": { "he": "צוותי מוצר צריכים למפות גילוי נאות, סימון תוכן ואחריות לפני כניסת החובות לתוקף.", "en": "Product teams should map disclosures, content labeling, and ownership before the obligations apply." },
+      "affectedAudiences": ["governance", "product", "legal"],
+      "sourceId": "eu-commission", "sourceName": "European Commission", "sourceUrl": "https://digital-strategy.ec.europa.eu/en/news/commission-publishes-guidelines-transparency-obligations-providers-and-deployers-certain-ai-systems",
+      "sourceTier": 1, "sourceType": "regulation", "category": "governance", "topics": ["EU AI Act", "transparency", "content labeling"], "language": "en",
+      "publicationDate": "2026-07-20", "retrievalDate": "2026-07-22", "lastVerifiedAt": "2026-07-22", "freshness": "fresh",
+      "confidence": 98, "relevanceScore": 94, "historical": false, "saved": false, "provider": "reviewed-pages-artifact",
+      "checksum": "sha256:43dbe36dfbe6e288e86bf371ec63a3b970f66cba2862e3288969ca77b5670607", "status": "published", "reviewed": true, "translationStatus": "complete"
+    },
+    {
+      "id": "israel-ai-assessment-2026-07-20", "canonicalId": "israel-ai-authentic-assessment",
+      "title": { "he": "הערכה אותנטית בעידן הבינה המלאכותית", "en": "Authentic assessment in the AI era" },
+      "summary": { "he": "משרד החינוך פרסם משאב מקצועי לשילוב בינה מלאכותית בהערכה אותנטית.", "en": "Israel's Ministry of Education published a professional resource for integrating AI into authentic assessment." },
+      "whyItMatters": { "he": "המשאב מספק הקשר מקומי ועדכני למחנכים שבונים מטלות והערכה עם AI.", "en": "The resource gives educators current local context for designing AI-supported assignments and assessment." },
+      "affectedAudiences": ["educators", "instructional designers", "learners"],
+      "sourceId": "israel-education", "sourceName": "Israel Ministry of Education", "sourceUrl": "https://hakaveret.education.gov.il/course/index.php?categoryid=1130",
+      "sourceTier": 1, "sourceType": "official-docs", "category": "education", "topics": ["assessment", "education", "Israel"], "language": "he",
+      "publicationDate": "2026-07-20", "retrievalDate": "2026-07-22", "lastVerifiedAt": "2026-07-22", "freshness": "fresh",
+      "confidence": 92, "relevanceScore": 90, "historical": false, "saved": false, "provider": "reviewed-pages-artifact",
+      "checksum": "sha256:433e6d7160aabd0f5472a1548266b214eb5a178a5caff5be812599e327d7b562", "status": "published", "reviewed": true, "translationStatus": "complete"
+    }
+  ]
+}

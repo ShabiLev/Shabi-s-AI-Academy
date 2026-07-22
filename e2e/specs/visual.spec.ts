@@ -15,6 +15,48 @@ async function createPrompt(page: Page, title = "Visual QA Prompt") {
   await page.getByRole("button", { name: "שמירה" }).click();
 }
 
+test.describe("visual — Version 1.5 reviewed scenarios", () => {
+  test("Profile Recent Items", async ({ page }) => {
+    await login(page, "/lessons");
+    await page.goto("/profile");
+    await expect(page.locator(".recent-items")).toBeVisible();
+    await expect(page.locator(".recent-items time").first()).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v15-profile-recent-items.png", { fullPage: true, mask: dynamicMasks(page) });
+  });
+
+  test("collapsed sidebar and local notifications", async ({ page }) => {
+    await login(page);
+    await page.getByRole("button", { name: /התראות|Notifications/ }).click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v15-sidebar-notifications-open.png");
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+  });
+
+  test("Radar timeline favorites and offline cache", async ({ page }) => {
+    await login(page, "/radar");
+    await expect(page.locator(".radar-card")).toHaveCount(3);
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v15-radar-timeline.png", { fullPage: true });
+    await page.locator(".radar-card").first().getByRole("button", { name: /שמירה|Save/ }).click();
+    await page.getByRole("button", { name: /^(שמורים|Favorites)$/ }).click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v15-radar-favorites.png", { fullPage: true });
+    await page.evaluate(() => {
+      const onlineFetch = window.fetch.bind(window);
+      window.fetch = (...args) =>
+        String(args[0]).includes("/generated/ai-radar-feed.json")
+          ? Promise.reject(new TypeError("Network request unavailable"))
+          : onlineFetch(...args);
+    });
+    await page.getByRole("button", { name: /בדיקת עדכון|Check for update/ }).click();
+    await expect(page.locator(".radar-freshness")).toHaveAttribute("data-status", "offline");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v15-radar-offline.png", { fullPage: true });
+  });
+});
+
 test.describe("visual - 1.2 profile menu", () => {
   test("AI Radar Hebrew desktop", async ({ page }) => {
     await login(page, "/radar");
@@ -74,7 +116,7 @@ test.describe("visual — desktop Hebrew", () => {
 
   test("Dashboard", async ({ page }) => {
     await login(page);
-    await expect(page.locator(".dashboard-continue h1")).toBeVisible();
+    await expect(page.getByTestId("dashboard-page")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("dashboard.png");
   });
@@ -146,6 +188,7 @@ test.describe("visual — desktop English", () => {
     await login(page);
     await english(page);
     await page.goto("/");
+    await expect(page.getByTestId("dashboard-content")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("dashboard-en.png");
   });
@@ -214,6 +257,7 @@ test.describe("visual — mobile Hebrew", () => {
 
   test("Dashboard", async ({ page }) => {
     await login(page);
+    await expect(page.getByTestId("dashboard-page")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("mobile-dashboard.png");
   });
@@ -269,6 +313,7 @@ test.describe("visual — mobile English", () => {
     await login(page);
     await english(page);
     await page.goto("/");
+    await expect(page.getByTestId("dashboard-content")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("mobile-dashboard-en.png");
   });
@@ -473,6 +518,7 @@ test.describe("visual — 1.3 guided auth UX", () => {
     test(`onboarding ${language} desktop`, async ({ page }) => {
       if (language === "en") await startEnglish(page);
       await login(page, "/onboarding");
+      await expect(page.locator(".onboarding-card")).toBeVisible();
       await stabilize(page);
       await expect(page).toHaveScreenshot(`v13-onboarding-${language}-desktop.png`, { fullPage: true });
     });
@@ -481,6 +527,7 @@ test.describe("visual — 1.3 guided auth UX", () => {
       await page.setViewportSize({ width: 390, height: 844 });
       if (language === "en") await startEnglish(page);
       await login(page, "/onboarding");
+      await expect(page.locator(".onboarding-card")).toBeVisible();
       await stabilize(page);
       await expect(page).toHaveScreenshot(`v13-onboarding-${language}-mobile.png`, { fullPage: true });
     });
@@ -498,19 +545,22 @@ test.describe("visual — 1.3 guided auth UX", () => {
 
   test("beginner and advanced dashboards", async ({ page }) => {
     await login(page, "/dashboard");
+    await expect(page.getByTestId("dashboard-page")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-dashboard-beginner.png", { fullPage: true });
     await page.goto("/settings");
     await page.getByRole("radio", { name: /מצב מתקדם|Advanced Mode/ }).click();
     await page.goto("/dashboard");
+    await expect(page.getByTestId("dashboard-content")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-dashboard-advanced.png", { fullPage: true });
   });
 
   test("Help Center tour glossary and profile", async ({ page }) => {
     await login(page, "/help");
+    await expect(page.locator(".help-center-grid article").first()).toBeVisible();
     await stabilize(page);
-    await expect(page).toHaveScreenshot("v13-help-center.png", { fullPage: true });
+    await expect(page).toHaveScreenshot("v13-help-center.png", { fullPage: true, timeout: 15_000 });
     await page.locator(".tour-list-button").first().click();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-guided-tour.png");
@@ -535,10 +585,14 @@ test.describe("visual — 1.3 guided auth UX", () => {
   test("admin denial desktop and mobile", async ({ page }) => {
     await login(page, "/dashboard");
     await page.goto("/admin");
+    await expect(page).toHaveURL(/\/dashboard$/);
+    await expect(page.getByTestId("dashboard-page")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-admin-denied-desktop.png", { fullPage: true });
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/admin");
+    await expect(page).toHaveURL(/\/dashboard$/);
+    await expect(page.getByTestId("dashboard-page")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-admin-denied-mobile.png", { fullPage: true });
   });

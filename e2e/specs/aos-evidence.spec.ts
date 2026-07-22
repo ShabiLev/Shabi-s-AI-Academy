@@ -1,16 +1,19 @@
 import { execSync } from "node:child_process";
 import { test, expect, login } from "../fixtures/academy";
+import { routeAosSnapshot } from "../fixtures/aosSnapshot";
 
 test.beforeAll(() => {
   execSync("node scripts/generate-aos-snapshot.mjs", { stdio: "ignore" });
 });
+
+test.beforeEach(async ({ page }) => routeAosSnapshot(page));
 
 test.describe("AOS evidence viewer", () => {
   test("shows the latest evidence run drawn from quality/execution/latest, not a simulated result", async ({ page }) => {
     await login(page, "/aos/evidence");
     await expect(page.getByRole("heading", { name: /ראיות איכות אחרונות|Latest quality evidence/ })).toBeVisible();
     const notGenerated = page.getByText(/טרם נוצר תמונת מצב|No snapshot generated yet/);
-    const hasRun = page.getByText(/quality\/execution\/latest\/summary\.json/);
+    const hasRun = page.getByText(/quality\/(?:runtime\/)?execution\/latest\/summary\.json/);
     await expect(notGenerated.or(hasRun)).toBeVisible();
   });
 

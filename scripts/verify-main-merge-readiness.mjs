@@ -4,7 +4,11 @@ import { evaluateWorkflowRun, selectExactRun } from "./release-readiness-lib.mjs
 const git = (...args) => execFileSync("git", args, { encoding: "utf8" }).trim();
 const head = git("rev-parse", "HEAD");
 const branch = git("branch", "--show-current");
-const allowedBranches = new Set(["main", "fix/1.4.0-ci-memory-visual-release"]);
+const allowedBranches = new Set([
+  "main",
+  "fix/1.4.0-ci-memory-visual-release",
+  "feature/1.5.0-aos-core-ux-radar",
+]);
 const blockers = [];
 if (git("status", "--porcelain=v1")) blockers.push("working tree is dirty");
 if (!allowedBranches.has(branch)) blockers.push(`branch ${branch || "detached"} is not an allowed release context`);

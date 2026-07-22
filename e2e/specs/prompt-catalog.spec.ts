@@ -79,12 +79,12 @@ test("Prompt Library and Catalog toolbar remain aligned without overflow", async
   await noOverflow(page);
 });
 
-test("Dashboard keeps personal and Catalog totals separate", async ({
+test("Prompt Library keeps personal and Catalog totals separate", async ({
   page,
 }) => {
   await login(page);
   await english(page);
-  await page.goto("/dashboard");
+  await page.goto("/prompts");
   await expect(page.getByText(/0 prompts/)).toBeVisible();
-  await expect(page.getByText(/24 Starter Catalog prompts/)).toBeVisible();
+  await expect(page.getByRole("link", { name: /Starter Catalog \(24\)/ })).toBeVisible();
 });

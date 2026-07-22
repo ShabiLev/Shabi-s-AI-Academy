@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, "fix/**"]
+    branches: [main, "fix/**", "feature/**"]
   pull_request:
-    branches: [main]
+    branches: [main, "fix/**"]
 
 permissions:
   contents: read
@@ -150,6 +150,8 @@ jobs:
 
   visual-linux:
     runs-on: ubuntu-latest
+    env:
+      VISUAL_BASELINE_MODE: compare
     steps:
       - uses: actions/checkout@v4
       - name: Verify exact triggering SHA

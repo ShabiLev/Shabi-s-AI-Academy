@@ -1,11 +1,18 @@
 import { execFileSync, spawn } from "node:child_process";
-import { existsSync, rmSync } from "node:fs";
+import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import { tmpdir } from "node:os";
+import { dirname, resolve } from "node:path";
+import { extractCompletedLighthouseReport, isWindowsLighthouseCleanupOnlyFailure, lighthouseTempPaths, removeWithBoundedRetry } from "./lighthouse-cleanup.mjs";
 import {
-  terminateProcessTree,
+  terminateProcessTreeAndWait,
   waitForServer,
 } from "./server-readiness.mjs";
 
 const mode = process.argv[2];
+const require = createRequire(import.meta.url);
+const collectCommand = require("@lhci/cli/src/collect/collect.js");
+const { saveLHR } = require("@lhci/utils/src/saved-reports.js");
 const profiles = [
   { config: "lighthouserc.cjs", port: 4173 },
   { config: "lighthouserc.mobile.cjs", port: 4174 },
@@ -14,6 +21,26 @@ const profiles = [
 function run(cmd, args) {
   console.log(`\n> ${cmd} ${args.join(" ")}`);
   execFileSync(cmd, args, { stdio: "inherit", shell: true });
+}
+
+const cleanupWarnings = [];
+
+async function runLhciCollect(config) {
+  const options = require(resolve(config)).ci.collect;
+  try {
+    await collectCommand.runCommand({ ...options, additive: true });
+    return;
+  } catch (error) {
+    const output = `${error?.stderr ?? ""}\n${error?.stack ?? ""}`;
+    const report = extractCompletedLighthouseReport(error?.stdout ?? "");
+    if (!isWindowsLighthouseCleanupOnlyFailure(output) || !report) throw error;
+    await saveLHR(JSON.stringify(report));
+    for (const path of lighthouseTempPaths(output, tmpdir())) {
+      try { await removeWithBoundedRetry(path); } catch { /* Cleanup remains a host warning after valid reports were written. */ }
+    }
+  }
+  cleanupWarnings.push({ config, code: "LIGHTHOUSE_WINDOWS_TEMP_CLEANUP", reportsWritten: 1 });
+  console.warn("Lighthouse reports were written, but Windows temporary-directory cleanup needed bounded recovery.");
 }
 
 async function collectProfile(config, port) {
@@ -36,9 +63,9 @@ async function collectProfile(config, port) {
   );
   try {
     await waitForServer(`http://127.0.0.1:${port}/login`);
-    run("npx", ["lhci", "collect", `--config=${config}`]);
+    await runLhciCollect(config);
   } finally {
-    terminateProcessTree(server);
+    await terminateProcessTreeAndWait(server);
   }
 }
 
@@ -84,4 +111,10 @@ if (mode === "collect") {
 if (failed) {
   console.error("\nOne or more Lighthouse checks failed.");
   process.exit(1);
+}
+
+if (mode === "collect") {
+  const cleanupStatusPath = "quality/generated/lighthouse/cleanup-status.json";
+  mkdirSync(dirname(cleanupStatusPath), { recursive: true });
+  writeFileSync(cleanupStatusPath, `${JSON.stringify({ status: cleanupWarnings.length ? "passedWithWarnings" : "passed", warnings: cleanupWarnings }, null, 2)}\n`);
 }

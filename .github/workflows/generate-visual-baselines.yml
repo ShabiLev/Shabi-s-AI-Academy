@@ -54,27 +54,63 @@ jobs:
           test "${{ inputs.viewport_group }}" = "desktop"
           test "${{ inputs.language_group }}" = "he-en"
           test -n "${{ inputs.suite_group }}"
+      - name: Capture existing Linux baselines
+        run: node quality/scripts/visual-candidate-manifest.mjs capture
+      - name: Capture pre-generation comparison evidence
+        continue-on-error: true
+        env:
+          CI: "true"
+          VISUAL_BASELINE_MODE: compare
+          PW_WORKERS: "1"
+          PW_REPORT_NAME: visual-candidates-before
+          FILE_FILTER: ${{ inputs.file_filter }}
+          GREP_FILTER: ${{ inputs.grep_filter }}
+        run: |
+          args=("$FILE_FILTER" "--project=visual-chromium")
+          if [ -n "$GREP_FILTER" ]; then args+=("--grep=$GREP_FILTER"); fi
+          set +e
+          npx playwright test "${args[@]}"
+          comparison_status=$?
+          set -e
+          mv test-results candidate-test-results
+          mv playwright-report candidate-playwright-report
+          exit "$comparison_status"
       - name: Generate review candidates (never committed automatically)
         env:
           CI: "true"
           GITHUB_EVENT_NAME: workflow_dispatch
           VISUAL_UPDATE_APPROVED: "1"
           VISUAL_UPDATE_CONTEXT: reviewed-linux-workflow
+          VISUAL_BASELINE_MODE: generate-candidates
+          PW_WORKERS: "1"
+          PW_REPORT_NAME: visual
           FILE_FILTER: ${{ inputs.file_filter }}
           GREP_FILTER: ${{ inputs.grep_filter }}
         run: |
-          args=("$FILE_FILTER" "--project=visual-chromium" "--update-snapshots")
+          args=("$FILE_FILTER" "--project=visual-chromium" "--update-snapshots=missing")
           if [ -n "$GREP_FILTER" ]; then args+=("--grep=$GREP_FILTER"); fi
           node quality/scripts/require-visual-update.mjs
           npx playwright test "${args[@]}"
       - name: Verify generated candidates
         env:
+          VISUAL_BASELINE_MODE: compare
+          PW_WORKERS: "1"
+          PW_REPORT_NAME: visual
           FILE_FILTER: ${{ inputs.file_filter }}
           GREP_FILTER: ${{ inputs.grep_filter }}
         run: |
           args=("$FILE_FILTER" "--project=visual-chromium")
           if [ -n "$GREP_FILTER" ]; then args+=("--grep=$GREP_FILTER"); fi
           npx playwright test "${args[@]}"
+      - name: Write candidate manifest
+        if: always()
+        run: node quality/scripts/visual-candidate-manifest.mjs build
+        env:
+          EXPECTED_HEAD_SHA: ${{ steps.source.outputs.sha }}
+          SOURCE_BRANCH: ${{ inputs.branch }}
+          SUITE_GROUP: ${{ inputs.suite_group }}
+          VIEWPORT_GROUP: ${{ inputs.viewport_group }}
+          LANGUAGE_GROUP: ${{ inputs.language_group }}
       - name: Write candidate provenance
         if: always()
         run: node scripts/write-ci-job-manifest.mjs
@@ -89,6 +125,7 @@ jobs:
             playwright-report/
             test-results/
             quality/generated/playwright-visual-results.json
+            quality/generated/visual-candidate-manifest.json
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -98,6 +135,10 @@ jobs:
             playwright-report/
             test-results/
             quality/generated/playwright-visual-results.json
+            quality/generated/playwright-visual-candidates-before-results.json
+            quality/generated/visual-candidate-manifest.json
+            candidate-playwright-report/
+            candidate-test-results/
             quality/runtime/ci/visual-baseline-candidates/manifest.json
           retention-days: 14
           if-no-files-found: error

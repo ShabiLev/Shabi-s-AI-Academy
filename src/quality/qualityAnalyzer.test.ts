@@ -59,5 +59,12 @@ describe('analyzeQuality', () => {
     const report = makeReport({ gates: { ...base.gates, e2eFull: { status: 'notRun' } } })
     const summary = analyzeQuality(report, true)
     expect(summary.recommendedActions.some((a) => /full E2E browser matrix/.test(a.en))).toBe(true)
+    expect(summary.overallStatus).toBe('blocked')
+  })
+
+  it('blocks when the mandatory visual gate fails', () => {
+    const base = makeReport()
+    const report = makeReport({ gates: { ...base.gates, visual: { status: 'failed' } } })
+    expect(analyzeQuality(report, false).overallStatus).toBe('blocked')
   })
 })

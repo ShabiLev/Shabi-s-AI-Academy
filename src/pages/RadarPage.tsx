@@ -1,85 +1,83 @@
-import { useState } from "react";
-import { filterRadarItems, isRadarSnapshotStale, newestVerification, radarItems } from "../radar";
-import type { RadarCategory, RadarHorizon } from "../radar";
+import { useMemo, useState } from "react";
 import { useLanguage } from "../i18n/LanguageContext";
+import { useRadar } from "../radar";
+import type { RadarErrorCode } from "../radar/providers";
 
-const categories: readonly (RadarCategory | "all")[] = ["all", "models", "agents", "evaluation", "safety", "governance", "open-source"];
-const horizons: readonly (RadarHorizon | "all")[] = ["all", "now", "next", "watch"];
+type View = "timeline" | "compact" | "favorites";
+
+const hebrewCategoryNames: Record<string, string> = {
+  safety: "בטיחות",
+  governance: "ממשל",
+  education: "חינוך",
+};
+
+const hebrewFreshnessNames: Record<string, string> = {
+  fresh: "חדש",
+  aging: "מתיישן",
+  stale: "מיושן",
+};
+
+const radarErrorMessages: Record<RadarErrorCode, { he: string; en: string }> = {
+  RADAR_OFFLINE: { he: "לא ניתן לעדכן את רדאר ה־AI כרגע. מוצגים הנתונים האחרונים שנשמרו.", en: "AI Radar could not be refreshed. The latest cached information is shown." },
+  RADAR_TIMEOUT: { he: "עדכון רדאר ה־AI ארך זמן רב מדי. מוצגים הנתונים האחרונים שנשמרו.", en: "The AI Radar refresh timed out. The latest cached information is shown." },
+  RADAR_PROVIDER_UNAVAILABLE: { he: "מקור העדכון של רדאר ה־AI אינו זמין כרגע. מוצגים הנתונים האחרונים שנשמרו.", en: "The AI Radar update source is unavailable. The latest cached information is shown." },
+  RADAR_INVALID_RESPONSE: { he: "עדכון רדאר ה־AI לא עבר את בדיקות הבטיחות. מוצגים הנתונים האחרונים שנשמרו.", en: "The AI Radar update did not pass validation. The latest cached information is shown." },
+  RADAR_RATE_LIMITED: { he: "מקור העדכון עמוס כרגע. אפשר לנסות שוב מאוחר יותר; הנתונים השמורים נשארים זמינים.", en: "The update source is busy. Try again later; cached information remains available." },
+  RADAR_UNKNOWN_ERROR: { he: "לא ניתן לעדכן את רדאר ה־AI כרגע. מוצגים הנתונים האחרונים שנשמרו.", en: "AI Radar could not be refreshed. The latest cached information is shown." },
+};
 
 export function RadarPage() {
   const { language } = useLanguage();
   const he = language === "he";
-  const copy = he ? {
-    eyebrow: "תמונת מצב מערכתית",
-    title: "רדאר AI",
-    intro: "אותות נבחרים ממקורות רשמיים, עם הקשר מעשי ללמידה ולבניית מערכות AI אחראיות.",
-    snapshot: "תמונת מצב ערוכה — לא עדכון חי",
-    policy: "הנתונים כלולים בגרסה, אינם נטענים מהרשת ואינם אוספים מידע. כל סיכום מפנה למקור הרשמי.",
-    verified: "אימות מערכת אחרון",
-    stale: "תמונת המצב לא אומתה ביותר מ-90 יום. יש לבדוק את המקורות לפני קבלת החלטה.",
-    search: "חיפוש ברדאר",
-    searchPlaceholder: "חיפוש לפי נושא, מקור או משמעות…",
-    category: "נושא",
-    horizon: "טווח",
-    results: "אותות מוצגים",
-    noResults: "לא נמצאו אותות שמתאימים למסננים.",
-    reset: "ניקוי מסננים",
-    implication: "למה זה חשוב",
-    source: "פתיחת המקור הרשמי",
-    published: "פורסם",
-    checked: "נבדק",
-    categories: { all: "הכול", models: "מודלים", agents: "סוכנים", evaluation: "הערכה", safety: "בטיחות", governance: "ממשל", "open-source": "קוד פתוח" },
-    horizons: { all: "כל הטווחים", now: "עכשיו", next: "הבא", watch: "במעקב" },
-  } : {
-    eyebrow: "Curated system snapshot",
-    title: "AI Radar",
-    intro: "Selected signals from official sources, with practical context for learning and building responsible AI systems.",
-    snapshot: "Editorial snapshot—not a live update",
-    policy: "Data ships with this release, makes no network requests, and collects nothing. Every summary links to its official source.",
-    verified: "Snapshot last verified",
-    stale: "This snapshot has not been verified in more than 90 days. Check the sources before making a decision.",
-    search: "Search the Radar",
-    searchPlaceholder: "Search by topic, source, or implication…",
-    category: "Topic",
-    horizon: "Horizon",
-    results: "signals shown",
-    noResults: "No signals match these filters.",
-    reset: "Clear filters",
-    implication: "Why it matters",
-    source: "Open official source",
-    published: "Published",
-    checked: "Verified",
-    categories: { all: "All", models: "Models", agents: "Agents", evaluation: "Evaluation", safety: "Safety", governance: "Governance", "open-source": "Open source" },
-    horizons: { all: "All horizons", now: "Now", next: "Next", watch: "Watch" },
-  };
+  const { records, favoriteIds, status, errorCode, refreshing, refresh, toggleFavorite } = useRadar();
   const [query, setQuery] = useState("");
-  const [category, setCategory] = useState<RadarCategory | "all">("all");
-  const [horizon, setHorizon] = useState<RadarHorizon | "all">("all");
-  const visibleItems = filterRadarItems(radarItems, { query, category, horizon }, language);
+  const [category, setCategory] = useState("all");
+  const [source, setSource] = useState("all");
+  const [date, setDate] = useState("all");
+  const [view, setView] = useState<View>("timeline");
+  const [renderedAt] = useState(() => Date.now());
+  const categories = useMemo(() => ["all", ...new Set(records.map((item) => item.category))], [records]);
+  const sources = useMemo(() => ["all", ...new Set(records.map((item) => item.sourceName))], [records]);
+  const visible = useMemo(() => records.filter((item) => {
+    const text = `${item.title.he} ${item.title.en} ${item.summary.he} ${item.summary.en} ${item.topics.join(" ")} ${item.sourceName}`.toLocaleLowerCase();
+    const age = Math.floor((renderedAt - Date.parse(`${item.publicationDate}T00:00:00Z`)) / 86_400_000);
+    return (!query.trim() || text.includes(query.trim().toLocaleLowerCase()))
+      && (category === "all" || item.category === category)
+      && (source === "all" || item.sourceName === source)
+      && (date === "all" || (date === "today" ? age <= 0 : age <= 7))
+      && (view !== "favorites" || favoriteIds.includes(item.canonicalId));
+  }), [category, date, favoriteIds, query, records, renderedAt, source, view]);
   const locale = he ? "he-IL" : "en-US";
-  const formatDate = (date: string) => new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(new Date(date + "T00:00:00Z"));
-  const clear = () => { setQuery(""); setCategory("all"); setHorizon("all"); };
+  const formatDate = (value: string) => new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(new Date(`${value}T00:00:00Z`));
+  const statusLabel = he
+    ? { cached: "מטמון מאומת", online: "מקוון", offline: "לא מקוון — מוצג מטמון", unavailable: "העדכון אינו זמין", partial: "עדכון חלקי" }[status]
+    : { cached: "Reviewed cache", online: "Online", offline: "Offline — showing cache", unavailable: "Update unavailable", partial: "Partial update" }[status];
+  const categoryLabel = (value: string) => he ? (hebrewCategoryNames[value] ?? value) : value;
+  const freshnessLabel = (value: string) => he ? (hebrewFreshnessNames[value] ?? value) : value;
+  const errorMessage = errorCode ? radarErrorMessages[errorCode][language] : undefined;
 
   return <div className="page radar-page">
     <header className="radar-hero">
-      <div><span className="eyebrow">{copy.eyebrow}</span><h1>{copy.title}</h1><p>{copy.intro}</p></div>
-      <div className="radar-freshness" data-stale={isRadarSnapshotStale(radarItems, new Date().toISOString().slice(0, 10)) || undefined}>
-        <strong>{copy.snapshot}</strong><p>{copy.policy}</p><span>{copy.verified}: <time dateTime={newestVerification(radarItems)}>{formatDate(newestVerification(radarItems))}</time></span>
-      </div>
+      <div><span className="eyebrow">{he ? "מקורות ציבוריים מאומתים" : "Validated public sources"}</span><h1>{he ? "רדאר AI" : "AI Radar"}</h1><p>{he ? "ציר זמן בן שבעה ימים של אותות AI שנבדקו אנושית. תוכן רשת נשאר נתון לא מהימן עד שהוא עובר אימות סכימה וביקורת." : "A seven-day timeline of human-reviewed AI signals. Network content remains untrusted until schema validation and review."}</p></div>
+      <div className="radar-freshness" data-status={status}><strong>{statusLabel}</strong><p>{he ? "אין צורך במפתח API. עדכון מקוון מתבצע רק לפי בקשה וממקור מאותה כתובת." : "No API key is required. Online refresh is manual and same-origin only."}</p><button type="button" className="button" disabled={refreshing} onClick={() => void refresh()}>{refreshing ? (he ? "מעדכן…" : "Refreshing…") : (he ? "בדיקת עדכון" : "Check for update")}</button>{errorMessage && <small role="status">{errorMessage}</small>}</div>
     </header>
-    {isRadarSnapshotStale(radarItems, new Date().toISOString().slice(0, 10)) && <p className="radar-stale" role="status">{copy.stale}</p>}
     <section className="radar-controls" aria-label={he ? "מסנני רדאר" : "Radar filters"}>
-      <label className="radar-search"><span>{copy.search}</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={copy.searchPlaceholder} /></label>
-      <fieldset><legend>{copy.category}</legend><div className="radar-filter-list">{categories.map((value) => <button type="button" key={value} aria-pressed={category === value} onClick={() => setCategory(value)}>{copy.categories[value]}</button>)}</div></fieldset>
-      <fieldset><legend>{copy.horizon}</legend><div className="radar-filter-list">{horizons.map((value) => <button type="button" key={value} aria-pressed={horizon === value} onClick={() => setHorizon(value)}>{copy.horizons[value]}</button>)}</div></fieldset>
+      <label><span>{he ? "חיפוש" : "Search"}</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} /></label>
+      <label><span>{he ? "קטגוריה" : "Category"}</span><select value={category} onChange={(event) => setCategory(event.target.value)}>{categories.map((value) => <option key={value} value={value}>{value === "all" ? (he ? "הכול" : "All") : categoryLabel(value)}</option>)}</select></label>
+      <label><span>{he ? "מקור" : "Source"}</span><select value={source} onChange={(event) => setSource(event.target.value)}>{sources.map((value) => <option key={value} value={value}>{value === "all" ? (he ? "כל המקורות" : "All sources") : value}</option>)}</select></label>
+      <label><span>{he ? "תאריך" : "Date"}</span><select value={date} onChange={(event) => setDate(event.target.value)}><option value="all">{he ? "שבעה ימים" : "Seven days"}</option><option value="today">{he ? "היום" : "Today"}</option></select></label>
+      <fieldset><legend>{he ? "תצוגה" : "View"}</legend><div className="radar-filter-list">{(["timeline", "compact", "favorites"] as const).map((value) => <button type="button" key={value} aria-pressed={view === value} onClick={() => setView(value)}>{he ? { timeline: "ציר זמן", compact: "קומפקטי", favorites: "שמורים" }[value] : { timeline: "Timeline", compact: "Compact", favorites: "Favorites" }[value]}</button>)}</div></fieldset>
     </section>
-    <div className="radar-results-heading"><p aria-live="polite"><strong>{visibleItems.length}</strong> {copy.results}</p>{(query || category !== "all" || horizon !== "all") && <button className="text-button" type="button" onClick={clear}>{copy.reset}</button>}</div>
-    {visibleItems.length ? <section className="radar-grid" aria-label={he ? "אותות AI" : "AI signals"}>{visibleItems.map((item) => <article className={`radar-card${item.featured ? " featured" : ""}`} key={item.id}>
-      <div className="radar-card-meta"><span>{copy.categories[item.category]}</span><span>{copy.horizons[item.horizon]}</span></div>
-      <h2>{item.title[language]}</h2><p>{item.summary[language]}</p>
-      <div className="radar-implication"><strong>{copy.implication}</strong><p>{item.implication[language]}</p></div>
-      <dl><div><dt>{copy.published}</dt><dd><time dateTime={item.publishedAt}>{formatDate(item.publishedAt)}</time></dd></div><div><dt>{copy.checked}</dt><dd><time dateTime={item.verifiedAt}>{formatDate(item.verifiedAt)}</time></dd></div></dl>
-      <a className="radar-source" href={item.sourceUrl} target="_blank" rel="noreferrer"><span>{copy.source}</span><span>{item.publisher} ↗</span></a>
-    </article>)}</section> : <section className="empty-state radar-empty"><h2>{copy.noResults}</h2><button className="primary-button" type="button" onClick={clear}>{copy.reset}</button></section>}
+    <div className="radar-results-heading"><p aria-live="polite"><strong>{visible.length}</strong> {he ? "פריטים" : "items"}</p></div>
+    {visible.length ? <section className={`radar-grid radar-view-${view}`} aria-label={he ? "פריטי רדאר" : "Radar items"}>{visible.map((item) => {
+      const saved = favoriteIds.includes(item.canonicalId);
+      return <article className="radar-card" id={`radar-${item.canonicalId}`} key={item.id}>
+        <div className="radar-card-meta"><span>{categoryLabel(item.category)}</span><span>{freshnessLabel(item.freshness)}</span><span>{item.sourceTier === 1 ? (he ? "מקור ראשוני" : "Primary source") : `Tier ${item.sourceTier}`}</span></div>
+        <h2>{item.title[language]}</h2><p>{item.summary[language]}</p>
+        {view !== "compact" && <div className="radar-implication"><strong>{he ? "למה זה חשוב" : "Why it matters"}</strong><p>{item.whyItMatters[language]}</p></div>}
+        <dl><div><dt>{he ? "פורסם" : "Published"}</dt><dd><time dateTime={item.publicationDate}>{formatDate(item.publicationDate)}</time></dd></div><div><dt>{he ? "אומת" : "Verified"}</dt><dd><time dateTime={item.lastVerifiedAt}>{formatDate(item.lastVerifiedAt)}</time></dd></div><div><dt>{he ? "ביטחון" : "Confidence"}</dt><dd>{item.confidence}%</dd></div></dl>
+        <div className="radar-card-actions"><button type="button" aria-pressed={saved} onClick={() => toggleFavorite(item.canonicalId)}>{saved ? (he ? "הסרה מהשמורים" : "Remove favorite") : (he ? "שמירה" : "Save")}</button><a className="radar-source" href={item.sourceUrl} target="_blank" rel="noopener noreferrer">{he ? "פתיחת המקור הרשמי" : "Open official source"}</a></div>
+      </article>;
+    })}</section> : <section className="empty-state radar-empty"><h2>{he ? "לא נמצאו פריטים" : "No items found"}</h2><p>{view === "favorites" ? (he ? "פריטים שתשמרו יישארו זמינים גם אחרי שבעה ימים." : "Saved items remain available beyond seven days.") : (he ? "נסו לשנות את המסננים." : "Try changing the filters.")}</p></section>}
   </div>;
 }

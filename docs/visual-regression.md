@@ -4,6 +4,8 @@ Playwright keeps operating-system-specific snapshots (`*-win32.png`, `*-linux.pn
 
 The `visual-chromium` project pins the Playwright package/browser revision through `package-lock.json` and fixes viewport, locale, timezone, device scale, dark color scheme, and reduced motion. The fixture clears storage, disables motion, waits for fonts, masks live build identity, and uses controlled page state. Tests must use web-first waits; arbitrary sleeps, random content, and auto-approval are prohibited.
 
+Dashboard screenshots wait for the stable semantic hooks `data-testid="dashboard-page"` and `data-testid="dashboard-content"`. Tests must not wait for layout classes such as grid or card selectors: those classes may change during an intentional responsive redesign without changing the Dashboard contract. Redirect-based visual scenarios must also wait for the final URL and Dashboard root before capture.
+
 ## Reviewed Linux workflow
 
 1. Open **Actions → Generate reviewed Linux visual baselines → Run workflow**.

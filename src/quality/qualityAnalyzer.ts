@@ -123,7 +123,7 @@ export function analyzeQuality(
     report.gates.visual.status === "failed"
   ) {
     recommendedActions.push({
-      en: "Visual differences were detected — manual review recommended to confirm they are intentional.",
+      en: "Visual differences were detected — review and resolve them; this mandatory gate blocks release until it passes.",
       he: "זוהו הבדלים ויזואליים — מומלצת בדיקה ידנית לאישור שהשינוי מכוון.",
     });
     addArea({ en: "Visual UI", he: "ממשק ויזואלי" });
@@ -133,7 +133,7 @@ export function analyzeQuality(
     report.gates.performance.status === "failed"
   ) {
     recommendedActions.push({
-      en: "Performance is below a target threshold — review recommended before a production release.",
+      en: "Performance is below a target threshold — resolve it; this mandatory gate blocks release until it passes.",
       he: "הביצועים נמוכים מהיעד — מומלצת בדיקה לפני שחרור לייצור.",
     });
     addArea({ en: "Performance", he: "ביצועים" });

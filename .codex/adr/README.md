@@ -14,3 +14,4 @@ Accepted ADRs override older architecture prose. Supersede decisions with a new 
 - [ADR-010: Human Approval for Risky Actions](ADR-010-human-approval-for-risky-actions.md)
 - [ADR-011: Optional Supabase Authentication](ADR-011-optional-supabase-authentication.md)
 - [ADR-012: Hybrid Data Providers](ADR-012-hybrid-data-providers.md)
+- [ADR-013: Radar Pages Artifact Publication](ADR-013-radar-pages-artifact-publication.md)

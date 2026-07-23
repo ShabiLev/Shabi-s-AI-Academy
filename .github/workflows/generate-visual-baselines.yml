@@ -94,7 +94,7 @@ jobs:
         with:
           name: reviewed-linux-visual-candidates-${{ github.run_id }}
           path: |
-            e2e/specs/__screenshots__/*-linux.png
+            e2e/specs/__screenshots__/**/*-linux.png
             playwright-report/
             test-results/
             quality/generated/playwright-visual-results.json

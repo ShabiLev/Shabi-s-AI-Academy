@@ -55,15 +55,29 @@ Run `npm run test:visual` afterward and inspect every changed PNG before committ
 
 ## Version 1.4 Linux baseline status
 
-68 of 82 Linux candidates generated against PR #2 (`fix/1.4.0-ci-memory-visual-release`)
-were reviewed and committed as stable, correct baselines. 14 candidates are
-excluded pending further investigation — each showed a different checksum
-across repeated generation runs at the same head SHA, so they are not yet
-trustworthy baselines: `mobile-drawer-open`, `mobile-profile-menu-en`,
-`mobile-profile-menu-he`, `profile-menu-en`, `profile-menu-he`,
-`runtime-details`, `runtime-details-en`, `runtime-dry-run`,
+64 of 82 Linux candidates generated against PR #2 (`fix/1.4.0-ci-memory-visual-release`)
+were reviewed and committed as stable, correct baselines. 18 candidates are
+excluded pending further investigation and are an explicit release blocker
+until reviewed and approved in a follow-up pass.
+
+14 showed a different checksum across repeated *generation* runs at the same
+head SHA, so they were never trustworthy: `mobile-drawer-open`,
+`mobile-profile-menu-en`, `mobile-profile-menu-he`, `profile-menu-en`,
+`profile-menu-he`, `runtime-details`, `runtime-details-en`, `runtime-dry-run`,
 `runtime-dry-run-en`, `v13-glossary`, `v13-onboarding-en-desktop`,
 `v13-onboarding-he-desktop`, `v13-profile`, `workspace-command-palette`.
+
+4 more — `about-en`, `about-he`, `mobile-qa-center`, `mobile-qa-center-en` —
+were consistent across repeated generation runs and were committed, but then
+failed the real `visual-linux` compare job. The `visual-linux` diff showed an
+extra "Ready with warnings" release-status badge present in the compare run
+that was absent from the candidate-generation run, shifting all content
+below it. The candidate-generation and compare jobs run the same
+`npm run test:visual` command against the same head SHA, so this is a real
+environment/timing difference between the two job types (not masked, not
+covered by `dynamicMasks`) rather than app-code flakiness — worth root-causing
+before re-attempting these four, since fixing it may also explain some of
+the 14 above. They were removed from the commit that first added them.
 
 Two related bugs were found and fixed during this review (see git history):
 a missing `.dashboard-continue h1` visibility wait before several Dashboard

@@ -48,7 +48,20 @@ test("CI structure is isolated, exact-SHA, and fail-closed", () => {
   assert.match(ci, /quality-summary:[\s\S]*needs: \[quality-core, functional-e2e, cross-browser, accessibility, visual-linux, performance\][\s\S]*if: always\(\)/);
   assert.match(ci, /Verify exact triggering SHA/);
   assert.match(ci, /write-ci-job-manifest\.mjs/);
-  assert.doesNotMatch(ci, /update-snapshots/);
+  // update-snapshots must never appear in a mandatory (quality-summary "needs")
+  // job — it may only exist inside the label-gated, non-required
+  // visual-linux-candidates job, which never runs on push/main, never commits
+  // or pushes, and only ever uploads its output as a reviewable artifact.
+  const jobBlocks = ci.split(/\r?\n(?=  [A-Za-z][\w-]*:\r?\n)/);
+  for (const block of jobBlocks) {
+    if (/update-snapshots/.test(block)) {
+      assert.match(block, /^  visual-linux-candidates:/);
+    }
+  }
+  for (const job of REQUIRED_CI_JOBS) {
+    const block = jobBlocks.find((b) => b.startsWith(`  ${job}:`));
+    assert.doesNotMatch(block ?? "", /update-snapshots/);
+  }
 });
 test("reviewed visual workflow is guarded, read-only, and cannot publish", () => {
   const workflow = readFileSync(".github/workflows/generate-visual-baselines.yml", "utf8");

@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 import { test, expect, login, english } from "../fixtures/academy";
-import { stabilize, dynamicMasks } from "../fixtures/visual";
+import { stabilize, dynamicMasks, freezeClock } from "../fixtures/visual";
 
 async function startEnglish(page: Page) {
   await page.addInitScript(() => localStorage.setItem("shabis-ai-academy-language", "en"));
@@ -311,6 +311,7 @@ test.describe("visual — Runtime Engine", () => {
     });
   });
   test("run details Hebrew", async ({ page }) => {
+    await freezeClock(page);
     await login(page, "/runs");
     await page.getByRole("button", { name: "הרצת Mock מוצלחת" }).click();
     await page.getByRole("link", { name: /Runtime demo: success/ }).click();
@@ -330,6 +331,7 @@ test.describe("visual — Runtime Engine", () => {
     });
   });
   test("Dry Run Hebrew", async ({ page }) => {
+    await freezeClock(page);
     await login(page, "/runs");
     await page.getByRole("button", { name: "Dry Run", exact: true }).click();
     await page
@@ -343,6 +345,7 @@ test.describe("visual — Runtime Engine", () => {
     });
   });
   test("details and Dry Run English", async ({ page }) => {
+    await freezeClock(page);
     await login(page);
     await english(page);
     await page.goto("/runs");

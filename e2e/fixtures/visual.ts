@@ -30,6 +30,17 @@ export function dynamicMasks(page: Page): Locator[] {
   return [page.locator("[data-visual-mask], .about-page .runtime-facts > div:nth-child(2) dd, .about-page .runtime-facts > div:nth-child(3) dd")];
 }
 
+/**
+ * Freeze Date.now()/new Date() to a fixed instant so timestamps recorded during
+ * the test (e.g. Runtime event history) render identical text every run,
+ * regardless of the locale's digit width for the actual hour/day. Only Date
+ * results are frozen — setTimeout/async scheduling still runs in real time, so
+ * this does not affect app behavior, only what "now" reports.
+ */
+export async function freezeClock(page: Page): Promise<void> {
+  await page.clock.setFixedTime(new Date("2026-01-15T12:00:00.000Z"));
+}
+
 export const screenshotOptions = {
   animations: "disabled" as const,
 };

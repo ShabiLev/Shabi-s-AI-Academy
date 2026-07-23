@@ -479,6 +479,7 @@ test.describe("visual — 1.3 guided auth UX", () => {
     test(`onboarding ${language} desktop`, async ({ page }) => {
       if (language === "en") await startEnglish(page);
       await login(page, "/onboarding");
+      await expect(page.locator(".onboarding-card")).toBeVisible();
       await stabilize(page);
       await expect(page).toHaveScreenshot(`v13-onboarding-${language}-desktop.png`, { fullPage: true });
     });
@@ -487,6 +488,7 @@ test.describe("visual — 1.3 guided auth UX", () => {
       await page.setViewportSize({ width: 390, height: 844 });
       if (language === "en") await startEnglish(page);
       await login(page, "/onboarding");
+      await expect(page.locator(".onboarding-card")).toBeVisible();
       await stabilize(page);
       await expect(page).toHaveScreenshot(`v13-onboarding-${language}-mobile.png`, { fullPage: true });
     });
@@ -517,6 +519,7 @@ test.describe("visual — 1.3 guided auth UX", () => {
 
   test("Help Center tour glossary and profile", async ({ page }) => {
     await login(page, "/help");
+    await expect(page.locator(".help-center-grid")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-help-center.png", { fullPage: true });
     await page.locator(".tour-list-button").first().click();

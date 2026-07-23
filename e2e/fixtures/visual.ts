@@ -12,6 +12,15 @@ const disableAnimationsCss = `
   progress, progress::-webkit-progress-bar, progress::-webkit-progress-value, progress::-moz-progress-bar {
     animation: none !important;
   }
+  /* Compositing a translucent .profile-backdrop over the already-blurred
+     sidebar/header is a real (if rare) source of ~1-unit GPU rounding jitter
+     across almost the whole frame — only when the profile menu is open, which
+     is why other pages stayed pixel-stable. Disabling blur only in that state
+     keeps every other baseline's appearance unchanged. */
+  body:has(.profile-layer) .desktop-sidebar,
+  body:has(.profile-layer) .top-header {
+    backdrop-filter: none !important;
+  }
 `;
 
 /**

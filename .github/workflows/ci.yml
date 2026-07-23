@@ -10,14 +10,27 @@ on:
 permissions:
   contents: read
 
+env:
+  # GITHUB_SHA reflects GitHub's own triggering-event SHA, which for pull_request
+  # events is the synthetic base+head merge commit, not the PR's actual head SHA
+  # (see docs/visual-regression.md — this is why the candidate-generation job and
+  # the normal compare job used to build against two different real commits, each
+  # embedding a different commitSha into the app via Vite's define, which shifted
+  # the rendered width of every masked commit/build field between the two runs).
+  # vite.config.ts reads VITE_DEPLOY_COMMIT_SHA before GITHUB_SHA, so set it to the
+  # actual checked-out ref used by every job below.
+  VITE_DEPLOY_COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
 jobs:
   quality-core:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with: { fetch-depth: 0 }
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
       - name: Verify exact triggering SHA
-        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
@@ -34,6 +47,7 @@ jobs:
         if: always()
         run: node scripts/write-ci-job-manifest.mjs
         env:
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           JOB_NAME: quality-core
           JOB_CONCLUSION: ${{ job.status }}
           ARTIFACT_PATHS: |
@@ -54,8 +68,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Verify exact triggering SHA
-        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
@@ -65,6 +81,7 @@ jobs:
         if: always()
         run: node scripts/write-ci-job-manifest.mjs
         env:
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           JOB_NAME: functional-e2e
           JOB_CONCLUSION: ${{ job.status }}
           ARTIFACT_PATHS: |
@@ -87,8 +104,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Verify exact triggering SHA
-        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
@@ -98,6 +117,7 @@ jobs:
         if: always()
         run: node scripts/write-ci-job-manifest.mjs
         env:
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           JOB_NAME: cross-browser
           JOB_CONCLUSION: ${{ job.status }}
           ARTIFACT_PATHS: |
@@ -120,8 +140,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Verify exact triggering SHA
-        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
@@ -131,6 +153,7 @@ jobs:
         if: always()
         run: node scripts/write-ci-job-manifest.mjs
         env:
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           JOB_NAME: accessibility
           JOB_CONCLUSION: ${{ job.status }}
           ARTIFACT_PATHS: |
@@ -153,8 +176,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Verify exact triggering SHA
-        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
@@ -164,6 +189,7 @@ jobs:
         if: always()
         run: node scripts/write-ci-job-manifest.mjs
         env:
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           JOB_NAME: visual-linux
           JOB_CONCLUSION: ${{ job.status }}
           ARTIFACT_PATHS: |
@@ -296,8 +322,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Verify exact triggering SHA
-        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
@@ -306,6 +334,7 @@ jobs:
         if: always()
         run: node scripts/write-ci-job-manifest.mjs
         env:
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           JOB_NAME: performance
           JOB_CONCLUSION: ${{ job.status }}
           ARTIFACT_PATHS: quality/generated/lighthouse/
@@ -332,8 +361,10 @@ jobs:
       PERFORMANCE: ${{ needs.performance.result }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Verify exact triggering SHA
-        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
@@ -357,6 +388,7 @@ jobs:
         if: always()
         run: node scripts/write-ci-job-manifest.mjs
         env:
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           JOB_NAME: quality-summary
           JOB_CONCLUSION: ${{ job.status }}
           ARTIFACT_PATHS: |

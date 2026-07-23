@@ -1717,6 +1717,13 @@ footer strong {
   border: 1px solid var(--line);
   border-radius: 20px;
   font-size: 0.72rem;
+  /* .qa-header-grid dd sets overflow-wrap: anywhere for long commit/branch
+     values; inheriting that here let the badge's grid track shrink below its
+     natural content width, so at narrow (mobile) widths the pill text wrapped
+     to a second line on some renders and not others depending on sub-pixel
+     auto-fit column sizing, shifting everything below by a line height. The
+     badge's own text is a short fixed enum and should never wrap. */
+  white-space: nowrap;
 }
 .qa-status-badge::before {
   content: "● ";

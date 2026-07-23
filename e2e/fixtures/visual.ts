@@ -21,6 +21,15 @@ const disableAnimationsCss = `
   body:has(.profile-layer) .top-header {
     backdrop-filter: none !important;
   }
+  /* Even with the sidebar/header blur disabled above, .profile-backdrop's
+     alpha blend over the dashboard content behind it still leaves ~1-unit
+     GPU rounding jitter across the frame (desktop uses a lighter .34 alpha;
+     the mobile sheet's heavier .66 alpha stays stable, which is the tell).
+     Flattening it to an opaque approximation for screenshots removes the
+     blend math entirely without changing any other baseline's appearance. */
+  body:has(.profile-layer) .profile-backdrop {
+    background: rgb(2, 6, 11) !important;
+  }
 `;
 
 /**

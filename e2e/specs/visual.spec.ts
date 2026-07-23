@@ -540,10 +540,12 @@ test.describe("visual — 1.3 guided auth UX", () => {
   test("admin denial desktop and mobile", async ({ page }) => {
     await login(page, "/dashboard");
     await page.goto("/admin");
+    await expect(page.locator(".dashboard-continue h1")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-admin-denied-desktop.png", { fullPage: true });
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/admin");
+    await expect(page.locator(".dashboard-continue h1")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-admin-denied-mobile.png", { fullPage: true });
   });

@@ -59,8 +59,10 @@ All 82 Linux screenshots in `e2e/specs/visual.spec.ts` are committed,
 reviewed for content correctness, and confirmed passing against the real
 `visual-linux` compare job — not just checksum-stable across repeated
 candidate-generation runs (see below for why that distinction matters).
-No screenshot is excluded or skipped. The gate passed three consecutive
-real `visual-linux` runs at the final head SHA with no recurrence.
+No screenshot is excluded or skipped. The gate passed five consecutive
+real `visual-linux` runs at the final head SHA with no recurrence — see
+below for why "three consecutive passes" twice turned out to be
+insufficient before that.
 
 Getting there required root-causing several distinct bugs, not one:
 
@@ -86,10 +88,28 @@ Getting there required root-causing several distinct bugs, not one:
   release-status badge could still wrap at mobile widths even after
   `white-space: nowrap` was applied, because Chromium's `overflow-wrap:
   anywhere` inserts letter-level break opportunities as a last resort
-  independent of `white-space`. This one took three attempts to fully
-  fix — see `quality/runtime/visual-exclusion-audit.md`'s root cause #3
-  for the full history, since two of the three "looked fixed" by every
-  check except the next real compare-gate run.
+  independent of `white-space`. Real, correct hardening — but not the
+  actual cause of the flake still recurring afterward.
+- **Fonts not settled before a layout-sensitive click**: the true root
+  cause of the `mobile-qa-center`/`profile-menu` flake surviving three CSS
+  fixes. `loadSampleIfAvailable()`'s button click and the profile-menu
+  trigger click both happened before `stabilize()`'s fonts-ready wait,
+  which only ran right before the screenshot. If the click's target was
+  off-screen, Playwright's built-in scroll-into-view (or, for the profile
+  menu, React's own `getBoundingClientRect()`-based popover positioning)
+  measured layout at click time — using fallback-font metrics if a
+  Hebrew/custom font hadn't finished applying yet, producing a slightly
+  different scroll distance or popover position than once fonts settled.
+  Fixed with a `waitForFonts()` helper called right after navigation,
+  before the click, not just before the capture.
+
+  This one took five attempts total — three CSS changes (real hardening,
+  but not sufficient alone), one JS change that was disproven locally
+  before ever reaching CI (forcing `scrollTo(0, 0)` fixed nothing and
+  broke 8 other tests by revealing a header the approved baselines had
+  never been captured with), and finally the fonts-timing fix. See
+  `quality/runtime/visual-exclusion-audit.md`'s root cause #3 for the
+  full history.
 
 **Practical implications, hard-won:**
 1. Passing the candidate-generation determinism check (same checksum
@@ -100,4 +120,9 @@ Getting there required root-causing several distinct bugs, not one:
    is not proof the underlying bug is gone, only that it didn't recur in
    those particular runs. A fix is verified only when there's a concrete
    mechanism explaining why the bad state is now structurally unreachable,
-   not merely less likely to occur.
+   not merely less likely to occur. Two different fixes here each passed
+   multiple consecutive real-gate runs (2, then 3) and still weren't done.
+3. A plausible-sounding mechanism still needs to be checked against
+   already-passing behavior, not just the failure it targets — a cheap
+   local A/B comparison (e.g. `git stash` the fix, re-run, compare) can
+   catch a wrong fix before spending a CI round-trip on it.

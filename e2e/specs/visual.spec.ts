@@ -521,9 +521,11 @@ test.describe("visual — 1.3 guided auth UX", () => {
     await expect(page).toHaveScreenshot("v13-guided-tour.png");
     await page.getByRole("button", { name: /דלג|Skip/ }).last().click();
     await page.goto("/glossary");
+    await expect(page.locator(".glossary-grid")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-glossary.png", { fullPage: true });
     await page.goto("/profile");
+    await expect(page.locator(".profile-form")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-profile.png", { fullPage: true, mask: dynamicMasks(page) });
   });

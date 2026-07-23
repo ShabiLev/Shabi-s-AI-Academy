@@ -52,3 +52,28 @@ Remove-Item Env:VISUAL_UPDATE_APPROVED
 ```
 
 Run `npm run test:visual` afterward and inspect every changed PNG before committing. Do not update snapshots merely to silence a failure.
+
+## Version 1.4 Linux baseline status
+
+68 of 82 Linux candidates generated against PR #2 (`fix/1.4.0-ci-memory-visual-release`)
+were reviewed and committed as stable, correct baselines. 14 candidates are
+excluded pending further investigation — each showed a different checksum
+across repeated generation runs at the same head SHA, so they are not yet
+trustworthy baselines: `mobile-drawer-open`, `mobile-profile-menu-en`,
+`mobile-profile-menu-he`, `profile-menu-en`, `profile-menu-he`,
+`runtime-details`, `runtime-details-en`, `runtime-dry-run`,
+`runtime-dry-run-en`, `v13-glossary`, `v13-onboarding-en-desktop`,
+`v13-onboarding-he-desktop`, `v13-profile`, `workspace-command-palette`.
+
+Two related bugs were found and fixed during this review (see git history):
+a missing `.dashboard-continue h1` visibility wait before several Dashboard
+screenshots (including the redirect-based admin-denial capture), which
+made `v13-dashboard-beginner`/`v13-dashboard-advanced` pixel-identical; and
+a native `<progress>` element animation not covered by the existing
+animation-disabling CSS, which fixed the `v13-onboarding-*-desktop`
+instability. `v13-glossary` and `v13-profile` showed the same class of
+symptom (a `fullPage` screenshot captured at a smaller height than the
+page's real content) and are good candidates for the same fix, but were
+left unstable rather than making a broader, unverified change to fix them
+in this pass. Missing Linux images for the excluded 14 remain an explicit
+release blocker until reviewed and approved in a follow-up pass.

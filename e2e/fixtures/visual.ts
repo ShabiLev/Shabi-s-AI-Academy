@@ -58,9 +58,29 @@ export async function stabilize(page: Page): Promise<void> {
   await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
 }
 
-/** Elements explicitly opted out of comparison (e.g. real git commit/branch in the QA Center header). */
+/**
+ * Elements explicitly opted out of comparison (e.g. real git commit/branch
+ * fields). `[data-visual-mask]` covers the general case (RunDetails,
+ * RunHistory, Aos pages), but on the About and QA Center pages the masked
+ * dd sits in a fractional (`1fr`/grid) column whose exact pixel width comes
+ * from fractional-track rounding of the row's own width — that can differ
+ * by a pixel between renders, leaving a 1-2px rounding sliver exposed right
+ * at the dd-sized mask's own edge. Also masking the whole dt+dd row (whose
+ * bounding box comes from fixed page/card padding, not fractional grid
+ * math) on those two pages removes that sensitivity; the extra box just
+ * overlaps the dd's own mask, so nothing is under-covered elsewhere.
+ */
 export function dynamicMasks(page: Page): Locator[] {
-  return [page.locator("[data-visual-mask], .about-page .runtime-facts > div:nth-child(2) dd, .about-page .runtime-facts > div:nth-child(3) dd")];
+  return [
+    page.locator(
+      [
+        "[data-visual-mask]",
+        ".about-page .runtime-facts > div:nth-child(2)",
+        ".about-page .runtime-facts > div:nth-child(3)",
+        ".qa-header-grid > div:has(> [data-visual-mask])",
+      ].join(", "),
+    ),
+  ];
 }
 
 /**

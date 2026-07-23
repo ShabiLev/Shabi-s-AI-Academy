@@ -1732,8 +1732,13 @@ footer strong {
      natural content width, so at narrow (mobile) widths the pill text wrapped
      to a second line on some renders and not others depending on sub-pixel
      auto-fit column sizing, shifting everything below by a line height. The
-     badge's own text is a short fixed enum and should never wrap. */
+     badge's own text is a short fixed enum and should never wrap.
+     white-space: nowrap alone is not enough — Chromium's overflow-wrap:
+     anywhere is a distinct, more aggressive mechanism that inserts letter-
+     level break opportunities as a last resort even under nowrap, so it must
+     be reset back to normal explicitly. */
   white-space: nowrap;
+  overflow-wrap: normal;
 }
 .qa-status-badge::before {
   content: "● ";

@@ -55,17 +55,20 @@ Run `npm run test:visual` afterward and inspect every changed PNG before committ
 
 ## Version 1.4 Linux baseline status
 
-64 of 82 Linux candidates generated against PR #2 (`fix/1.4.0-ci-memory-visual-release`)
-were reviewed and committed as stable, correct baselines. 18 candidates are
+66 of 82 Linux candidates generated against PR #2 (`fix/1.4.0-ci-memory-visual-release`)
+were reviewed and committed as stable, correct baselines. 16 candidates are
 excluded pending further investigation and are an explicit release blocker
 until reviewed and approved in a follow-up pass.
 
-14 showed a different checksum across repeated *generation* runs at the same
+12 showed a different checksum across repeated *generation* runs at the same
 head SHA, so they were never trustworthy: `mobile-drawer-open`,
 `mobile-profile-menu-en`, `mobile-profile-menu-he`, `profile-menu-en`,
 `profile-menu-he`, `runtime-details`, `runtime-details-en`, `runtime-dry-run`,
-`runtime-dry-run-en`, `v13-glossary`, `v13-onboarding-en-desktop`,
-`v13-onboarding-he-desktop`, `v13-profile`, `workspace-command-palette`.
+`runtime-dry-run-en`, `v13-onboarding-en-desktop`, `v13-onboarding-he-desktop`,
+`workspace-command-palette`. (`v13-glossary` and `v13-profile` showed this
+same symptom — a `fullPage` screenshot captured before the route's content
+rendered — and were fixed by waiting for `.glossary-grid`/`.profile-form`
+visibility before capture, the same pattern already used for Dashboard.)
 
 4 more — `about-en`, `about-he`, `mobile-qa-center`, `mobile-qa-center-en` —
 were consistent across repeated generation runs and were committed, but then
@@ -77,7 +80,7 @@ below it. The candidate-generation and compare jobs run the same
 environment/timing difference between the two job types (not masked, not
 covered by `dynamicMasks`) rather than app-code flakiness — worth root-causing
 before re-attempting these four, since fixing it may also explain some of
-the 14 above. They were removed from the commit that first added them.
+the 12 above. They were removed from the commit that first added them.
 
 Two related bugs were found and fixed during this review (see git history):
 a missing `.dashboard-continue h1` visibility wait before several Dashboard

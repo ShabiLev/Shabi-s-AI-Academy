@@ -33,6 +33,21 @@ const disableAnimationsCss = `
 `;
 
 /**
+ * Wait for web fonts to finish loading before any interaction that measures
+ * layout — a click that triggers the browser's scroll-into-view (off-screen
+ * targets) or app code that measures an element's `getBoundingClientRect()`
+ * (e.g. ProfileMenu's popover positioning) can compute a different result
+ * depending on whether fallback or final font metrics are in effect at that
+ * instant. `stabilize()` already waits for fonts before the screenshot, but
+ * that's too late if an earlier click already scrolled or positioned
+ * something using not-yet-final metrics. Call this before such interactions,
+ * not just before the capture.
+ */
+export async function waitForFonts(page: Page): Promise<void> {
+  await page.evaluate(() => document.fonts.ready);
+}
+
+/**
  * Call right before any screenshot: disables CSS animations/transitions and
  * waits for web fonts, so two runs on an unchanged UI produce pixel-identical
  * output regardless of timing.

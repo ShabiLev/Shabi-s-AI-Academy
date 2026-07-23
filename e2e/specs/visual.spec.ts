@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 import { test, expect, login, english } from "../fixtures/academy";
-import { stabilize, dynamicMasks, freezeClock } from "../fixtures/visual";
+import { stabilize, dynamicMasks, freezeClock, waitForFonts } from "../fixtures/visual";
 
 async function startEnglish(page: Page) {
   await page.addInitScript(() => localStorage.setItem("shabis-ai-academy-language", "en"));
@@ -24,6 +24,7 @@ test.describe("visual - 1.2 profile menu", () => {
 
   test("Hebrew desktop profile menu open", async ({ page }) => {
     await login(page);
+    await waitForFonts(page);
     await page.locator(".desktop-sidebar .profile-trigger").click();
     await stabilize(page);
     await expect(page).toHaveScreenshot("profile-menu-he.png");
@@ -33,6 +34,7 @@ test.describe("visual - 1.2 profile menu", () => {
     await login(page);
     await english(page);
     await page.goto("/");
+    await waitForFonts(page);
     await page.locator(".desktop-sidebar .profile-trigger").click();
     await stabilize(page);
     await expect(page).toHaveScreenshot("profile-menu-en.png");
@@ -44,6 +46,7 @@ test.describe("visual - 1.2 profile menu", () => {
       await login(page);
       if (mode === "en") await english(page);
       await page.goto("/");
+      await waitForFonts(page);
       await page.locator(".menu-button").click();
       await page.locator(".mobile-drawer .profile-trigger").click();
       await stabilize(page);
@@ -56,6 +59,11 @@ async function loadSampleIfAvailable(page: Page) {
   const button = page.getByRole("button", {
     name: /טעינת נתוני דוגמה|Load sample data/,
   });
+  // Wait for fonts before this click, not just before the screenshot: if the
+  // button is below the fold, Playwright's built-in scroll-into-view runs as
+  // part of the click and its distance depends on the (possibly still
+  // fallback-font) layout above it — see waitForFonts' doc comment.
+  await waitForFonts(page);
   await button.click();
 }
 

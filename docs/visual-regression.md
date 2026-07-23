@@ -55,10 +55,12 @@ Run `npm run test:visual` afterward and inspect every changed PNG before committ
 
 ## Version 1.4 Linux baseline status
 
-66 of 82 Linux candidates generated against PR #2 (`fix/1.4.0-ci-memory-visual-release`)
-were reviewed and committed as stable, correct baselines. 16 candidates are
-excluded pending further investigation and are an explicit release blocker
-until reviewed and approved in a follow-up pass.
+63 of 82 Linux candidates generated against PR #2 (`fix/1.4.0-ci-memory-visual-release`)
+are confirmed committed baselines: reviewed for content correctness AND
+verified passing against the real `visual-linux` compare job (not just
+checksum-stable across repeated candidate-generation runs — see below for
+why that distinction matters). 19 candidates are excluded and are an
+explicit release blocker until root-caused and re-approved.
 
 12 showed a different checksum across repeated *generation* runs at the same
 head SHA, so they were never trustworthy: `mobile-drawer-open`,
@@ -70,17 +72,25 @@ same symptom — a `fullPage` screenshot captured before the route's content
 rendered — and were fixed by waiting for `.glossary-grid`/`.profile-form`
 visibility before capture, the same pattern already used for Dashboard.)
 
-4 more — `about-en`, `about-he`, `mobile-qa-center`, `mobile-qa-center-en` —
-were consistent across repeated generation runs and were committed, but then
-failed the real `visual-linux` compare job. The `visual-linux` diff showed an
-extra "Ready with warnings" release-status badge present in the compare run
-that was absent from the candidate-generation run, shifting all content
-below it. The candidate-generation and compare jobs run the same
-`npm run test:visual` command against the same head SHA, so this is a real
-environment/timing difference between the two job types (not masked, not
-covered by `dynamicMasks`) rather than app-code flakiness — worth root-causing
-before re-attempting these four, since fixing it may also explain some of
-the 12 above. They were removed from the commit that first added them.
+7 more — `about-en`, `about-he`, `qa-center`, `qa-center-en`, `mobile-qa-center`,
+`mobile-qa-center-en`, `v13-help-center` — were checksum-stable across
+repeated *candidate-generation* runs and were committed on that basis, but
+then failed the real `visual-linux` compare job in a later run at the same
+head SHA. The diff showed an extra "Ready with warnings" release-status
+badge present in the compare run that was absent from the candidate
+generation run, shifting all page content below it. Both job types run the
+same `npm run test:visual` command against the same head SHA and the same
+committed source, so this is a real, reproducible environment/timing
+difference between candidate-generation and compare runs, not app-code
+flakiness or a masking gap — it deserves dedicated root-causing rather than
+a guess, since it affects unrelated pages (About, QA Center, Help Center)
+and may explain some of the 12 above too. **Practical implication: passing
+the candidate-generation determinism check (same checksum across two
+generation runs) is necessary but not sufficient proof a baseline will pass
+the real compare gate — every committed baseline should also be confirmed
+against an actual `visual-linux` run before being treated as final,** which
+is why the 63 committed here were cross-checked against a real compare-job
+run and the 7 above were not, since that check happens after commit.
 
 Two related bugs were found and fixed during this review (see git history):
 a missing `.dashboard-continue h1` visibility wait before several Dashboard

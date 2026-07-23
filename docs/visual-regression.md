@@ -55,52 +55,49 @@ Run `npm run test:visual` afterward and inspect every changed PNG before committ
 
 ## Version 1.4 Linux baseline status
 
-63 of 82 Linux candidates generated against PR #2 (`fix/1.4.0-ci-memory-visual-release`)
-are confirmed committed baselines: reviewed for content correctness AND
-verified passing against the real `visual-linux` compare job (not just
-checksum-stable across repeated candidate-generation runs — see below for
-why that distinction matters). 19 candidates are excluded and are an
-explicit release blocker until root-caused and re-approved.
+All 82 Linux screenshots in `e2e/specs/visual.spec.ts` are committed,
+reviewed for content correctness, and confirmed passing against the real
+`visual-linux` compare job — not just checksum-stable across repeated
+candidate-generation runs (see below for why that distinction matters).
+No screenshot is excluded or skipped. The gate passed three consecutive
+real `visual-linux` runs at the final head SHA with no recurrence.
 
-12 showed a different checksum across repeated *generation* runs at the same
-head SHA, so they were never trustworthy: `mobile-drawer-open`,
-`mobile-profile-menu-en`, `mobile-profile-menu-he`, `profile-menu-en`,
-`profile-menu-he`, `runtime-details`, `runtime-details-en`, `runtime-dry-run`,
-`runtime-dry-run-en`, `v13-onboarding-en-desktop`, `v13-onboarding-he-desktop`,
-`workspace-command-palette`. (`v13-glossary` and `v13-profile` showed this
-same symptom — a `fullPage` screenshot captured before the route's content
-rendered — and were fixed by waiting for `.glossary-grid`/`.profile-form`
-visibility before capture, the same pattern already used for Dashboard.)
+Getting there required root-causing several distinct bugs, not one:
 
-7 more — `about-en`, `about-he`, `qa-center`, `qa-center-en`, `mobile-qa-center`,
-`mobile-qa-center-en`, `v13-help-center` — were checksum-stable across
-repeated *candidate-generation* runs and were committed on that basis, but
-then failed the real `visual-linux` compare job in a later run at the same
-head SHA. The diff showed an extra "Ready with warnings" release-status
-badge present in the compare run that was absent from the candidate
-generation run, shifting all page content below it. Both job types run the
-same `npm run test:visual` command against the same head SHA and the same
-committed source, so this is a real, reproducible environment/timing
-difference between candidate-generation and compare runs, not app-code
-flakiness or a masking gap — it deserves dedicated root-causing rather than
-a guess, since it affects unrelated pages (About, QA Center, Help Center)
-and may explain some of the 12 above too. **Practical implication: passing
-the candidate-generation determinism check (same checksum across two
-generation runs) is necessary but not sufficient proof a baseline will pass
-the real compare gate — every committed baseline should also be confirmed
-against an actual `visual-linux` run before being treated as final,** which
-is why the 63 committed here were cross-checked against a real compare-job
-run and the 7 above were not, since that check happens after commit.
+- **Commit-SHA mismatch**: `visual-linux` checked out GitHub's synthetic
+  `pull_request` merge commit while `visual-linux-candidates` checked out
+  the PR's actual head SHA — two different real commits, each embedding a
+  different `commitSha` into the build via Vite's `define`, which shifted
+  the rendered width of every masked commit/build field. Fixed by pinning
+  every job's checkout and `VITE_DEPLOY_COMMIT_SHA` to the same head SHA.
+- **Missing content-visibility waits**: several screenshots (Dashboard,
+  onboarding, Help Center) were captured before their route's real content
+  had rendered, showing stale or truncated content. Fixed with explicit
+  `toBeVisible()` waits on stable content anchors before each capture.
+- **Native `<progress>` animation**: not covered by the existing
+  animation-disabling CSS, causing onboarding progress-bar instability.
+- **Stacked/residual GPU compositing jitter**: `.profile-backdrop`'s
+  translucent overlay, compositing first over an already-blurred sidebar/
+  header and then (after that was fixed) over the dashboard content
+  behind it, left ~1-unit rounding jitter. Fixed in two passes: disabling
+  `backdrop-filter` on the sidebar/header when the profile layer is open,
+  then flattening the backdrop itself to opaque for screenshot capture.
+- **`overflow-wrap: anywhere` vs `white-space: nowrap`**: the QA Center
+  release-status badge could still wrap at mobile widths even after
+  `white-space: nowrap` was applied, because Chromium's `overflow-wrap:
+  anywhere` inserts letter-level break opportunities as a last resort
+  independent of `white-space`. This one took three attempts to fully
+  fix — see `quality/runtime/visual-exclusion-audit.md`'s root cause #3
+  for the full history, since two of the three "looked fixed" by every
+  check except the next real compare-gate run.
 
-Two related bugs were found and fixed during this review (see git history):
-a missing `.dashboard-continue h1` visibility wait before several Dashboard
-screenshots (including the redirect-based admin-denial capture), which
-made `v13-dashboard-beginner`/`v13-dashboard-advanced` pixel-identical; and
-a native `<progress>` element animation not covered by the existing
-animation-disabling CSS, which fixed the `v13-onboarding-*-desktop`
-instability. `v13-glossary` and `v13-profile` showed the same class of
-symptom (a `fullPage` screenshot captured at a smaller height than the
-page's real content) and are good candidates for the same fix, but were
-left unstable rather than making a broader, unverified change to fix them
-in this pass. Missing Linux images for the excluded 14 remain an explicit
-release blocker until reviewed and approved in a follow-up pass.
+**Practical implications, hard-won:**
+1. Passing the candidate-generation determinism check (same checksum
+   across two generation runs) is necessary but not sufficient proof a
+   baseline will pass the real compare gate — confirm every baseline
+   against an actual `visual-linux` run, not just `visual-linux-candidates`.
+2. Even the real `visual-linux` job passing — more than once — at one SHA
+   is not proof the underlying bug is gone, only that it didn't recur in
+   those particular runs. A fix is verified only when there's a concrete
+   mechanism explaining why the bad state is now structurally unreachable,
+   not merely less likely to occur.

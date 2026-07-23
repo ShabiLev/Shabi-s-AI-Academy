@@ -146,6 +146,7 @@ test.describe("visual — desktop English", () => {
     await login(page);
     await english(page);
     await page.goto("/");
+    await expect(page.locator(".dashboard-continue h1")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("dashboard-en.png");
   });
@@ -214,6 +215,7 @@ test.describe("visual — mobile Hebrew", () => {
 
   test("Dashboard", async ({ page }) => {
     await login(page);
+    await expect(page.locator(".dashboard-continue h1")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("mobile-dashboard.png");
   });
@@ -269,6 +271,7 @@ test.describe("visual — mobile English", () => {
     await login(page);
     await english(page);
     await page.goto("/");
+    await expect(page.locator(".dashboard-continue h1")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("mobile-dashboard-en.png");
   });
@@ -498,11 +501,13 @@ test.describe("visual — 1.3 guided auth UX", () => {
 
   test("beginner and advanced dashboards", async ({ page }) => {
     await login(page, "/dashboard");
+    await expect(page.locator(".dashboard-continue h1")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-dashboard-beginner.png", { fullPage: true });
     await page.goto("/settings");
     await page.getByRole("radio", { name: /מצב מתקדם|Advanced Mode/ }).click();
     await page.goto("/dashboard");
+    await expect(page.locator(".dashboard-continue h1")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-dashboard-advanced.png", { fullPage: true });
   });

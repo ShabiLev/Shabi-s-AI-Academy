@@ -37,40 +37,43 @@ This is the last commit **pushed to the remote branch**. It is currently
 believed by the author to be **not actually green** — see "Open failures"
 below. Do not treat `060bb21` as resolved.
 
-## Uncommitted local change (NOT pushed, NOT verified — this is the critical state)
+## Scroll-reset fix: tried, DISPROVEN, and reverted
 
-`e2e/fixtures/visual.ts` has an **uncommitted** edit adding a scroll-reset
-to `stabilize()`:
+The `window.scrollTo(0, 0)` fix described in the previous version of this
+handoff was fully tested after resuming and turned out to be **wrong**.
+`e2e/fixtures/visual.ts` is back to its committed state (`0ce81f1`) — the
+working tree is clean, nothing is stashed, nothing is pending.
 
-```ts
-await page.evaluate(() => window.scrollTo(0, 0));
-```
+What was found:
+1. Ran `npm run test:visual` locally twice **with** the fix: both runs
+   failed the exact same 28 tests (fully stable/deterministic list, not
+   flaky) — 8 more than the known pre-existing-noise baseline of 20.
+2. Ran it once more **without** the fix (`git stash` the file, re-run,
+   `git stash pop`): only the known 20 pre-existing-noise tests failed.
+   The 8 extra failures were caused by the fix itself, not coincidence.
+3. Inspected the diff image for one of the 8 new failures
+   (`mobile-qa-center`, Hebrew): forcing `scrollTo(0, 0)` reveals the
+   mobile top nav header (hamburger icon / "מרכז QA" title / home icon)
+   at the very top of the frame — a header that is **absent** from the
+   long-approved baseline. This proves the existing, approved baseline
+   was never actually captured at true `scrollTop: 0` — it was always
+   captured at whatever residual scroll position Playwright's
+   click-triggered auto-scroll-into-view happened to leave the page at,
+   and that residual scroll is what hides the header in the approved
+   reference image.
 
-placed at the top of `stabilize()`, before the fonts-ready wait. Rationale:
-see "Root cause investigation, current leading theory" below. This was
-mid-verification (running `npm run test:visual` locally) when the stop
-request arrived. The local run completed (exit code 1, 28 failed / 32
-passed) but **the failure list was not yet compared line-by-line against
-the known-preexisting-noise baseline** (previously 23 failures on this
-machine, unrelated to any code in this PR — see `docs/visual-regression.md`
-history and this file's own earlier commits). 28 vs 23 could be normal
-variance in that known-noisy set, or could include new regressions from
-the scroll-reset change. **This has not been determined.**
+Conclusion: forcing scroll to the true top is the **wrong direction** —
+it changes captured content for many tests industry-wide across the
+suite, not just the flaky one. The right fix, if there is a clean one,
+would need to reproduce the *existing* (non-zero, header-hidden) scroll
+position deterministically, not remove it. That was not attempted before
+stopping to reassess — see "Next action".
 
-Do not commit this change without first:
-1. Re-running `npm run test:visual` locally 1–2 more times to see if the
-   failure count/list for this change is stable (the pre-existing noise
-   set is itself flaky run-to-run on this machine).
-2. Diffing the failure list against the last-known-clean-of-this-change
-   list to confirm no NEW local failures were introduced beyond the
-   established noise.
-3. Only then committing, pushing, and re-running the real `visual-linux`
-   CI gate — multiple times (see below for why "twice" was proven
-   insufficient this session).
-
-The log from the completed local run is saved at (local machine only,
-not committed):
-`C:\Users\SHABIL~1\AppData\Local\Temp\claude\c--Users-ShabiLevanda-Cello-PycharmProjects-Shabis-AI-Academy\d5719b8d-1760-44e0-b3a1-bb10b8c6e1cf\scratchpad\local-visual-after-scrollfix.log`
+Logs (local machine only, not committed):
+- With fix (run 1): `...scratchpad\local-visual-after-scrollfix.log`
+- With fix (run 2): `...scratchpad\local-visual-run2.log`
+- Without fix (control): `...scratchpad\local-visual-without-fix.log`
+(all under `C:\Users\SHABIL~1\AppData\Local\Temp\claude\c--Users-ShabiLevanda-Cello-PycharmProjects-Shabis-AI-Academy\d5719b8d-1760-44e0-b3a1-bb10b8c6e1cf\scratchpad\`)
 
 ## Files changed (across this session's commits, `623bebe`..`060bb21`, plus the uncommitted diff)
 
@@ -163,22 +166,34 @@ same mechanism at a smaller scale (the profile trigger button needing a
 smaller scroll-into-view). The uncommitted `window.scrollTo(0, 0)` fix in
 `stabilize()` targets exactly this — **but it is unverified** (see above).
 
-**Three prior fix attempts for what looked like the same symptom, each
-disproven by a subsequent real `visual-linux` failure at a fresh SHA with
-zero app-code change in between:**
-1. `white-space: nowrap` on `.qa-status-badge` (`14c70c1`)
-2. Forcing `.qa-header-grid` to a single column below 30rem (`2f3345d`)
-3. `overflow-wrap: normal` on `.qa-status-badge` (`285bfdb`)
+**Four fix attempts for what looked like the same symptom, each disproven
+before or after being committed:**
+1. `white-space: nowrap` on `.qa-status-badge` (`14c70c1`, committed) —
+   disproven by a real `visual-linux` failure at the next SHA (`28954a4`)
+   with zero app-code change in between.
+2. Forcing `.qa-header-grid` to a single column below 30rem (`2f3345d`,
+   committed) — disproven the same way, at `2f3345d` itself.
+3. `overflow-wrap: normal` on `.qa-status-badge` (`285bfdb`, committed) —
+   passed 3 consecutive real `visual-linux` runs, then disproven at the
+   very next SHA (`060bb21`, docs-only, zero app-code change).
+4. `window.scrollTo(0, 0)` in `stabilize()` (tried, reverted, NOT
+   committed) — disproven locally before ever reaching CI: it fixes
+   nothing and breaks 8 previously-passing local tests by revealing a
+   mobile header that the existing approved baselines were never
+   captured with. See "Scroll-reset fix: tried, DISPROVEN, and reverted"
+   above.
 
-Each looked verified at the time (lint/build/typecheck clean, Windows
-baselines reviewed, and in fixes 1 and 3's case, 2–3 consecutive real
-`visual-linux` passes) and each was later proven incomplete by a
-subsequent failure. **Do not trust "N consecutive green real-CI runs" as
-final proof again without also being able to articulate the concrete
-mechanism that makes the bad state structurally unreachable** — this is
-the single most important lesson from this session, now written up in
-both `docs/visual-regression.md` and
-`quality/runtime/visual-exclusion-audit.md`.
+Attempts 1–3 are still in the committed code (they may be doing some real
+good — nowrap and overflow-wrap:normal are correct hardening regardless —
+but none of them, individually or combined, has stopped the recurrence).
+Attempt 4 was fully reverted; `e2e/fixtures/visual.ts` is back to its
+`0ce81f1` committed state.
+
+**Do not trust "N consecutive green real-CI runs" as final proof again
+without also being able to articulate the concrete mechanism that makes
+the bad state structurally unreachable** — this is the single most
+important lesson from this session, now written up in both
+`docs/visual-regression.md` and `quality/runtime/visual-exclusion-audit.md`.
 
 `profile-menu-{en,he}` (desktop) also failed at `28954a4` and `060bb21`
 with small (~31–33px) diffs, same character as `mobile-qa-center`'s
@@ -192,8 +207,22 @@ magnitude. Not yet separately confirmed.
 - **Do not re-attempt fixes 1–3 above** (nowrap, grid single-column,
   overflow-wrap: normal) — all three are already applied and committed,
   and none of them, individually or combined, has stopped the recurrence.
-  The next fix must address scroll position, not text wrapping — unless
-  new evidence overturns that theory.
+- **Do not re-attempt naive `scrollTo(0, 0)`** — proven locally to break
+  8 other tests by exposing a header the approved baselines were never
+  captured with. If pursuing the scroll-position theory further, the fix
+  must reproduce the *existing* residual scroll deterministically (e.g.
+  an explicit `scrollIntoView` on a stable anchor with a fixed alignment,
+  verified against current baselines with **zero new local diffs**
+  before it's considered a candidate), not remove the scroll entirely.
+- Given four attempts have each either been disproven by CI or by direct
+  local counter-evidence, seriously consider whether the more efficient
+  next step is a completely different diagnostic angle (e.g. a Playwright
+  trace/video comparison of a passing vs. failing CI run, or asking
+  whether a small, explicitly-scoped `maxDiffPixels` tolerance for this
+  one test — clearly documented as a known irreducible flake, not a
+  cover-up — is an acceptable trade-off) rather than a fifth blind CSS/JS
+  guess. This is a judgment call the user may want to weigh in on given
+  the standing "no tolerance increases" directive.
 - **A single green run, or even 2–3 in a row, is not sufficient
   confirmation** for this specific flake — it has gone 2 and 3 runs green
   before recurring at the very next SHA, twice. Whatever fix comes next

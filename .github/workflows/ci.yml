@@ -1,16 +1,36 @@
 name: CI
+
 on:
-  push: { branches: [main] }
-  pull_request: { branches: [main] }
-  # Manual-only: regenerates canonical Linux visual baselines as a reviewable artifact.
-  # Never runs on push/PR and never commits anything by itself — see docs/visual-regression.md.
-  workflow_dispatch: {}
+  push:
+    branches: [main, "fix/**"]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+permissions:
+  contents: read
+
+env:
+  # GITHUB_SHA reflects GitHub's own triggering-event SHA, which for pull_request
+  # events is the synthetic base+head merge commit, not the PR's actual head SHA
+  # (see docs/visual-regression.md — this is why the candidate-generation job and
+  # the normal compare job used to build against two different real commits, each
+  # embedding a different commitSha into the app via Vite's define, which shifted
+  # the rendered width of every masked commit/build field between the two runs).
+  # vite.config.ts reads VITE_DEPLOY_COMMIT_SHA before GITHUB_SHA, so set it to the
+  # actual checked-out ref used by every job below.
+  VITE_DEPLOY_COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
 jobs:
   quality-core:
-    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Verify exact triggering SHA
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
@@ -18,12 +38,21 @@ jobs:
       - run: npm run aos:check
       - run: npm run test:aos
       - run: npm run test:evidence
+      - run: npm run memory:update
       - run: npm run memory:check
-      - run: npm run aos:report
-      - run: npm run aos:snapshot
       - run: npm run lint
       - run: npm run test:coverage
       - run: npm run build
+      - name: Write immutable job provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          JOB_NAME: quality-core
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: |
+            coverage/
+            quality/generated/vitest-results.json
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -31,45 +60,106 @@ jobs:
           path: |
             coverage/
             quality/generated/vitest-results.json
-            quality/generated/aos-report.json
-            quality/generated/aos-report.md
-            public/generated/aos-snapshot.json
-            quality/execution/latest/summary.json
-            quality/execution/latest/failures.md
+            quality/runtime/ci/quality-core/manifest.json
           retention-days: 14
           if-no-files-found: ignore
 
-  e2e:
-    if: github.event_name != 'workflow_dispatch'
+  functional-e2e:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify exact triggering SHA
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
+      - uses: actions/setup-node@v4
+        with: { node-version: 20.19.0, cache: npm }
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e:functional
+      - name: Write immutable job provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          JOB_NAME: functional-e2e
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: |
+            playwright-report/
+            test-results/
+            quality/generated/playwright-functional-results.json
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: functional-e2e-artifacts
+          path: |
+            playwright-report/
+            test-results/
+            quality/generated/playwright-functional-results.json
+            quality/runtime/ci/functional-e2e/manifest.json
+          retention-days: 14
+          if-no-files-found: ignore
+
+  cross-browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify exact triggering SHA
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
       - run: npx playwright install --with-deps
-      - run: npm run test:e2e:full
+      - run: npm run test:e2e:cross-browser
+      - name: Write immutable job provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          JOB_NAME: cross-browser
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: |
+            playwright-report/
+            test-results/
+            quality/generated/playwright-cross-browser-results.json
       - if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: e2e-artifacts
+          name: cross-browser-artifacts
           path: |
             playwright-report/
             test-results/
-            quality/generated/playwright-full-results.json
+            quality/generated/playwright-cross-browser-results.json
+            quality/runtime/ci/cross-browser/manifest.json
           retention-days: 14
           if-no-files-found: ignore
 
   accessibility:
-    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify exact triggering SHA
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run test:a11y
+      - name: Write immutable job provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          JOB_NAME: accessibility
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: |
+            playwright-report/
+            test-results/
+            quality/generated/playwright-a11y-results.json
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -78,99 +168,277 @@ jobs:
             playwright-report/
             test-results/
             quality/generated/playwright-a11y-results.json
+            quality/runtime/ci/accessibility/manifest.json
           retention-days: 14
           if-no-files-found: ignore
 
-  visual:
-    if: github.event_name != 'workflow_dispatch'
-    runs-on: ubuntu-latest
+  visual-linux:
+    # Pinned (not ubuntu-latest): a silent runner-image upgrade changes bundled
+    # system fonts and default rendering libraries, which is exactly the class
+    # of cross-run non-determinism this suite has repeatedly had to chase down
+    # (see docs/visual-regression.md). Bump deliberately, alongside a full
+    # baseline re-review, not as a side effect of GitHub relabeling "latest".
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify exact triggering SHA
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      # Compares against the committed baselines in e2e/specs/__screenshots__. A
-      # missing baseline fails clearly rather than silently passing — see
-      # docs/visual-regression.md for the controlled baseline-update process.
       - run: npm run test:visual
+      - name: Write immutable job provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          JOB_NAME: visual-linux
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: |
+            playwright-report/
+            test-results/
+            quality/generated/playwright-visual-results.json
       - if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: visual-artifacts
+          name: visual-linux-artifacts
           path: |
             playwright-report/
             test-results/
             quality/generated/playwright-visual-results.json
+            quality/runtime/ci/visual-linux/manifest.json
+          retention-days: 14
+          if-no-files-found: ignore
+
+  visual-linux-candidates:
+    if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'generate-linux-visual-candidates')
+    # Must match visual-linux's pinned image exactly — candidate vs. compare
+    # environment parity is the whole point (see docs/visual-regression.md).
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Verify exact triggering PR head SHA
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Record provenance SHAs
+        id: source
+        run: |
+          echo "head_sha=${{ github.event.pull_request.head.sha }}" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@v4
+        with: { node-version: 20.19.0, cache: npm }
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Record environment provenance
+        id: env
+        run: |
+          playwright_version=$(node -p "require('./package.json').devDependencies['@playwright/test'] ?? require('./package.json').dependencies['@playwright/test']")
+          browser_revision=$(ls "$HOME/.cache/ms-playwright" 2>/dev/null | grep '^chromium' | head -1)
+          echo "playwright_version=${playwright_version}" >> "$GITHUB_OUTPUT"
+          echo "browser_revision=${browser_revision:-unknown}" >> "$GITHUB_OUTPUT"
+          echo "linux_image_version=${ImageOS:-unknown}-${ImageVersion:-unknown}" >> "$GITHUB_OUTPUT"
+      - name: Capture existing Linux baselines
+        run: node quality/scripts/visual-candidate-manifest.mjs capture
+      - name: Capture pre-generation comparison evidence
+        continue-on-error: true
+        env:
+          CI: "true"
+          VISUAL_BASELINE_MODE: compare
+          PW_WORKERS: "1"
+          PW_REPORT_NAME: visual-candidates-before
+        run: |
+          set +e
+          npx playwright test e2e/specs/visual.spec.ts --project=visual-chromium
+          comparison_status=$?
+          set -e
+          mv test-results candidate-test-results
+          mv playwright-report candidate-playwright-report
+          exit "$comparison_status"
+      - name: Verify candidate-generation is authorized
+        env:
+          CI: "true"
+          GITHUB_EVENT_NAME: pull_request
+          VISUAL_UPDATE_APPROVED: "1"
+          VISUAL_UPDATE_CONTEXT: pull-request-candidates
+          VISUAL_BASELINE_MODE: generate-candidates
+        run: node quality/scripts/require-visual-update.mjs
+      - name: Generate review candidates (never committed automatically)
+        continue-on-error: true
+        env:
+          CI: "true"
+          GITHUB_EVENT_NAME: pull_request
+          VISUAL_UPDATE_APPROVED: "1"
+          VISUAL_UPDATE_CONTEXT: pull-request-candidates
+          VISUAL_BASELINE_MODE: generate-candidates
+          PW_WORKERS: "1"
+          PW_REPORT_NAME: visual
+        run: npx playwright test e2e/specs/visual.spec.ts --project=visual-chromium --update-snapshots=missing
+      - name: Classify candidate-generation result
+        # This job exists to produce reviewable screenshots for a human, not
+        # to gate merge, so a pixel mismatch against a stale/soon-to-be-
+        # replaced baseline must not fail it — only a real Playwright error
+        # (timeout, crash, selector never resolved) should. See
+        # quality/scripts/classify-visual-candidate-run.mjs.
+        run: node quality/scripts/classify-visual-candidate-run.mjs
+      - name: Verify generated candidates
+        continue-on-error: true
+        env:
+          VISUAL_BASELINE_MODE: compare
+          PW_WORKERS: "1"
+          PW_REPORT_NAME: visual
+        run: npx playwright test e2e/specs/visual.spec.ts --project=visual-chromium
+      - name: Classify candidate-verification result
+        run: node quality/scripts/classify-visual-candidate-run.mjs
+      - name: Write candidate manifest
+        if: always()
+        run: node quality/scripts/visual-candidate-manifest.mjs build
+        env:
+          EXPECTED_HEAD_SHA: ${{ steps.source.outputs.head_sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          SOURCE_BRANCH: ${{ github.head_ref }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+          PLAYWRIGHT_VERSION: ${{ steps.env.outputs.playwright_version }}
+          BROWSER_REVISION: ${{ steps.env.outputs.browser_revision }}
+          LINUX_IMAGE_VERSION: ${{ steps.env.outputs.linux_image_version }}
+          SUITE_GROUP: pull-request-${{ github.event.pull_request.number }}
+          VIEWPORT_GROUP: desktop
+          LANGUAGE_GROUP: he-en
+      - name: Write candidate provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          EXPECTED_HEAD_SHA: ${{ steps.source.outputs.head_sha }}
+          SOURCE_BRANCH: ${{ github.head_ref }}
+          TARGET_BRANCH: ${{ github.base_ref }}
+          JOB_NAME: visual-linux-candidates
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: |
+            e2e/specs/__screenshots__/
+            playwright-report/
+            test-results/
+            quality/generated/playwright-visual-results.json
+            quality/generated/visual-candidate-manifest.json
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-linux-candidates-pr${{ github.event.pull_request.number }}-${{ github.run_id }}
+          path: |
+            e2e/specs/__screenshots__/**/*-linux.png
+            playwright-report/
+            test-results/
+            quality/generated/playwright-visual-results.json
+            quality/generated/playwright-visual-candidates-before-results.json
+            quality/generated/visual-candidate-manifest.json
+            candidate-playwright-report/
+            candidate-test-results/
+            quality/runtime/ci/visual-linux-candidates/manifest.json
+          retention-days: 14
+          if-no-files-found: error
+      - name: Upload candidate status for quality-summary
+        # Small, separate artifact matching quality-summary's "*-artifacts"
+        # download pattern, so it can report whether candidates were
+        # generated even though visual-linux-candidates isn't one of its
+        # required `needs` jobs (it's label-gated and optional).
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-linux-candidates-status-artifacts
+          path: quality/runtime/ci/visual-linux-candidates/manifest.json
           retention-days: 14
           if-no-files-found: ignore
 
   performance:
-    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify exact triggering SHA
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
       - run: npm run test:performance
+      - name: Write immutable job provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          JOB_NAME: performance
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: quality/generated/lighthouse/
       - if: always()
         uses: actions/upload-artifact@v4
         with:
           name: performance-artifacts
-          path: quality/generated/lighthouse/
+          path: |
+            quality/generated/lighthouse/
+            quality/runtime/ci/performance/manifest.json
           retention-days: 14
           if-no-files-found: ignore
 
   quality-summary:
     runs-on: ubuntu-latest
-    needs: [quality-core, e2e, accessibility, visual, performance]
-    if: always() && github.event_name != 'workflow_dispatch'
+    needs: [quality-core, functional-e2e, cross-browser, accessibility, visual-linux, performance]
+    if: always()
+    env:
+      QUALITY_CORE: ${{ needs.quality-core.result }}
+      FUNCTIONAL_E2E: ${{ needs.functional-e2e.result }}
+      CROSS_BROWSER: ${{ needs.cross-browser.result }}
+      ACCESSIBILITY: ${{ needs.accessibility.result }}
+      VISUAL_LINUX: ${{ needs.visual-linux.result }}
+      PERFORMANCE: ${{ needs.performance.result }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify exact triggering SHA
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
       - uses: actions/download-artifact@v4
-        continue-on-error: true
-        with: { name: quality-core-artifacts }
-      - uses: actions/download-artifact@v4
-        continue-on-error: true
-        with: { name: e2e-artifacts }
-      - uses: actions/download-artifact@v4
-        continue-on-error: true
-        with: { name: accessibility-artifacts }
-      - uses: actions/download-artifact@v4
-        continue-on-error: true
-        with: { name: visual-artifacts }
-      - uses: actions/download-artifact@v4
-        continue-on-error: true
-        with: { name: performance-artifacts, path: quality/generated/lighthouse }
+        if: always()
+        with: { pattern: "*-artifacts", merge-multiple: true }
+      - name: Restore Lighthouse artifact layout
+        uses: actions/download-artifact@v4
+        if: always()
+        with:
+          name: performance-artifacts
+          path: quality/generated/lighthouse
       - run: npm run quality:collect
+        if: always()
       - run: npm run quality:analyze
+        if: always()
+      - name: Write readable gate summary and enforce results
+        if: always()
+        run: node scripts/write-ci-quality-summary.mjs
+      - name: Write immutable job provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          JOB_NAME: quality-summary
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: |
+            quality/generated/latest-quality-report.json
+            quality/generated/ci-quality-summary.md
+            quality/generated/ci-quality-summary.json
       - if: always()
         uses: actions/upload-artifact@v4
         with:
           name: quality-summary
-          path: quality/generated/latest-quality-report.json
+          path: |
+            quality/generated/latest-quality-report.json
+            quality/generated/ci-quality-summary.md
+            quality/generated/ci-quality-summary.json
+            quality/runtime/ci/quality-summary/manifest.json
           retention-days: 30
           if-no-files-found: ignore
-
-  # Regenerates canonical Linux visual baselines on demand. Never runs automatically
-  # and never commits — a human downloads the artifact, reviews every changed image,
-  # and commits intentionally. See docs/visual-regression.md.
-  regenerate-visual-baselines:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch'
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 20.19.0, cache: npm }
-      - run: npm ci
-      - run: npx playwright install --with-deps chromium
-      - run: npm run test:visual:update
-      - uses: actions/upload-artifact@v4
-        with:
-          name: regenerated-visual-baselines
-          path: e2e/specs/__screenshots__/
-          retention-days: 14

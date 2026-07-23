@@ -1,9 +1,10 @@
 # Quality Memory
 
-- Latest run: 2026-07-15_13-56-05_feature-1-4-0-agent-operating-system
-- Tested commit: 1a66592cdd0e889bb39c637cb131c444b61c65b0
-- Current working tree matched: No
-- Coverage: 76.34% statements
-- Unit: passed; E2E: failed; visual: failed; accessibility: passed; performance: passed; Pages: passed
+- Latest run: 2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release
+- Tested commit: 498a1976ffb0f4f2c1c9609ec5133616ca3a70a8
+- Evidence commit: bf05ce2766d4a4984ec8ceb724c29951b6464122
+- Working tree clean at test: Yes
+- Coverage: 76.57% statements
+- Unit: passed; E2E: passed; visual: failed; accessibility: passed; performance: passed; Pages: passed
 - Manual reviews: notRun; automation cannot promote them.
 - Recommendation: blocked. Prior green results are never copied to a new commit without rerunning.

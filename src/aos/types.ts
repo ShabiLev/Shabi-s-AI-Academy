@@ -52,6 +52,7 @@ export interface AosValidationSummary {
 }
 
 export interface AosMemorySummary {
+  available: boolean;
   currentTask: string | null;
   currentPhase: string | null;
   releaseState: string;

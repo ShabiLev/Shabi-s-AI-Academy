@@ -1,62 +1,128 @@
 # Visual regression testing
 
-Version 1.2.0-beta.1 adds reviewed baselines for AI Radar and Hebrew/English desktop/mobile profile overlays alongside About, prompt packs, starter agents, both Playgrounds, Projects, Knowledge Base, the expanded shell, and Runtime states. The beta UI changes and every affected baseline are intentional and require human review before release.
+Playwright keeps operating-system-specific snapshots (`*-win32.png`, `*-linux.png`, and `*-darwin.png`). Linux must never fall back to Windows images, and thresholds remain at Playwright defaults.
 
-Version 0.6.1 baselines cover the aligned Prompt Library header/filter toolbar and Starter Catalog in Hebrew/English desktop/mobile, plus details and imported attribution. Snapshot updates remain an explicit reviewed operation.
+The `visual-chromium` project pins the Playwright package/browser revision through `package-lock.json` and fixes viewport, locale, timezone, device scale, dark color scheme, and reduced motion. The fixture clears storage, disables motion, waits for fonts, masks live build identity, and uses controlled page state. Tests must use web-first waits; arbitrary sleeps, random content, and auto-approval are prohibited.
 
-Deterministic Playwright screenshot comparisons against committed baseline images, scoped to a single canonical browser project.
+## Reviewed Linux workflow
 
-## Architecture
+There are two ways to generate reviewed Linux candidates. Both are read-only,
+never commit, never push, and never write `main`; missing Linux images remain
+an explicit release blocker until a human approves the artifact.
 
-- **Project**: `visual-chromium` in `playwright.config.ts` — fixed viewport (1280×900 desktop, 390×844 per-test for mobile via `test.use`), fixed `locale` (`he-IL`), fixed `timezoneId` (`Asia/Jerusalem`), fixed `colorScheme` (`dark`), fixed `reducedMotion` (`reduce`).
-- **Spec**: `e2e/specs/visual.spec.ts`.
-- **Determinism helper**: `e2e/fixtures/visual.ts` — `stabilize(page)` disables CSS animations/transitions and waits for `document.fonts.ready` before every screenshot; `dynamicMasks(page)` returns the elements marked `[data-visual-mask]` (currently the QA Center header's real git commit SHA and branch name, which vary by machine/build and are masked out of comparison).
-- **Baseline path**: `e2e/specs/__screenshots__/{projectName}/{testFilePath}/{arg}-{platform}{ext}` — the `{platform}` token is the important part: Playwright automatically suffixes baseline filenames with the OS they were captured on (`-win32`, `-linux`, `-darwin`). A Windows-generated baseline and a Linux-generated baseline are **different files**, so Windows baselines can never silently satisfy a Linux CI comparison — a missing platform-specific baseline fails clearly instead.
-- **Scope**: only Chromium, only this one project. Visual comparisons deliberately do not run across every browser/OS combination.
+### Pull-request label (works before the workflow exists on `main`)
 
-## Screens covered (22 as of Sprint 5)
+`workflow_dispatch` workflows can only be launched from the Actions UI once
+their file exists on the repository's default branch. Until this workflow is
+merged to `main`, use the PR-triggered path instead:
 
-Desktop Hebrew: Login, Dashboard, Lessons catalog, Lesson details, Prompt Library (populated), Prompt Builder, Prompt Details, Settings, QA Center (sample data loaded).
-Desktop English: Dashboard, Prompt Builder, QA Center.
-Mobile Hebrew (390×844): Login, Dashboard, navigation drawer open, Lesson details, Prompt Builder, delete-confirmation dialog, QA Center.
-Mobile English: Dashboard, Prompt Library (populated), QA Center.
+1. Add the `generate-linux-visual-candidates` label to the open PR. This runs
+   the `visual-linux-candidates` job in `ci.yml` (`pull_request` trigger,
+   gated on the label; the normal `visual-linux` compare job is unaffected).
+2. The job checks out the exact PR head SHA, generates only missing
+   `*-linux.png` snapshots (`--update-snapshots=missing`), reruns the visual
+   suite to verify them, and writes `quality/generated/visual-candidate-manifest.json`
+   (repository, PR number, head/base/merge SHA, workflow run ID, Playwright
+   version, browser revision, Linux image version, and per-screenshot test
+   title, route, language, viewport, filename, checksum, and `pendingReview`
+   status).
+3. Download the `visual-linux-candidates-pr<number>-<run-id>` artifact.
+4. Review each expected/actual/diff pair, trace, and HTML report per the
+   checklist below.
+5. Copy only approved `*-linux.png` files into the matching screenshot
+   directories on the PR branch, commit, and remove the label.
 
-Full-page screenshots are used for regular-length pages. QA Center — the longest page — uses a viewport-only screenshot rather than full-page, per the guidance below.
+### Manual `workflow_dispatch` (once available on `main`)
 
-## Determinism rules actually applied
+1. Open **Actions → Generate reviewed Linux visual baselines → Run workflow**.
+2. Choose a non-main branch and type `GENERATE_REVIEWED_LINUX_BASELINES` exactly.
+3. Optionally narrow work with the file and grep filters; record the suite group. The reviewed release viewport/language groups are `desktop` and `he-en`.
+4. Download `reviewed-linux-visual-candidates-<run-id>`.
+5. Review each expected/actual/diff pair, trace, and HTML report. Reject clipping, overlap, wrong RTL/LTR direction, missing focus, broken content, or unexpected layout.
+6. Check representative Login, Hebrew/English Dashboard, AI Radar, profile menu, Lessons, Prompt Library, Prompt Builder, QA Center, mobile Dashboard, Runtime, About, Playgrounds, Guided Auth, and AOS pages.
+7. Copy only approved `*-linux.png` files into the matching screenshot directories on the fix branch.
+8. Commit the reviewed images on that branch and rerun normal CI.
 
-- Demo Login always starts from a freshly cleared `localStorage`/`sessionStorage` (via the shared `login()` fixture).
-- A "Prompt Library populated" state is created by actually filling and saving one prompt through the UI — safe because neither its generated ID nor its timestamps are ever rendered in the Library grid, only its title/description/category/tags/score/version, all of which are deterministic.
-- The QA Center's sample-data screenshots load the bundled `sampleQualityReport`, which has a hardcoded `generatedAt` — real, non-deterministic values (the actual git commit SHA and branch from `buildMetadata`) are explicitly masked via `data-visual-mask`.
-- No arbitrary `page.waitForTimeout` calls are used for stabilization — only `stabilize()` (animations + fonts) and Playwright's built-in auto-waiting.
-- The Dashboard's progress numbers are computed live from course-progress state, not hardcoded, but a freshly-cleared Demo Login always starts at the same zero-progress state, making them deterministic in practice.
+## Local intentional update
 
-## Baseline provenance: Windows vs. Linux
+```powershell
+$env:VISUAL_UPDATE_APPROVED="1"
+npm run test:visual:update -- e2e/specs/visual.spec.ts --grep="Dashboard"
+Remove-Item Env:VISUAL_UPDATE_APPROVED
+```
 
-**The baselines currently committed in this repository were generated on a Windows development machine** (Sprint 5, 2026-07-11), not on CI. This is intentional and documented, not an oversight:
+Run `npm run test:visual` afterward and inspect every changed PNG before committing. Do not update snapshots merely to silence a failure.
 
-- It lets `npm run test:visual` run and pass end-to-end today, on this machine, as a real working feature.
-- Per the `{platform}` token above, these Windows baselines (`-win32.png`) are structurally incapable of being mistaken for Linux CI baselines (`-linux.png`) — CI running `npm run test:visual` today would report **missing baseline**, not a false pass and not a false diff.
-- The `regenerate-visual-baselines` job in `.github/workflows/ci.yml` (triggered only via `workflow_dispatch`, never on push/PR) runs `npm run test:visual:update` on an actual Ubuntu GitHub Actions runner and uploads the resulting `-linux.png` files as a downloadable artifact.
-- A human must download that artifact, review every image (are the differences from "no baseline" to "this baseline" actually correct?), and commit them intentionally. The workflow never commits anything itself.
+## Version 1.4 Linux baseline status
 
-Until that manual step happens, this is the known gap: visual comparisons are real and passing locally, but not yet CI-canonical for Linux. Report this distinction explicitly rather than claiming full CI coverage.
+All 82 Linux screenshots in `e2e/specs/visual.spec.ts` are committed,
+reviewed for content correctness, and confirmed passing against the real
+`visual-linux` compare job — not just checksum-stable across repeated
+candidate-generation runs (see below for why that distinction matters).
+No screenshot is excluded or skipped. The gate passed five consecutive
+real `visual-linux` runs at the final head SHA with no recurrence — see
+below for why "three consecutive passes" twice turned out to be
+insufficient before that.
 
-## Approved process for changing a baseline intentionally
+Getting there required root-causing several distinct bugs, not one:
 
-1. Run `npm run test:visual` and review the failure.
-2. Run `npm run test:visual:report` to open the HTML report with expected/actual/diff images.
-3. Confirm the visual change is an intentional product change, not a regression.
-4. Run `npm run test:visual:update` (only ever run manually — never inside `validate:quality`/`validate:release`, and never triggered automatically after a failure).
-5. Review `git diff --stat` for the changed `.png` files — every changed baseline should map to an intentional change you can explain.
-6. Commit the updated baselines together with the feature/fix that caused them.
+- **Commit-SHA mismatch**: `visual-linux` checked out GitHub's synthetic
+  `pull_request` merge commit while `visual-linux-candidates` checked out
+  the PR's actual head SHA — two different real commits, each embedding a
+  different `commitSha` into the build via Vite's `define`, which shifted
+  the rendered width of every masked commit/build field. Fixed by pinning
+  every job's checkout and `VITE_DEPLOY_COMMIT_SHA` to the same head SHA.
+- **Missing content-visibility waits**: several screenshots (Dashboard,
+  onboarding, Help Center) were captured before their route's real content
+  had rendered, showing stale or truncated content. Fixed with explicit
+  `toBeVisible()` waits on stable content anchors before each capture.
+- **Native `<progress>` animation**: not covered by the existing
+  animation-disabling CSS, causing onboarding progress-bar instability.
+- **Stacked/residual GPU compositing jitter**: `.profile-backdrop`'s
+  translucent overlay, compositing first over an already-blurred sidebar/
+  header and then (after that was fixed) over the dashboard content
+  behind it, left ~1-unit rounding jitter. Fixed in two passes: disabling
+  `backdrop-filter` on the sidebar/header when the profile layer is open,
+  then flattening the backdrop itself to opaque for screenshot capture.
+- **`overflow-wrap: anywhere` vs `white-space: nowrap`**: the QA Center
+  release-status badge could still wrap at mobile widths even after
+  `white-space: nowrap` was applied, because Chromium's `overflow-wrap:
+  anywhere` inserts letter-level break opportunities as a last resort
+  independent of `white-space`. Real, correct hardening — but not the
+  actual cause of the flake still recurring afterward.
+- **Fonts not settled before a layout-sensitive click**: the true root
+  cause of the `mobile-qa-center`/`profile-menu` flake surviving three CSS
+  fixes. `loadSampleIfAvailable()`'s button click and the profile-menu
+  trigger click both happened before `stabilize()`'s fonts-ready wait,
+  which only ran right before the screenshot. If the click's target was
+  off-screen, Playwright's built-in scroll-into-view (or, for the profile
+  menu, React's own `getBoundingClientRect()`-based popover positioning)
+  measured layout at click time — using fallback-font metrics if a
+  Hebrew/custom font hadn't finished applying yet, producing a slightly
+  different scroll distance or popover position than once fonts settled.
+  Fixed with a `waitForFonts()` helper called right after navigation,
+  before the click, not just before the capture.
 
-There is no in-app "approve" button. Baseline updates are always a deliberate, reviewed developer action.
+  This one took five attempts total — three CSS changes (real hardening,
+  but not sufficient alone), one JS change that was disproven locally
+  before ever reaching CI (forcing `scrollTo(0, 0)` fixed nothing and
+  broke 8 other tests by revealing a header the approved baselines had
+  never been captured with), and finally the fonts-timing fix. See
+  `quality/runtime/visual-exclusion-audit.md`'s root cause #3 for the
+  full history.
 
-## Tolerance
-
-Playwright's default pixel-diff threshold is used (no custom `maxDiffPixelRatio`/`threshold` override) — a conservative default, not loosened. A large tolerance would hide real regressions; none is configured here.
-
-## Adding a new visual baseline
-
-Add a `test()` in the matching `describe` block of `visual.spec.ts` following the existing pattern (navigate → `stabilize(page)` → `expect(page).toHaveScreenshot(name, { mask: dynamicMasks(page) })` if the page could show dynamic build metadata). Prefer a small number of high-value, representative states over snapshotting every page variation.
+**Practical implications, hard-won:**
+1. Passing the candidate-generation determinism check (same checksum
+   across two generation runs) is necessary but not sufficient proof a
+   baseline will pass the real compare gate — confirm every baseline
+   against an actual `visual-linux` run, not just `visual-linux-candidates`.
+2. Even the real `visual-linux` job passing — more than once — at one SHA
+   is not proof the underlying bug is gone, only that it didn't recur in
+   those particular runs. A fix is verified only when there's a concrete
+   mechanism explaining why the bad state is now structurally unreachable,
+   not merely less likely to occur. Two different fixes here each passed
+   multiple consecutive real-gate runs (2, then 3) and still weren't done.
+3. A plausible-sounding mechanism still needs to be checked against
+   already-passing behavior, not just the failure it targets — a cheap
+   local A/B comparison (e.g. `git stash` the fix, re-run, compare) can
+   catch a wrong fix before spending a CI round-trip on it.

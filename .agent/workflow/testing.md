@@ -84,7 +84,7 @@ during the task.
 ## Evidence requirements
 
 Every command run under this module must be reflected in
-`quality/execution/latest/` via `npm run quality:evidence` (or the `:full`,
+ignored `quality/runtime/execution/latest/` via `npm run quality:evidence` (or the `:full`,
 `:pages`, `:headed` variant appropriate to the task) — see
 [`../quality/evidence.md`](../quality/evidence.md). A command that doesn't
 exist in this repository (do not invent script names beyond

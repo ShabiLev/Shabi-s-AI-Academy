@@ -28,7 +28,7 @@ current environment), never silently dropped.
    [`release-evidence.md`](release-evidence.md) — in addition to (not
    instead of) `validate:release`; they check overlapping but not
    identical things (evidence produces the structured
-   `quality/execution/latest/` artifacts AOS consumes).
+   `quality/runtime/execution/latest/` artifacts AOS consumes).
 4. Complete required manual reviews per
    [`../quality/manual-review.md`](../quality/manual-review.md) (UX/visual
    items that cannot be certified by automation alone) and record their

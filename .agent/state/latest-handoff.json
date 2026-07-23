@@ -1,12 +1,16 @@
 {
   "schemaVersion": "1.0.0",
-  "updatedAt": "2026-07-15T11:30:40.154Z",
+  "generatedAt": "2026-07-21T14:44:39.129Z",
+  "sourceBranch": "fix/1.4.0-ci-memory-visual-release",
+  "runtimeBranch": "fix/1.4.0-ci-memory-visual-release",
+  "targetBranch": "main",
+  "testedCommit": "498a1976ffb0f4f2c1c9609ec5133616ca3a70a8",
+  "evidenceCommit": "bf05ce2766d4a4984ec8ceb724c29951b6464122",
+  "executionContext": "localFeature",
   "fromAgent": "Codex",
   "toAgent": "Codex or Claude Code",
-  "branch": "feature/1.4.0-agent-operating-system",
-  "commit": "1a66592cdd0e889bb39c637cb131c444b61c65b0",
   "status": "inProgress",
   "summary": "Continue from explicit AOS state, verify Git, rerun focused tests, and preserve human-owned review gates.",
   "evidencePath": "quality/execution/latest",
-  "nextAction": "Windows visual baselines require human review before replacement."
+  "nextAction": "Mandatory quality gate failed: Visual."
 }

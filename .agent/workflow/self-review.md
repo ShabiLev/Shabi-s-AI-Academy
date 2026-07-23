@@ -6,7 +6,7 @@ Define the checklist an agent runs against its own change, on the actual
 diff, before producing a final report. This is phase 16 of
 [`development.md`](development.md) and the module backing the
 `self-review` status field that already exists in
-`quality/execution/latest/self-review.md`.
+`quality/runtime/execution/latest/self-review.md`.
 
 ## When to load
 
@@ -44,21 +44,21 @@ types, always after testing/evidence capture and before
    assumed results) are recorded.
 7. **Failure/warning disclosure.** Compile every failure or warning
    encountered into a form suitable for
-   `quality/execution/latest/failures.md` and
-   `quality/execution/latest/warnings.md` — a failure is never silently
+   `quality/runtime/execution/latest/failures.md` and
+   `quality/runtime/execution/latest/warnings.md` — a failure is never silently
    dropped, per `master.md` §10 principle 12.
 8. **Diff hygiene.** Run `git status` and `git diff --cached --stat` to
    confirm only intended files are staged, per
    [`.codex/standards/git.md`](../../.codex/standards/git.md).
 9. **Update the self-review record.** Set the status in
-   `quality/execution/latest/self-review.md` to reflect that this
+   `quality/runtime/execution/latest/self-review.md` to reflect that this
    structured review actually happened (it defaults to `notRun` and must
    not be left there once the review is done), following
    [`../templates/self-review.md`](../templates/self-review.md).
 
 ## Prohibited actions
 
-- Writing `passed`/complete into `quality/execution/latest/self-review.md`
+- Writing `passed`/complete into `quality/runtime/execution/latest/self-review.md`
   without having actually walked through steps 1–8 against the real diff.
 - Treating self-review as a formality that can be summarized without
   reading the diff.
@@ -70,14 +70,14 @@ types, always after testing/evidence capture and before
 
 ## Deliverables
 
-- An updated `quality/execution/latest/self-review.md` reflecting the
+- An updated `quality/runtime/execution/latest/self-review.md` reflecting the
   actual review performed (not the default `notRun` placeholder), per
   [`../templates/self-review.md`](../templates/self-review.md).
 
 ## Evidence requirements
 
 Self-review output is itself evidence and lives under
-`quality/execution/latest/self-review.md` — see
+`quality/runtime/execution/latest/self-review.md` — see
 [`../quality/evidence.md`](../quality/evidence.md) for how this fits the
 rest of the evidence bundle, and
 [`../quality/reporting.md`](../quality/reporting.md) for how it rolls up
@@ -87,5 +87,5 @@ into `summary.md`/`summary.json`.
 
 Every checklist item above has been walked against the real diff, every
 known failure/warning is disclosed, and
-`quality/execution/latest/self-review.md` reflects a completed review, not
+`quality/runtime/execution/latest/self-review.md` reflects a completed review, not
 the default `notRun` state.

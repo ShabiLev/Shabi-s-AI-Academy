@@ -32,7 +32,7 @@ a multi-step flow).
    journey.
 4. Walk the journey end to end as a new user would: orientation, navigation
    clarity, visual hierarchy, primary-action clarity, and task completion —
-   the same scope enumerated in `quality/execution/latest/manual-review.md`
+   the same scope enumerated in `quality/runtime/execution/latest/manual-review.md`
    under `manualUxReview`.
 5. Check both Hebrew and English quality of the copy encountered along the
    journey, and both RTL and LTR layout, per
@@ -43,7 +43,7 @@ a multi-step flow).
 7. Record concrete findings (what broke task completion, what confused
    orientation) rather than a pass/fail with no detail.
 8. Hand the findings to a human reviewer to actually complete
-   `manualUxReview` in `quality/execution/latest/manual-review.md` — the
+   `manualUxReview` in `quality/runtime/execution/latest/manual-review.md` — the
    agent's automated walk-through informs but does not replace this.
 
 ## Prohibited actions
@@ -68,9 +68,9 @@ a multi-step flow).
 
 ## Evidence requirements
 
-Automated results feed `quality/execution/latest/` via
+Automated results feed `quality/runtime/execution/latest/` via
 [`../quality/evidence.md`](../quality/evidence.md). The manual gate stays in
-`quality/execution/latest/manual-review.md` as `notRun` until a named human
+`quality/runtime/execution/latest/manual-review.md` as `notRun` until a named human
 reviewer updates it — never promoted by automation, per
 [`../quality/manual-review.md`](../quality/manual-review.md).
 

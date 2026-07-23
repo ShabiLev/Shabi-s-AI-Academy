@@ -71,7 +71,7 @@ types whenever behavior changed.
 ## Evidence requirements
 
 Record the `npm run docs:check` (and, if run, `catalog:check`) result in
-`quality/execution/latest/` via the evidence run per
+`quality/runtime/execution/latest/` via the evidence run per
 [`../quality/evidence.md`](../quality/evidence.md) — both are part of the
 `fast` and `full` evidence profiles in `scripts/run-quality-evidence.mjs`.
 

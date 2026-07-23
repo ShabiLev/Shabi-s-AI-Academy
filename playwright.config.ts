@@ -7,7 +7,7 @@ const reportName = process.env.PW_REPORT_NAME || "functional";
 export default defineConfig({
   testDir: "./e2e/specs",
   fullyParallel: true,
-  workers: 4,
+  workers: Number(process.env.PW_WORKERS || 4),
   retries: process.env.CI ? 2 : 0,
   reporter: [["list"], ["html", { open: "never" }], ["json", { outputFile: `quality/generated/playwright-${reportName}-results.json` }]],
   use: {
@@ -17,7 +17,7 @@ export default defineConfig({
     video: "retain-on-failure",
   },
   webServer: {
-    command: "npm run dev -- --host 127.0.0.1",
+    command: "npm run preview:test",
     url: "http://127.0.0.1:5173",
     reuseExistingServer: false,
     timeout: 120000,
@@ -49,6 +49,11 @@ export default defineConfig({
         timezoneId: "Asia/Jerusalem",
         colorScheme: "dark",
         reducedMotion: "reduce",
+        // Explicit, not just inherited from the device preset — device
+        // pixel ratio changes every rendered pixel's rounding, so it's
+        // pinned here alongside the other capture-determinism settings
+        // rather than left implicit.
+        deviceScaleFactor: 1,
       },
     },
     {

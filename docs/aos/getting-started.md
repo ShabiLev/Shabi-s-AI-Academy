@@ -44,7 +44,7 @@ handoffs, security, and release state. If you are extending the AOS itself
 Once the required modules are loaded, `master.md` §5 defines the mandatory
 final workflow before any substantial task can be reported done: focused
 then full tests, UI/UX validation if user-facing, a security review pass,
-documentation updates, evidence capture under `quality/execution/latest/`,
+documentation updates, runtime evidence capture under `quality/runtime/execution/latest/`,
 self-review, and a final report. See [`evidence-system.md`](evidence-system.md)
 and [`../quality-gates.md`](../quality-gates.md).
 

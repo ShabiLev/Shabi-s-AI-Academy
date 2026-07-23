@@ -15,7 +15,7 @@ Headed review is available through `test:ui:headed`, `test:journeys:headed`, and
 
 ## Execution evidence
 
-Use `npm run quality:evidence:fast` during implementation, `npm run quality:evidence:pages` for GitHub Pages, `npm run quality:evidence:headed` for the recorded critical journeys, and `npm run quality:evidence:full` before a commit. The cross-platform runner invokes the existing quality commands, stores complete local evidence under the ignored `quality/execution/runs/<RUN_ID>/` directory, and updates sanitized lightweight summaries in `quality/execution/latest/` plus the 20-entry `quality/execution/index.json` ledger.
+Use `npm run quality:evidence:fast` during implementation, `npm run quality:evidence:pages` for GitHub Pages, `npm run quality:evidence:headed` for the recorded critical journeys, and `npm run quality:evidence:full` before a commit. The cross-platform runner invokes the existing quality commands and stores complete local evidence under ignored `quality/runtime/execution/`. CI uploads per-job exact-SHA manifests and reports as GitHub Actions artifacts. No execution summary, timestamp, or runtime ledger is committed.
 
 Evidence statuses distinguish passed, failed, not run, unavailable, and `notRunDueToDependency`. Automated evidence never changes the manual UX, security, or content review records. A full run with pending manual gates can be Ready with warnings at best; a failed blocker remains Blocked.
 

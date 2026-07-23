@@ -1,0 +1,103 @@
+name: Generate reviewed Linux visual baselines
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch to check out
+        required: true
+        default: fix/1.4.0-ci-memory-visual-release
+      confirm_generation:
+        description: Type GENERATE_REVIEWED_LINUX_BASELINES
+        required: true
+      grep_filter:
+        description: Optional Playwright grep expression
+        required: false
+        default: ""
+      file_filter:
+        description: Optional spec file or directory
+        required: false
+        default: e2e/specs/visual.spec.ts
+      suite_group:
+        description: Optional suite label for reviewer traceability
+        required: false
+        default: representative-release
+      viewport_group:
+        description: Viewport group (desktop is the reviewed release baseline)
+        required: true
+        default: desktop
+      language_group:
+        description: Language group included by the selected tests
+        required: true
+        default: he-en
+
+jobs:
+  generate:
+    if: inputs.confirm_generation == 'GENERATE_REVIEWED_LINUX_BASELINES'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: "${{ inputs.branch }}"
+          fetch-depth: 0
+      - name: Resolve candidate source SHA
+        id: source
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@v4
+        with: { node-version: 20.19.0, cache: npm }
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Validate reviewed selection
+        run: |
+          test "${{ inputs.viewport_group }}" = "desktop"
+          test "${{ inputs.language_group }}" = "he-en"
+          test -n "${{ inputs.suite_group }}"
+      - name: Generate review candidates (never committed automatically)
+        env:
+          CI: "true"
+          GITHUB_EVENT_NAME: workflow_dispatch
+          VISUAL_UPDATE_APPROVED: "1"
+          VISUAL_UPDATE_CONTEXT: reviewed-linux-workflow
+          FILE_FILTER: ${{ inputs.file_filter }}
+          GREP_FILTER: ${{ inputs.grep_filter }}
+        run: |
+          args=("$FILE_FILTER" "--project=visual-chromium" "--update-snapshots")
+          if [ -n "$GREP_FILTER" ]; then args+=("--grep=$GREP_FILTER"); fi
+          node quality/scripts/require-visual-update.mjs
+          npx playwright test "${args[@]}"
+      - name: Verify generated candidates
+        env:
+          FILE_FILTER: ${{ inputs.file_filter }}
+          GREP_FILTER: ${{ inputs.grep_filter }}
+        run: |
+          args=("$FILE_FILTER" "--project=visual-chromium")
+          if [ -n "$GREP_FILTER" ]; then args+=("--grep=$GREP_FILTER"); fi
+          npx playwright test "${args[@]}"
+      - name: Write candidate provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          EXPECTED_HEAD_SHA: ${{ steps.source.outputs.sha }}
+          SOURCE_BRANCH: ${{ inputs.branch }}
+          TARGET_BRANCH: main
+          JOB_NAME: visual-baseline-candidates
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: |
+            e2e/specs/__screenshots__/
+            playwright-report/
+            test-results/
+            quality/generated/playwright-visual-results.json
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reviewed-linux-visual-candidates-${{ github.run_id }}
+          path: |
+            e2e/specs/__screenshots__/**/*-linux.png
+            playwright-report/
+            test-results/
+            quality/generated/playwright-visual-results.json
+            quality/runtime/ci/visual-baseline-candidates/manifest.json
+          retention-days: 14
+          if-no-files-found: error

@@ -1,1 +1,80 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://shabilev.github.io/aos/release-status.schema.json","title":"Release Status","type":"object","required":["schemaVersion","updatedAt","version","milestone","branch","targetMainCommit","implementationState","automatedValidationState","manualReviewState","researchState","documentationState","deploymentState","mergeReadiness","releaseState","releaseBlockers","finalRecommendation"],"properties":{"schemaVersion":{"type":"string"},"updatedAt":{"type":"string"},"version":{"type":"string"},"milestone":{"type":"string"},"branch":{"type":"string"},"targetMainCommit":{"type":"string"},"implementationState":{"type":"string"},"automatedValidationState":{"type":"string"},"manualReviewState":{"type":"string"},"researchState":{"type":"string"},"documentationState":{"type":"string"},"deploymentState":{"type":"string"},"mergeReadiness":{"type":"string","enum":["planning","implementation","validation","blocked","readyWithWarnings","ready","merged","released"]},"releaseState":{"type":"string","enum":["planning","implementation","validation","blocked","readyWithWarnings","ready","merged","released"]},"releaseBlockers":{"type":"array","items":{"type":"string"},"maxItems":50},"finalRecommendation":{"type":"string"}}}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shabilev.github.io/aos/release-status.schema.json",
+  "title": "Release Status",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "generatedAt",
+    "sourceBranch",
+    "runtimeBranch",
+    "targetBranch",
+    "testedCommit",
+    "verificationSource",
+    "executionContext",
+    "version",
+    "milestone",
+    "targetMainCommit",
+    "implementationState",
+    "automatedValidationState",
+    "manualReviewState",
+    "researchState",
+    "documentationState",
+    "deploymentState",
+    "mergeReadiness",
+    "releaseState",
+    "releaseBlockers",
+    "finalRecommendation"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "generatedAt": { "type": "string" },
+    "sourceBranch": { "type": "string", "minLength": 1 },
+    "runtimeBranch": { "type": "string", "minLength": 1 },
+    "targetBranch": { "type": "string", "minLength": 1 },
+    "testedCommit": { "type": "string", "minLength": 1 },
+    "verificationSource": { "const": "runtimeArtifact" },
+    "executionContext": { "enum": ["localFeature", "localMain", "githubPush", "githubPullRequest", "githubMergeRef", "detachedHead", "unknown"] },
+    "version": { "type": "string" },
+    "milestone": { "type": "string" },
+    "targetMainCommit": { "type": "string" },
+    "implementationState": { "type": "string" },
+    "automatedValidationState": { "type": "string" },
+    "manualReviewState": { "type": "string" },
+    "researchState": { "type": "string" },
+    "documentationState": { "type": "string" },
+    "deploymentState": { "type": "string" },
+    "mergeReadiness": {
+      "type": "string",
+      "enum": [
+        "planning",
+        "implementation",
+        "validation",
+        "blocked",
+        "readyWithWarnings",
+        "ready",
+        "merged",
+        "released"
+      ]
+    },
+    "releaseState": {
+      "type": "string",
+      "enum": [
+        "planning",
+        "implementation",
+        "validation",
+        "blocked",
+        "readyWithWarnings",
+        "ready",
+        "merged",
+        "released"
+      ]
+    },
+    "releaseBlockers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "maxItems": 50
+    },
+    "finalRecommendation": { "type": "string" }
+  }
+}

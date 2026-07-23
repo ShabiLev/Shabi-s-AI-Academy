@@ -13,7 +13,7 @@ happened.
 
 - Confirm every module required for the task type (per
   `.agent/registry.json`) was actually loaded and applied, not just named.
-- Confirm evidence exists under `quality/execution/latest/` and reflects
+- Confirm evidence exists under `quality/runtime/execution/latest/` and reflects
   the real change.
 - Confirm manual-review gates that apply (UX, security, content) have
   genuine human sign-off, not an automated stand-in.

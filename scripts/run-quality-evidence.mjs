@@ -21,9 +21,10 @@ import {
   safeSlug,
   summarizeCoverage,
 } from "./evidence-utils.mjs";
+import { resolveGitContext } from "./agent-memory-lib.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const EXECUTION = path.join(ROOT, "quality", "execution");
+const EXECUTION = path.join(ROOT, "quality", "runtime", "execution");
 const npmCli = process.env.npm_execpath
   ?? path.join(path.dirname(process.execPath), "node_modules", "npm", "bin", "npm-cli.js");
 const npmExecutable = process.platform === "win32" ? process.execPath : "npm";
@@ -81,14 +82,16 @@ const commandProfiles = {
     npm("aos", "aos:check", "aos-check.log"),
     npm("focused", "test:evidence", "focused-tests.log"),
     npm("aos-tests", "test:aos", "aos-tests.log"),
+    npm("release-tests", "test:release", "release-tests.log"),
+    npm("memory", "memory:check", "memory-check.log"),
     npm("lint", "lint", "lint.log"),
     npm("unit", "test:run", "unit-tests.log"),
     npm("coverage", "test:coverage", "coverage.log"),
     npm("build", "build", "build.log"),
     npm("build-pages", "build:pages", "build-pages.log"),
     npm("catalog", "catalog:check", "catalog-check.log"),
-    npm("e2e", "test:e2e", "e2e.log"),
-    npm("e2e-full", "test:e2e:full", "e2e-full.log"),
+    npm("functional", "test:e2e:functional", "e2e-functional.log"),
+    npm("cross-browser", "test:e2e:cross-browser", "e2e-cross-browser.log"),
     npm("e2e-pages", "test:e2e:pages", "e2e-pages.log", { dependsOn: ["build-pages"] }),
     npm("journeys", "test:journeys", "journeys.log"),
     npm("click-audit", "test:click-audit", "click-audit.log"),
@@ -103,12 +106,10 @@ const commandProfiles = {
     npm("a11y", "test:a11y", "accessibility.log"),
     npm("visual", "test:visual", "visual.log"),
     npm("performance", "test:performance", "performance.log"),
-    npm("release-candidate", "test:release-candidate", "release-candidate.log"),
-    npm("release-candidate-pages", "test:release-candidate:pages", "release-candidate-pages.log"),
+    npm("inventory", "quality:inventory", "quality-inventory.log"),
     npm("quality-collect", "quality:collect", "quality-collect.log"),
     npm("quality-analyze", "quality:analyze", "quality-analyze.log", { dependsOn: ["quality-collect"] }),
     npm("system-report", "quality:system-report", "system-report.log", { dependsOn: ["quality-collect"] }),
-    npm("validate-release", "validate:release", "validate-release.log"),
     git("git-diff", ["diff", "--check"], "git-diff-check.log"),
   ],
 };
@@ -198,7 +199,7 @@ async function runCommand(spec, runDirectory, priorResults) {
     command: spec.command,
     criticality: spec.criticality,
     startedAt: startedAt.toISOString(),
-    logPath: `quality/execution/runs/${path.basename(runDirectory)}/${spec.log}`,
+    logPath: `quality/runtime/execution/runs/${path.basename(runDirectory)}/${spec.log}`,
   };
 
   if (spec.script && !availableNpmScripts.has(spec.script)) {
@@ -355,8 +356,16 @@ function markdownSummary(summary) {
 - Date and time: ${summary.identity.startedAt} to ${summary.identity.endedAt}
 - Application version: ${summary.identity.version}
 - Branch: ${summary.identity.branch}
-- Starting commit: ${summary.identity.startingCommit}
-- Final commit: ${summary.identity.finalCommit}
+- Source branch: ${summary.identity.sourceBranch}
+- Runtime branch: ${summary.identity.runtimeBranch}
+- Target branch: ${summary.identity.targetBranch}
+- Execution context: ${summary.identity.executionContext}
+- Tested commit: ${summary.identity.testedCommit}
+- Repository: ${summary.identity.repository}
+- Workflow: ${summary.identity.workflowName}
+- Workflow run: ${summary.identity.workflowRunId ?? "Local run"} (attempt ${summary.identity.workflowRunAttempt ?? "Not applicable"})
+- Generated at: ${summary.identity.generatedAt}
+- Working tree clean at test: ${summary.identity.workingTreeCleanAtTest ? "Yes" : "No"}
 - Agent used: Codex
 - Operating system: ${summary.identity.operatingSystem}
 - Node version: ${summary.identity.nodeVersion}
@@ -410,13 +419,33 @@ ${summary.recommendation}
 async function main() {
   mkdirSync(EXECUTION, { recursive: true });
   if (profile === "full") {
+    const persistentGeneratedFiles = [
+      "release-recovery-audit.json",
+      "release-recovery-audit.md",
+    ].map((name) => {
+      const file = path.join(ROOT, "quality", "generated", name);
+      return [file, existsSync(file) ? readFileSync(file) : null];
+    });
     for (const generatedPath of ["coverage", "playwright-report", "test-results", "quality/generated", "public/generated"]) {
       rmSync(path.join(ROOT, generatedPath), { recursive: true, force: true });
+    }
+    for (const [file, content] of persistentGeneratedFiles) {
+      if (content) {
+        mkdirSync(path.dirname(file), { recursive: true });
+        writeFileSync(file, content);
+      }
     }
   }
   const startedAt = new Date();
   const branch = output(gitExecutable, ["branch", "--show-current"]) || "detached";
-  const startingCommit = output(gitExecutable, ["rev-parse", "HEAD"]);
+  const checkedOutCommit = output(gitExecutable, ["rev-parse", "HEAD"]);
+  const startingCommit = process.env.GITHUB_SHA || checkedOutCommit;
+  if (process.env.GITHUB_SHA && checkedOutCommit !== process.env.GITHUB_SHA) {
+    throw new Error(`Checked-out commit ${checkedOutCommit} does not match GITHUB_SHA ${process.env.GITHUB_SHA}.`);
+  }
+  const workingTreeStatusBefore = output(gitExecutable, ["status", "--porcelain=v1"]);
+  const workingTreeCleanAtTest = workingTreeStatusBefore.length === 0;
+  const gitContext = resolveGitContext();
   const version = readJson(path.join(ROOT, "package.json"), { version: "unknown" }).version;
   const runId = `${localTimestamp(startedAt)}_${safeSlug(branch, startingCommit.slice(0, 7))}`;
   const runDirectory = path.join(EXECUTION, "runs", runId);
@@ -432,6 +461,8 @@ async function main() {
     npmVersion: output(npmExecutable, [...npmPrefixArgs, "--version"]),
     branch,
     startingCommit,
+    testedCommit: startingCommit,
+    workingTreeCleanAtTest,
     version,
     startedAt: startedAt.toISOString(),
   };
@@ -461,7 +492,13 @@ async function main() {
     manualSecurityReview: loadManualReview("manual-security-review.json", "Human security review has not run."),
     manualContentReview: loadManualReview("manual-content-review.json", "Human content review has not run."),
   };
-  const recommendation = deriveRecommendation({ profile, commands, coverage, manualReviews });
+  const recommendation = deriveRecommendation({
+    profile,
+    commands,
+    coverage,
+    manualReviews,
+    workingTreeCleanAtTest,
+  });
   const failedCommands = commands.filter((command) => command.status === "failed");
   const pendingManual = Object.entries(manualReviews).filter(([, review]) => review.status === "notRun");
   const warningCount = commands.reduce((count, command) => count + (command.warningCount ?? 0), 0)
@@ -479,17 +516,18 @@ async function main() {
   const results = {
     Docs: statusFor(commands, ["docs"]),
     Lint: statusFor(commands, ["lint"]),
-    "Unit tests": statusFor(commands, ["focused", "unit"]),
+    "Unit tests": statusFor(commands, ["focused", "aos-tests", "release-tests", "unit"]),
     Coverage: statusFor(commands, ["coverage"]),
     Build: statusFor(commands, ["build"]),
     "GitHub Pages build": statusFor(commands, ["build-pages", "e2e-pages"]),
-    E2E: statusFor(commands, ["e2e", "e2e-full"]),
+    "Functional E2E": statusFor(commands, ["functional"]),
+    "Cross-browser": statusFor(commands, ["cross-browser"]),
     Journeys: statusFor(commands, ["journeys", "journeys-headed"]),
     UX: statusFor(commands, ["click-audit", "route-crawl", "forms", "overlays", "responsive", "keyboard", "copy", "errors", "ux"]),
     Accessibility: statusFor(commands, ["a11y"]),
     Visual: statusFor(commands, ["visual"]),
     Performance: statusFor(commands, ["performance"]),
-    "Release validation": statusFor(commands, ["release-candidate", "release-candidate-pages", "validate-release"]),
+    "Release validation": statusFor(commands, ["memory", "inventory"]),
     "Git diff": statusFor(commands, ["git-diff"]),
   };
   const summary = {
@@ -497,6 +535,17 @@ async function main() {
     identity: {
       runId, profile, startedAt: startedAt.toISOString(), endedAt: endedAt.toISOString(),
       version, branch, startingCommit, finalCommit,
+      sourceBranch: gitContext.sourceBranch,
+      runtimeBranch: gitContext.runtimeBranch,
+      targetBranch: gitContext.targetBranch,
+      executionContext: gitContext.executionContext,
+      testedCommit: startingCommit,
+      repository: process.env.GITHUB_REPOSITORY || "ShabiLev/Shabi-s-AI-Academy",
+      workflowName: process.env.GITHUB_WORKFLOW || "local-quality-evidence",
+      workflowRunId: process.env.GITHUB_RUN_ID || null,
+      workflowRunAttempt: process.env.GITHUB_RUN_ATTEMPT || null,
+      generatedAt: endedAt.toISOString(),
+      workingTreeCleanAtTest,
       agent: "Codex", operatingSystem: environment.operatingSystem,
       nodeVersion: environment.nodeVersion, npmVersion: environment.npmVersion,
     },
@@ -505,6 +554,7 @@ async function main() {
       implementedChanges: process.env.QUALITY_EVIDENCE_IMPLEMENTED_CHANGES ?? "No implementation scope was supplied; this run records validation evidence only.",
       dataMigrations: [],
     },
+    commands,
     results,
     coverage,
     manualReviews,
@@ -522,8 +572,14 @@ async function main() {
       remoteRelationship: `HEAD...origin/main left/right counts: ${remoteCounts || "unavailable"}`,
       commitsCreated: [],
       workingTreeStatus,
+      workingTreeStatusBefore: workingTreeStatusBefore || "clean",
     },
     recommendation,
+    overallStatus: recommendation === "Blocked"
+      ? "failed"
+      : recommendation === "Ready"
+        ? "passed"
+        : "partial",
     failedCommands: failedCommands.map((command) => command.command),
   };
   writeJson(path.join(runDirectory, "summary.json"), summary);
@@ -557,8 +613,8 @@ async function main() {
     version,
     overallStatus: recommendation,
     coverageSummary: coverage,
-    reportPath: `quality/execution/latest/summary.md`,
-    localRunPath: `quality/execution/runs/${runId}/`,
+    reportPath: `quality/runtime/execution/latest/summary.md`,
+    localRunPath: `quality/runtime/execution/runs/${runId}/`,
     failedCommands: summary.failedCommands,
     warningCount,
   };
@@ -571,14 +627,14 @@ async function main() {
   const latest = path.join(EXECUTION, "latest");
   rmSync(latest, { recursive: true, force: true });
   mkdirSync(latest, { recursive: true });
-  for (const file of ["summary.md", "summary.json", "coverage-summary.json", "failures.md", "warnings.md", "manual-review.md", "changed-files.txt", "self-review.md", "environment.json", "commands.json", "git-state-before.txt", "git-state-after.txt"]) {
+  for (const file of ["summary.md", "summary.json", "test-results.json", "coverage-summary.json", "failures.md", "warnings.md", "manual-review.md", "changed-files.txt", "self-review.md", "environment.json", "commands.json", "git-state-before.txt", "git-state-after.txt"]) {
     const sourcePath = path.join(runDirectory, file);
     if (existsSync(sourcePath)) cpSync(sourcePath, path.join(latest, file));
   }
   const commandsPassed = commands.filter((command) => command.status === "passed").map((command) => command.command);
-  writeFileSync(path.join(latest, "README.md"), `# Latest quality execution\n\n- Occurred: ${startedAt.toISOString()} to ${endedAt.toISOString()}\n- Branch: ${branch}\n- Commit tested: ${finalCommit}\n- Profile: ${profile}\n- Commands run: ${commands.map((command) => command.command).join(", ")}\n- Commands passed: ${commandsPassed.join(", ") || "None"}\n- Commands failed: ${summary.failedCommands.join(", ") || "None"}\n- Heavy local artifacts: \`quality/execution/runs/${runId}/\` (ignored), plus copied Playwright, coverage, and quality-generated reports when available.\n- Safe to commit: Yes; latest files are sanitized summaries and contain no environment values. Review the diff before staging.\n- Manual review pending: ${pendingManual.length ? pendingManual.map(([name]) => name).join(", ") : "No"}\n\n## Synchronization (not executed)\n\n\`\`\`bash\ngit status\ngit branch --show-current\ngit fetch origin\ngit status -sb\ngit push -u origin ${branch}\n\`\`\`\n`, "utf8");
+  writeFileSync(path.join(latest, "README.md"), `# Latest quality execution\n\n- Occurred: ${startedAt.toISOString()} to ${endedAt.toISOString()}\n- Source branch: ${gitContext.sourceBranch}\n- Runtime branch: ${gitContext.runtimeBranch}\n- Target branch: ${gitContext.targetBranch}\n- Execution context: ${gitContext.executionContext}\n- Tested commit: ${startingCommit}\n- Evidence storage: ignored runtime output locally; immutable workflow artifacts in CI\n- Working tree clean at test: ${workingTreeCleanAtTest ? "Yes" : "No"}\n- Profile: ${profile}\n- Commands run: ${commands.map((command) => command.command).join(", ")}\n- Commands passed: ${commandsPassed.join(", ") || "None"}\n- Commands failed: ${summary.failedCommands.join(", ") || "None"}\n- Heavy local artifacts: \`quality/runtime/execution/runs/${runId}/\` (ignored), plus copied Playwright, coverage, and quality-generated reports when available.\n- Commit policy: runtime evidence is never committed.\n- Manual review pending: ${pendingManual.length ? pendingManual.map(([name]) => name).join(", ") : "No"}\n`, "utf8");
 
-  console.log(`\n[evidence] ${recommendation}: quality/execution/latest/summary.md`);
+  console.log(`\n[evidence] ${recommendation}: quality/runtime/execution/latest/summary.md`);
   if (recommendation === "Blocked") process.exitCode = 1;
 }
 

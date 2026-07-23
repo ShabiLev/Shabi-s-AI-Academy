@@ -30,7 +30,7 @@ described in `.agent/knowledge/storage.md` (`RunEvent.safeSummary`,
 capped at `MAX_RUNTIME_RUNS`), not a logging pipeline.
 
 For the *coding agent's own work* (not the product's runtime), the AOS
-evidence system (`quality/execution/latest/`, produced by
+evidence system (`quality/runtime/execution/latest/`, produced by
 `scripts/run-quality-evidence.mjs`) is the substitute for runtime telemetry:
 it is how a change's test/build/lint results are captured as reviewable
 artifacts, per `.agent/quality/evidence.md`.

@@ -15,7 +15,7 @@ unfabricated results.
 - Run focused tests first, then the full suite for the affected area.
 - Run UI/UX/accessibility/visual checks when the change is user-facing.
 - Record every result — pass, fail, or not available — under
-  `quality/execution/latest/`.
+  `quality/runtime/execution/latest/`.
 - Report failures honestly; never suppress, skip, or weaken an assertion to
   force a pass.
 
@@ -47,7 +47,7 @@ unfabricated results.
 ## Output format
 
 A test execution record: commands run, pass/fail/not-available status for
-each, and evidence file paths under `quality/execution/latest/`.
+each, and evidence file paths under `quality/runtime/execution/latest/`.
 
 ## Handoff target
 

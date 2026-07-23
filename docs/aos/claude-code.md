@@ -28,7 +28,7 @@ those live once, in `.agent/`, per
    [`../../.agent/registry.json`](../../.agent/registry.json).
 6. Save evidence per
    [`../../.agent/quality/evidence.md`](../../.agent/quality/evidence.md)
-   under `quality/execution/latest/`.
+   under `quality/runtime/execution/latest/`.
 7. Write a handoff per
    [`../../.agent/handoff/handoff-policy.md`](../../.agent/handoff/handoff-policy.md)
    if it stops before the task is complete.

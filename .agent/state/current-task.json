@@ -1,40 +1,32 @@
 {
   "schemaVersion": "1.0.0",
-  "updatedAt": "2026-07-15T11:30:40.154Z",
-  "task": "Version 1.4 AOS release stabilization, memory, and progress tracking",
-  "branch": "feature/1.4.0-agent-operating-system",
-  "startingCommit": "1a63f8d137cf518c21b6b19dcb28c80a328bbf9e",
-  "currentCommit": "1a66592cdd0e889bb39c637cb131c444b61c65b0",
-  "objective": "Complete, validate, commit, and publish the feature branch without touching main.",
+  "generatedAt": "2026-07-21T14:44:39.129Z",
+  "sourceBranch": "fix/1.4.0-ci-memory-visual-release",
+  "runtimeBranch": "fix/1.4.0-ci-memory-visual-release",
+  "targetBranch": "main",
+  "testedCommit": "498a1976ffb0f4f2c1c9609ec5133616ca3a70a8",
+  "evidenceCommit": "bf05ce2766d4a4984ec8ceb724c29951b6464122",
+  "executionContext": "localFeature",
+  "task": "Version 1.4 CI, Agent Memory, Evidence, visual, and deployment release recovery",
+  "startingCommit": "cf6b1e712cb5b541ae871b0c209f098a6d56f215",
+  "objective": "Audit and repair release automation, validate it, and publish only the authorized fix branch without writing to main.",
   "completedWork": [
-    "AOS stabilization reviewed",
-    "Research seed pipeline implemented",
-    "Memory and progress architecture implemented"
+    "Repository and release-recovery audit completed",
+    "Execution-context-aware Agent Memory implemented",
+    "Evidence commit semantics and release automation implemented"
   ],
   "workInProgress": [
     "Uncommitted reviewed implementation"
   ],
   "blockedWork": [
+    "Mandatory quality gate failed: Visual.",
     "Windows visual baselines require human review before replacement.",
     "Human UX, security, and content reviews remain notRun."
   ],
   "filesBeingChanged": [
-    "uality/execution/index.json",
-    "quality/execution/latest/README.md",
-    "quality/execution/latest/agent-review.md",
-    "quality/execution/latest/changed-files.txt",
-    "quality/execution/latest/commands.json",
-    "quality/execution/latest/coverage-summary.json",
-    "quality/execution/latest/environment.json",
-    "quality/execution/latest/failures.md",
-    "quality/execution/latest/git-state-after.txt",
-    "quality/execution/latest/git-state-before.txt",
-    "quality/execution/latest/manual-review.md",
-    "quality/execution/latest/self-review.md",
+    "uality/execution/latest/README.md",
     "quality/execution/latest/summary.json",
-    "quality/execution/latest/summary.md",
-    "quality/execution/latest/warnings.md",
-    "quality/execution/latest/result-interpretation.md"
+    "quality/execution/latest/summary.md"
   ],
   "testsRun": [
     "Docs",
@@ -43,22 +35,23 @@
     "Coverage",
     "Build",
     "GitHub Pages build",
+    "Functional E2E",
+    "Cross-browser",
     "Journeys",
     "UX",
     "Accessibility",
     "Performance",
+    "Release validation",
     "Git diff"
   ],
   "testsStillRequired": [
-    "E2E",
-    "Visual",
-    "Release validation"
+    "Visual"
   ],
   "manualReviewsRequired": [
     "manualUxReview",
     "manualSecurityReview",
     "manualContentReview"
   ],
-  "evidencePath": "quality/execution/runs/2026-07-15_13-56-05_feature-1-4-0-agent-operating-system",
-  "nextAction": "Windows visual baselines require human review before replacement."
+  "evidencePath": "quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release",
+  "nextAction": "Mandatory quality gate failed: Visual."
 }

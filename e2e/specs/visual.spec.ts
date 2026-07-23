@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 import { test, expect, login, english } from "../fixtures/academy";
-import { stabilize, dynamicMasks } from "../fixtures/visual";
+import { stabilize, dynamicMasks, freezeClock, waitForFonts } from "../fixtures/visual";
 
 async function startEnglish(page: Page) {
   await page.addInitScript(() => localStorage.setItem("shabis-ai-academy-language", "en"));
@@ -24,6 +24,7 @@ test.describe("visual - 1.2 profile menu", () => {
 
   test("Hebrew desktop profile menu open", async ({ page }) => {
     await login(page);
+    await waitForFonts(page);
     await page.locator(".desktop-sidebar .profile-trigger").click();
     await stabilize(page);
     await expect(page).toHaveScreenshot("profile-menu-he.png");
@@ -33,6 +34,7 @@ test.describe("visual - 1.2 profile menu", () => {
     await login(page);
     await english(page);
     await page.goto("/");
+    await waitForFonts(page);
     await page.locator(".desktop-sidebar .profile-trigger").click();
     await stabilize(page);
     await expect(page).toHaveScreenshot("profile-menu-en.png");
@@ -44,6 +46,7 @@ test.describe("visual - 1.2 profile menu", () => {
       await login(page);
       if (mode === "en") await english(page);
       await page.goto("/");
+      await waitForFonts(page);
       await page.locator(".menu-button").click();
       await page.locator(".mobile-drawer .profile-trigger").click();
       await stabilize(page);
@@ -56,6 +59,11 @@ async function loadSampleIfAvailable(page: Page) {
   const button = page.getByRole("button", {
     name: /טעינת נתוני דוגמה|Load sample data/,
   });
+  // Wait for fonts before this click, not just before the screenshot: if the
+  // button is below the fold, Playwright's built-in scroll-into-view runs as
+  // part of the click and its distance depends on the (possibly still
+  // fallback-font) layout above it — see waitForFonts' doc comment.
+  await waitForFonts(page);
   await button.click();
 }
 
@@ -146,6 +154,7 @@ test.describe("visual — desktop English", () => {
     await login(page);
     await english(page);
     await page.goto("/");
+    await expect(page.locator(".dashboard-continue h1")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("dashboard-en.png");
   });
@@ -214,6 +223,7 @@ test.describe("visual — mobile Hebrew", () => {
 
   test("Dashboard", async ({ page }) => {
     await login(page);
+    await expect(page.locator(".dashboard-continue h1")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("mobile-dashboard.png");
   });
@@ -269,6 +279,7 @@ test.describe("visual — mobile English", () => {
     await login(page);
     await english(page);
     await page.goto("/");
+    await expect(page.locator(".dashboard-continue h1")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("mobile-dashboard-en.png");
   });
@@ -308,6 +319,7 @@ test.describe("visual — Runtime Engine", () => {
     });
   });
   test("run details Hebrew", async ({ page }) => {
+    await freezeClock(page);
     await login(page, "/runs");
     await page.getByRole("button", { name: "הרצת Mock מוצלחת" }).click();
     await page.getByRole("link", { name: /Runtime demo: success/ }).click();
@@ -327,6 +339,7 @@ test.describe("visual — Runtime Engine", () => {
     });
   });
   test("Dry Run Hebrew", async ({ page }) => {
+    await freezeClock(page);
     await login(page, "/runs");
     await page.getByRole("button", { name: "Dry Run", exact: true }).click();
     await page
@@ -340,6 +353,7 @@ test.describe("visual — Runtime Engine", () => {
     });
   });
   test("details and Dry Run English", async ({ page }) => {
+    await freezeClock(page);
     await login(page);
     await english(page);
     await page.goto("/runs");
@@ -473,6 +487,7 @@ test.describe("visual — 1.3 guided auth UX", () => {
     test(`onboarding ${language} desktop`, async ({ page }) => {
       if (language === "en") await startEnglish(page);
       await login(page, "/onboarding");
+      await expect(page.locator(".onboarding-card")).toBeVisible();
       await stabilize(page);
       await expect(page).toHaveScreenshot(`v13-onboarding-${language}-desktop.png`, { fullPage: true });
     });
@@ -481,6 +496,7 @@ test.describe("visual — 1.3 guided auth UX", () => {
       await page.setViewportSize({ width: 390, height: 844 });
       if (language === "en") await startEnglish(page);
       await login(page, "/onboarding");
+      await expect(page.locator(".onboarding-card")).toBeVisible();
       await stabilize(page);
       await expect(page).toHaveScreenshot(`v13-onboarding-${language}-mobile.png`, { fullPage: true });
     });
@@ -498,17 +514,20 @@ test.describe("visual — 1.3 guided auth UX", () => {
 
   test("beginner and advanced dashboards", async ({ page }) => {
     await login(page, "/dashboard");
+    await expect(page.locator(".dashboard-continue h1")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-dashboard-beginner.png", { fullPage: true });
     await page.goto("/settings");
     await page.getByRole("radio", { name: /מצב מתקדם|Advanced Mode/ }).click();
     await page.goto("/dashboard");
+    await expect(page.locator(".dashboard-continue h1")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-dashboard-advanced.png", { fullPage: true });
   });
 
   test("Help Center tour glossary and profile", async ({ page }) => {
     await login(page, "/help");
+    await expect(page.locator(".help-center-grid")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-help-center.png", { fullPage: true });
     await page.locator(".tour-list-button").first().click();
@@ -516,9 +535,11 @@ test.describe("visual — 1.3 guided auth UX", () => {
     await expect(page).toHaveScreenshot("v13-guided-tour.png");
     await page.getByRole("button", { name: /דלג|Skip/ }).last().click();
     await page.goto("/glossary");
+    await expect(page.locator(".glossary-grid")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-glossary.png", { fullPage: true });
     await page.goto("/profile");
+    await expect(page.locator(".profile-form")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-profile.png", { fullPage: true, mask: dynamicMasks(page) });
   });
@@ -535,10 +556,12 @@ test.describe("visual — 1.3 guided auth UX", () => {
   test("admin denial desktop and mobile", async ({ page }) => {
     await login(page, "/dashboard");
     await page.goto("/admin");
+    await expect(page.locator(".dashboard-continue h1")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-admin-denied-desktop.png", { fullPage: true });
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/admin");
+    await expect(page.locator(".dashboard-continue h1")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-admin-denied-mobile.png", { fullPage: true });
   });

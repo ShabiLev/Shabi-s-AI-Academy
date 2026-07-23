@@ -1,6 +1,12 @@
 {
   "schemaVersion": "1.0.0",
-  "updatedAt": "2026-07-15T11:30:40.154Z",
+  "generatedAt": "2026-07-21T14:44:39.129Z",
+  "sourceBranch": "fix/1.4.0-ci-memory-visual-release",
+  "runtimeBranch": "fix/1.4.0-ci-memory-visual-release",
+  "targetBranch": "main",
+  "testedCommit": "498a1976ffb0f4f2c1c9609ec5133616ca3a70a8",
+  "evidenceCommit": "bf05ce2766d4a4984ec8ceb724c29951b6464122",
+  "executionContext": "localFeature",
   "overallPercent": 89,
   "currentPhase": "validation",
   "phasesCompleted": [
@@ -19,8 +25,8 @@
     "missing": 2
   },
   "tests": {
-    "passed": 11,
-    "failed": 3
+    "passed": 14,
+    "failed": 1
   },
   "reviews": {
     "passed": 0,
@@ -28,10 +34,11 @@
   },
   "releaseStatus": "blocked",
   "researchProgress": 6,
-  "evidenceRunId": "2026-07-15_13-56-05_feature-1-4-0-agent-operating-system",
+  "evidenceRunId": "2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release",
   "blockers": [
+    "Mandatory quality gate failed: Visual.",
     "Windows visual baselines require human review before replacement.",
     "Human UX, security, and content reviews remain notRun."
   ],
-  "nextRecommendedAction": "Windows visual baselines require human review before replacement."
+  "nextRecommendedAction": "Mandatory quality gate failed: Visual."
 }

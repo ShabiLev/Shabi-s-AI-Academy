@@ -62,7 +62,7 @@ variables consumed by the `build:pages` script.
 ## Deliverables
 
 - A passing `npm run build:pages` and `npm run test:e2e:pages` run.
-- Evidence captured under `quality/execution/latest/` via
+- Evidence captured under `quality/runtime/execution/latest/` via
   `npm run quality:evidence:pages`.
 
 ## Evidence requirements

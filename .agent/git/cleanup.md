@@ -22,7 +22,7 @@ target isn't in-progress work.
   confirming their content is no longer needed — `git stash show -p
   <ref>` first if there's any doubt about what they contain.
 - Cleanup of generated/large artifacts (e.g. under
-  `quality/execution/runs/`, already gitignored per `../master.md`
+  `quality/runtime/execution/runs/`, already gitignored per `../master.md`
   principle 14) is safe to do more freely since it's regenerable, but
   still confirm nothing there is the only copy of something needed.
 - When in doubt about whether something is "in-progress work," treat it as

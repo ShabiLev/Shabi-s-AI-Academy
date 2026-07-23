@@ -1,1 +1,40 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://shabilev.github.io/aos/project-status.schema.json","title":"Project Status","type":"object","required":["schemaVersion","updatedAt","application","purpose","version","languages","deployment","architecture","status"],"properties":{"schemaVersion":{"type":"string"},"updatedAt":{"type":"string"},"application":{"type":"string"},"purpose":{"type":"string"},"version":{"type":"string"},"languages":{"type":"array","items":{"type":"string"}},"deployment":{"type":"string"},"architecture":{"type":"string"},"status":{"type":"string"}}}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shabilev.github.io/aos/project-status.schema.json",
+  "title": "Project Status",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "generatedAt",
+    "sourceBranch",
+    "runtimeBranch",
+    "targetBranch",
+    "testedCommit",
+    "verificationSource",
+    "executionContext",
+    "application",
+    "purpose",
+    "version",
+    "languages",
+    "deployment",
+    "architecture",
+    "status"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "generatedAt": { "type": "string" },
+    "sourceBranch": { "type": "string", "minLength": 1 },
+    "runtimeBranch": { "type": "string", "minLength": 1 },
+    "targetBranch": { "type": "string", "minLength": 1 },
+    "testedCommit": { "type": "string", "minLength": 1 },
+    "verificationSource": { "const": "runtimeArtifact" },
+    "executionContext": { "enum": ["localFeature", "localMain", "githubPush", "githubPullRequest", "githubMergeRef", "detachedHead", "unknown"] },
+    "application": { "type": "string" },
+    "purpose": { "type": "string" },
+    "version": { "type": "string" },
+    "languages": { "type": "array", "items": { "type": "string" } },
+    "deployment": { "type": "string" },
+    "architecture": { "type": "string" },
+    "status": { "type": "string" }
+  }
+}

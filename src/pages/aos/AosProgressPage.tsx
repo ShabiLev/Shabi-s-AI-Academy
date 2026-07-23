@@ -10,7 +10,7 @@ const copy = {
 export function AosProgressPage() {
   const { language } = useLanguage(); const s = copy[language === "he" ? "he" : "en"];
   const result = useAosSnapshot();
-  if (result.kind !== "ok") return <div className="page"><p role="status">{result.kind === "loading" ? "…" : s.unavailable}</p></div>;
+  if (result.kind !== "ok" || !result.snapshot.memory.available) return <div className="page"><p role="status">{result.kind === "loading" ? "…" : s.unavailable}</p></div>;
   const memory = result.snapshot.memory;
   const remaining = memory.requirements.partial + memory.requirements.missing;
   return <div className="page aos-page">

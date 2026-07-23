@@ -15,7 +15,8 @@ Sprint 5 (v0.5.0) adds an enforced set of quality gates on top of the existing V
 | Coverage             | Vitest coverage-v8 vs. enforced thresholds                     | `npm run test:coverage`    |
 | Build                | Production build succeeds                                      | `npm run build`            |
 | E2E fast             | Playwright, Desktop Chromium only                              | `npm run test:e2e`         |
-| E2E full             | Playwright, all 5 projects                                     | `npm run test:e2e:full`    |
+| Functional E2E       | Desktop Chromium product behavior                              | `npm run test:e2e:functional` |
+| Cross-browser E2E    | Firefox, WebKit, and mobile compatibility                      | `npm run test:e2e:cross-browser` |
 | Accessibility        | axe-core WCAG2A/AA scan, zero unexpected violations            | `npm run test:a11y`        |
 | Visual regression    | Playwright screenshot comparison vs. committed baselines       | `npm run test:visual`      |
 | Performance          | Lighthouse CI vs. desktop/mobile thresholds                    | `npm run test:performance` |
@@ -24,6 +25,8 @@ Sprint 5 (v0.5.0) adds an enforced set of quality gates on top of the existing V
 | AOS validation       | Manifest completeness, link resolution, schema validity, duplication check | `npm run aos:check` (`aos:check:manifest`, `aos:check:links`, `aos:check:schemas`, `aos:check:duplication`) |
 
 Every gate has five possible states: **Passed**, **Failed**, **Warning**, **Not run**, **Not available**. A missing result is never displayed as Passed — see `docs/qa-center.md`.
+
+The CI summary restores the downloaded `performance-artifacts` under `quality/generated/lighthouse/` before collection. GitHub strips the common root from a single-directory artifact, so this explicit layout keeps the detailed Performance gate aligned with the independently enforced performance job result.
 
 ## Coverage policy
 

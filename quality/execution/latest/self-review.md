@@ -1,5 +1,12 @@
-# Self-review
+# Self review
 
-Status: notRun
-
-Complete the structured code, security, accessibility, documentation, test, and scope review before committing.
+- Scope: reviewed all changed paths against `origin/main`, including Agent Memory schemas/state, evidence utilities, GitHub workflows, Pages identity, dependency ranges, Playwright projects, release policy, generated audit/evidence, tests, and documentation.
+- Branch and history: work is confined to `fix/1.4.0-ci-memory-visual-release`; `main` and `origin/main` remain at `cf6b1e712cb5b541ae871b0c209f098a6d56f215`. No force push, history rewrite, merge, or write to main was performed.
+- Release specification: `git diff origin/main...HEAD -- .codex` is empty; the controlling release specification is unchanged.
+- Validation: the authoritative full profile tested clean commit `498a1976ffb0f4f2c1c9609ec5133616ca3a70a8`. Every automated non-visual gate passed; visual comparison reported 25 passes and 35 mismatches. The final evidence chain still requires finalization and post-evidence integrity checks.
+- CI and Pages: run 29838207418 proved the independent non-visual jobs green and the visual/summary fail-closed behavior. The performance artifact layout defect found in that run was corrected and covered by a release-policy test. Pages consumes a successful main-push CI SHA and verifies checkout/build/deployment identity.
+- Visual safety: Windows and Linux snapshots remain platform-specific. Baseline generation requires the exact confirmation phrase, supports filters, uploads review artifacts, and has no commit/push permission. No baseline was updated or accepted automatically.
+- Dependencies and security: `latest` specifiers were replaced with compatible ranges derived from the lockfile. Seven transitive audit findings remain disclosed; the breaking force-fix path was not used. Workflow permissions were reviewed, and the baseline workflow is read-only.
+- Artifact hygiene: no `node_modules`, `dist`, `.env` file, video, trace archive, Playwright report, or test-results directory is newly tracked. No secret was added. Generated audit and bounded release evidence are the only intentional generated additions.
+- Product safeguards: coverage thresholds, failing tests, visual checks, and mandatory release gates were not weakened or disabled. User-authored/local data boundaries and bilingual/accessibility behavior were not changed.
+- Remaining blockers: reviewed Linux baselines, Windows mismatch approval, human UX/security/content reviews, live branch-protection verification, and upstream dependency remediation. The local main-readiness guard correctly rejects the current state.

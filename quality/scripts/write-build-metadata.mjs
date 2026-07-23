@@ -13,7 +13,7 @@ const pkg = JSON.parse(readFileSync("./package.json", "utf8"));
 
 const metadata = {
   version: pkg.version,
-  commitSha: gitOutput("git rev-parse --short HEAD") ?? "local",
+  commitSha: process.env.VITE_DEPLOY_COMMIT_SHA ?? process.env.GITHUB_SHA ?? gitOutput("git rev-parse HEAD") ?? "local",
   branch: gitOutput("git rev-parse --abbrev-ref HEAD") ?? "unknown",
   buildTimestamp: new Date().toISOString(),
   deploymentEnvironment: process.env.VERCEL_ENV ?? "local",

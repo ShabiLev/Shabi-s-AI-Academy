@@ -9,7 +9,7 @@ become a secret- or personal-data-leak surface.
 ## Rules
 
 - No token, session identifier, cookie, API key, or credential is ever
-  written to: `quality/execution/latest/`, `quality/execution/runs/`,
+  written to: `quality/runtime/execution/latest/`, `quality/runtime/execution/runs/`,
   console output captured into evidence, commit messages, or handoff
   documents. See [`secrets.md`](secrets.md).
 - No personal or customer data (per [`data-protection.md`](data-protection.md))
@@ -27,7 +27,7 @@ become a secret- or personal-data-leak surface.
   leak these before the change is reported done.
 - Large generated artifacts (recordings, full HTML reports, screenshots
   with potentially sensitive UI state) stay under
-  `quality/execution/runs/`, which is gitignored per `../master.md`
+  `quality/runtime/execution/runs/`, which is gitignored per `../master.md`
   principle 14 — only lightweight `latest/` summaries are tracked, and
   those summaries must not carry secrets either.
 - If a required evidence command's output would necessarily include
@@ -40,7 +40,7 @@ become a secret- or personal-data-leak surface.
 
 - Scan evidence/log output for secret-shaped strings before treating a run
   as complete.
-- Confirm no personal/customer data appears in committed evidence
+- Confirm no personal/customer data appears in runtime or CI-artifact evidence
   summaries.
 - Confirm debug logging touching auth/session state was removed before
   the task is reported done.

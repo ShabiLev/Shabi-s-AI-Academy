@@ -19,7 +19,7 @@ _[were the required tests actually run, with real results recorded?]_
 
 ## Evidence check
 
-_[does `quality/execution/latest/` reflect this change?]_
+_[does `quality/runtime/execution/latest/` reflect this change?]_
 
 ## Security check
 

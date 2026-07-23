@@ -17,7 +17,7 @@ the field set defined in `.agent/handoff/handoff-template.md`.
 - **Tests executed** — every test command run, including full-suite and,
   where applicable, `test:e2e`, `test:a11y`, `test:visual`,
   `test:performance`, with pass/fail/not-available status for each.
-- **Evidence path** — `quality/execution/latest/` and, for release-scale
+- **Evidence path** — `quality/runtime/execution/latest/` and, for release-scale
   work, the `quality:evidence:full` output.
 - **Open failures** — any test still failing; a release cannot be reported
   ready with unexplained open failures.

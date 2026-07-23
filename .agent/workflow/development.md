@@ -84,7 +84,7 @@ depth, not presence.
     [`documentation.md`](documentation.md).
 15. **Evidence capture.** Run `npm run quality:evidence` (or
     `quality:evidence:full` for release-scale changes) so
-    `quality/execution/latest/` reflects this change, per
+    ignored `quality/runtime/execution/latest/` reflects this change, per
     [`../quality/evidence.md`](../quality/evidence.md).
 16. **Self-review.** Run the checklist in
     [`self-review.md`](self-review.md) against the actual diff before
@@ -122,7 +122,7 @@ depth, not presence.
 - A short implementation plan (phase 6).
 - The code diff scoped to the stated change (phase 8).
 - Focused and full test run output (phases 9–10).
-- Updated `quality/execution/latest/` evidence files (phase 15).
+- Runtime evidence under `quality/runtime/execution/latest/` (phase 15), never staged.
 - Updated documentation/changelog entries where behavior changed (phase 14).
 - A self-review record and final report (phases 16, 19).
 
@@ -131,13 +131,13 @@ depth, not presence.
 Evidence is produced by actually running the commands named in phases 9, 10,
 and 15 — never fabricated and never asked of the user as copy-paste. See
 [`../quality/evidence.md`](../quality/evidence.md) for the exact files under
-`quality/execution/latest/` this must update, and record any command that
+`quality/runtime/execution/latest/` this must update, and record any command that
 does not exist in this repository as `notAvailable`, never as passed.
 
 ## Exit criteria
 
 All 20 phases have been executed (or a stop condition from `master.md` §9
-was hit and documented), the evidence files under `quality/execution/latest/`
+was hit and documented), the runtime evidence under `quality/runtime/execution/latest/`
 reflect the current change, the self-review checklist has been completed
 against the real diff, and a final report following
 [`final-report.md`](final-report.md) has been produced. The task is not

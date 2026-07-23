@@ -22,9 +22,9 @@ project-specific known limitations.
 
 `test:a11y` is command id `a11y` in `scripts/run-quality-evidence.mjs`'s
 `full` profile, rolling up into the `Accessibility` row of
-`quality/execution/latest/summary.md`. In a real observed run on this
+`quality/runtime/execution/latest/summary.md`. In a real observed run on this
 branch, `Accessibility` passed with 55 results and 0 failures in ~65s
-(`quality/execution/latest/summary.md`, `Accessibility` row).
+(`quality/runtime/execution/latest/summary.md`, `Accessibility` row).
 
 ## Severity data in the collected report
 

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shabilev.github.io/aos/ci-evidence-manifest.schema.json",
+  "title": "CI Evidence Manifest",
+  "type": "object",
+  "required": [
+    "schemaVersion", "repository", "workflowName", "workflowRunId",
+    "workflowRunAttempt", "headSha", "sourceBranch", "targetBranch",
+    "eventName", "generatedAt", "jobName", "conclusion", "nodeVersion",
+    "npmVersion", "files", "contentDigest"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "repository": { "type": "string", "minLength": 1 },
+    "workflowName": { "type": "string", "minLength": 1 },
+    "workflowRunId": { "type": "string", "minLength": 1 },
+    "workflowRunAttempt": { "type": "string", "minLength": 1 },
+    "headSha": { "type": "string", "pattern": "^[a-fA-F0-9]{40}$" },
+    "sourceBranch": { "type": "string", "minLength": 1 },
+    "targetBranch": { "type": "string", "minLength": 1 },
+    "eventName": { "type": "string", "minLength": 1 },
+    "generatedAt": { "type": "string" },
+    "jobName": { "type": "string", "minLength": 1 },
+    "conclusion": { "type": "string", "minLength": 1 },
+    "nodeVersion": { "type": "string", "minLength": 1 },
+    "npmVersion": { "type": "string", "minLength": 1 },
+    "files": { "type": "array", "items": { "type": "string" } },
+    "contentDigest": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" }
+  },
+  "additionalProperties": false
+}

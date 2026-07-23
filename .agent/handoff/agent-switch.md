@@ -11,10 +11,10 @@ Codex — so no context is lost and no completed work is repeated.
 1. Read `.agent/master.md`.
 2. Read the active task prompt (the relevant file under `.agent/prompts/`
    for the task type).
-3. Read `.agent/state/current-task.json`, `current-progress.json`,
+3. Read `.agent/runtime/state/current-task.json`, `current-progress.json`,
    `known-issues.json`, `quality-status.json`, `research-progress.json`,
    `latest-handoff.json`, and `next-actions.json`.
-4. Read the latest handoff document and `quality/execution/latest/summary.md`.
+4. Read the latest handoff document and `quality/runtime/execution/latest/summary.md`.
 5. Verify the actual Git state (`git status`, current branch, current
    commit) against what the handoff claims.
 6. Verify the actual changed files against the handoff's file list.

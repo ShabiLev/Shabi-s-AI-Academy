@@ -2,65 +2,31 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schemas.shabis-academy.dev/aos/v1/evidence-run.schema.json",
   "title": "Evidence Run",
-  "description": "A quality/execution/runs/<RUN_ID> summary record produced by an actual command execution (see .agent/quality/evidence.md). Never fabricated; commands that do not exist in this repository are recorded as notAvailable, never as passed.",
   "type": "object",
+  "required": ["identity", "commands", "overallStatus"],
   "properties": {
-    "runId": {
-      "type": "string"
+    "identity": {
+      "type": "object",
+      "required": ["runId", "sourceBranch", "runtimeBranch", "targetBranch", "executionContext", "testedCommit", "repository", "workflowName", "generatedAt", "workingTreeCleanAtTest"],
+      "properties": {
+        "runId": {"type":"string"},
+        "sourceBranch": {"type":"string"},
+        "runtimeBranch": {"type":"string"},
+        "targetBranch": {"type":"string"},
+        "executionContext": {"enum":["localFeature","localMain","githubPush","githubPullRequest","githubMergeRef","detachedHead","unknown"]},
+        "testedCommit": {"type":"string"},
+        "repository": {"type":"string"},
+        "workflowName": {"type":"string"},
+        "workflowRunId": {"type":["string","null"]},
+        "workflowRunAttempt": {"type":["string","null"]},
+        "generatedAt": {"type":"string"},
+        "workingTreeCleanAtTest": {"type":"boolean"},
+        "integrityValidation": {"type":"string"}
+      },
+      "additionalProperties": true
     },
-    "startedAt": {
-      "type": "string",
-      "format": "date-time"
-    },
-    "finishedAt": {
-      "type": "string",
-      "format": "date-time"
-    },
-    "branch": {
-      "type": "string"
-    },
-    "commit": {
-      "type": "string",
-      "description": "Full or short commit SHA the run was executed against."
-    },
-    "mode": {
-      "type": "string",
-      "enum": ["fast", "full", "pages", "headed"]
-    },
-    "commands": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "command": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": ["passed", "failed", "skipped", "notAvailable"]
-          },
-          "durationMs": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "logRef": {
-            "type": "string",
-            "description": "Path or reference to the captured log output for this command."
-          }
-        },
-        "required": ["command", "status"],
-        "additionalProperties": false
-      }
-    },
-    "overallStatus": {
-      "type": "string",
-      "enum": ["passed", "failed", "partial", "notAvailable"]
-    },
-    "coverageSummaryRef": {
-      "type": "string",
-      "description": "Path or reference to the coverage summary produced by this run, if any."
-    }
+    "commands": {"type":"array"},
+    "overallStatus": {"enum":["passed","failed","partial","notAvailable"]}
   },
-  "required": ["runId", "startedAt", "branch", "commit", "mode", "commands", "overallStatus"],
-  "additionalProperties": false
+  "additionalProperties": true
 }

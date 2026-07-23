@@ -49,10 +49,10 @@ assume a passing local run guarantees a passing CI run, or vice versa.
 
 `test:performance` is command id `performance` in the `full` evidence
 profile, rolling up into the `Performance` row of
-`quality/execution/latest/summary.md`. In a real observed run on this
+`quality/runtime/execution/latest/summary.md`. In a real observed run on this
 branch, `Performance` failed (1 failure) in ~12s
-(`quality/execution/latest/summary.md`, `Performance` row) — check
-`quality/execution/runs/<RUN_ID>/performance.log` for which specific
+(`quality/runtime/execution/latest/summary.md`, `Performance` row) — check
+`quality/runtime/execution/runs/<RUN_ID>/performance.log` for which specific
 Lighthouse category or metric missed its threshold before assuming a real
 regression versus environment/hardware variance.
 

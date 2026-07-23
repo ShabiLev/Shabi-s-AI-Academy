@@ -7,6 +7,7 @@ const distDirectory = fileURLToPath(distDirectoryUrl)
 const indexHtml = readFileSync(new URL('index.html', distDirectoryUrl), 'utf8')
 const expectedBase = '/Shabi-s-AI-Academy/'
 const expectedPublicUrl = 'https://shabilev.github.io/Shabi-s-AI-Academy'
+const expectedDeploySha = process.env.EXPECTED_DEPLOY_SHA
 
 const failures = []
 const requireMatch = (pattern, message) => {
@@ -48,9 +49,20 @@ for (const path of textFiles(distDirectory)) {
   if (secretPatterns.some((pattern) => pattern.test(content))) failures.push(`secret-shaped value is present in ${path}`)
 }
 
+if (expectedDeploySha) {
+  const metadata = JSON.parse(readFileSync(new URL('deployment-commit.json', distDirectoryUrl), 'utf8'))
+  if (metadata.testedCommit !== expectedDeploySha || metadata.deployedArtifactCommit !== expectedDeploySha) {
+    failures.push('deployment metadata does not match the CI-tested commit')
+  }
+  const bundleContainsCommit = textFiles(distDirectory).some((path) =>
+    extname(path) === '.js' && readFileSync(path, 'utf8').includes(expectedDeploySha),
+  )
+  if (!bundleContainsCommit) failures.push('application build metadata does not expose the full CI-tested commit')
+}
+
 if (failures.length) {
   console.error(`GitHub Pages build validation failed:\n- ${failures.join('\n- ')}`)
   process.exit(1)
 }
 
-console.log('GitHub Pages build validation passed: base path, hashed assets, metadata, and safety checks are correct.')
+console.log('GitHub Pages build validation passed: base path, hashed assets, tested-commit metadata, and safety checks are correct.')

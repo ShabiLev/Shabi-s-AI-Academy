@@ -1,1 +1,38 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://shabilev.github.io/aos/latest-handoff.schema.json","title":"Latest Handoff","type":"object","required":["schemaVersion","updatedAt","fromAgent","toAgent","branch","commit","status","summary","evidencePath","nextAction"],"properties":{"schemaVersion":{"type":"string"},"updatedAt":{"type":"string"},"fromAgent":{"type":"string"},"toAgent":{"type":"string"},"branch":{"type":"string"},"commit":{"type":"string"},"status":{"type":"string"},"summary":{"type":"string"},"evidencePath":{"type":"string"},"nextAction":{"type":"string"}}}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shabilev.github.io/aos/latest-handoff.schema.json",
+  "title": "Latest Handoff",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "generatedAt",
+    "sourceBranch",
+    "runtimeBranch",
+    "targetBranch",
+    "testedCommit",
+    "verificationSource",
+    "executionContext",
+    "fromAgent",
+    "toAgent",
+    "status",
+    "summary",
+    "evidencePath",
+    "nextAction"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "generatedAt": { "type": "string" },
+    "sourceBranch": { "type": "string", "minLength": 1 },
+    "runtimeBranch": { "type": "string", "minLength": 1 },
+    "targetBranch": { "type": "string", "minLength": 1 },
+    "testedCommit": { "type": "string", "minLength": 1 },
+    "verificationSource": { "const": "runtimeArtifact" },
+    "executionContext": { "enum": ["localFeature", "localMain", "githubPush", "githubPullRequest", "githubMergeRef", "detachedHead", "unknown"] },
+    "fromAgent": { "type": "string" },
+    "toAgent": { "type": "string" },
+    "status": { "type": "string" },
+    "summary": { "type": "string" },
+    "evidencePath": { "type": "string" },
+    "nextAction": { "type": "string" }
+  }
+}

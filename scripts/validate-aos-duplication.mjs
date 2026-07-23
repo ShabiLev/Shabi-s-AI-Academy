@@ -8,14 +8,14 @@ const PROMPT_LINE_LIMIT = 60;
 const MIN_PARAGRAPH_LENGTH = 60;
 
 // Fragments intentionally repeated verbatim across files, reviewed and
-// accepted (see quality/execution/latest/result-interpretation.md). Each is
+// accepted (see the historical quality/execution/latest/result-interpretation.md). Each is
 // deliberate shared template/disclaimer language, not duplicated workflow
 // logic — repeating it lets a file be read in isolation without missing
 // context. Do not add an entry here to silence a *new* duplication without
 // the same review; this is an allowlist, not a way to reach zero warnings.
 const ACCEPTED_DUPLICATE_FRAGMENTS = [
   "commands actually run and their pass/fail/not-available status",
-  "path under quality/execution/latest/ or quality/execution/runs/<run_id>/",
+  "path under quality/runtime/execution/latest/ or quality/runtime/execution/runs/<run_id>/",
   "any known failing test, broken build, or unresolved defect",
   "the single next step the receiving role/agent should take",
   "git-policy.md", // shared "Related" link list between git/cleanup.md and git/synchronization.md
@@ -77,7 +77,8 @@ export function validateDuplication() {
   }
 
   // Cross-file exact-duplicate paragraph detection across all .agent/**/*.md.
-  const allFiles = walkFiles(agentDir, (f) => f.endsWith(".md"));
+  const allFiles = walkFiles(agentDir, (f) => f.endsWith(".md"))
+    .filter((file) => !relFromRoot(file).startsWith(".agent/runtime/"));
   const paragraphOwners = new Map();
   for (const file of allFiles) {
     const text = readFileSync(file, "utf8");

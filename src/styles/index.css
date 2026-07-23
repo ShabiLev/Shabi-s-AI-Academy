@@ -1698,6 +1698,16 @@ footer strong {
   gap: 14px 20px;
   margin: 0;
 }
+@media (max-width: 30rem) {
+  /* At narrow widths the available content width sits right at auto-fit's
+     1-vs-2-column threshold for a 160px minmax track, so the browser's
+     column-count choice becomes sub-pixel-dependent and can differ between
+     otherwise-identical renders, reflowing every field below. Forcing a
+     single column removes the ambiguity entirely below the breakpoint. */
+  .qa-header-grid {
+    grid-template-columns: 1fr;
+  }
+}
 .qa-header-grid dt {
   overflow-wrap: anywhere;
   color: var(--muted);
@@ -1717,6 +1727,18 @@ footer strong {
   border: 1px solid var(--line);
   border-radius: 20px;
   font-size: 0.72rem;
+  /* .qa-header-grid dd sets overflow-wrap: anywhere for long commit/branch
+     values; inheriting that here let the badge's grid track shrink below its
+     natural content width, so at narrow (mobile) widths the pill text wrapped
+     to a second line on some renders and not others depending on sub-pixel
+     auto-fit column sizing, shifting everything below by a line height. The
+     badge's own text is a short fixed enum and should never wrap.
+     white-space: nowrap alone is not enough — Chromium's overflow-wrap:
+     anywhere is a distinct, more aggressive mechanism that inserts letter-
+     level break opportunities as a last resort even under nowrap, so it must
+     be reset back to normal explicitly. */
+  white-space: nowrap;
+  overflow-wrap: normal;
 }
 .qa-status-badge::before {
   content: "● ";

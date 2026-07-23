@@ -28,9 +28,9 @@ broader suite the fast profile intentionally skips.
   candidate; evidence from an earlier commit or a different branch does
   not satisfy this requirement, since the point is to prove *this* code
   state.
-- Output lands under `quality/execution/latest/` (summaries, tracked) and
-  `quality/execution/runs/` (full artifacts, gitignored per `../master.md`
-  principle 14) — see [`../quality/evidence.md`](../quality/evidence.md)
+- Output lands under ignored `quality/runtime/execution/` locally and immutable
+  exact-SHA GitHub Actions artifacts in CI; no generated evidence is committed —
+  see [`../quality/evidence.md`](../quality/evidence.md)
   for the exact file set produced by `scripts/run-quality-evidence.mjs`.
 - A command that does not exist or cannot run in the current environment
   is recorded as `notAvailable`, never as passed — per `../master.md` §6.

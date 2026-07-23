@@ -2,12 +2,20 @@
 
 ## Identity
 
-- Run ID: 2026-07-15_15-45-55_main
-- Date and time: 2026-07-15T12:45:55.865Z to 2026-07-15T13:06:51.652Z
+- Run ID: 2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release
+- Date and time: 2026-07-21T14:30:22.155Z to 2026-07-21T14:43:26.941Z
 - Application version: 1.4.0-beta.1
-- Branch: main
-- Starting commit: c92cac91aa3dcd6c8a40f32f10ef48094a1a91d5
-- Final commit: c92cac91aa3dcd6c8a40f32f10ef48094a1a91d5
+- Branch: fix/1.4.0-ci-memory-visual-release
+- Source branch: fix/1.4.0-ci-memory-visual-release
+- Runtime branch: fix/1.4.0-ci-memory-visual-release
+- Target branch: main
+- Execution context: localFeature
+- Tested commit: 498a1976ffb0f4f2c1c9609ec5133616ca3a70a8
+- Evidence commit: bf05ce2766d4a4984ec8ceb724c29951b6464122
+- Parent commit: 498a1976ffb0f4f2c1c9609ec5133616ca3a70a8
+- Generated at: 2026-07-21T14:44:38.563Z
+- Working tree clean at test: Yes
+- Integrity validation: pending post-evidence commit
 - Agent used: Codex
 - Operating system: win32 10.0.26200 x64
 - Node version: v20.17.0
@@ -26,29 +34,30 @@
 
 | Area | Status | Command | Duration | Failures | Log path |
 | --- | --- | --- | ---: | ---: | --- |
-| Docs | passed | npm run docs:check | 0s | 0 | quality/execution/runs/2026-07-15_15-45-55_main/docs-check.log |
-| Lint | passed | npm run lint | 8s | 0 | quality/execution/runs/2026-07-15_15-45-55_main/lint.log |
-| Unit tests | passed | npm run test:evidence; npm run test:run | 19s | 0 | quality/execution/runs/2026-07-15_15-45-55_main/focused-tests.log, quality/execution/runs/2026-07-15_15-45-55_main/unit-tests.log |
-| Coverage | passed | npm run test:coverage | 22s | 0 | quality/execution/runs/2026-07-15_15-45-55_main/coverage.log |
-| Build | passed | npm run build | 10s | 0 | quality/execution/runs/2026-07-15_15-45-55_main/build.log |
-| GitHub Pages build | passed | npm run build:pages; npm run test:e2e:pages | 26s | 0 | quality/execution/runs/2026-07-15_15-45-55_main/build-pages.log, quality/execution/runs/2026-07-15_15-45-55_main/e2e-pages.log |
-| E2E | failed | npm run test:e2e; npm run test:e2e:full | 340s | 1 | quality/execution/runs/2026-07-15_15-45-55_main/e2e.log, quality/execution/runs/2026-07-15_15-45-55_main/e2e-full.log |
-| Journeys | passed | npm run test:journeys | 48s | 0 | quality/execution/runs/2026-07-15_15-45-55_main/journeys.log |
-| UX | passed | npm run test:click-audit; npm run test:route-crawl; npm run test:forms; npm run test:overlays; npm run test:responsive:interactions; npm run test:keyboard; npm run test:copy; npm run test:errors; npm run test:ux | 341s | 0 | quality/execution/runs/2026-07-15_15-45-55_main/click-audit.log, quality/execution/runs/2026-07-15_15-45-55_main/route-crawl.log, quality/execution/runs/2026-07-15_15-45-55_main/forms.log, quality/execution/runs/2026-07-15_15-45-55_main/overlays.log, quality/execution/runs/2026-07-15_15-45-55_main/responsive-interactions.log, quality/execution/runs/2026-07-15_15-45-55_main/keyboard.log, quality/execution/runs/2026-07-15_15-45-55_main/copy.log, quality/execution/runs/2026-07-15_15-45-55_main/errors.log, quality/execution/runs/2026-07-15_15-45-55_main/ux.log |
-| Accessibility | passed | npm run test:a11y | 92s | 0 | quality/execution/runs/2026-07-15_15-45-55_main/accessibility.log |
-| Visual | failed | npm run test:visual | 104s | 1 | quality/execution/runs/2026-07-15_15-45-55_main/visual.log |
-| Performance | passed | npm run test:performance | 115s | 0 | quality/execution/runs/2026-07-15_15-45-55_main/performance.log |
-| Release validation | failed | npm run test:release-candidate; npm run test:release-candidate:pages; npm run validate:release | 113s | 2 | quality/execution/runs/2026-07-15_15-45-55_main/release-candidate.log, quality/execution/runs/2026-07-15_15-45-55_main/release-candidate-pages.log, quality/execution/runs/2026-07-15_15-45-55_main/validate-release.log |
-| Git diff | passed | git diff --check | 0s | 0 | quality/execution/runs/2026-07-15_15-45-55_main/git-diff-check.log |
+| Docs | passed | npm run docs:check | 0s | 0 | quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/docs-check.log |
+| Lint | passed | npm run lint | 11s | 0 | quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/lint.log |
+| Unit tests | passed | npm run test:evidence; npm run test:aos; npm run test:release; npm run test:run | 33s | 0 | quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/focused-tests.log, quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/aos-tests.log, quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/release-tests.log, quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/unit-tests.log |
+| Coverage | passed | npm run test:coverage | 37s | 0 | quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/coverage.log |
+| Build | passed | npm run build | 13s | 0 | quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/build.log |
+| GitHub Pages build | passed | npm run build:pages; npm run test:e2e:pages | 37s | 0 | quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/build-pages.log, quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/e2e-pages.log |
+| Functional E2E | passed | npm run test:e2e:functional | 34s | 0 | quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/e2e-functional.log |
+| Cross-browser | passed | npm run test:e2e:cross-browser | 33s | 0 | quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/e2e-cross-browser.log |
+| Journeys | passed | npm run test:journeys | 30s | 0 | quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/journeys.log |
+| UX | passed | npm run test:click-audit; npm run test:route-crawl; npm run test:forms; npm run test:overlays; npm run test:responsive:interactions; npm run test:keyboard; npm run test:copy; npm run test:errors; npm run test:ux | 255s | 0 | quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/click-audit.log, quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/route-crawl.log, quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/forms.log, quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/overlays.log, quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/responsive-interactions.log, quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/keyboard.log, quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/copy.log, quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/errors.log, quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/ux.log |
+| Accessibility | passed | npm run test:a11y | 85s | 0 | quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/accessibility.log |
+| Visual | failed | npm run test:visual | 76s | 1 | quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/visual.log |
+| Performance | passed | npm run test:performance | 120s | 0 | quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/performance.log |
+| Release validation | passed | npm run memory:check; npm run quality:inventory | 1s | 0 | quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/memory-check.log, quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/quality-inventory.log |
+| Git diff | passed | git diff --check | 0s | 0 | quality/execution/runs/2026-07-21_17-30-22_fix-1-4-0-ci-memory-visual-release/git-diff-check.log |
 
 ## Coverage
 
 | Metric | Percent | Threshold | Delta | Passed |
 | --- | ---: | ---: | ---: | --- |
-| statements | 76.34 | 75 | 0 | true |
-| branches | 74.3 | 65 | 0.06 | true |
+| statements | 76.57 | 75 | 0 | true |
+| branches | 74.33 | 65 | 0 | true |
 | functions | 72.57 | 70 | 0 | true |
-| lines | 76.34 | 75 | 0 | true |
+| lines | 76.57 | 75 | 0 | true |
 
 ## Findings
 
@@ -56,14 +65,14 @@
 - High: 0
 - Medium: 0
 - Low: 0
-- Warnings: 15
+- Warnings: 12
 - Manual review required: Yes
 
 ## Git
 
-- Working branch: main
-- Main relationship: main...HEAD left/right counts: 0	0
-- Remote relationship: HEAD...origin/main left/right counts: 3	0
+- Working branch: fix/1.4.0-ci-memory-visual-release
+- Main relationship: main...HEAD left/right counts: 0	22
+- Remote relationship: HEAD...origin/main left/right counts: 22	0
 - Commits created: None
 - Working tree status: clean
 - Exact synchronization commands: see latest/README.md

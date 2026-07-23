@@ -15,7 +15,7 @@ function gitOutput(command: string): string | undefined {
 }
 
 const appVersion: string = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')).version
-const commitSha = process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) || gitOutput('git rev-parse --short HEAD')
+const commitSha = process.env.VITE_DEPLOY_COMMIT_SHA || process.env.VERCEL_GIT_COMMIT_SHA || process.env.GITHUB_SHA || gitOutput('git rev-parse HEAD')
 const branch = process.env.VERCEL_GIT_COMMIT_REF || gitOutput('git rev-parse --abbrev-ref HEAD')
 const deployment = resolveDeploymentConfig(process.env)
 
@@ -53,6 +53,9 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
+    // Bound concurrent jsdom workers so async UI assertions are not starved on
+    // developer machines or shared CI runners.
+    maxWorkers: 4,
     setupFiles: './src/test/setup.ts',
     css: true,
     include: ['src/**/*.test.{ts,tsx}'],

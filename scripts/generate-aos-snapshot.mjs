@@ -51,7 +51,9 @@ function workingTreeDirty() {
 }
 
 function buildMemorySummary(commit) {
-  const readState = (name) => readJsonSafe(path.join(repoRoot, ".agent", "state", `${name}.json`)) ?? {};
+  const runtimeStateDir = path.join(repoRoot, ".agent", "runtime", "state");
+  const runtimeAvailable = existsSync(path.join(runtimeStateDir, "current-task.json"));
+  const readState = (name) => readJsonSafe(path.join(runtimeStateDir, `${name}.json`)) ?? {};
   const task = readState("current-task");
   const progress = readState("current-progress");
   const release = readState("release-status");
@@ -62,9 +64,10 @@ function buildMemorySummary(commit) {
   const actions = readState("next-actions").actions ?? [];
   const evidenceCurrent = quality.testedCommit === commit && quality.workingTreeCleanAtTest === true && !workingTreeDirty();
   return {
+    available: runtimeAvailable,
     currentTask: task.task ?? null,
     currentPhase: progress.currentPhase ?? null,
-    releaseState: release.releaseState ?? "planning",
+    releaseState: release.releaseState ?? "unverified",
     completionPercent: progress.overallPercent ?? 0,
     requirements: progress.requirements ?? { completed: 0, partial: 0, missing: 0 },
     blockers: (progress.blockers ?? []).slice(0, 10),
@@ -81,13 +84,13 @@ function buildMemorySummary(commit) {
     },
     nextActions: actions.slice(0, 10).map(({ id, title, priority, requiredRole, status }) => ({ id, title, priority, requiredRole, status })),
     nextAction: actions.find((action) => action.status !== "completed")?.title ?? null,
-    handoff: { status: handoff.status ?? null, summary: handoff.summary ?? null, updatedAt: handoff.updatedAt ?? null },
-    updatedAt: progress.updatedAt ?? null,
+    handoff: { status: handoff.status ?? null, summary: handoff.summary ?? null, updatedAt: handoff.generatedAt ?? handoff.updatedAt ?? null },
+    updatedAt: progress.generatedAt ?? progress.updatedAt ?? null,
   };
 }
 
 function buildEvidenceSummary() {
-  const summaryPath = path.join(repoRoot, "quality", "execution", "latest", "summary.json");
+  const summaryPath = path.join(repoRoot, "quality", "runtime", "execution", "latest", "summary.json");
   const summary = readJsonSafe(summaryPath);
   if (!summary) {
     return { available: false };

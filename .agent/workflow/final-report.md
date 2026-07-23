@@ -18,7 +18,7 @@ task type.
 ## Prerequisites
 
 - [`self-review.md`](self-review.md) has been completed and
-  `quality/execution/latest/self-review.md` reflects it.
+  `quality/runtime/execution/latest/self-review.md` reflects it locally.
 - Evidence has been captured per
   [`../quality/evidence.md`](../quality/evidence.md).
 
@@ -29,18 +29,18 @@ Structure the final report with these sections, following
 
 1. **What was requested.** Restate the task in one or two sentences.
 2. **What changed.** List files added/modified/deleted, matching
-   `quality/execution/latest/changed-files.txt` where an evidence run
+   `quality/runtime/execution/latest/changed-files.txt` where an evidence run
    exists.
 3. **Tests and evidence run.** Name every command actually executed (per
    [`testing.md`](testing.md)) and its real result — pass, fail, or
    `notAvailable`. Point to the evidence location:
-   `quality/execution/latest/summary.md` and `summary.json`.
+   `quality/runtime/execution/latest/summary.md` and `summary.json`.
 4. **Failures and warnings.** State any failure or warning verbatim from
-   `quality/execution/latest/failures.md` / `warnings.md` — never omit or
+   `quality/runtime/execution/latest/failures.md` / `warnings.md` — never omit or
    soften a real failure.
 5. **Manual review status.** State the status of `manualUxReview`,
    `manualSecurityReview`, and `manualContentReview` from
-   `quality/execution/latest/manual-review.md` exactly as recorded —
+   `quality/runtime/execution/latest/manual-review.md` exactly as recorded —
    `notRun` is reported as `notRun`, never implied as done.
 6. **Documentation impact.** State what docs/changelog were updated per
    [`documentation.md`](documentation.md), or that none were needed and
@@ -77,8 +77,8 @@ Structure the final report with these sections, following
 
 ## Evidence requirements
 
-The report must reference, not duplicate, the real evidence files under
-`quality/execution/latest/` (`summary.md`, `summary.json`, `failures.md`,
+The report must reference, not duplicate, runtime evidence under
+`quality/runtime/execution/latest/` (`summary.md`, `summary.json`, `failures.md`,
 `warnings.md`, `manual-review.md`, `self-review.md`, `changed-files.txt`)
 per [`../quality/evidence.md`](../quality/evidence.md) and
 [`../quality/reporting.md`](../quality/reporting.md).

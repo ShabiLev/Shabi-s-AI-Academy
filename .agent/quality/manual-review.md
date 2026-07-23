@@ -56,7 +56,7 @@ Per `deriveRecommendation()` in `scripts/evidence-utils.mjs`:
   recommendation is capped at `Ready with warnings` — never `Ready`.
 - `Ready` requires all three gates to be explicitly `passed` by a human.
 
-A real observed run on this branch (`quality/execution/latest/summary.json`)
+A real observed run on this branch (`quality/runtime/execution/latest/summary.json`)
 shows all three gates `status: "notRun"` and `manualReviewRequired: true` in
 `findings` — this is the expected, honest state for a run that has not yet
 had human sign-off, not a bug.

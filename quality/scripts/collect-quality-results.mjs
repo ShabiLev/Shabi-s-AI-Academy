@@ -139,6 +139,8 @@ function loadPlaywrightReport(name) {
 function collectPlaywright() {
   const fast = loadPlaywrightReport("fast");
   const full = loadPlaywrightReport("full");
+  const functional = loadPlaywrightReport("functional");
+  const crossBrowser = loadPlaywrightReport("cross-browser");
   const a11y = loadPlaywrightReport("a11y");
   const visualReport = loadPlaywrightReport("visual");
 
@@ -147,9 +149,16 @@ function collectPlaywright() {
     : fast.failed > 0
       ? gate("failed")
       : gate("passed");
-  const e2eFull = !full
+  const splitFull =
+    functional && crossBrowser
+      ? { failed: functional.failed + crossBrowser.failed }
+      : null;
+  // Prefer the current isolated reports. A stale historical monolithic report
+  // must never override fresh functional/cross-browser evidence.
+  const fullGate = splitFull ?? full;
+  const e2eFull = !fullGate
     ? gate("notRun")
-    : full.failed > 0
+    : fullGate.failed > 0
       ? gate("failed")
       : gate("passed");
 
@@ -168,7 +177,14 @@ function collectPlaywright() {
         status: visualReport.failed > 0 ? "failed" : "passed",
       };
 
-  const reports = [fast, full, a11y, visualReport].filter(Boolean);
+  const reports = [
+    fast,
+    full,
+    functional,
+    crossBrowser,
+    a11y,
+    visualReport,
+  ].filter(Boolean);
   const projectNames = new Set(reports.flatMap((r) => [...r.projectNames]));
   const playwrightSummary = reports.length
     ? {
@@ -179,7 +195,9 @@ function collectPlaywright() {
       }
     : null;
 
-  return { e2eFast, e2eFull, accessibility, visual, playwrightSummary };
+  const functionalE2e = !functional ? gate("notRun") : gate(functional.failed > 0 ? "failed" : "passed");
+  const crossBrowserGate = !crossBrowser ? gate("notRun") : gate(crossBrowser.failed > 0 ? "failed" : "passed");
+  return { e2eFast, e2eFull, functionalE2e, crossBrowser: crossBrowserGate, accessibility, visual, playwrightSummary };
 }
 
 // ---------- accessibility violation severities (best effort, from axe attachments) ----------
@@ -339,6 +357,8 @@ function main() {
   const {
     e2eFast,
     e2eFull,
+    functionalE2e,
+    crossBrowser,
     accessibility: a11yFromPw,
     visual: visualFromPw,
     playwrightSummary,
@@ -383,6 +403,8 @@ function main() {
     build,
     e2eFast,
     e2eFull,
+    functionalE2e,
+    crossBrowser,
     accessibility: accessibilityGate,
     visual: visualGate,
     performance: performanceGate,

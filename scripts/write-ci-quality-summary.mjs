@@ -16,6 +16,28 @@ try {
   reportRecommendation = report.recommendation ?? report.releaseRecommendation ?? "not recorded";
 } catch {}
 
+// visual-linux-candidates is label-gated and intentionally not one of this
+// job's required `needs` — it exists to produce reviewable screenshots, not
+// to gate merge. It still uploads a small status artifact (see ci.yml) so
+// this summary can say whether candidates exist for a human to review when
+// the mandatory visual gate has failed, rather than being silent about it.
+let candidateStatus = null;
+try {
+  const manifest = JSON.parse(
+    readFileSync("quality/runtime/ci/visual-linux-candidates/manifest.json", "utf8"),
+  );
+  candidateStatus = manifest.conclusion ?? "unknown";
+} catch {}
+const visualFailed = (process.env.VISUAL_LINUX ?? "missing") !== "success";
+let visualNote = null;
+if (visualFailed) {
+  visualNote = candidateStatus === "success"
+    ? "Visual comparison failed; candidate generation succeeded — human visual approval required in the visual-linux-candidates artifact before this can be resolved. Release remains blocked."
+    : candidateStatus
+      ? `Visual comparison failed; candidate generation also did not succeed (${candidateStatus}) — inspect visual-linux-candidates directly, its screenshots cannot be trusted for review. Release remains blocked.`
+      : "Visual comparison failed; no candidate-generation run is available for this SHA (add the generate-linux-visual-candidates label to a PR to produce one). Release remains blocked.";
+}
+
 const markdown = [
   "# CI quality summary",
   "",
@@ -25,6 +47,7 @@ const markdown = [
   "",
   `Quality report recommendation: **${reportRecommendation}**`,
   "",
+  ...(visualNote ? [visualNote, ""] : []),
 ].join("\n");
 mkdirSync("quality/generated", { recursive: true });
 writeFileSync("quality/generated/ci-quality-summary.md", markdown, "utf8");
@@ -40,6 +63,8 @@ writeFileSync("quality/generated/ci-quality-summary.json", `${JSON.stringify({
   generatedAt: new Date().toISOString(),
   gates: Object.fromEntries(gates.map(([label, key]) => [label, process.env[key] ?? "missing"])),
   reportRecommendation,
+  visualCandidateStatus: candidateStatus,
+  visualNote,
   conclusion: rows.every(({ result }) => result === "success") ? "success" : "failure",
 }, null, 2)}\n`, "utf8");
 if (process.env.GITHUB_STEP_SUMMARY) writeFileSync(process.env.GITHUB_STEP_SUMMARY, markdown, { flag: "a" });

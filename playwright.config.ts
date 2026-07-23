@@ -49,6 +49,11 @@ export default defineConfig({
         timezoneId: "Asia/Jerusalem",
         colorScheme: "dark",
         reducedMotion: "reduce",
+        // Explicit, not just inherited from the device preset — device
+        // pixel ratio changes every rendered pixel's rounding, so it's
+        // pinned here alongside the other capture-determinism settings
+        // rather than left implicit.
+        deviceScaleFactor: 1,
       },
     },
     {

@@ -173,7 +173,12 @@ jobs:
           if-no-files-found: ignore
 
   visual-linux:
-    runs-on: ubuntu-latest
+    # Pinned (not ubuntu-latest): a silent runner-image upgrade changes bundled
+    # system fonts and default rendering libraries, which is exactly the class
+    # of cross-run non-determinism this suite has repeatedly had to chase down
+    # (see docs/visual-regression.md). Bump deliberately, alongside a full
+    # baseline re-review, not as a side effect of GitHub relabeling "latest".
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with:
@@ -210,7 +215,9 @@ jobs:
 
   visual-linux-candidates:
     if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'generate-linux-visual-candidates')
-    runs-on: ubuntu-latest
+    # Must match visual-linux's pinned image exactly — candidate vs. compare
+    # environment parity is the whole point (see docs/visual-regression.md).
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
     steps:
@@ -253,7 +260,16 @@ jobs:
           mv test-results candidate-test-results
           mv playwright-report candidate-playwright-report
           exit "$comparison_status"
+      - name: Verify candidate-generation is authorized
+        env:
+          CI: "true"
+          GITHUB_EVENT_NAME: pull_request
+          VISUAL_UPDATE_APPROVED: "1"
+          VISUAL_UPDATE_CONTEXT: pull-request-candidates
+          VISUAL_BASELINE_MODE: generate-candidates
+        run: node quality/scripts/require-visual-update.mjs
       - name: Generate review candidates (never committed automatically)
+        continue-on-error: true
         env:
           CI: "true"
           GITHUB_EVENT_NAME: pull_request
@@ -262,15 +278,23 @@ jobs:
           VISUAL_BASELINE_MODE: generate-candidates
           PW_WORKERS: "1"
           PW_REPORT_NAME: visual
-        run: |
-          node quality/scripts/require-visual-update.mjs
-          npx playwright test e2e/specs/visual.spec.ts --project=visual-chromium --update-snapshots=missing
+        run: npx playwright test e2e/specs/visual.spec.ts --project=visual-chromium --update-snapshots=missing
+      - name: Classify candidate-generation result
+        # This job exists to produce reviewable screenshots for a human, not
+        # to gate merge, so a pixel mismatch against a stale/soon-to-be-
+        # replaced baseline must not fail it — only a real Playwright error
+        # (timeout, crash, selector never resolved) should. See
+        # quality/scripts/classify-visual-candidate-run.mjs.
+        run: node quality/scripts/classify-visual-candidate-run.mjs
       - name: Verify generated candidates
+        continue-on-error: true
         env:
           VISUAL_BASELINE_MODE: compare
           PW_WORKERS: "1"
           PW_REPORT_NAME: visual
         run: npx playwright test e2e/specs/visual.spec.ts --project=visual-chromium
+      - name: Classify candidate-verification result
+        run: node quality/scripts/classify-visual-candidate-run.mjs
       - name: Write candidate manifest
         if: always()
         run: node quality/scripts/visual-candidate-manifest.mjs build
@@ -317,6 +341,18 @@ jobs:
             quality/runtime/ci/visual-linux-candidates/manifest.json
           retention-days: 14
           if-no-files-found: error
+      - name: Upload candidate status for quality-summary
+        # Small, separate artifact matching quality-summary's "*-artifacts"
+        # download pattern, so it can report whether candidates were
+        # generated even though visual-linux-candidates isn't one of its
+        # required `needs` jobs (it's label-gated and optional).
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-linux-candidates-status-artifacts
+          path: quality/runtime/ci/visual-linux-candidates/manifest.json
+          retention-days: 14
+          if-no-files-found: ignore
 
   performance:
     runs-on: ubuntu-latest

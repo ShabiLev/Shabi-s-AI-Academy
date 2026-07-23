@@ -1698,6 +1698,16 @@ footer strong {
   gap: 14px 20px;
   margin: 0;
 }
+@media (max-width: 30rem) {
+  /* At narrow widths the available content width sits right at auto-fit's
+     1-vs-2-column threshold for a 160px minmax track, so the browser's
+     column-count choice becomes sub-pixel-dependent and can differ between
+     otherwise-identical renders, reflowing every field below. Forcing a
+     single column removes the ambiguity entirely below the breakpoint. */
+  .qa-header-grid {
+    grid-template-columns: 1fr;
+  }
+}
 .qa-header-grid dt {
   overflow-wrap: anywhere;
   color: var(--muted);

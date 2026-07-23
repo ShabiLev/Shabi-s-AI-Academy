@@ -9,6 +9,9 @@ const disableAnimationsCss = `
     scroll-behavior: auto !important;
     caret-color: transparent !important;
   }
+  progress, progress::-webkit-progress-bar, progress::-webkit-progress-value, progress::-moz-progress-bar {
+    animation: none !important;
+  }
 `;
 
 /**

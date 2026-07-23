@@ -1,4 +1,24 @@
-# Handoff: PR #2 Version 1.4 visual-regression recovery (stopped mid-investigation)
+# Handoff: PR #2 Version 1.4 visual-regression recovery — RESOLVED
+
+**Update:** the root cause (fonts not settled before a layout-sensitive
+click — see "Root cause #3, attempt 5" in
+`quality/runtime/visual-exclusion-audit.md`) was fixed, verified with 5
+consecutive real `visual-linux` passes, and a further masked-boundary
+issue (About/QA Center commit-branch masks) was found and fixed on top.
+CI itself was then restructured per explicit user direction: candidate
+generation is now diff-tolerant (only fails on real errors, not
+screenshot mismatches — see `quality/scripts/classify-visual-candidate-
+run.mjs`), the compare gate stays strict, quality-summary distinguishes
+"visual failed, candidates ready for review" from "visual failed, no
+candidates," and the visual environment (OS image, Playwright version,
+device scale factor) is now pinned against silent drift. Final state,
+verified in a single clean run at the final SHA (no reruns needed):
+quality-core, functional-e2e, cross-browser, accessibility, visual-linux,
+performance, and quality-summary all succeeded at `ef6e1de`.
+PR #2 has NOT been merged; `main` has not been touched. The sections
+below are preserved as the historical record of the investigation.
+
+---
 
 ## Task
 

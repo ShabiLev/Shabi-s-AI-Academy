@@ -181,6 +181,116 @@ jobs:
           retention-days: 14
           if-no-files-found: ignore
 
+  visual-linux-candidates:
+    if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'generate-linux-visual-candidates')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Verify exact triggering PR head SHA
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Record provenance SHAs
+        id: source
+        run: |
+          echo "head_sha=${{ github.event.pull_request.head.sha }}" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@v4
+        with: { node-version: 20.19.0, cache: npm }
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Record environment provenance
+        id: env
+        run: |
+          playwright_version=$(node -p "require('./package.json').devDependencies['@playwright/test'] ?? require('./package.json').dependencies['@playwright/test']")
+          browser_revision=$(ls "$HOME/.cache/ms-playwright" 2>/dev/null | grep '^chromium' | head -1)
+          echo "playwright_version=${playwright_version}" >> "$GITHUB_OUTPUT"
+          echo "browser_revision=${browser_revision:-unknown}" >> "$GITHUB_OUTPUT"
+          echo "linux_image_version=${ImageOS:-unknown}-${ImageVersion:-unknown}" >> "$GITHUB_OUTPUT"
+      - name: Capture existing Linux baselines
+        run: node quality/scripts/visual-candidate-manifest.mjs capture
+      - name: Capture pre-generation comparison evidence
+        continue-on-error: true
+        env:
+          CI: "true"
+          VISUAL_BASELINE_MODE: compare
+          PW_WORKERS: "1"
+          PW_REPORT_NAME: visual-candidates-before
+        run: |
+          set +e
+          npx playwright test e2e/specs/visual.spec.ts --project=visual-chromium
+          comparison_status=$?
+          set -e
+          mv test-results candidate-test-results
+          mv playwright-report candidate-playwright-report
+          exit "$comparison_status"
+      - name: Generate review candidates (never committed automatically)
+        env:
+          CI: "true"
+          GITHUB_EVENT_NAME: pull_request
+          VISUAL_UPDATE_APPROVED: "1"
+          VISUAL_UPDATE_CONTEXT: pull-request-candidates
+          VISUAL_BASELINE_MODE: generate-candidates
+          PW_WORKERS: "1"
+          PW_REPORT_NAME: visual
+        run: |
+          node quality/scripts/require-visual-update.mjs
+          npx playwright test e2e/specs/visual.spec.ts --project=visual-chromium --update-snapshots=missing
+      - name: Verify generated candidates
+        env:
+          VISUAL_BASELINE_MODE: compare
+          PW_WORKERS: "1"
+          PW_REPORT_NAME: visual
+        run: npx playwright test e2e/specs/visual.spec.ts --project=visual-chromium
+      - name: Write candidate manifest
+        if: always()
+        run: node quality/scripts/visual-candidate-manifest.mjs build
+        env:
+          EXPECTED_HEAD_SHA: ${{ steps.source.outputs.head_sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          SOURCE_BRANCH: ${{ github.head_ref }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+          PLAYWRIGHT_VERSION: ${{ steps.env.outputs.playwright_version }}
+          BROWSER_REVISION: ${{ steps.env.outputs.browser_revision }}
+          LINUX_IMAGE_VERSION: ${{ steps.env.outputs.linux_image_version }}
+          SUITE_GROUP: pull-request-${{ github.event.pull_request.number }}
+          VIEWPORT_GROUP: desktop
+          LANGUAGE_GROUP: he-en
+      - name: Write candidate provenance
+        if: always()
+        run: node scripts/write-ci-job-manifest.mjs
+        env:
+          EXPECTED_HEAD_SHA: ${{ steps.source.outputs.head_sha }}
+          SOURCE_BRANCH: ${{ github.head_ref }}
+          TARGET_BRANCH: ${{ github.base_ref }}
+          JOB_NAME: visual-linux-candidates
+          JOB_CONCLUSION: ${{ job.status }}
+          ARTIFACT_PATHS: |
+            e2e/specs/__screenshots__/
+            playwright-report/
+            test-results/
+            quality/generated/playwright-visual-results.json
+            quality/generated/visual-candidate-manifest.json
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-linux-candidates-pr${{ github.event.pull_request.number }}-${{ github.run_id }}
+          path: |
+            e2e/specs/__screenshots__/*-linux.png
+            playwright-report/
+            test-results/
+            quality/generated/playwright-visual-results.json
+            quality/generated/playwright-visual-candidates-before-results.json
+            quality/generated/visual-candidate-manifest.json
+            candidate-playwright-report/
+            candidate-test-results/
+            quality/runtime/ci/visual-linux-candidates/manifest.json
+          retention-days: 14
+          if-no-files-found: error
+
   performance:
     runs-on: ubuntu-latest
     steps:

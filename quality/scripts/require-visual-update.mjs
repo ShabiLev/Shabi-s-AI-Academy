@@ -1,10 +1,17 @@
 const localApproval =
   process.env.VISUAL_UPDATE_APPROVED === "1" && process.env.CI !== "true";
-const controlledWorkflow =
+const controlledWorkflowDispatch =
   process.env.VISUAL_UPDATE_APPROVED === "1" &&
   process.env.VISUAL_UPDATE_CONTEXT === "reviewed-linux-workflow" &&
   process.env.CI === "true" &&
   process.env.GITHUB_EVENT_NAME === "workflow_dispatch";
+const controlledPullRequestLabel =
+  process.env.VISUAL_UPDATE_APPROVED === "1" &&
+  process.env.VISUAL_UPDATE_CONTEXT === "pull-request-candidates" &&
+  process.env.VISUAL_BASELINE_MODE === "generate-candidates" &&
+  process.env.CI === "true" &&
+  process.env.GITHUB_EVENT_NAME === "pull_request";
+const controlledWorkflow = controlledWorkflowDispatch || controlledPullRequestLabel;
 
 if (!localApproval && !controlledWorkflow) {
   console.error(

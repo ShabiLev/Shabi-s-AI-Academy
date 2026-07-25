@@ -442,6 +442,23 @@ test.describe("visual — complete beta", () => {
     await page.goto("/about"); await expect(page.locator(".about-page h1")).toBeVisible(); await stabilize(page); await expect(page).toHaveScreenshot("about-he.png", { fullPage: true, mask: dynamicMasks(page) });
     await login(page); await english(page); await page.goto("/about"); await expect(page.locator(".about-page h1")).toBeVisible(); await stabilize(page); await expect(page).toHaveScreenshot("about-en.png", { fullPage: true, mask: dynamicMasks(page) });
   });
+
+  test("About page Commit/Build mask selector resolves to the row containers, not just the value", async ({ page }) => {
+    await page.goto("/about");
+    const rows = page.locator(".about-page .runtime-facts > div");
+    await expect(rows.nth(1)).toContainText("Commit");
+    await expect(rows.nth(2)).toContainText("Build");
+    const masked = page.locator(".about-page .runtime-facts > div:nth-child(2), .about-page .runtime-facts > div:nth-child(3)");
+    await expect(masked).toHaveCount(2);
+    // Each masked locator must be the whole grid row (dt + dd), not the dd
+    // alone — the row's box is fixed by the dl's grid-template-columns, so
+    // its bounding rect never depends on the length of the commit SHA or
+    // build timestamp text it contains this run.
+    for (const row of await masked.all()) {
+      await expect(row.locator("dt")).toHaveCount(1);
+      await expect(row.locator("dd")).toHaveCount(1);
+    }
+  });
   test("Prompt and Agent Playgrounds", async ({ page }) => {
     await login(page, "/playground/prompts"); await expect(page.locator("h1")).toBeVisible(); await stabilize(page); await expect(page).toHaveScreenshot("prompt-playground.png", { fullPage: true });
     await page.goto("/playground/agents"); await expect(page.locator("h1")).toBeVisible(); await stabilize(page); await expect(page).toHaveScreenshot("agent-playground.png", { fullPage: true });

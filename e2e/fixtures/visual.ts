@@ -24,15 +24,25 @@ export async function stabilize(page: Page): Promise<void> {
 
 /**
  * Elements explicitly opted out of comparison: real git commit/branch in the
- * QA Center header, and each Recent Items row. A row's entity type, kind, and
- * timestamp are driven by live route-based activity logging (see
- * WorkspaceContext's pathname effect), not the fixed sample/demo data the
- * rest of these tests use, so masking only the `<time>` text still left a
- * mask-boundary sliver free to drift by a pixel or two between runs.
+ * QA Center header, each Recent Items row, and the About page's Commit/Build
+ * facts. In each case the earlier mask targeted only the inline dynamic
+ * value (a `<dd>` or `<time>`), not the row it sits in. `.runtime-facts dl >
+ * div` lays each row out as `grid-template-columns: minmax(7rem, 0.3fr) 1fr`
+ * (see src/styles/index.css) — a fixed, layout-determined track, not one
+ * sized to the `<dd>`'s own text. But masking only the `<dd>` still reads
+ * that element's own getBoundingClientRect(), whose exact pixel boundary can
+ * shift by a hairline depending on the rendered width of its content (the
+ * commit SHA and build timestamp differ every build, and without
+ * `font-variant-numeric: tabular-nums` different digit glyphs have very
+ * slightly different advance widths). Two builds with different text in the
+ * same fixed-width cell can therefore mask a boundary that's a sub-pixel off
+ * from one another, leaving a one- or two-pixel sliver uncovered right at
+ * the edge. Masking the whole (content-independent) row container instead
+ * of the inline value removes that boundary from comparison entirely.
  */
 export function dynamicMasks(page: Page): Locator[] {
   return [
-    page.locator('[data-visual-mask]:not([data-visual-mask="runtime-id"]), .recent-items li, .about-page .runtime-facts > div:nth-child(2) dd, .about-page .runtime-facts > div:nth-child(3) dd'),
+    page.locator('[data-visual-mask]:not([data-visual-mask="runtime-id"]), .recent-items li, .about-page .runtime-facts > div:nth-child(2), .about-page .runtime-facts > div:nth-child(3)'),
     page.locator('.runtime-facts dl > div:has([data-visual-mask="runtime-id"])'),
   ];
 }

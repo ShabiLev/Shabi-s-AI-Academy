@@ -1713,6 +1713,17 @@ footer strong {
   margin: 4px 0 0;
   font-size: 0.92rem;
 }
+/* Keeps environment-dependent values (branch, commit, last-validated) at a
+   fixed single-line height so they don't reflow the grid row differently
+   between environments with very different value lengths (e.g. a short
+   "main" vs. a long feature-branch name) — that reflow previously produced
+   non-deterministic visual-regression captures even though the value itself
+   is masked. */
+.qa-header-grid-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .qa-status-badge {
   width: max-content;
   display: inline-flex;

@@ -183,17 +183,33 @@ export function QACenterPage() {
           </div>
           <div>
             <dt>{s.lastValidated}</dt>
-            <dd data-visual-mask="last-validated">
+            <dd
+              className="qa-header-grid-truncate"
+              data-visual-mask="last-validated"
+              title={report ? formatDate(report.generatedAt, locale) : s.notAvailable}
+            >
               {report ? formatDate(report.generatedAt, locale) : s.notAvailable}
             </dd>
           </div>
           <div>
             <dt>{s.commit}</dt>
-            <dd data-visual-mask="commit">{buildMetadata.commitSha}</dd>
+            <dd
+              className="qa-header-grid-truncate"
+              data-visual-mask="commit"
+              title={buildMetadata.commitSha}
+            >
+              {buildMetadata.commitSha}
+            </dd>
           </div>
           <div>
             <dt>{s.branch}</dt>
-            <dd data-visual-mask="branch">{buildMetadata.branch}</dd>
+            <dd
+              className="qa-header-grid-truncate"
+              data-visual-mask="branch"
+              title={buildMetadata.branch}
+            >
+              {buildMetadata.branch}
+            </dd>
           </div>
         </dl>
 

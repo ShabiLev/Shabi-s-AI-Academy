@@ -26,7 +26,12 @@ for (const absolute of files) {
   if (!png || width === 0 || height === 0) errors.push(`${path.relative(root, absolute)} is not a valid non-empty PNG`);
   records.push({ path: path.relative(root, absolute).replaceAll("\\", "/"), bytes: content.length, width, height, sha256: createHash("sha256").update(content).digest("hex") });
 }
-const hashes = Map.groupBy(records, (record) => record.sha256);
+const hashes = new Map();
+for (const record of records) {
+  const group = hashes.get(record.sha256) ?? [];
+  group.push(record);
+  hashes.set(record.sha256, group);
+}
 const duplicates = [...hashes.values()].filter((group) => group.length > 1).map((group) => group.map((record) => record.path));
 const report = { schemaVersion: 1, baselineCount: records.length, valid: errors.length === 0, errors, duplicateGroups: duplicates, records };
 const output = path.join(root, "quality", "runtime", "visual-baseline-integrity.json");

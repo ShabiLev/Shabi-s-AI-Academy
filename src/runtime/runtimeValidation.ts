@@ -1,3 +1,4 @@
+import { appMetadata } from "../config/appMetadata";
 import type { RunRequest, ValidationIssue, ValidationOutcome } from "./types";
 
 const secretFields = /api.?key|secret|password|token|credential/i;
@@ -24,7 +25,7 @@ export function validateRunRequest(request: RunRequest): ValidationOutcome {
     issues.push({
       field: "mode",
       code: "providerNotConfigured",
-      message: "Live execution is not available in Version 1.4.0-beta.1.",
+      message: `Live execution is not available in Version ${appMetadata.version}.`,
     });
   if (request.mode === "mock" && request.providerId !== "mock")
     issues.push({

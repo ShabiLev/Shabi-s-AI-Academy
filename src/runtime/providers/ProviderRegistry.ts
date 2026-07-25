@@ -1,3 +1,4 @@
+import { appMetadata } from "../../config/appMetadata";
 import { runtimeError } from "../runtimeErrors";
 import type { ProviderStatus } from "../types";
 import type { RuntimeProvider } from "./types";
@@ -37,7 +38,7 @@ export class ProviderRegistry {
         name: "Live Provider",
         status: "notConfigured" as const,
         capabilities: [],
-        reason: "Live execution is not available in Version 1.4.0-beta.1.",
+        reason: `Live execution is not available in Version ${appMetadata.version}.`,
       },
     ];
   }

@@ -15,10 +15,17 @@
 - Reduced Beginner Mode navigation to eight task-oriented destinations; advanced tooling remains available behind an explicit mode switch.
 - Pinned Linux CI runners and added provenance checks, build determinism, baseline integrity, and ten-run visual-candidate verification.
 
+### Fixed
+
+- QA Center's sample quality report no longer drifts into a false "stale data" warning as calendar days pass; its `generatedAt` is computed at load time instead of a fixed past date, and the "Last Validated" field is excluded from visual comparison.
+- About page's Commit/Build visual mask now covers the full row container instead of only the value, removing a source of Linux baseline non-determinism.
+- Eliminated a QA Center scroll-position source of Linux visual non-determinism.
+
 ### Safety
 
 - Runtime cleanup preserves approved visual baselines, archives, configuration, inventory, and human-reviewed evidence.
 - Visual candidates remain review-only and are never committed or approved automatically.
+- One localized, human-reviewed Linux visual condition is waived for this release; see [`docs/release-waivers/1.6.0-beta.1-linux-visual.md`](docs/release-waivers/1.6.0-beta.1-linux-visual.md).
 
 All notable changes to this project are documented here following the Keep a Changelog format.
 

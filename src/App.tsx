@@ -74,6 +74,7 @@ const AnalyticsPage = lazy(() => import("./pages/AnalyticsPage").then((module) =
 const HelpCenterPage = lazy(() => import("./pages/HelpCenterPage").then((module) => ({ default: module.HelpCenterPage })));
 const GlossaryPage = lazy(() => import("./pages/GlossaryPage").then((module) => ({ default: module.GlossaryPage })));
 const ProfilePage = lazy(() => import("./pages/ProfilePage").then((module) => ({ default: module.ProfilePage })));
+const HistoryPage = lazy(() => import("./pages/HistoryPage").then((module) => ({ default: module.HistoryPage })));
 const AccountSecurityPage = lazy(() => import("./pages/AccountSecurityPage").then((module) => ({ default: module.AccountSecurityPage })));
 const AccountMigrationPage = lazy(() => import("./pages/AccountMigrationPage").then((module) => ({ default: module.AccountMigrationPage })));
 const AosPage = lazy(() => import("./pages/AosPage").then((module) => ({ default: module.AosPage })));
@@ -196,6 +197,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                     <Route path="radar" element={<RadarPage />} />
                     <Route path="settings" element={<SettingsPage />} />
                     <Route path="profile" element={<Suspense fallback={null}><ProfilePage /></Suspense>} />
+                    <Route path="history" element={<Suspense fallback={null}><HistoryPage /></Suspense>} />
                     <Route element={<AuthenticatedRoute />}><Route path="account/security" element={<Suspense fallback={null}><AccountSecurityPage /></Suspense>} /><Route path="account/migration" element={<Suspense fallback={null}><AccountMigrationPage /></Suspense>} /></Route>
                     <Route element={<AdminRoute />}><Route path="admin" element={<AdminDashboardPage />} /><Route path="admin/users" element={<AdminUsersPage />} /><Route path="admin/content" element={<AdminContentPage />} /><Route path="admin/audit" element={<AdminAuditPage />} /></Route>
                     <Route path="qa" element={<QACenterPage />} />
@@ -209,6 +211,8 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                     <Route path="aos/progress" element={<Suspense fallback={null}><AosProgressPage /></Suspense>} />
                     <Route path="aos/memory" element={<Suspense fallback={null}><AosMemoryPage /></Suspense>} />
                     <Route path="aos/core" element={<Suspense fallback={null}><AosCorePage /></Suspense>} />
+                    <Route path="aos/capabilities" element={<Suspense fallback={null}><AosCorePage /></Suspense>} />
+                    <Route path="aos/scheduler" element={<Suspense fallback={null}><AosCorePage /></Suspense>} />
                     <Route path="runs" element={<Suspense fallback={null}><RunHistoryPage /></Suspense>} />
                     <Route path="runs/:runId" element={<Suspense fallback={null}><RunDetailsPage /></Suspense>} />
                   </Route>

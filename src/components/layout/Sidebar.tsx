@@ -6,9 +6,9 @@ import { useLanguage } from "../../i18n/LanguageContext";
 import { Icon } from "../common/Icon";
 import { navigationGroups } from "./navigation";
 import { ProfileMenu } from "./ProfileMenu";
+import { GuidanceHint } from "../../guidance/GuidanceHint";
 
-const storageKey = (userId: string) => `shabis-ai-academy:navigation-groups:v2:${userId}`;
-
+const storageKey = (userId: string) => `shabis-ai-academy:navigation-groups:v3:${userId}`;
 function loadGroupState(key: string): Record<string, boolean> {
   try {
     const value: unknown = JSON.parse(localStorage.getItem(key) ?? "null");
@@ -21,12 +21,11 @@ export function Sidebar({ mobile = false, onNavigate }: { mobile?: boolean; onNa
   const { t, language } = useLanguage();
   const { user } = useAuth();
   const { pathname } = useLocation();
-  const { mode, developerModeEnabled } = useExperience();
+  const { mode, developerModeEnabled, setMode } = useExperience();
   const key = storageKey(user?.id ?? "anonymous");
   const currentGroup = useMemo(() => navigationGroups.find((group) => group.items.some((item) => pathname === item.to || (!item.end && pathname.startsWith(`${item.to}/`))))?.id, [pathname]);
   const [stored, setStored] = useState<{ key: string; groups: Record<string, boolean> }>(() => ({ key, groups: loadGroupState(key) }));
   const groupState = stored.key === key ? stored.groups : loadGroupState(key);
-  const names = language === "he" ? { home: "בית", learn: "ללמוד", build: "ליצור", workspace: "סביבת העבודה", more: "עוד" } : { home: "Home", learn: "Learn", build: "Build", workspace: "Workspace", more: "More" };
   const visible = (visibility: "all" | "advanced" | "developer" = "all") => visibility === "all" || (visibility === "advanced" && mode === "advanced") || (visibility === "developer" && developerModeEnabled);
   const toggle = (id: string, open: boolean) => {
     const next = { ...groupState, [id]: open };
@@ -37,6 +36,11 @@ export function Sidebar({ mobile = false, onNavigate }: { mobile?: boolean; onNa
   return <div className={mobile ? "sidebar sidebar-mobile" : "sidebar"}>
     <div className="brand-mark"><span className="brand-orbit" aria-hidden="true">A</span><div><strong>{t("brand.name")}</strong><span>{t("brand.tagline")}</span></div></div>
     <div className="sidebar-profile"><ProfileMenu mobile={mobile} /></div>
+    <GuidanceHint id="sidebar" he="התפריט מציג רק משימות מרכזיות. אפשר לעבור למצב מתקדם בכל עת." en="Navigation shows the main tasks only. You can switch to Advanced Mode at any time." />
+    <button className="sidebar-mode-switch" type="button" aria-pressed={mode === "advanced"} onClick={() => setMode(mode === "beginner" ? "advanced" : "beginner")}>
+      <strong>{language === "he" ? (mode === "beginner" ? "מצב מתחילים" : "מצב מתקדם") : (mode === "beginner" ? "Beginner Mode" : "Advanced Mode")}</strong>
+      <span>{language === "he" ? (mode === "beginner" ? "הצגת כלים מתקדמים" : "חזרה לניווט ממוקד") : (mode === "beginner" ? "Show advanced tools" : "Return to focused navigation")}</span>
+    </button>
     <nav aria-label={t("header.workspace")} className="main-nav">
       {navigationGroups.map((group) => {
         const items = group.items.filter((item) => visible(item.visibility));
@@ -44,7 +48,7 @@ export function Sidebar({ mobile = false, onNavigate }: { mobile?: boolean; onNa
         const expanded = Boolean(groupState[group.id]) || currentGroup === group.id;
         return <details key={group.id} open={expanded} onToggle={(event) => {
           if (event.currentTarget.open !== expanded) toggle(group.id, event.currentTarget.open);
-        }}><summary>{names[group.id]}</summary><div>{items.map((item) => <NavLink key={item.to} to={item.to} end={item.end} onClick={onNavigate} className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}><Icon name={item.icon} /><span>{t(item.label)}</span></NavLink>)}</div></details>;
+        }}><summary>{group.title[language]}</summary><div>{items.map((item) => <NavLink key={item.to} to={item.to} end={item.end} onClick={onNavigate} className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}><Icon name={item.icon} /><span>{t(item.label)}</span></NavLink>)}</div></details>;
       })}
     </nav>
   </div>;

@@ -43,6 +43,11 @@ export const translations: Record<Language, Translations> = {
     "nav.howTo": "איך משתמשים",
     "nav.help": "מרכז עזרה",
     "nav.glossary": "מילון מונחים",
+    "nav.history": "היסטוריה",
+    "nav.playgrounds": "מגרשי ניסוי",
+    "nav.runtime": "סביבת הרצה",
+    "nav.capabilityRegistry": "מרשם יכולות",
+    "nav.scheduler": "מתזמן",
     "header.workspace": "מרחב הלמידה",
     "header.online": "המערכת פעילה",
     "header.hebrew": "עברית",
@@ -152,7 +157,7 @@ export const translations: Record<Language, Translations> = {
     "auth.description": "סביבת למידה מעשית לבניית מיומנויות בהנדסת AI וסוכנים.",
     "auth.developmentNotice":
       "מצב ההדגמה מיועד לפיתוח מקומי בלבד ואינו אימות מאובטח לשימוש אמיתי.",
-    "footer.version": "גרסה 1.5.0-beta.1",
+    "footer.version": "גרסה 1.6.0-beta.1",
     "footer.builtWhileLearning": "נבנה תוך כדי לימודי הנדסת AI",
   },
   en: {
@@ -197,6 +202,11 @@ export const translations: Record<Language, Translations> = {
     "nav.howTo": "How To",
     "nav.help": "Help Center",
     "nav.glossary": "Glossary",
+    "nav.history": "History",
+    "nav.playgrounds": "Playgrounds",
+    "nav.runtime": "Runtime",
+    "nav.capabilityRegistry": "Capability Registry",
+    "nav.scheduler": "Scheduler",
     "header.workspace": "Learning workspace",
     "header.online": "System online",
     "header.hebrew": "עברית",
@@ -312,7 +322,7 @@ export const translations: Record<Language, Translations> = {
       "A practical learning environment for building AI engineering and agent-development skills.",
     "auth.developmentNotice":
       "Demo mode is a local development simulation only and is not secure production authentication.",
-    "footer.version": "Version 1.5.0-beta.1",
+    "footer.version": "Version 1.6.0-beta.1",
     "footer.builtWhileLearning": "Built while learning AI engineering",
   },
 };

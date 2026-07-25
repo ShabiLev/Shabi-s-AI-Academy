@@ -10,38 +10,41 @@ export interface NavigationItem {
   visibility?: "all" | "advanced" | "developer";
 }
 
-export const navigationItems: NavigationItem[] = [
+export interface NavigationGroup {
+  id: string;
+  title: { he: string; en: string };
+  items: NavigationItem[];
+}
+
+const beginner: NavigationItem[] = [
   { to: "/dashboard", label: "nav.dashboard", icon: "dashboard", end: true },
-  { to: "/journey", label: "nav.journey", icon: "radar" },
   { to: "/lessons", label: "nav.lessons", icon: "lessons" },
-  { to: "/radar", label: "nav.radar", icon: "radar" },
   { to: "/prompts", label: "nav.prompts", icon: "prompts" },
   { to: "/agents", label: "nav.agents", icon: "agents" },
-  { to: "/playground/prompts", label: "nav.promptPlayground", icon: "prompts" },
-  { to: "/playground/agents", label: "nav.agentPlayground", icon: "agents" },
-  { to: "/workflows", label: "nav.workflows", icon: "projects" },
   { to: "/projects", label: "nav.projects", icon: "projects" },
-  { to: "/knowledge", label: "nav.knowledge", icon: "lessons" },
-  { to: "/runs", label: "nav.runs", icon: "clock" },
-  { to: "/assistant", label: "nav.assistant", icon: "agents" },
-  { to: "/search", label: "nav.search", icon: "prompts" },
-  { to: "/analytics", label: "nav.analytics", icon: "radar", visibility: "advanced" },
-  { to: "/how-to", label: "nav.howTo", icon: "lessons" },
+  { to: "/radar", label: "nav.radar", icon: "radar" },
+  { to: "/history", label: "nav.history", icon: "clock" },
   { to: "/help", label: "nav.help", icon: "lessons" },
-  { to: "/glossary", label: "nav.glossary", icon: "lessons" },
-  { to: "/docs", label: "nav.documentation", icon: "lessons", visibility: "advanced" },
-  { to: "/qa", label: "nav.qa", icon: "qa", visibility: "advanced" },
-  { to: "/release", label: "nav.release", icon: "qa", visibility: "advanced" },
-  { to: "/aos", label: "nav.aos", icon: "aos", visibility: "advanced" },
-  { to: "/settings", label: "nav.settings", icon: "settings" },
-  { to: "/developer", label: "nav.developer", icon: "settings", visibility: "developer" },
-  { to: "/roadmap", label: "nav.roadmap", icon: "radar", visibility: "advanced" },
 ];
 
-export const navigationGroups = [
-  { id: "home", items: navigationItems.filter((item) => item.to === "/dashboard") },
-  { id: "learn", items: navigationItems.filter((item) => ["/journey", "/lessons", "/radar"].includes(item.to)) },
-  { id: "build", items: navigationItems.filter((item) => ["/prompts", "/agents", "/playground/prompts", "/playground/agents", "/workflows"].includes(item.to)) },
-  { id: "workspace", items: navigationItems.filter((item) => ["/projects", "/knowledge", "/runs"].includes(item.to)) },
-  { id: "more", items: navigationItems.filter((item) => ["/assistant", "/search", "/analytics", "/help", "/glossary", "/how-to", "/docs", "/qa", "/release", "/aos", "/settings", "/developer", "/roadmap"].includes(item.to)) },
-] as const;
+const advanced: NavigationItem[] = [
+  { to: "/playground/prompts", label: "nav.playgrounds", icon: "prompts", visibility: "advanced" },
+  { to: "/workflows", label: "nav.workflows", icon: "projects", visibility: "advanced" },
+  { to: "/runs", label: "nav.runtime", icon: "clock", visibility: "advanced" },
+  { to: "/qa", label: "nav.qa", icon: "qa", visibility: "advanced" },
+  { to: "/aos", label: "nav.aos", icon: "aos", visibility: "advanced" },
+  { to: "/knowledge", label: "nav.knowledge", icon: "lessons", visibility: "advanced" },
+  { to: "/analytics", label: "nav.analytics", icon: "radar", visibility: "advanced" },
+  { to: "/aos/capabilities", label: "nav.capabilityRegistry", icon: "aos", visibility: "advanced" },
+  { to: "/aos/scheduler", label: "nav.scheduler", icon: "clock", visibility: "advanced" },
+  { to: "/settings", label: "nav.settings", icon: "settings", visibility: "advanced" },
+  { to: "/developer", label: "nav.developer", icon: "settings", visibility: "developer" },
+];
+
+export const navigationItems = [...beginner, ...advanced];
+export const navigationGroups: NavigationGroup[] = [
+  { id: "start", title: { he: "התחלה", en: "Start" }, items: beginner.slice(0, 4) },
+  { id: "workspace", title: { he: "עבודה ועזרה", en: "Work and help" }, items: beginner.slice(4) },
+  { id: "advanced-create", title: { he: "יצירה מתקדמת", en: "Advanced creation" }, items: advanced.slice(0, 3) },
+  { id: "advanced-system", title: { he: "מערכת ואיכות", en: "System and quality" }, items: advanced.slice(3) },
+];

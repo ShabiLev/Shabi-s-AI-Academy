@@ -13,8 +13,8 @@ describe("guided experience preferences and navigation", () => {
     expect(loadExperiencePreferences(storage)).toEqual({ schemaVersion: 1, mode: "advanced", developerModeEnabled: true });
   });
 
-  it("organizes every visible route once across five user-goal groups", () => {
-    expect(navigationGroups.map((group) => group.id)).toEqual(["home", "learn", "build", "workspace", "more"]);
+  it("organizes every visible route once across focused and advanced groups", () => {
+    expect(navigationGroups.map((group) => group.id)).toEqual(["start", "workspace", "advanced-create", "advanced-system"]);
     const routes = navigationGroups.flatMap((group) => group.items.map((item) => item.to));
     expect(new Set(routes).size).toBe(routes.length);
     expect(routes).toContain("/radar");

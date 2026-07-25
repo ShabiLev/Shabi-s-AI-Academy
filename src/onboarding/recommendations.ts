@@ -10,7 +10,7 @@ export const startingRecommendations: readonly StartingRecommendation[] = [
 ];
 
 const goalRecommendation: Record<MainGoal, string> = {
-  learn: "foundations", prompts: "prompt-pack", agent: "starter-agent", workflow: "workflow", qa: "qa-tour", explore: "dashboard-tour",
+  learn: "foundations", productivity: "workflow", prompts: "prompt-pack", agent: "starter-agent", explore: "dashboard-tour", workflow: "workflow", qa: "qa-tour",
 };
 
 export function recommendStartingPath(profile: Pick<OnboardingProfile, "mainGoal" | "interests" | "experienceLevel">): StartingRecommendation {

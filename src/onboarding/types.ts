@@ -1,5 +1,5 @@
-export type MainGoal = "learn" | "prompts" | "agent" | "workflow" | "qa" | "explore";
-export type ExperienceLevel = "beginner" | "some" | "advanced";
+export type MainGoal = "learn" | "productivity" | "prompts" | "agent" | "explore" | "workflow" | "qa";
+export type ExperienceLevel = "beginner" | "intermediate" | "advanced" | "some";
 export type Interest = "qa" | "sql" | "product" | "development" | "promptEngineering" | "agents" | "automation" | "research";
 
 export interface OnboardingProfile {

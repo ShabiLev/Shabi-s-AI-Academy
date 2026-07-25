@@ -2451,11 +2451,24 @@ html[data-motion="reduced"] * { scroll-behavior: auto !important; animation-dura
 .recommendation-card { padding: var(--space-5); border: 1px solid var(--accent); border-radius: var(--radius); background: rgba(35,133,200,.1); }
 .onboarding-actions,.onboarding-account-options { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3); }
 .guided-dashboard { display: grid; gap: var(--space-7); }
-.dashboard-continue { padding: clamp(var(--space-6), 5vw, var(--space-10)); border: 1px solid var(--line-bright); border-radius: var(--radius-lg); background: linear-gradient(135deg, rgba(35,133,200,.2), var(--panel)); }
+.dashboard-welcome { display: grid; gap: var(--space-2); }
+.dashboard-welcome > * { margin: 0; }
+.dashboard-continue { display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); padding: clamp(var(--space-5), 3vw, var(--space-7)); border: 1px solid var(--line-bright); border-radius: var(--radius-lg); background: linear-gradient(135deg, rgba(35,133,200,.2), var(--panel)); }
+.dashboard-continue > div { display: grid; gap: var(--space-2); }
+.dashboard-continue h2,.dashboard-continue p { margin: 0; }
 .dashboard-primary-actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-4); }
-.dashboard-primary-actions a { display: grid; place-items: center; min-block-size: 7rem; padding: var(--space-4); border: 1px solid var(--line-bright); border-radius: var(--radius); background: var(--panel); color: var(--text); text-align: center; font-weight: 700; }
-.dashboard-support-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-5); }
-@media (max-width: 47.5rem) { .onboarding-options-grid,.dashboard-primary-actions,.dashboard-support-grid { grid-template-columns: 1fr; } .dashboard-primary-actions a { min-block-size: var(--control-min-height); } }
+.dashboard-primary-actions a { display: grid; align-content: center; gap: var(--space-2); min-block-size: 7rem; padding: var(--space-4); border: 1px solid var(--line-bright); border-radius: var(--radius); background: var(--panel); color: var(--text); text-align: center; }
+.dashboard-primary-actions a:hover { border-color: var(--accent); transform: translateY(-1px); }
+.dashboard-primary-actions span { color: var(--text-muted); font-size: var(--font-size-sm); font-weight: 400; }
+.dashboard-recommendation { margin: 0; color: var(--text-muted); font-size: var(--font-size-sm); }
+.sidebar-mode-switch { display: grid; gap: .2rem; inline-size: 100%; padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius); background: transparent; color: var(--text); text-align: start; }
+.sidebar-mode-switch span { color: var(--text-muted); font-size: var(--font-size-xs); }
+.guidance-hint { display: grid; gap: var(--space-2); padding: var(--space-3); border-inline-start: .2rem solid var(--accent); border-radius: var(--radius); background: color-mix(in srgb, var(--accent) 10%, var(--panel)); font-size: var(--font-size-sm); }
+.guidance-hint p { margin: 0; }
+.guidance-hint > div { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.guidance-complete { padding: var(--space-3); border-radius: var(--radius); background: var(--success-soft); }
+@media (max-width: 62rem) { .dashboard-primary-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 36rem) { .onboarding-options-grid,.dashboard-primary-actions { grid-template-columns: 1fr; } .dashboard-primary-actions a { min-block-size: var(--control-min-height); } .dashboard-continue { align-items: stretch; flex-direction: column; } }
 .notification-center { position: relative; }
 .notification-center > button { position: relative; }
 .notification-center > button > span { position: absolute; inset-block-start: -.35rem; inset-inline-end: -.35rem; min-inline-size: 1.25rem; block-size: 1.25rem; display: grid; place-items: center; border-radius: 999px; color: #04101d; background: var(--warning); font-size: .65rem; font-weight: 800; }

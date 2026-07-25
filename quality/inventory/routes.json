@@ -925,5 +925,32 @@
     "parameterExample": "/aos/core",
     "access": "guest-or-authenticated",
     "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/aos/capabilities",
+    "pageId": "aos.capabilities",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/aos/capabilities",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/aos/scheduler",
+    "pageId": "aos.scheduler",
+    "group": "system",
+    "production": true,
+    "parameterExample": "/aos/scheduler",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/history",
+    "pageId": "history",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/history",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
   }
 ]

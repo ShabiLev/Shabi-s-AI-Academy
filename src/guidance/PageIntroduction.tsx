@@ -4,6 +4,7 @@ import { getAreaLabel, getPageById, resolvePageMetadata } from "./pageRegistry";
 import { localize } from "./types";
 import { useGuidedTour } from "./tours/GuidedTourContext";
 import { GlossaryTrigger } from "../glossary/GlossaryTrigger";
+import { GuidanceHint } from "./GuidanceHint";
 
 export function PageIntroduction() {
   const { pathname } = useLocation();
@@ -11,9 +12,9 @@ export function PageIntroduction() {
   const page = resolvePageMetadata(pathname);
   const parent = page.parent ? getPageById(page.parent) : undefined;
   const { startTour } = useGuidedTour();
-  if (page.id === "onboarding") return null;
+  if (page.id === "onboarding" || page.id === "dashboard") return null;
 
-  return <section className="page-introduction" aria-labelledby="page-context-title">
+  return <><section className="page-introduction" aria-labelledby="page-context-title">
     <nav className="breadcrumbs" aria-label={language === "he" ? "פירורי לחם" : "Breadcrumbs"}>
       <Link to="/dashboard">{language === "he" ? "בית" : "Home"}</Link>
       {page.area !== "home" && <><span aria-hidden="true">›</span><span>{localize(getAreaLabel(page.area), language)}</span></>}
@@ -29,5 +30,8 @@ export function PageIntroduction() {
         {page.tourId && <button className="text-button" type="button" onClick={() => startTour(page.tourId!)}>{language === "he" ? "סיור מודרך" : "Guided tour"}</button>}
       </div>
     </div>
-  </section>;
+  </section>
+  {page.id === "prompts" && <GuidanceHint id="prompts" he="כאן אפשר למצוא, לשמור ולבנות פרומפטים. התחלה טובה היא לפתוח תבנית קיימת." en="Find, save, and build prompts here. A good first step is opening an existing template." />}
+  {page.id === "agents" && <GuidanceHint id="agents" he="התחל מסוכן מוכן, בדוק אותו במצב Mock ורק אחר כך התאם אותו." en="Start from a ready agent, inspect it in Mock mode, then customize it." />}
+  </>;
 }

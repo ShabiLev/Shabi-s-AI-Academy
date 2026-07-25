@@ -2,6 +2,7 @@ import { execSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { readdirSync, statSync } from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import coverageThresholds from "../config/coverageThresholds.cjs";
 import lighthouseThresholds from "../config/lighthouseThresholds.cjs";
 
@@ -267,36 +268,45 @@ function collectVisualBaselineInfo() {
 
 // ---------- Lighthouse ----------
 function collectLighthouse() {
-  const routes = [];
+  // LHCI's "additive" collect mode shares staging state across both device
+  // profiles, so login-desktop/manifest.json and login-mobile/manifest.json
+  // each end up listing entries for BOTH ports (4173 desktop, 4174 mobile),
+  // and their report .json files get copied into both directories too. The
+  // previous approach — re-reading path.join(dirname(manifestPath),
+  // basename(entry.jsonPath)) — trusted the manifest's own folder as the
+  // device label and risked resolving the wrong profile's report through
+  // that ambiguity. Each manifest entry already carries LHCI's own final
+  // "summary" scores directly (no file re-read needed), and its "url" always
+  // names the real port, so deriving device from the URL and deduplicating
+  // by URL removes both the ambiguity and the duplicate entries.
+  const routesByUrl = new Map();
   const manifestPaths = [
-    ["quality/generated/lighthouse/login-desktop/manifest.json", "desktop"],
-    ["quality/generated/lighthouse/login-mobile/manifest.json", "mobile"],
+    "quality/generated/lighthouse/login-desktop/manifest.json",
+    "quality/generated/lighthouse/login-mobile/manifest.json",
   ];
-  for (const [manifestPath, device] of manifestPaths) {
+  for (const manifestPath of manifestPaths) {
     const manifest = readJsonSafe(manifestPath);
     if (!Array.isArray(manifest)) continue;
     for (const entry of manifest) {
+      if (!entry.summary || routesByUrl.has(entry.url)) continue;
+      const device = entry.url?.includes(":4174/") ? "mobile" : "desktop";
       const lhr = readJsonSafe(
-        path.join(
-          path.dirname(manifestPath),
-          path.basename(entry.jsonPath ?? ""),
-        ),
+        path.join(path.dirname(manifestPath), path.basename(entry.jsonPath ?? "")),
       );
-      if (!lhr) continue;
-      routes.push({
+      routesByUrl.set(entry.url, {
         route: "/login",
         device,
-        performance: lhr.categories?.performance?.score ?? null,
-        accessibility: lhr.categories?.accessibility?.score ?? null,
-        bestPractices: lhr.categories?.["best-practices"]?.score ?? null,
-        seo: lhr.categories?.seo?.score ?? null,
+        performance: entry.summary.performance ?? null,
+        accessibility: entry.summary.accessibility ?? null,
+        bestPractices: entry.summary["best-practices"] ?? null,
+        seo: entry.summary.seo ?? null,
         metrics: {
           largestContentfulPaintMs:
-            lhr.audits?.["largest-contentful-paint"]?.numericValue,
+            lhr?.audits?.["largest-contentful-paint"]?.numericValue,
           cumulativeLayoutShift:
-            lhr.audits?.["cumulative-layout-shift"]?.numericValue,
+            lhr?.audits?.["cumulative-layout-shift"]?.numericValue,
           totalBlockingTimeMs:
-            lhr.audits?.["total-blocking-time"]?.numericValue,
+            lhr?.audits?.["total-blocking-time"]?.numericValue,
         },
       });
     }
@@ -306,7 +316,9 @@ function collectLighthouse() {
       `quality/generated/lighthouse/authenticated-${device}-summary.json`,
     );
     for (const entry of summary ?? []) {
-      routes.push({
+      const key = `${entry.route}:${entry.device}`;
+      if (routesByUrl.has(key)) continue;
+      routesByUrl.set(key, {
         route: entry.route,
         device: entry.device,
         performance: entry.performance,
@@ -317,6 +329,7 @@ function collectLighthouse() {
       });
     }
   }
+  const routes = [...routesByUrl.values()];
   if (!routes.length) return { gate: gate("notAvailable"), summary: null };
   const thresholds = {
     desktop: lighthouseThresholds.desktop,
@@ -350,6 +363,36 @@ function collectGitDiff() {
       "git diff --check reported whitespace or conflict-marker issues.",
     );
   }
+}
+
+// CI passes each mandatory job's actual conclusion via these env vars (see
+// .github/workflows/ci.yml and scripts/write-ci-quality-summary.mjs, which
+// already treats them as ground truth for the release gate). The gates
+// this module recomputes are independently derived from downloaded artifact
+// files, which is fragile — e.g. performance's Lighthouse manifests can
+// reference cross-profile report filenames ambiguously when both device
+// profiles' "additive" collections share staging state, so the recomputed
+// status can disagree with what the job actually did. A job GitHub Actions
+// marked "failure" must never be reported as "passed" here regardless of
+// what the file-based recomputation found. Mutates `gates` in place.
+export function applyAuthoritativeJobOverrides(gates, env) {
+  const authoritativeJobEnv = {
+    functionalE2e: "FUNCTIONAL_E2E",
+    crossBrowser: "CROSS_BROWSER",
+    accessibility: "ACCESSIBILITY",
+    visual: "VISUAL_LINUX",
+    performance: "PERFORMANCE",
+  };
+  for (const [gateName, envName] of Object.entries(authoritativeJobEnv)) {
+    const conclusion = env[envName];
+    if (conclusion === "failure" && gates[gateName].status !== "failed") {
+      gates[gateName] = gate(
+        "failed",
+        `GitHub Actions reported the ${envName} job as failed; overriding the file-based "${gates[gateName].status}" recomputation, which disagreed.`,
+      );
+    }
+  }
+  return gates;
 }
 
 function main() {
@@ -425,6 +468,7 @@ function main() {
     gitDiff,
   };
 
+  applyAuthoritativeJobOverrides(gates, process.env);
   const report = {
     schemaVersion: SCHEMA_VERSION,
     applicationVersion: buildMetadata?.version ?? pkg?.version ?? "0.0.0",
@@ -501,4 +545,4 @@ function main() {
   );
 }
 
-main();
+if (import.meta.url === pathToFileURL(process.argv[1]).href) main();

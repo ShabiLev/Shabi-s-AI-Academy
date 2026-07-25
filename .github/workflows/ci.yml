@@ -31,6 +31,7 @@ jobs:
       - run: npm run aos:check
       - run: npm run test:aos
       - run: npm run test:evidence
+      - run: npm run test:quality-summary
       - run: npm run memory:update
       - run: npm run memory:check
       - run: npm run lint

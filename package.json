@@ -60,6 +60,7 @@
     "quality:baseline-integrity": "node quality/scripts/verify-visual-baselines.mjs",
     "quality:classify": "node quality/scripts/classify-change-impact.mjs",
     "test:evidence": "node --test scripts/evidence-utils.test.mjs",
+    "test:quality-summary": "node --test quality/scripts/quality-summary-gates.test.mjs",
     "test:aos": "node --test scripts/validate-aos.test.mjs scripts/agent-memory.test.mjs scripts/research/research.test.mjs quality/scripts/server-readiness.test.mjs",
     "memory:update": "node scripts/update-agent-memory.mjs",
     "memory:check": "node scripts/validate-agent-memory.mjs",
@@ -109,7 +110,7 @@
     "validate": "npm run lint && npm run test:run && npm run build && npm run test:e2e",
     "validate:full": "npm run lint && npm run test:run && npm run build && npm run test:e2e:full",
     "validate:quality": "npm run lint && npm run test:run && npm run test:coverage && npm run build && npm run test:e2e && npm run test:a11y",
-    "validate:release": "npm run docs:check && npm run aos:check && npm run test:aos && npm run test:evidence && npm run test:release && npm run memory:check && npm run lint && npm run test:run && npm run test:coverage && npm run build && npm run build:pages && npm run catalog:check && npm run quality:inventory && npm run test:e2e:functional && npm run test:e2e:cross-browser && npm run test:journeys && npm run test:ux && npm run test:a11y && npm run test:visual && npm run test:performance && npm run quality:collect && npm run quality:analyze && npm run quality:system-report && npm run test:e2e:pages && git diff --check"
+    "validate:release": "npm run docs:check && npm run aos:check && npm run test:aos && npm run test:evidence && npm run test:quality-summary && npm run test:release && npm run memory:check && npm run lint && npm run test:run && npm run test:coverage && npm run build && npm run build:pages && npm run catalog:check && npm run quality:inventory && npm run test:e2e:functional && npm run test:e2e:cross-browser && npm run test:journeys && npm run test:ux && npm run test:a11y && npm run test:visual && npm run test:performance && npm run quality:collect && npm run quality:analyze && npm run quality:system-report && npm run test:e2e:pages && git diff --check"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",

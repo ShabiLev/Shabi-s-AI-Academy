@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync } from "node:fs";
+import { pathToFileURL } from "node:url";
 
 const REPORT_PATH = "quality/generated/latest-quality-report.json";
 
@@ -33,7 +34,7 @@ function hasSevereAccessibilityViolation(report) {
   );
 }
 
-function hasBlockingGateFailure(gates) {
+export function hasBlockingGateFailure(gates) {
   // e2eFast is a local-only quick-iteration profile: neither CI (ci.yml) nor
   // the comprehensive local `validate:release` command ever runs it, so it
   // can never read back as "passed" in either authoritative release-gating
@@ -51,7 +52,7 @@ function hasBlockingGateFailure(gates) {
  * real local checklist state (see qualityStatus.ts) rather than trusting this
  * field from an imported/generated report.
  */
-function computeReleaseStatus(report) {
+export function computeReleaseStatus(report) {
   if (hasBlockingGateFailure(report.gates)) return "blocked";
   if (isCoverageBelowThreshold(report)) return "blocked";
   if (hasSevereAccessibilityViolation(report)) return "blocked";
@@ -72,7 +73,7 @@ const gateNames = [
   "gitDiff",
 ];
 
-function analyze(report) {
+export function analyze(report) {
   const overallStatus = computeReleaseStatus(report);
   const failedGates = gateNames.filter(
     (n) => report.gates[n].status === "failed",
@@ -231,4 +232,4 @@ function main() {
   }
 }
 
-main();
+if (import.meta.url === pathToFileURL(process.argv[1]).href) main();

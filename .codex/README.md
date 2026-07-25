@@ -6,7 +6,7 @@ This directory is the authoritative engineering source of truth for architecture
 
 - Engineering Kit: **1.0.0**
 - Current application: **1.4.0-beta.1**
-- Planned application: **1.5.0-beta.1**
+- Planned application: **1.6.0-beta.1**
 - Active work: **Agent Operating System (AOS)**
 
 The AOS at [`../.agent/`](../.agent/README.md) is the orchestration layer

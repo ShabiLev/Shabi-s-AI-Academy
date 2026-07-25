@@ -1,6 +1,6 @@
 # Shabi's AI Academy
 
-Shabi's AI Academy is a bilingual, local-first AI learning and building workspace. The active release is **Version 1.5.0-beta.1**, adding AOS Core infrastructure, a validated source-based AI Radar, and a simpler workspace experience — see [`.agent/README.md`](.agent/README.md) and the in-app `/aos/core` and `/radar` views.
+Shabi's AI Academy is a bilingual, local-first AI learning and building workspace. The active release is **Version 1.6.0-beta.1**, focused on a quieter Dashboard, task-oriented navigation, four-step onboarding, deterministic CI evidence, and bounded runtime storage — see [`.agent/README.md`](.agent/README.md).
 
 The AI Workspace connects 45 open bilingual lessons, 250 structured prompts in 11 packs, 32 immutable starter-agent templates, personal builders, Playgrounds, Projects, Knowledge Base, Global Search, Command Palette, Local Assistant, deterministic workflows, activity analytics, notifications, and complete backup. Mock and Dry Run are executable; Live remains intentionally disabled and no browser API key input exists.
 

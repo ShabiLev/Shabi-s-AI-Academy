@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.6.0-beta.1] - 2026-07-25
+
+### Added
+
+- Four-step, skippable onboarding with a deterministic starting recommendation.
+- Per-user onboarding, experience-mode, navigation, and contextual-hint preferences.
+- Bounded quality-runtime retention, storage audit, cleanup, integrity, fingerprint, and determinism commands.
+- Dedicated Recent Items history route and contextual help hints.
+
+### Changed
+
+- Replaced the Dashboard card collection with one continuation section and four primary task tiles.
+- Reduced Beginner Mode navigation to eight task-oriented destinations; advanced tooling remains available behind an explicit mode switch.
+- Pinned Linux CI runners and added provenance checks, build determinism, baseline integrity, and ten-run visual-candidate verification.
+
+### Safety
+
+- Runtime cleanup preserves approved visual baselines, archives, configuration, inventory, and human-reviewed evidence.
+- Visual candidates remain review-only and are never committed or approved automatically.
+
 All notable changes to this project are documented here following the Keep a Changelog format.
 
 ## [1.5.0-beta.1] - 2026-07-22

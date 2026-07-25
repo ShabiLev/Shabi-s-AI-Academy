@@ -16,7 +16,7 @@ test("breadcrumbs return to the parent collection", async ({ page }) => {
 });
 
 test("guided tour completes with keyboard-operable controls", async ({ page }) => {
-  await login(page, "/dashboard");
+  await login(page, "/lessons");
   await page.getByRole("button", { name: /Guided tour|סיור מודרך/ }).click();
   const dialog = page.getByRole("dialog");
   await expect(dialog).toBeVisible();
@@ -25,4 +25,15 @@ test("guided tour completes with keyboard-operable controls", async ({ page }) =
   }
   await dialog.getByRole("button", { name: /Finish|סיום/ }).click();
   await expect(dialog).toHaveCount(0);
+});
+
+test("Dashboard guidance hint is dismissible, non-blocking, and does not reappear", async ({ page }) => {
+  await login(page, "/dashboard");
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  const hint = page.locator(".guidance-hint");
+  await expect(hint).toBeVisible();
+  await hint.getByRole("button", { name: /Got it|הבנתי/ }).click();
+  await expect(hint).toHaveCount(0);
+  await page.reload();
+  await expect(page.locator(".guidance-hint")).toHaveCount(0);
 });

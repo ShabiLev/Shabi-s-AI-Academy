@@ -33,15 +33,15 @@ test("Dashboard root and primary actions render in Beginner and Advanced modes",
   await page.getByRole("radio", { name: /מצב מתקדם|Advanced Mode/ }).click();
   await page.goto("/dashboard");
   await expectPopulatedDashboard(page);
-  await expect(page.getByRole("heading", { name: /איכות ואבחון|Quality and diagnostics/ })).toBeVisible();
+  await page.locator(".desktop-sidebar").getByText(/מערכת ואיכות|System and quality/, { exact: true }).click();
+  await expect(page.locator(".desktop-sidebar").getByRole("link", { name: /מרכז QA|QA Center/ })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /איכות ואבחון|Quality and diagnostics/ })).toHaveCount(0);
 });
 
-test("Recent Items is canonical under Profile and sidebar reveals only the current group", async ({ page }) => {
+test("Recent Items is available from History and beginner navigation stays focused", async ({ page }) => {
   await login(page, "/radar");
-  const groups = page.locator(".desktop-sidebar nav details");
-  await expect(groups.filter({ has: page.getByRole("link", { name: /רדאר|Radar/ }) })).toHaveAttribute("open", "");
-  await expect(groups.filter({ has: page.locator('.nav-link[href="/agents"]') })).not.toHaveAttribute("open", "");
-  await page.goto("/profile");
+  await expect(page.locator(".desktop-sidebar nav .nav-link")).toHaveCount(8);
+  await page.goto("/history");
   await expect(page.getByRole("heading", { name: /^(פריטים אחרונים|Recent Items)$/ })).toBeVisible();
 });
 

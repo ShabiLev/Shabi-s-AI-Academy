@@ -9,21 +9,18 @@ test("new visitor completes personalized guest onboarding", async ({ page }) => 
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Learn AI through guided practice" })).toBeVisible();
   await page.getByRole("button", { name: "Start as Guest" }).click();
-  await expect(page.getByText("Step 1 of 7")).toBeVisible();
-  await page.getByRole("button", { name: "Next" }).click();
-  await page.getByLabel("Build an agent").check();
+  await expect(page.getByText("Step 1 of 4")).toBeVisible();
+  await page.getByLabel("Build agents").check();
   await page.getByRole("button", { name: "Next" }).click();
   await page.getByLabel("Advanced").check();
   await page.getByRole("button", { name: "Next" }).click();
-  await page.getByLabel("QA and testing").check();
+  await page.getByLabel("Agents").check();
   await page.getByRole("button", { name: "Next" }).click();
-  await expect(page.getByRole("heading", { name: "Recommended starting path" })).toBeVisible();
-  await page.getByRole("button", { name: "Next" }).click();
-  await page.getByRole("button", { name: "Continue as Guest" }).click();
-  await page.getByRole("button", { name: "Open my Dashboard" }).click();
+  await expect(page.getByRole("heading", { name: "Your recommended starting path" })).toBeVisible();
+  await page.getByRole("button", { name: "Open Dashboard" }).click();
   await expect(page).toHaveURL(/\/dashboard$/);
   await page.goto("/settings");
-  await expect(page.getByRole("radio", { name: "Advanced Mode" })).toHaveAttribute("aria-checked", "true");
+  await expect(page.getByRole("radio", { name: "Beginner Mode" })).toHaveAttribute("aria-checked", "true");
 });
 
 test("onboarding fits a 320px Hebrew viewport", async ({ page }) => {

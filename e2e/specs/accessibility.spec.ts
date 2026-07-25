@@ -203,7 +203,7 @@ test.describe("accessibility — guided auth and account UX", () => {
     });
   }
 
-  for (const [name, route] of [["Onboarding", "/onboarding"], ["Help Center", "/help"], ["Glossary", "/glossary"], ["Profile", "/profile"]] as const) {
+  for (const [name, route] of [["Onboarding", "/onboarding"], ["Help Center", "/help"], ["Glossary", "/glossary"], ["Profile", "/profile"], ["History", "/history"]] as const) {
     test(name, async ({ page }) => {
       await login(page, route);
       await runAxeScan(page, test.info(), { label: `guided-${name.toLowerCase().replaceAll(" ", "-")}` });
@@ -211,7 +211,7 @@ test.describe("accessibility — guided auth and account UX", () => {
   }
 
   test("guided tour dialog", async ({ page }) => {
-    await login(page, "/dashboard");
+    await login(page, "/lessons");
     await page.getByRole("button", { name: /סיור מודרך|Guided tour/ }).click();
     await runAxeScan(page, test.info(), { label: "guided-tour-dialog" });
   });

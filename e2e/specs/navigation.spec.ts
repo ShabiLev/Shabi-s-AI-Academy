@@ -2,7 +2,9 @@ import { test, expect, login } from "../fixtures/academy";
 test("desktop sidebar navigates", async ({ page }) => {
   await login(page);
   const learn = page.locator(".desktop-sidebar .main-nav details").filter({ has: page.locator('a[href="/lessons"]') });
-  await learn.locator("summary").click();
+  if (!(await learn.evaluate((el) => (el as HTMLDetailsElement).open))) {
+    await learn.locator("summary").click();
+  }
   await learn.locator('a[href="/lessons"]').click();
   await expect(page).toHaveURL(/lessons/);
 });
@@ -17,7 +19,9 @@ test("mobile drawer opens, closes and route selection dismisses it", async ({
   await expect(page.getByRole("dialog")).toBeHidden();
   await page.getByRole("button", { name: "פתיחת תפריט הניווט" }).click();
   const learn = page.getByRole("dialog").locator("details").filter({ has: page.locator('a[href="/lessons"]') });
-  await learn.locator("summary").click();
+  if (!(await learn.evaluate((el) => (el as HTMLDetailsElement).open))) {
+    await learn.locator("summary").click();
+  }
   await learn.locator('a[href="/lessons"]').click();
   await expect(page.getByRole("dialog")).toBeHidden();
   await expect(page.getByRole("button", { name: "בית" })).toBeVisible();

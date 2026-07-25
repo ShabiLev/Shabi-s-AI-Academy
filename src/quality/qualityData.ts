@@ -7,6 +7,14 @@ export const IMPORTED_REPORT_STORAGE_KEY =
  * A hand-authored example so the QA Center has something to render before any
  * real report has been generated. Always surfaced in the UI labeled "Sample data" —
  * never mistaken for a real validation result.
+ *
+ * generatedAt is computed at module load (effectively page-load) time rather
+ * than hardcoded, so the sample never silently drifts into looking "stale"
+ * against computeReportStaleness()'s real-clock comparison as calendar days
+ * pass — a real user re-opening this demo data should always see it as
+ * current, and a hardcoded past date previously made that untrue after a
+ * fixed number of days (it also made QA Center's visual regression tests
+ * flip pass/fail depending on the exact day/minute they ran).
  */
 export const sampleQualityReport: QualityReport = {
   schemaVersion: QUALITY_SCHEMA_VERSION,
@@ -14,7 +22,7 @@ export const sampleQualityReport: QualityReport = {
   commitSha: "sample01",
   branch: "main",
   environment: "sample",
-  generatedAt: "2026-07-11T12:00:00.000Z",
+  generatedAt: new Date().toISOString(),
   overallStatus: "ready",
   gates: {
     lint: { status: "passed" },

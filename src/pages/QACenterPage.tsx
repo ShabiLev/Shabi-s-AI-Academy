@@ -183,7 +183,7 @@ export function QACenterPage() {
           </div>
           <div>
             <dt>{s.lastValidated}</dt>
-            <dd>
+            <dd data-visual-mask="last-validated">
               {report ? formatDate(report.generatedAt, locale) : s.notAvailable}
             </dd>
           </div>

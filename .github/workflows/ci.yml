@@ -36,6 +36,13 @@ jobs:
       - run: npm run lint
       - run: npm run test:coverage
       - run: npm run build
+      - name: Record build status for quality-summary
+        # quality-summary runs in its own checkout and never receives dist/,
+        # so its build gate (which only checks for dist/index.html) always
+        # reads back as "notRun" there even though the build above succeeded.
+        # This tiny marker travels with the rest of quality-core-artifacts so
+        # the aggregating job can tell the two situations apart.
+        run: echo '{"status":"passed"}' > quality/generated/build-status.json
       - name: Write immutable job provenance
         if: always()
         run: node scripts/write-ci-job-manifest.mjs
@@ -45,6 +52,7 @@ jobs:
           ARTIFACT_PATHS: |
             coverage/
             quality/generated/vitest-results.json
+            quality/generated/build-status.json
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -52,6 +60,7 @@ jobs:
           path: |
             coverage/
             quality/generated/vitest-results.json
+            quality/generated/build-status.json
             quality/runtime/ci/quality-core/manifest.json
           retention-days: 14
           if-no-files-found: ignore
@@ -211,9 +220,22 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: performance-artifacts
-          path: |
-            quality/generated/lighthouse/
-            quality/runtime/ci/performance/manifest.json
+          # A single path root, so upload-artifact's least-common-ancestor
+          # computation is exactly this directory — its contents flatten to
+          # login-desktop/, login-mobile/, etc. as the quality-summary job's
+          # "Restore Lighthouse artifact layout" step expects. Bundling the
+          # provenance manifest.json (which lives under quality/runtime/ci/)
+          # alongside it pulls the shared ancestor up to quality/ instead,
+          # leaving every Lighthouse file nested one level too deep and
+          # making the performance gate silently read back as "notAvailable".
+          path: quality/generated/lighthouse/
+          retention-days: 14
+          if-no-files-found: ignore
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-provenance-artifacts
+          path: quality/runtime/ci/performance/manifest.json
           retention-days: 14
           if-no-files-found: ignore
 

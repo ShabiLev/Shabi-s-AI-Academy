@@ -34,7 +34,12 @@ function hasSevereAccessibilityViolation(report) {
 }
 
 function hasBlockingGateFailure(gates) {
-  const mandatory = ["lint", "unitTests", "coverage", "build", "e2eFast", "e2eFull", "accessibility", "visual", "performance", "gitDiff"];
+  // e2eFast is a local-only quick-iteration profile: neither CI (ci.yml) nor
+  // the comprehensive local `validate:release` command ever runs it, so it
+  // can never read back as "passed" in either authoritative release-gating
+  // flow. Treating it as mandatory here would silently and permanently block
+  // every report both flows produce.
+  const mandatory = ["lint", "unitTests", "coverage", "build", "e2eFull", "accessibility", "visual", "performance", "gitDiff"];
   return mandatory.some((name) => gates[name].status !== "passed") || gates.manualChecklist.status === "failed";
 }
 

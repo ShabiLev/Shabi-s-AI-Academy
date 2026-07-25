@@ -47,7 +47,17 @@ function collectLint() {
 
 // ---------- build ----------
 function collectBuild() {
-  return existsSync("dist/index.html") ? gate("passed") : gate("notRun");
+  // A local `npm run validate:release` builds and collects in the same
+  // working directory, so dist/index.html is the direct signal there. CI's
+  // quality-summary job aggregates results from other jobs' artifacts and
+  // never receives dist/ itself, so it falls back to the marker quality-core
+  // writes right after its own `npm run build` succeeds.
+  if (existsSync("dist/index.html")) return gate("passed");
+  const marker = readJsonSafe(
+    path.join(GENERATED_DIR, "build-status.json"),
+  );
+  if (marker?.status === "passed") return gate("passed");
+  return gate("notRun");
 }
 
 // ---------- unit tests (Vitest) ----------

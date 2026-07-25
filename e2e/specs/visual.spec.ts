@@ -99,6 +99,10 @@ async function loadSampleIfAvailable(page: Page) {
     name: /טעינת נתוני דוגמה|Load sample data/,
   });
   await button.click();
+  // Loading the sample toggles content above the fold; reset scroll so the
+  // screenshot always starts from the same top-of-page state (otherwise
+  // narrow/short viewports can settle a few pixels apart between runs).
+  await page.evaluate(() => window.scrollTo(0, 0));
 }
 
 async function useStableQaSample(page: Page) {

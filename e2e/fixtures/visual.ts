@@ -22,10 +22,17 @@ export async function stabilize(page: Page): Promise<void> {
   await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
 }
 
-/** Elements explicitly opted out of comparison (e.g. real git commit/branch in the QA Center header). */
+/**
+ * Elements explicitly opted out of comparison: real git commit/branch in the
+ * QA Center header, and each Recent Items row. A row's entity type, kind, and
+ * timestamp are driven by live route-based activity logging (see
+ * WorkspaceContext's pathname effect), not the fixed sample/demo data the
+ * rest of these tests use, so masking only the `<time>` text still left a
+ * mask-boundary sliver free to drift by a pixel or two between runs.
+ */
 export function dynamicMasks(page: Page): Locator[] {
   return [
-    page.locator('[data-visual-mask]:not([data-visual-mask="runtime-id"]), .recent-items time, .about-page .runtime-facts > div:nth-child(2) dd, .about-page .runtime-facts > div:nth-child(3) dd'),
+    page.locator('[data-visual-mask]:not([data-visual-mask="runtime-id"]), .recent-items li, .about-page .runtime-facts > div:nth-child(2) dd, .about-page .runtime-facts > div:nth-child(3) dd'),
     page.locator('.runtime-facts dl > div:has([data-visual-mask="runtime-id"])'),
   ];
 }

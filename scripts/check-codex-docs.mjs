@@ -176,7 +176,7 @@ if (
     "Current application 1.4.0-beta.1 or Sprint baseline 0.6.1 is not documented consistently.",
   );
 if (
-  !index.includes("Planned application: **1.5.0-beta.1**") ||
+  !index.includes("Planned application: **1.6.0-beta.1**") ||
   !master.includes("Target application: **0.7.0**")
 )
   errors.push("Application plan or archived Sprint target is not documented consistently.");

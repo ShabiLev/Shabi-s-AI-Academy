@@ -34,7 +34,10 @@ on:
 jobs:
   generate:
     if: inputs.confirm_generation == 'GENERATE_REVIEWED_LINUX_BASELINES'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    env:
+      TZ: Asia/Jerusalem
+      LANG: C.UTF-8
     permissions:
       contents: read
     steps:
@@ -87,7 +90,7 @@ jobs:
           FILE_FILTER: ${{ inputs.file_filter }}
           GREP_FILTER: ${{ inputs.grep_filter }}
         run: |
-          args=("$FILE_FILTER" "--project=visual-chromium" "--update-snapshots=missing")
+          args=("$FILE_FILTER" "--project=visual-chromium" "--update-snapshots=all")
           if [ -n "$GREP_FILTER" ]; then args+=("--grep=$GREP_FILTER"); fi
           node quality/scripts/require-visual-update.mjs
           npx playwright test "${args[@]}"
@@ -102,6 +105,20 @@ jobs:
           args=("$FILE_FILTER" "--project=visual-chromium")
           if [ -n "$GREP_FILTER" ]; then args+=("--grep=$GREP_FILTER"); fi
           npx playwright test "${args[@]}"
+      - name: Verify candidate determinism across ten runs
+        env:
+          VISUAL_BASELINE_MODE: compare
+          PW_WORKERS: "1"
+          PW_REPORT_NAME: visual-determinism
+          FILE_FILTER: ${{ inputs.file_filter }}
+          GREP_FILTER: ${{ inputs.grep_filter }}
+        run: |
+          args=("$FILE_FILTER" "--project=visual-chromium")
+          if [ -n "$GREP_FILTER" ]; then args+=("--grep=$GREP_FILTER"); fi
+          for run in $(seq 1 10); do
+            echo "Determinism run $run/10"
+            npx playwright test "${args[@]}"
+          done
       - name: Write candidate manifest
         if: always()
         run: node quality/scripts/visual-candidate-manifest.mjs build

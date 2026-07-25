@@ -9,9 +9,13 @@ on:
 permissions:
   contents: read
 
+env:
+  TZ: Asia/Jerusalem
+  LANG: C.UTF-8
+
 jobs:
   quality-core:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
@@ -20,6 +24,9 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
+      - run: npm run quality:fingerprint
+      - run: npm run quality:baseline-integrity
+      - run: npm run quality:build-determinism
       - run: npm run docs:check
       - run: npm run aos:check
       - run: npm run test:aos
@@ -50,7 +57,7 @@ jobs:
           if-no-files-found: ignore
 
   functional-e2e:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Verify exact triggering SHA
@@ -83,7 +90,7 @@ jobs:
           if-no-files-found: ignore
 
   cross-browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Verify exact triggering SHA
@@ -116,7 +123,7 @@ jobs:
           if-no-files-found: ignore
 
   accessibility:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Verify exact triggering SHA
@@ -149,7 +156,7 @@ jobs:
           if-no-files-found: ignore
 
   visual-linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       VISUAL_BASELINE_MODE: compare
     steps:
@@ -184,7 +191,7 @@ jobs:
           if-no-files-found: ignore
 
   performance:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Verify exact triggering SHA
@@ -211,7 +218,7 @@ jobs:
           if-no-files-found: ignore
 
   quality-summary:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [quality-core, functional-e2e, cross-browser, accessibility, visual-linux, performance]
     if: always()
     env:

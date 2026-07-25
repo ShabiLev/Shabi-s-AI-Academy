@@ -17,6 +17,11 @@ function gitOutput(command: string): string | undefined {
 const appVersion: string = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')).version
 const commitSha = process.env.VITE_DEPLOY_COMMIT_SHA || process.env.VERCEL_GIT_COMMIT_SHA || process.env.GITHUB_SHA || gitOutput('git rev-parse HEAD')
 const branch = process.env.VERCEL_GIT_COMMIT_REF || gitOutput('git rev-parse --abbrev-ref HEAD')
+const sourceDateEpoch = Number(process.env.SOURCE_DATE_EPOCH)
+const buildTime = process.env.VITE_BUILD_TIME
+  || (Number.isFinite(sourceDateEpoch) && sourceDateEpoch > 0 ? new Date(sourceDateEpoch * 1000).toISOString() : undefined)
+  || gitOutput('git show -s --format=%cI HEAD')
+  || '1970-01-01T00:00:00.000Z'
 const deployment = resolveDeploymentConfig(process.env)
 
 export default defineConfig({
@@ -35,7 +40,7 @@ export default defineConfig({
     __APP_VERSION__: JSON.stringify(appVersion),
     __COMMIT_SHA__: JSON.stringify(commitSha ?? ''),
     __BRANCH__: JSON.stringify(branch ?? ''),
-    __BUILD_TIME__: JSON.stringify(new Date().toISOString()),
+    __BUILD_TIME__: JSON.stringify(buildTime),
     __DEPLOYMENT_ENVIRONMENT__: JSON.stringify(deployment.deploymentEnvironment),
     __PUBLIC_SITE_URL__: JSON.stringify(deployment.publicSiteUrl),
   },

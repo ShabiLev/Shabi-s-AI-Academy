@@ -22,6 +22,7 @@ import {
   summarizeCoverage,
 } from "./evidence-utils.mjs";
 import { resolveGitContext } from "./agent-memory-lib.mjs";
+import { applyRetention } from "../quality/scripts/storage-manager.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const EXECUTION = path.join(ROOT, "quality", "runtime", "execution");
@@ -636,6 +637,7 @@ async function main() {
   const commandsPassed = commands.filter((command) => command.status === "passed").map((command) => command.command);
   writeFileSync(path.join(latest, "README.md"), `# Latest quality execution\n\n- Occurred: ${startedAt.toISOString()} to ${endedAt.toISOString()}\n- Source branch: ${gitContext.sourceBranch}\n- Runtime branch: ${gitContext.runtimeBranch}\n- Target branch: ${gitContext.targetBranch}\n- Execution context: ${gitContext.executionContext}\n- Tested commit: ${startingCommit}\n- Evidence storage: ignored runtime output locally; immutable workflow artifacts in CI\n- Working tree clean at test: ${workingTreeCleanAtTest ? "Yes" : "No"}\n- Profile: ${profile}\n- Commands run: ${commands.map((command) => command.command).join(", ")}\n- Commands passed: ${commandsPassed.join(", ") || "None"}\n- Commands failed: ${summary.failedCommands.join(", ") || "None"}\n- Heavy local artifacts: \`quality/runtime/execution/runs/${runId}/\` (ignored), plus copied Playwright, coverage, and quality-generated reports when available.\n- Commit policy: runtime evidence is never committed.\n- Manual review pending: ${pendingManual.length ? pendingManual.map(([name]) => name).join(", ") : "No"}\n`, "utf8");
 
+  await applyRetention();
   console.log(`\n[evidence] ${recommendation}: quality/runtime/execution/latest/summary.md`);
   if (recommendation === "Blocked") process.exitCode = 1;
 }

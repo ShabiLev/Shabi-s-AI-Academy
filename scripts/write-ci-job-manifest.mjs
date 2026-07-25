@@ -1,5 +1,6 @@
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { computeContentDigest } from "./evidence-utils.mjs";
@@ -49,10 +50,18 @@ const manifest = {
   eventName: required("GITHUB_EVENT_NAME"),
   generatedAt: new Date().toISOString(),
   jobName,
+  jobId: process.env.GITHUB_JOB || jobName,
   conclusion: process.env.JOB_CONCLUSION || "unknown",
   nodeVersion: process.version,
   npmVersion: execFileSync(process.platform === "win32" ? "npm.cmd" : "npm", ["--version"], { encoding: "utf8" }).trim(),
   files,
+  fileChecksums: files.map((file) => {
+    const content = readFileSync(path.join(root, file));
+    return { path: file, bytes: content.length, sha256: createHash("sha256").update(content).digest("hex") };
+  }),
+  environmentFingerprint: existsSync(path.join(root, "quality/runtime/environment-fingerprint.json"))
+    ? JSON.parse(readFileSync(path.join(root, "quality/runtime/environment-fingerprint.json"), "utf8")).sha256
+    : null,
   contentDigest: computeContentDigest(root, files),
 };
 const output = path.join(root, "quality", "runtime", "ci", jobName, "manifest.json");

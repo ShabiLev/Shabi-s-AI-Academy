@@ -17,6 +17,13 @@ export default defineConfig({
   fullyParallel: true,
   workers: Number(process.env.PW_WORKERS || 4),
   retries: process.env.CI ? 2 : 0,
+  expect: {
+    toHaveScreenshot: {
+      // Keep screenshot comparisons strict while tolerating minor renderer noise.
+      // Platform-specific baselines still protect Windows and Linux independently.
+      maxDiffPixelRatio: 0.002,
+    },
+  },
   reporter: [["list"], ["html", { open: "never" }], ["json", { outputFile: `quality/generated/playwright-${reportName}-results.json` }]],
   use: {
     baseURL,

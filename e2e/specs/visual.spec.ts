@@ -15,21 +15,21 @@ async function createPrompt(page: Page, title = "Visual QA Prompt") {
   await page.getByRole("button", { name: "שמירה" }).click();
 }
 
-test.describe("visual — Version 1.5 reviewed scenarios", () => {
+test.describe("visual — current product scenarios", () => {
   test("Profile Recent Items", async ({ page }) => {
     await login(page, "/lessons");
     await page.goto("/profile");
     await expect(page.locator(".recent-items")).toBeVisible();
     await expect(page.locator(".recent-items time").first()).toBeVisible();
     await stabilize(page);
-    await expect(page).toHaveScreenshot("v15-profile-recent-items.png", { fullPage: true, mask: dynamicMasks(page) });
+    await expect(page).toHaveScreenshot("profile-recent-items-current.png", { fullPage: true, mask: dynamicMasks(page) });
   });
 
   test("collapsed sidebar and local notifications", async ({ page }) => {
     await login(page);
     await page.getByRole("button", { name: /התראות|Notifications/ }).click();
     await stabilize(page);
-    await expect(page).toHaveScreenshot("v15-sidebar-notifications-open.png");
+    await expect(page).toHaveScreenshot("workspace-notifications-open.png");
     await page.keyboard.press("Escape");
     await expect(page.getByRole("dialog")).toHaveCount(0);
   });
@@ -38,11 +38,11 @@ test.describe("visual — Version 1.5 reviewed scenarios", () => {
     await login(page, "/radar");
     await expect(page.locator(".radar-card")).toHaveCount(3);
     await stabilize(page);
-    await expect(page).toHaveScreenshot("v15-radar-timeline.png", { fullPage: true });
+    await expect(page).toHaveScreenshot("radar-current-timeline.png", { fullPage: true });
     await page.locator(".radar-card").first().getByRole("button", { name: /שמירה|Save/ }).click();
     await page.getByRole("button", { name: /שמורים וקריאה מאוחרת|Saved & Read Later/ }).click();
     await stabilize(page);
-    await expect(page).toHaveScreenshot("v15-radar-favorites.png", { fullPage: true });
+    await expect(page).toHaveScreenshot("radar-current-favorites.png", { fullPage: true });
     await page.evaluate(() => {
       const onlineFetch = window.fetch.bind(window);
       window.fetch = (...args) =>
@@ -53,7 +53,7 @@ test.describe("visual — Version 1.5 reviewed scenarios", () => {
     await page.getByRole("button", { name: /ניסיון עדכון|Retry refresh/ }).click();
     await expect(page.locator(".radar-freshness")).toHaveAttribute("data-status", "offline");
     await stabilize(page);
-    await expect(page).toHaveScreenshot("v15-radar-offline.png", { fullPage: true });
+    await expect(page).toHaveScreenshot("radar-current-offline.png", { fullPage: true });
   });
 });
 

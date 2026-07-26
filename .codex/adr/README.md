@@ -15,3 +15,6 @@ Accepted ADRs override older architecture prose. Supersede decisions with a new 
 - [ADR-011: Optional Supabase Authentication](ADR-011-optional-supabase-authentication.md)
 - [ADR-012: Hybrid Data Providers](ADR-012-hybrid-data-providers.md)
 - [ADR-013: Radar Pages Artifact Publication](ADR-013-radar-pages-artifact-publication.md)
+- [ADR-014: Scheduled bounded Radar ingestion](ADR-014-scheduled-radar-ingestion.md)
+- [ADR-015: Versioned local guest profile repository](ADR-015-versioned-guest-profile-repository.md)
+- [ADR-016: Explicit local consent and feedback boundary](ADR-016-consent-and-feedback-boundary.md)

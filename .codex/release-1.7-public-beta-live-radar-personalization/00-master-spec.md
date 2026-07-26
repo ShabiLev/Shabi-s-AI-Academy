@@ -1,6 +1,6 @@
 # Version 1.7.0-beta.1 master specification
 
-Status: planning; architecture audit complete; implementation has not started.
+Status: implementation complete; release validation in progress.
 
 ## Release identity
 
@@ -9,7 +9,7 @@ Status: planning; architecture audit complete; implementation has not started.
 - Working branch: `feature/1.7-public-beta-live-radar-personalization`
 - Target version: `1.7.0-beta.1`
 - Release name: **Public Beta — Live AI Radar + Guest Personalization**
-- Release state: `planning`
+- Release state: `validation`
 
 ## Product decision
 

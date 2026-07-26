@@ -65,23 +65,23 @@ These controls are useful but do not complete the target threat model.
 | Admin control exposure | Public user disables source or approves record | No public admin UI; server-enforced authorization for any future tool; protected environment/review artifacts meanwhile | Anonymous/guest/client-role requests denied; audit event exists |
 | Cache rollback/correction loss | Corrected story reverts to vulnerable/false text | Monotonic snapshot/version policy, append-only corrections, prior snapshot retention, rollback procedure | Older snapshot replay, corrected-record merge, cache corruption |
 
-## Specific current gaps
+## Implementation resolution status
 
-1. Workflow and browser allowlists differ; the current Israeli record can pass
-   workflow validation and fail runtime validation.
-2. Redirect destinations are not checked against the allowlist after
-   `redirect: "follow"`.
-3. Runtime payload size relies on `Content-Length`; a missing or dishonest
-   header is not a real byte cap.
-4. Active Radar dates are date-only and accept real but nonsensical future
-   dates because there is no future-skew rule.
-5. The static fallback is duplicated in TypeScript and JSON.
-6. Local analytics defaults enabled rather than consent denied.
-7. Workspace import checks its envelope and dangerous keys but does not run
-   each known domain’s strict parser before writing.
-8. No Content Security Policy is configured in `vercel.json` or `index.html`.
-9. Existing admin routes are not an authorization boundary for ingestion
-   operations.
+The Version 1.7 implementation aligns browser/workflow source identity,
+validates redirect destinations, enforces byte caps after retrieval even when
+`Content-Length` is missing, rejects invalid/future dates, keeps the reviewed
+fallback independent from online publication, defaults analytics consent to
+denied, validates the isolated guest-profile import domain transactionally,
+and configures deployment security headers including CSP.
+
+Existing client admin routes remain deliberately outside the ingestion
+authorization boundary. Source enablement and publication are controlled by
+the reviewed repository registry and trusted workflow. A future write-capable
+admin service requires separate server-enforced authorization.
+
+The automated security review and dependency reachability assessment are
+recorded in [security-review.md](security-review.md). Independent human
+security approval and deployed-header inspection remain release gates.
 
 ## Security requirements by slice
 

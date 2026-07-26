@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "id": "openai-news",
+      "publisher": "OpenAI",
+      "type": "official-docs",
+      "tier": 1,
+      "url": "https://openai.com/news/rss.xml",
+      "adapter": "rss",
+      "enabled": true,
+      "publicationPolicy": "trusted-source-auto-published",
+      "allowedHosts": ["openai.com"]
+    },
+    {
+      "id": "google-deepmind-blog",
+      "publisher": "Google DeepMind",
+      "type": "technical-publication",
+      "tier": 1,
+      "url": "https://deepmind.google/blog/rss.xml",
+      "adapter": "rss",
+      "enabled": true,
+      "publicationPolicy": "trusted-source-auto-published",
+      "allowedHosts": ["deepmind.google", "blog.google", "cloud.google.com"]
+    },
+    {
+      "id": "openai-node-releases",
+      "publisher": "OpenAI SDK",
+      "type": "repository",
+      "tier": 1,
+      "url": "https://github.com/openai/openai-node/releases.atom",
+      "adapter": "atom",
+      "enabled": true,
+      "publicationPolicy": "trusted-source-auto-published",
+      "allowedHosts": ["github.com"]
+    },
+    {
+      "id": "anthropic-typescript-releases",
+      "publisher": "Anthropic SDK",
+      "type": "repository",
+      "tier": 1,
+      "url": "https://github.com/anthropics/anthropic-sdk-typescript/releases.atom",
+      "adapter": "atom",
+      "enabled": true,
+      "publicationPolicy": "trusted-source-auto-published",
+      "allowedHosts": ["github.com"]
+    },
+    {
+      "id": "arxiv-cs-ai",
+      "publisher": "arXiv",
+      "type": "paper",
+      "tier": 2,
+      "url": "https://export.arxiv.org/api/query?search_query=cat:cs.AI&start=0&max_results=20&sortBy=submittedDate&sortOrder=descending",
+      "adapter": "atom",
+      "enabled": true,
+      "publicationPolicy": "trusted-source-auto-published",
+      "allowedHosts": ["export.arxiv.org", "arxiv.org"]
+    },
+    {
+      "id": "israel-innovation-authority",
+      "publisher": "Israel Innovation Authority",
+      "type": "official-docs",
+      "tier": 1,
+      "url": "https://innovationisrael.org.il/en/feed/",
+      "adapter": "rss",
+      "enabled": false,
+      "publicationPolicy": "review-required",
+      "allowedHosts": ["innovationisrael.org.il", "www.innovationisrael.org.il"]
+    },
+    {
+      "id": "eu-commission",
+      "publisher": "European Commission",
+      "type": "regulation",
+      "tier": 1,
+      "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
+      "adapter": "reviewed-fallback-only",
+      "enabled": false,
+      "publicationPolicy": "review-required",
+      "allowedHosts": ["digital-strategy.ec.europa.eu"]
+    },
+    {
+      "id": "israel-education",
+      "publisher": "Israel Ministry of Education",
+      "type": "official-docs",
+      "tier": 1,
+      "url": "https://hakaveret.education.gov.il/",
+      "adapter": "reviewed-fallback-only",
+      "enabled": false,
+      "publicationPolicy": "review-required",
+      "allowedHosts": ["hakaveret.education.gov.il"]
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useLanguage } from "../i18n/LanguageContext";
 import { measureWorkspaceStorage, useWorkspace } from "../workspace";
+import { useGuestProfile } from "../guest-profile";
 
 const eventLabels: Record<string, { he: string; en: string }> = {
   routeViewed: { he: "צפייה במסך", en: "Route viewed" },
@@ -18,6 +19,7 @@ function inDateRange(timestamp: string, from: string, to: string): boolean {
 export function AnalyticsPage() {
   const { language } = useLanguage();
   const { state, setAnalyticsEnabled, reset } = useWorkspace();
+  const guest = useGuestProfile();
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const storage = measureWorkspaceStorage();
@@ -51,7 +53,7 @@ export function AnalyticsPage() {
   return <div className="page analytics-page">
     <header className="page-heading"><div><h1>{language === "he" ? "ניתוח שימוש" : "Usage analytics"}</h1><p>{language === "he" ? "ניתוח מקומי בדפדפן — ללא תוכן פרומפטים, מסמכים, מידע אישי או סודות." : "Browser-local analytics — no prompt content, document bodies, personal data, or secrets."}</p></div></header>
     <section className="analytics-controls">
-      <label><input type="checkbox" checked={state.analyticsEnabled} onChange={(event) => setAnalyticsEnabled(event.target.checked)} />{language === "he" ? "איסוף אירועים מקומיים" : "Collect local events"}</label>
+      <label><input type="checkbox" checked={state.analyticsEnabled && guest.profile.consent.analytics} onChange={(event) => { const enabled = event.target.checked; setAnalyticsEnabled(enabled); guest.update((profile) => ({ ...profile, consent: { ...profile.consent, analytics: enabled, updatedAt: new Date().toISOString() } })); if (!enabled) reset("analytics"); }} />{language === "he" ? "איסוף אירועים מקומיים" : "Collect local events"}</label>
       <label>{language === "he" ? "מתאריך" : "From date"}<input type="date" value={from} onChange={(event) => setFrom(event.target.value)} /></label>
       <label>{language === "he" ? "עד תאריך" : "To date"}<input type="date" value={to} min={from || undefined} onChange={(event) => setTo(event.target.value)} /></label>
       <button type="button" onClick={() => { setFrom(""); setTo(""); }}>{language === "he" ? "ניקוי טווח" : "Clear date range"}</button>

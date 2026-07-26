@@ -11,7 +11,8 @@ function renderApp(path = '/') {
 }
 
 async function demoLogin(user: ReturnType<typeof userEvent.setup>) {
-  await user.click(screen.getByRole('button', { name: 'כניסה למצב הדגמה' }))
+  const login = screen.queryByRole('button', { name: 'כניסה למצב הדגמה' })
+  if (login) await user.click(login)
 }
 
 function jsonFile(content: unknown, name = 'report.json') {

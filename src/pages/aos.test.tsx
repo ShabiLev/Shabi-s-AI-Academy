@@ -17,9 +17,11 @@ function renderApp(path = '/') {
 }
 
 async function demoLogin(user: ReturnType<typeof userEvent.setup>) {
-  const loginButton = screen.getByRole('button', { name: /כניסה למצב הדגמה|Demo Login/ })
-  await user.click(loginButton)
-  await waitFor(() => expect(loginButton).not.toBeInTheDocument())
+  const loginButton = screen.queryByRole('button', { name: /כניסה למצב הדגמה|Demo Login/ })
+  if (loginButton) {
+    await user.click(loginButton)
+    await waitFor(() => expect(loginButton).not.toBeInTheDocument())
+  }
 }
 
 const sampleSnapshot: AosSnapshot = {

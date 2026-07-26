@@ -24,7 +24,14 @@ function renderHashApp(path: string) {
 }
 
 async function demoLogin(user: ReturnType<typeof userEvent.setup>) {
-  await user.click(screen.getByRole("button", { name: "כניסה למצב הדגמה" }));
+  let login = screen.queryByRole("button", { name: /כניסה למצב הדגמה|Demo Login/ });
+  if (!login) {
+    const requested = `${window.location.pathname}${window.location.search}`;
+    window.history.pushState({}, "", `/login?from=${encodeURIComponent(requested)}`);
+    window.dispatchEvent(new PopStateEvent("popstate"));
+    login = await screen.findByRole("button", { name: /כניסה למצב הדגמה|Demo Login/ });
+  }
+  await user.click(login);
 }
 
 describe("Shabi's AI Academy", () => {
@@ -38,9 +45,10 @@ describe("Shabi's AI Academy", () => {
     expect(screen.getByRole("heading", { name: "לומדים AI דרך עשייה מודרכת" })).toBeInTheDocument();
   });
 
-  it("redirects unauthenticated visitors from protected routes", () => {
+  it("allows unauthenticated visitors to use public core routes", () => {
     renderApp("/lessons");
-    expect(screen.getByRole("heading", { name: "כניסה" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "שיעורים" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "כניסה" })).not.toBeInTheDocument();
   });
 
   it("keeps BrowserRouter as the default router", async () => {
@@ -55,10 +63,10 @@ describe("Shabi's AI Academy", () => {
     expect(await screen.findByRole("heading", { level: 1 })).toBeInTheDocument();
   });
 
-  it("protects direct Dashboard routes with HashRouter", () => {
+  it("supports the public Dashboard with HashRouter", async () => {
     renderHashApp("/dashboard");
-    expect(screen.getByRole("heading", { name: "כניסה" })).toBeInTheDocument();
-    expect(window.location.hash).toContain("#/login?from=%2Fdashboard");
+    expect(await screen.findByTestId("dashboard-page")).toBeInTheDocument();
+    expect(window.location.hash).toBe("#/dashboard");
   });
 
   it("Demo Login grants access and preserves the requested route", async () => {
@@ -261,7 +269,7 @@ describe("Shabi's AI Academy", () => {
       updatedAt: "2026-07-13T00:00:00.000Z", version: 1, favorite: false, archived: false,
     }] }));
     renderApp("/playground/agents");
-    await user.click(screen.getByRole("button", { name: "Demo Login" }));
+    await demoLogin(user);
     expect(await screen.findByRole("heading", { name: "Agent Playground" })).toBeInTheDocument();
     const agentSelect = screen.getByLabelText("Select agent") as HTMLSelectElement;
     await user.selectOptions(agentSelect, agentSelect.options[1]);

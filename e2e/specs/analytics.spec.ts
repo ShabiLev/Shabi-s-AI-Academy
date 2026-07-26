@@ -3,6 +3,7 @@ import { test, expect, english, login } from "../fixtures/academy";
 test("Analytics remains local, can be cleared, and survives refresh", async ({ page }) => {
   await login(page);
   await english(page);
+  await page.getByLabel("I consent to local usage analytics").check();
   await page.goto("/search?q=quality");
   await page.goto("/analytics");
   await expect(page.getByRole("heading", { name: "Usage analytics" })).toBeVisible();

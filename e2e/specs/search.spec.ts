@@ -3,7 +3,7 @@ import { test, expect, english, login, noOverflow } from "../fixtures/academy";
 test("Search finds lessons, prompts, agents, and projects in English and Hebrew", async ({ page }) => {
   const externalRequests: string[] = [];
   page.on("request", (request) => {
-    if (!request.url().startsWith("http://127.0.0.1:5173")) externalRequests.push(request.url());
+    if (new URL(request.url()).hostname !== "127.0.0.1") externalRequests.push(request.url());
   });
   await login(page);
   await english(page);

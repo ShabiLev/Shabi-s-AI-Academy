@@ -6,10 +6,11 @@ test('serves a public route from the repository base through HashRouter', async 
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
 })
 
-test('redirects a protected hash route to Login', async ({ page }) => {
-  await page.goto('./#/dashboard')
-  await expect(page).toHaveURL(/\/Shabi-s-AI-Academy\/#\/login\?from=%2Fdashboard$/)
+test('denies a protected admin hash route safely', async ({ page }) => {
+  await page.goto('./#/admin')
+  await expect(page).toHaveURL(/\/Shabi-s-AI-Academy\/#\/$/)
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Admin/i })).toHaveCount(0)
 })
 
 test('serves public authentication routes through HashRouter', async ({ page }) => {

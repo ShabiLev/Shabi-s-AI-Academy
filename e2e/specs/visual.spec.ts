@@ -40,7 +40,7 @@ test.describe("visual — Version 1.5 reviewed scenarios", () => {
     await stabilize(page);
     await expect(page).toHaveScreenshot("v15-radar-timeline.png", { fullPage: true });
     await page.locator(".radar-card").first().getByRole("button", { name: /שמירה|Save/ }).click();
-    await page.getByRole("button", { name: /^(שמורים|Favorites)$/ }).click();
+    await page.getByRole("button", { name: /שמורים וקריאה מאוחרת|Saved & Read Later/ }).click();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v15-radar-favorites.png", { fullPage: true });
     await page.evaluate(() => {
@@ -50,11 +50,32 @@ test.describe("visual — Version 1.5 reviewed scenarios", () => {
           ? Promise.reject(new TypeError("Network request unavailable"))
           : onlineFetch(...args);
     });
-    await page.getByRole("button", { name: /בדיקת עדכון|Check for update/ }).click();
+    await page.getByRole("button", { name: /ניסיון עדכון|Retry refresh/ }).click();
     await expect(page.locator(".radar-freshness")).toHaveAttribute("data-status", "offline");
     await stabilize(page);
     await expect(page).toHaveScreenshot("v15-radar-offline.png", { fullPage: true });
   });
+});
+
+test.describe("visual — Version 1.7 public beta", () => {
+  for (const language of ["he", "en"] as const) {
+    test(`Radar ${language} desktop`, async ({ page }) => {
+      if (language === "en") await startEnglish(page);
+      await page.goto("/radar");
+      await expect(page.locator(".radar-card").first()).toBeVisible();
+      await stabilize(page);
+      await expect(page).toHaveScreenshot(`v17-radar-${language}-desktop.png`, { fullPage: true });
+    });
+
+    test(`Radar ${language} mobile`, async ({ page }) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      if (language === "en") await startEnglish(page);
+      await page.goto("/radar");
+      await expect(page.locator(".radar-card").first()).toBeVisible();
+      await stabilize(page);
+      await expect(page).toHaveScreenshot(`v17-radar-${language}-mobile.png`, { fullPage: true });
+    });
+  }
 });
 
 test.describe("visual - 1.2 profile menu", () => {

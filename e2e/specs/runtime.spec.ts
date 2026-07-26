@@ -5,12 +5,9 @@ async function openEnglishRuntime(page: import("@playwright/test").Page) {
   await english(page);
   await page.goto("/runs");
 }
-test("Run History is protected and starts empty", async ({ page }) => {
+test("Run History is public and starts empty", async ({ page }) => {
   await page.goto("/runs");
-  await expect(page).toHaveURL(/login/);
-  await page
-    .getByRole("button", { name: /Demo Login|כניסה למצב הדגמה/ })
-    .click();
+  await expect(page).toHaveURL(/\/runs$/);
   await expect(
     page.getByRole("heading", { name: "היסטוריית הרצות" }),
   ).toBeVisible();
@@ -64,7 +61,7 @@ test("Dry Run is a local preview and Live is security-disabled", async ({
   await page.goto("/runs");
   await expect(page.getByRole("button", { name: "Live Run" })).toBeDisabled();
   await expect(
-    page.getByText("Live execution is not available in Version 1.6.0-beta.1."),
+    page.getByText("Live execution is not available in Version 1.7.0-beta.1."),
   ).toBeVisible();
   await expect(
     page.locator('input[name*="key" i], input[placeholder*="key" i]'),

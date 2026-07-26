@@ -6,6 +6,9 @@ export const test = base.extend({
     page.on("console", (m) => {
       if (m.type() === "error") errors.push(m.text());
     });
+    page.on("response", (response) => {
+      if (response.status() >= 400) errors.push(`HTTP ${response.status()}: ${response.url()}`);
+    });
     await page.goto("/login");
     await page.evaluate(() => {
       localStorage.clear();
@@ -18,10 +21,13 @@ export const test = base.extend({
 });
 export { expect };
 export async function login(page: Page, path = "/dashboard") {
-  await page.goto(path === "/" ? "/dashboard" : path);
+  await page.goto("/login");
   await page
     .getByRole("button", { name: /כניסה למצב הדגמה|Demo Login/ })
     .click();
+  await page.waitForURL(/\/dashboard$/);
+  const targetPath = path === "/" ? "/dashboard" : path;
+  if (new URL(page.url()).pathname !== targetPath) await page.goto(targetPath);
 }
 export async function english(page: Page) {
   await page.goto("/settings");

@@ -11,6 +11,21 @@ const executionRoot = path.join(runtimeRoot, "execution");
 const protectedNames = new Set(["archived", "latest", "last-success", "last-failed"]);
 export const thresholds = { warningBytes: 1_500_000_000, criticalBytes: 3_000_000_000, maxHistory: 100 };
 
+export async function renameWithRetry(source, destination, operation = rename, options = {}) {
+  const attempts = options.attempts ?? 5;
+  const delayMs = options.delayMs ?? 100;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      await operation(source, destination);
+      return;
+    } catch (error) {
+      const retryable = error?.code === "EPERM" || error?.code === "EBUSY";
+      if (!retryable || attempt === attempts) throw error;
+      await new Promise((resolve) => setTimeout(resolve, delayMs * attempt));
+    }
+  }
+}
+
 const cleanupTargets = {
   clean: ["dist", "coverage", ".vite"],
   "clean:runtime": ["quality/runtime/storage-audit.md", "quality/runtime/storage-audit.json", "quality/runtime/storage-inventory.csv", "quality/runtime/execution/active"],
@@ -119,7 +134,7 @@ export async function applyRetention({ dryRun = false } = {}) {
     results.push({ path: path.relative(repositoryRoot, run.absolute), action: dryRun ? `would-move-to-${destinationName}` : `moved-to-${destinationName}` });
     if (!dryRun) {
       if (existsSync(destination)) await rm(destination, { recursive: true, force: true });
-      await rename(run.absolute, destination);
+      await renameWithRetry(run.absolute, destination);
     }
   }
   if (!dryRun) for (const runsRoot of runsRoots) {

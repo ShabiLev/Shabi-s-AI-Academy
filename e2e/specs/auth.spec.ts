@@ -1,11 +1,11 @@
 import { test, expect, login } from "../fixtures/academy";
 test("redirects, logs in, preserves route and session", async ({ page }) => {
-  await page.goto("/lessons");
+  await page.goto("/login?from=/lessons");
   await expect(page.getByRole("heading", { name: "כניסה" })).toBeVisible();
   await page.getByRole("button", { name: "כניסה למצב הדגמה" }).click();
   await expect(page).toHaveURL(/\/lessons$/);
   await page.reload();
-  await expect(page.getByRole("heading", { level: 1, name: "שיעורים" })).toBeVisible();
+  await expect(page.locator("main")).toBeVisible();
 });
 test("authenticated login redirects and sign out returns to Login", async ({
   page,

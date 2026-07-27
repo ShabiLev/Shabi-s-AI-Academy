@@ -20,6 +20,7 @@ function Harness() {
     <button onClick={workspace.markAllRead}>read all</button>
     <button onClick={() => first && workspace.deleteNotification(first.id)}>delete</button>
     <button onClick={() => workspace.track("searchPerformed", { category: "prompt", quality: 90 })}>track</button>
+    <button onClick={() => workspace.setAnalyticsEnabled(true)}>enable analytics</button>
     <button onClick={() => workspace.setAnalyticsEnabled(false)}>disable analytics</button>
     <button onClick={() => workspace.reset("preferences")}>reset preferences</button>
   </div>;
@@ -40,6 +41,9 @@ describe("WorkspaceProvider", () => {
     await user.click(screen.getByRole("button", { name: "read" }));
     expect(screen.getByTestId("unread")).toHaveTextContent("0");
     await user.click(screen.getByRole("button", { name: "read all" }));
+    await user.click(screen.getByRole("button", { name: "track" }));
+    expect(screen.getByTestId("analytics")).toHaveTextContent("0");
+    await user.click(screen.getByRole("button", { name: "enable analytics" }));
     await user.click(screen.getByRole("button", { name: "track" }));
     expect(Number(screen.getByTestId("analytics").textContent)).toBeGreaterThan(0);
     await user.click(screen.getByRole("button", { name: "disable analytics" }));

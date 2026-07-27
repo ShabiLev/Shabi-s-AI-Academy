@@ -89,6 +89,13 @@ const releaseState = failedGates.length
   : blockers.length
     ? "readyWithWarnings"
     : "ready";
+const releaseTask =
+  "Version 1.7 public beta, live AI Radar, guest personalization, and release validation";
+const releaseObjective =
+  "Complete and validate the bilingual public beta, publish the authorized feature branch, and release only after every automated and human gate is green.";
+const releaseMilestone =
+  "Public Beta - Live AI Radar and Guest Personalization";
+const startingCommit = git("merge-base", "origin/main", "HEAD");
 
 const states = {
   "current-task": {
@@ -100,14 +107,13 @@ const states = {
     testedCommit,
     verificationSource,
     executionContext,
-    task: "Version 1.4 CI, Agent Memory, Evidence, visual, and deployment release recovery",
-    startingCommit: git("merge-base", "origin/main", "HEAD"),
-    objective:
-      "Audit and repair release automation, validate it, and publish only the authorized fix branch without writing to main.",
+    task: releaseTask,
+    startingCommit,
+    objective: releaseObjective,
     completedWork: [
-      "Repository and release-recovery audit completed",
-      "Execution-context-aware Agent Memory implemented",
-      "Evidence commit semantics and release automation implemented",
+      "Version 1.7 architecture and release planning completed",
+      "Guest profile, live Radar ingestion, personalization, briefing, and privacy boundaries implemented",
+      "Focused unit and end-to-end regression suites implemented",
     ],
     workInProgress: dirty ? ["Uncommitted reviewed implementation"] : [],
     blockedWork: blockers,
@@ -127,7 +133,7 @@ const states = {
       ? `quality/runtime/execution/runs/${evidence.identity.runId}`
       : null,
     nextAction:
-      blockers[0] ?? "Run post-evidence integrity validation and publish the fix branch.",
+      blockers[0] ?? "Run post-evidence integrity validation and publish the feature branch.",
   },
   "current-progress": {
     schemaVersion: "1.0.0",
@@ -198,8 +204,7 @@ const states = {
     verificationSource,
     executionContext,
     version: pkg.version,
-    milestone:
-      "AI Agent Operating System - Release Stabilization, Automation, Memory and Progress Tracking",
+    milestone: releaseMilestone,
     targetMainCommit: git("rev-parse", "origin/main"),
     implementationState: dirty ? "inProgress" : "complete",
     automatedValidationState: failedGates.length ? "failed" : "passed",
@@ -224,11 +229,12 @@ const states = {
       ? [
           {
             id: "AOS-QUALITY-001",
-            date: "2026-07-15",
+            date: "2026-07-26",
             command: "npm run test:visual",
-            symptom: "35 Windows visual snapshots differ from stale baselines.",
+            symptom:
+              "Version 1.7 visual candidates and pre-existing stale Windows baselines require human review.",
             rootCause:
-              "Several expected baselines predate the fully loaded Version 1.3/1.4 UI.",
+              "Existing expected images predate the current interface and new Version 1.7 views do not yet have human-approved platform baselines.",
             fix: "Human-review each diff and update only approved platform-correct baselines.",
             preventionTest: "npm run test:visual",
             status: "active",
@@ -280,9 +286,9 @@ const states = {
       "AI safety",
       "foundational papers",
     ],
-    missingTopicCoverage: ["evaluation tooling", "multilingual AI education"],
-    latestResearchRun: "seed-2026-07-15",
-    nextResearchTopics: ["evaluation tooling", "multilingual AI education"],
+    missingTopicCoverage: ["human-reviewed source expansion"],
+    latestResearchRun: "version-1.7-live-source-cycle",
+    nextResearchTopics: ["human-reviewed source expansion"],
   },
   "quality-status": {
     schemaVersion: "1.0.0",
@@ -370,14 +376,14 @@ const states = {
         id: "ACTION-003",
         title: "Merge the verified feature branch",
         reason:
-          "Main must remain untouched until the user executes the printed merge sequence.",
+          "Main must remain untouched until all automated and human release gates are green.",
         priority: "Medium",
         requiredRole: "Release manager",
         requiredModules: ["git.merge-policy", "release.release-policy"],
         prerequisites: ["ACTION-002"],
         expectedEvidence: "Local and remote main SHAs plus containment checks",
         completionCriteria:
-          "Fast-forward merge, full evidence rerun, push, and containment verification all pass.",
+          "Authorized merge, full evidence rerun, push, tag, deployment, and containment verification all pass.",
         status: "pending",
       },
     ],
@@ -390,7 +396,7 @@ for (const [name, value] of Object.entries(states))
 
 const memoryDocs = {
   "project-memory.md": `# Project Memory\n\nShabi's AI Academy is a bilingual Hebrew/English, semantic RTL/LTR, local-first React + TypeScript + Vite learning application. It deploys through GitHub Pages (HashRouter) while local development uses BrowserRouter. Supabase authentication and synchronization are optional and remain behind service/provider boundaries. The AOS under \`.agent/\` coordinates agent-neutral task classification, research, evidence, security, Git, release, memory, and handoff workflows. Vitest, Playwright, axe, Lighthouse, schema checks, and release evidence form the test architecture. Browser storage must never contain secrets; built-in catalogs stay separate from user-owned data. Sources of truth: \`AGENTS.md\`, \`.agent/master.md\`, accepted ADRs, \`.codex/architecture/\`, \`.codex/standards/\`, the active release specification, and \`package.json\`.\n`,
-  "task-memory.md": `# Task Memory\n\n- Updated: ${now}\n- Task: ${states["current-task"].task}\n- Branch: \`${branch}\`\n- Starting commit: \`1a63f8d137cf518c21b6b19dcb28c80a328bbf9e\`\n- Current commit: \`${head}\`\n- Phase: ${states["current-progress"].currentPhase}\n- Completed: ${states["current-task"].completedWork.join("; ")}\n- Blocked: ${blockers.join("; ") || "None"}\n- Evidence: ${states["current-task"].evidencePath ?? "not available"}\n- Next: ${states["current-task"].nextAction}\n`,
+  "task-memory.md": `# Task Memory\n\n- Updated: ${now}\n- Task: ${states["current-task"].task}\n- Branch: \`${branch}\`\n- Starting commit: \`${startingCommit}\`\n- Current commit: \`${head}\`\n- Phase: ${states["current-progress"].currentPhase}\n- Completed: ${states["current-task"].completedWork.join("; ")}\n- Blocked: ${blockers.join("; ") || "None"}\n- Evidence: ${states["current-task"].evidencePath ?? "not available"}\n- Next: ${states["current-task"].nextAction}\n`,
   "progress-memory.md": `# Progress Memory\n\n- Updated: ${now}\n- Overall: ${overallPercent}%\n- Phase: validation\n- Requirements: ${req.completed} complete, ${req.partial} partial, ${req.missing} missing\n- Tests: ${states["current-progress"].tests.passed} passed gates, ${states["current-progress"].tests.failed} failed gates\n- Reviews: ${states["current-progress"].reviews.pending} pending\n- Release: ${releaseState}\n- Blockers: ${blockers.length}\n- Next: ${states["current-progress"].nextRecommendedAction}\n`,
   "failure-memory.md": `# Failure Memory\n\n## Active\n\n${states["known-issues"].active.map((issue) => `- **${issue.id}** (${issue.date}): ${issue.symptom} Root cause: ${issue.rootCause} Fix: ${issue.fix} Prevention: \`${issue.preventionTest}\`.`).join("\n") || "None."}\n\n## Resolved history (bounded)\n\n${states[
     "known-issues"
@@ -399,7 +405,7 @@ const memoryDocs = {
     .map((issue) => `- **${issue.id}**: ${issue.symptom} ${issue.fix}`)
     .join("\n")}\n`,
   "decision-memory.md": `# Decision Memory\n\nSignificant decisions only; ADRs remain authoritative.\n\n- 2026-07-15: Agent memory is explicit, bounded, sanitized Markdown plus schema-validated JSON. Hidden or remote memory was rejected because it is not inspectable or agent-neutral. Affected: memory, state, evidence, UI.\n- 2026-07-15: Public AOS pages consume one generated sanitized snapshot, never raw repository files. Bundling raw state was rejected to prevent private paths and stale status leaks. Affected: snapshot, UI, Pages.\n- 2026-07-15: Manual UX/security/content reviews remain human-owned. Automated promotion was rejected under the quality and release policies.\n`,
-  "research-memory.md": `# Research Memory\n\n- Latest run: seed-2026-07-15\n- Sources: ${research.sources} discovered / ${research.validated} validated / ${research.duplicates} duplicates\n- Claims: ${research.claimsExtracted} extracted / ${research.claimsVerified} verified\n- Candidates: ${research.candidatesGenerated} generated / ${research.candidatesPendingReview} pending review / 0 published\n- Coverage is a small seed set, not comprehensive. Missing: ${states["research-progress"].missingTopicCoverage.join(", ")}.\n`,
+  "research-memory.md": `# Research Memory\n\n- Latest run: ${states["research-progress"].latestResearchRun}\n- Sources: ${research.sources} discovered / ${research.validated} validated / ${research.duplicates} duplicates\n- Claims: ${research.claimsExtracted} extracted / ${research.claimsVerified} verified\n- Candidates: ${research.candidatesGenerated} generated / ${research.candidatesPendingReview} pending review / 0 published\n- Coverage is a bounded owner-reviewed source registry, not uncontrolled discovery. Missing: ${states["research-progress"].missingTopicCoverage.join(", ")}.\n`,
   "quality-memory.md": `# Quality Memory\n\n- Latest run: ${evidence.identity?.runId ?? "not available"}\n- Tested commit: ${testedCommit}\n- Verification source: immutable runtime or CI artifact\n- Working tree clean at test: ${workingTreeCleanAtTest ? "Yes" : "No"}\n- Coverage: ${evidence.coverage?.statements?.percent ?? "not available"}% statements\n- Unit: ${states["quality-status"].unit}; E2E: ${states["quality-status"].e2e}; visual: ${states["quality-status"].visual}; accessibility: ${states["quality-status"].accessibility}; performance: ${states["quality-status"].performance}; Pages: ${states["quality-status"].pages}\n- Manual reviews: notRun; automation cannot promote them.\n- Recommendation: ${releaseState}. Prior green results are never copied to a new commit without rerunning.\n`,
   "release-memory.md": `# Release Memory\n\n- Version: ${pkg.version}\n- Milestone: ${states["release-status"].milestone}\n- Branch: \`${branch}\`\n- Target main: \`${states["release-status"].targetMainCommit}\`\n- State: ${releaseState}\n- Research: seed candidates pending review\n- Documentation: complete\n- Deployment: not deployed\n- Blockers: ${blockers.join("; ") || "None"}\n- Recommendation: ${states["release-status"].finalRecommendation}\n`,
   "next-actions.md": `# Next Actions\n\n${states["next-actions"].actions.map((action) => `## ${action.id}: ${action.title}\n\n- Priority: ${action.priority}\n- Role: ${action.requiredRole}\n- Reason: ${action.reason}\n- Modules: ${action.requiredModules.join(", ")}\n- Prerequisites: ${action.prerequisites.join(", ") || "None"}\n- Evidence: ${action.expectedEvidence}\n- Complete when: ${action.completionCriteria}\n- Status: ${action.status}\n`).join("\n")}\n`,

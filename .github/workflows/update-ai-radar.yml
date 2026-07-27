@@ -1,26 +1,29 @@
-name: Validate AI Radar public sources
+name: Update AI Radar public feed
 
 on:
   schedule:
     - cron: "17 */6 * * *"
   workflow_dispatch:
   push:
-    branches: ["feature/1.5.0-aos-core-ux-radar"]
+    branches: ["feature/1.7-public-beta-live-radar-personalization", "main"]
     paths:
       - "src/radar/**"
       - "public/generated/ai-radar-feed.json"
       - "scripts/radar/**"
+      - "config/radar-sources.json"
       - ".github/workflows/update-ai-radar.yml"
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
 
 concurrency:
   group: ai-radar-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  validate-public-feed:
+  ingest-and-build:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -30,14 +33,37 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 20.19.0, cache: npm }
       - run: npm ci
-      - name: Validate bounded inert feed and public source availability
-        run: node scripts/radar/validate-public-feed.mjs
-      - run: npx vitest run src/radar/records.test.ts
-      - name: Upload immutable validation report
+      - name: Retrieve, normalize, quarantine, cluster and publish the bounded feed
+        run: npm run radar:ingest
+      - name: Validate public feed and ingestion security
+        run: npm run radar:validate && npm run test:version-1.7
+      - name: Build the same-origin GitHub Pages artifact
+        run: npm run build:pages
+        env:
+          VITE_DEPLOY_COMMIT_SHA: ${{ github.sha }}
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: dist }
+      - name: Upload immutable ingestion and source-health evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ai-radar-validation-${{ github.sha }}
-          path: quality/runtime/ci/ai-radar/
+          name: ai-radar-ingestion-${{ github.sha }}
+          path: |
+            quality/runtime/ci/ai-radar/
+            quality/runtime/radar/
+            public/generated/ai-radar-feed.json
           retention-days: 14
           if-no-files-found: error
+
+  deploy:
+    if: github.event_name != 'push' || github.ref_name == 'main'
+    needs: ingest-and-build
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy freshly ingested same-origin feed
+        id: deployment
+        uses: actions/deploy-pages@v4

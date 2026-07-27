@@ -1,7 +1,6 @@
 import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { AuthProvider } from "./auth/AuthContext";
-import { ProtectedRoute } from "./auth/ProtectedRoute";
 import { AppLayout } from "./components/layout/AppLayout";
 import { AgentsPage } from "./pages/AgentsPage";
 import { LessonsPage } from "./pages/LessonsPage";
@@ -45,6 +44,7 @@ import { LandingPage } from "./pages/LandingPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { AosCoreProvider } from "./aos-core";
 import { RadarDataProvider } from "./radar";
+import { GuestProfileProvider } from "./guest-profile";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
 const DashboardPage = lazy(() => import("./pages/GuidedDashboardPage").then((module) => ({ default: module.GuidedDashboardPage })));
@@ -99,6 +99,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
     <Router>
       <AuthProvider>
         <AosCoreProvider>
+          <GuestProfileProvider>
           <RadarDataProvider>
         <ExperienceProvider>
           <OnboardingProvider>
@@ -128,8 +129,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                 <Route path="about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
                 <Route path="privacy" element={<PrivacyPage />} />
                 <Route path="terms" element={<TermsPage />} />
-                <Route element={<ProtectedRoute />}>
-                  <Route element={<AppLayout />}>
+                <Route element={<AppLayout />}>
                     <Route path="dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
                     <Route path="onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
                     <Route path="lessons" element={<LessonsPage />} />
@@ -215,7 +215,6 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                     <Route path="aos/scheduler" element={<Suspense fallback={null}><AosCorePage /></Suspense>} />
                     <Route path="runs" element={<Suspense fallback={null}><RunHistoryPage /></Suspense>} />
                     <Route path="runs/:runId" element={<Suspense fallback={null}><RunDetailsPage /></Suspense>} />
-                  </Route>
                 </Route>
                 <Route path="*" element={<NotFoundPage />} />
                 </Routes>
@@ -233,6 +232,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
           </OnboardingProvider>
         </ExperienceProvider>
           </RadarDataProvider>
+          </GuestProfileProvider>
         </AosCoreProvider>
       </AuthProvider>
     </Router>

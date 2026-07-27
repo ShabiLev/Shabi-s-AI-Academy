@@ -19,6 +19,5 @@ for (const state of dataStates) test(`data matrix safely represents ${state.id}`
     if (id === "storage-near-limit") localStorage.setItem("quality-near-limit", "x".repeat(100_000));
   }, state.id);
   await page.goto("/dashboard");
-  await page.getByRole("button", { name: /Demo Login|כניסה למצב הדגמה/ }).click();
   await expect(page.locator("main")).toBeVisible();
 });

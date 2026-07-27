@@ -16,7 +16,7 @@ test.describe("AOS dashboard", () => {
   test("opens and shows the current AOS and application version", async ({ page }) => {
     await login(page, "/aos");
     await expect(page.getByRole("heading", { name: /מערכת הפעלה לסוכני AI|Agent Operating System/ })).toBeVisible();
-    await expect(page.getByText(/1\.6\.0-beta\.1/).first()).toBeVisible();
+    await expect(page.getByText(/1\.7\.0-beta\.1/).first()).toBeVisible();
   });
 
   test("shows the module count and links to the full module list", async ({ page }) => {
@@ -47,7 +47,7 @@ test.describe("AOS dashboard", () => {
 
   test("releases view shows the real application version, not a hardcoded one", async ({ page }) => {
     await login(page, "/aos/releases");
-    await expect(page.getByText("1.6.0-beta.1")).toBeVisible();
+    await expect(page.getByText("1.7.0-beta.1")).toBeVisible();
   });
 
   test("does not expose a local machine path", async ({ page }) => {

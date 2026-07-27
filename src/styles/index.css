@@ -453,7 +453,34 @@ main {
 .radar-card-actions button[aria-pressed="true"] { color: #07111f; background: var(--blue-soft); }
 .radar-view-compact { grid-template-columns: repeat(3,minmax(0,1fr)); }
 .radar-empty { min-block-size: 14rem; }
+.radar-view-tabs { display: flex; gap: var(--space-2); padding-block-end: var(--space-2); overflow-x: auto; }
+.radar-view-tabs button { flex: 0 0 auto; min-block-size: var(--control-min-height); padding-inline: var(--space-4); border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: var(--surface); }
+.radar-view-tabs button[aria-current="page"] { border-color: var(--blue); color: #07111f; background: var(--blue-soft); font-weight: 800; }
+.radar-saved-searches,.radar-following-tools,.radar-changed,.radar-briefing,.radar-feedback { padding: var(--space-5); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--panel); }
+.radar-saved-searches h2,.radar-following-tools h2,.radar-changed h2,.radar-briefing h2,.radar-feedback h2 { margin-block-start: 0; }
+.radar-saved-searches ul,.radar-following-tools ul { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.radar-saved-searches li,.radar-following-tools li { display: flex; align-items: center; gap: var(--space-1); border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.radar-saved-searches li button,.radar-following-tools li button { min-block-size: var(--control-min-height); border: 0; color: inherit; background: transparent; }
+.radar-following-tools { display: grid; grid-template-columns: minmax(16rem,.8fr) minmax(0,1.2fr); gap: var(--space-5); align-items: end; }
+.radar-changed { display: grid; grid-template-columns: minmax(0,1.5fr) minmax(20rem,1fr); gap: var(--space-5); }
+.radar-changed p,.radar-briefing p,.radar-feedback p { color: var(--muted); }
+.radar-changed dl { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: var(--space-2); margin: 0; }
+.radar-changed dl div { display: grid; gap: var(--space-1); padding: var(--space-3); border-radius: var(--radius); background: var(--surface); text-align: center; }
+.radar-changed dd { order: -1; margin: 0; color: var(--blue-soft); font-size: 1.6rem; font-weight: 800; }
+.radar-changed dt { color: var(--muted); font-size: .76rem; }
+.radar-section-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); }
+.briefing-sections { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--space-4); margin-block-start: var(--space-4); }
+.briefing-sections section { padding: var(--space-4); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.briefing-sections h3 { margin-block-start: 0; }
+.briefing-sections li + li { margin-block-start: var(--space-2); }
+.recommendation-reason { padding: var(--space-3); border-radius: var(--radius); color: #dff4ff !important; background: rgba(75,179,253,.08); }
+.radar-card[data-read="true"] { opacity: .78; }
+.radar-card[data-read="true"]:focus-within,.radar-card[data-read="true"]:hover { opacity: 1; }
+.radar-feedback { display: grid; gap: var(--space-3); }
+.radar-feedback label { display: grid; gap: var(--field-gap); font-weight: 700; }
+.radar-feedback textarea { min-block-size: 7rem; resize: vertical; }
 @media (max-width: 850px) { .radar-hero, .radar-grid, .radar-controls { grid-template-columns: 1fr; } .radar-controls fieldset { grid-column: auto; } }
+@media (max-width: 850px) { .radar-following-tools,.radar-changed { grid-template-columns: 1fr; } .radar-changed dl { grid-template-columns: repeat(2,minmax(0,1fr)); } .briefing-sections { grid-template-columns: 1fr; } }
 @media (max-width: 480px) { .radar-controls { padding: var(--space-4); } .radar-filter-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } .radar-filter-list button { min-inline-size: 0; padding-inline: var(--space-2); } .radar-results-heading { align-items: flex-start; } .radar-source { align-items: flex-start; flex-direction: column; } }
 .page {
   width: min(1720px, 100%);

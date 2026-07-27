@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.7.0-beta.1] - 2026-07-26
+
+### Added
+
+- No-login public Academy and Live AI Radar views: Latest, Important, Following, Israel First, Saved/Read Later, Recently Viewed, filters, saved searches, related coverage, local daily briefing, and “what changed.”
+- Fixed-registry scheduled RSS/Atom ingestion with bounded retrieval, retry/backoff, parser isolation, source health, quarantine, deduplication/clustering, provenance, and atomic cache-preserving publication.
+- Versioned local guest profile with optional interest onboarding, favorites, read/dismissed/recent state, following, feedback, consent, retention, corruption recovery, reset, and validated checksum-protected export/import with merge/replace preview and rollback.
+- Deterministic local recommendation ranking with explanations, freshness, explicit preferences/feedback, Israel relevance, and source diversity.
+
+### Security and privacy
+
+- External content stays inert text and all feed/import schemas, strings, arrays, URLs, timestamps, payloads, and storage are bounded.
+- Analytics is opt-in and resettable. Radar feedback remains local-only until a trusted same-origin submission endpoint is approved.
+- Added source-specific allowlists and Content Security Policy headers. No provider credentials or source-management secrets are present in the browser.
+
+### Known limitations
+
+- Guest state is device-local and does not sync. Production login, account migration, cloud profiles, email digest, push notifications, and public source administration are deferred.
+- The Israel Innovation Authority feed is registered but disabled because its edge policy rejects the supported Node retrieval path; the reviewed Israeli education fallback remains available.
+
 ## [1.6.0-beta.1] - 2026-07-25
 
 ### Added

@@ -8,7 +8,7 @@ async function ask(page: import("@playwright/test").Page, text: string) {
 test("Local Assistant explains context, finds QA content, suggests an agent, and stays honest", async ({ page }) => {
   const externalRequests: string[] = [];
   page.on("request", (request) => {
-    if (!request.url().startsWith("http://127.0.0.1:5173")) externalRequests.push(request.url());
+    if (new URL(request.url()).hostname !== "127.0.0.1") externalRequests.push(request.url());
   });
   await login(page);
   await english(page);
@@ -57,7 +57,7 @@ test("Prompt Builder creates and deterministically tests an advanced prompt", as
   await english(page);
   await page.goto("/prompts/new");
   await page.getByRole("button", { name: /1\. QA Test Case Generator/ }).click();
-  await page.getByRole("button", { name: "Advanced" }).click();
+  await page.getByRole("button", { name: "Advanced", exact: true }).click();
   const cases = page.locator(".builder-test-cases");
   await cases.getByRole("button", { name: "Add test case" }).click();
   await cases.getByLabel("Input").fill("A login form must lock after five failures.");

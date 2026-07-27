@@ -1,31 +1,46 @@
 import { defineConfig, devices } from "@playwright/test";
 const fullMatrix = Boolean(process.env.PW_FULL);
+const port = Number(process.env.PW_PORT || 5173);
+const baseURL = `http://127.0.0.1:${port}`;
 // Each suite type writes its own JSON report file (see package.json's PW_REPORT_NAME
 // per script) so a later Playwright invocation never silently overwrites an earlier
 // one's results before quality:collect reads them — see quality/scripts/collect-quality-results.mjs.
 const reportName = process.env.PW_REPORT_NAME || "functional";
+const version17Titles = /anonymous visitor|optional onboarding|Radar persists|briefing and what-changed|offline refresh|corrupted profile|guest export\/import|partial same-origin feed|structured feedback|mobile English Radar|empty filtered state|anonymous users cannot open administrative routes/;
+const fullDesktopTitles = new RegExp(
+  `redirects, logs in|Hebrew defaults|catalog exposes all|Hebrew prompt saves|directional and overflow|public About|complete curriculum|prompt packs support|starter agents import|agent playground links|Prompt Playground runs|projects and Knowledge|platform centers|new beta workspaces|${version17Titles.source}`,
+);
+const crossBrowserTitles = new RegExp(`login 320|dashboard desktop|${version17Titles.source}`);
+const mobileTitles = new RegExp(`dashboard mobile|lesson mobile|directional and overflow|${version17Titles.source}`);
 export default defineConfig({
   testDir: "./e2e/specs",
   fullyParallel: true,
   workers: Number(process.env.PW_WORKERS || 4),
   retries: process.env.CI ? 2 : 0,
+  expect: {
+    toHaveScreenshot: {
+      // Keep screenshot comparisons strict while tolerating minor renderer noise.
+      // Platform-specific baselines still protect Windows and Linux independently.
+      maxDiffPixelRatio: 0.002,
+    },
+  },
   reporter: [["list"], ["html", { open: "never" }], ["json", { outputFile: `quality/generated/playwright-${reportName}-results.json` }]],
   use: {
-    baseURL: "http://127.0.0.1:5173",
+    baseURL,
     screenshot: "only-on-failure",
     trace: "retain-on-failure",
     video: "retain-on-failure",
   },
   webServer: {
-    command: "npm run preview:test",
-    url: "http://127.0.0.1:5173",
+    command: `npm run build && npx vite preview --host 127.0.0.1 --port ${port}`,
+    url: baseURL,
     reuseExistingServer: false,
     timeout: 120000,
   },
   projects: [
     {
       name: "Desktop Chromium",
-      grep: fullMatrix ? /redirects, logs in|Hebrew defaults|catalog exposes all|Hebrew prompt saves|directional and overflow|public About|complete curriculum|prompt packs support|starter agents import|agent playground links|Prompt Playground runs|projects and Knowledge|platform centers|new beta workspaces/ : undefined,
+      grep: fullMatrix ? fullDesktopTitles : undefined,
       testIgnore: /(?:accessibility|visual|pages-deployment)\.spec\.ts/,
       use: { ...devices["Desktop Chrome"] },
     },
@@ -53,26 +68,26 @@ export default defineConfig({
     },
     {
       name: "Desktop Firefox",
-      testMatch: /responsive\.spec\.ts/,
-      grep: /login 320|dashboard desktop/,
+      testMatch: /(?:responsive|version-1\.7-public-beta)\.spec\.ts/,
+      grep: crossBrowserTitles,
       use: { ...devices["Desktop Firefox"] },
     },
     {
       name: "Desktop WebKit",
-      testMatch: /responsive\.spec\.ts/,
-      grep: /login 320|dashboard desktop/,
+      testMatch: /(?:responsive|version-1\.7-public-beta)\.spec\.ts/,
+      grep: crossBrowserTitles,
       use: { ...devices["Desktop Safari"] },
     },
     {
       name: "Mobile Chromium",
-      testMatch: /(?:responsive|prompts)\.spec\.ts/,
-      grep: /dashboard mobile|lesson mobile|directional and overflow/,
+      testMatch: /(?:responsive|prompts|version-1\.7-public-beta)\.spec\.ts/,
+      grep: mobileTitles,
       use: { ...devices["Pixel 7"] },
     },
     {
       name: "Mobile WebKit",
-      testMatch: /(?:responsive|prompts)\.spec\.ts/,
-      grep: /dashboard mobile|lesson mobile|directional and overflow/,
+      testMatch: /(?:responsive|prompts|version-1\.7-public-beta)\.spec\.ts/,
+      grep: mobileTitles,
       use: { ...devices["iPhone 14"] },
     },
   ],

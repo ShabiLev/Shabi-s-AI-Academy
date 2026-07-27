@@ -55,5 +55,6 @@ test("reviewed visual workflow is guarded, read-only, and cannot publish", () =>
   assert.match(workflow, /workflow_dispatch/);
   assert.match(workflow, /GENERATE_REVIEWED_LINUX_BASELINES/);
   assert.match(workflow, /contents: read/);
+  assert.match(workflow, /e2e\/specs\/__screenshots__\/\*\*\/\*-linux\.png/);
   assert.doesNotMatch(workflow, /git push|git commit|pull_request_target/);
 });

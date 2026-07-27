@@ -30,6 +30,9 @@ describe("Radar record validation", () => {
   it("rejects malformed or duplicated feeds", () => {
     const feed = { schemaVersion: 1, provider: "test", generatedAt: "2026-07-22T00:00:00Z", records: [record, record], partial: false };
     expect(parseRadarFeed(feed)).toBeUndefined();
+    expect(parseRadarFeed({ ...feed, records: [{ ...record, publicationState: "held" }] })).toBeUndefined();
+    expect(parseRadarFeed({ ...feed, records: [{ ...record, safetyState: "quarantined" }] })).toBeUndefined();
+    expect(parseRadarRecord({ ...record, publishedAt: "2026-07-21T12:00:00Z", updatedAt: "2026-07-20T12:00:00Z" })).toBeUndefined();
   });
 });
 

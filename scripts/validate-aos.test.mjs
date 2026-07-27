@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { loadManifest, loadRegistry, repoRoot } from "./aos-lib.mjs";
 import { validateManifest } from "./validate-aos-manifest.mjs";
@@ -46,10 +46,22 @@ test("manifest and package.json agree on the application version", () => {
   const packageJson = JSON.parse(readFileSync(path.join(repoRoot, "package.json"), "utf8"));
   const packageLock = JSON.parse(readFileSync(path.join(repoRoot, "package-lock.json"), "utf8"));
   const metadata = readFileSync(path.join(repoRoot, "src/config/appMetadata.ts"), "utf8");
-  const masterSpec = readFileSync(path.join(repoRoot, ".codex/release-1.6-ux-storage-ci/00-master-spec.md"), "utf8");
+  const releaseSpecs = readdirSync(path.join(repoRoot, ".codex"), { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && entry.name.startsWith("release-"))
+    .map((entry) => path.join(repoRoot, ".codex", entry.name, "00-master-spec.md"))
+    .filter((candidate) => {
+      try {
+        return readFileSync(candidate, "utf8").includes(packageJson.version);
+      } catch {
+        return false;
+      }
+    });
   assert.equal(manifest.applicationVersion, packageJson.version);
   assert.equal(packageLock.version, packageJson.version);
   assert.equal(packageLock.packages[""].version, packageJson.version);
   assert.match(metadata, new RegExp(`version: ["']${packageJson.version.replaceAll(".", "\\.")}["']`));
-  assert.match(masterSpec, new RegExp(packageJson.version.replaceAll(".", "\\.")));
+  assert.ok(
+    releaseSpecs.length > 0,
+    `No release master specification declares application version ${packageJson.version}`,
+  );
 });

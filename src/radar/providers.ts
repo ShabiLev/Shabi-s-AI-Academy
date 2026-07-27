@@ -49,7 +49,11 @@ export class SameOriginRadarProvider implements RadarProvider {
       if (length > 1_500_000) return { status: "unavailable", errorCode: "RADAR_INVALID_RESPONSE" };
       let unknownFeed: unknown;
       try {
-        unknownFeed = await response.json();
+        const buffer = await response.arrayBuffer();
+        if (buffer.byteLength > 1_500_000) {
+          return { status: "unavailable", errorCode: "RADAR_INVALID_RESPONSE" };
+        }
+        unknownFeed = JSON.parse(new TextDecoder().decode(buffer)) as unknown;
       } catch {
         return { status: "unavailable", errorCode: "RADAR_INVALID_RESPONSE" };
       }

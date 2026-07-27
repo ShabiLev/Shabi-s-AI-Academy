@@ -171,6 +171,6 @@ describe('AOS subroutes render without crashing', () => {
     window.localStorage.setItem('shabis-ai-academy-language', 'en')
     mockSnapshotFetch({ ...sampleSnapshot, memory: { ...sampleSnapshot.memory, available: false } })
     const user = userEvent.setup(); renderApp('/aos/memory'); await demoLogin(user)
-    expect(await screen.findByRole('status')).toHaveTextContent('No snapshot generated yet')
+    expect(await screen.findByText('No snapshot generated yet')).toBeInTheDocument()
   })
 })

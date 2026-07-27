@@ -105,7 +105,7 @@ export function ProfileMenu({ mobile = false }: { mobile?: boolean }) {
   </div>;
 
   return <div className="profile-menu">
-    <button ref={triggerRef} type="button" className="profile-trigger" aria-expanded={open} aria-haspopup="menu" aria-label={t("a11y.openProfile")} onClick={() => open ? close() : setOpen(true)}>
+    <button ref={triggerRef} type="button" className="profile-trigger" data-walkthrough="profile" aria-expanded={open} aria-haspopup="menu" aria-label={t("a11y.openProfile")} onClick={() => open ? close() : setOpen(true)}>
       <span className="profile-avatar" aria-hidden="true">{user.avatarInitials}</span><span className="profile-trigger-copy"><strong>{name}</strong><span>{status === "authenticated" ? (language === "he" ? "חשבון" : "Account") : (language === "he" ? "אורח" : "Guest")}</span></span>
     </button>
     {menu && createPortal(menu, document.body)}

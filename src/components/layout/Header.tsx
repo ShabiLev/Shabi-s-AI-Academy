@@ -66,6 +66,7 @@ export const Header = forwardRef<HTMLButtonElement, { onOpenMenu: () => void }>(
             ref={menuRef}
             type="button"
             className="icon-button menu-button"
+            data-walkthrough="navigation"
             onClick={onOpenMenu}
             aria-label={t("a11y.openMenu")}
           >

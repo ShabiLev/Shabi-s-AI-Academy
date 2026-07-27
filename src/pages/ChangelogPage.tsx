@@ -1,6 +1,7 @@
 import { useLanguage } from "../i18n/LanguageContext";
 
 const releases = [
+  { version: "1.7.0-beta.2", items: ["Accessible actor-scoped first-visit product walkthrough", "Responsive spotlight guidance with refresh-safe progress", "Restart and reset controls in Help and Settings"] },
   { version: "1.7.0-beta.1", items: ["Public no-login Academy and Live AI Radar", "Bounded scheduled RSS/Atom ingestion with reviewed fallback", "Versioned local guest profile, personalization, briefing, saved searches, feedback, and consent controls", "Validated guest export/import with merge, replace, and rollback"] },
   { version: "1.6.0-beta.1", items: ["Dashboard reduced to one continuation section and four primary task tiles", "Four-step, skippable onboarding with a deterministic starting recommendation", "Dedicated History route for Recent Items and lightweight, dismissible contextual hints", "Bounded quality-runtime retention, storage audit, cleanup, and CI determinism tooling"] },
   { version: "1.5.0-beta.1", items: ["Live source-based AI Radar with history, favorites, and provider states", "AOS Event Bus, Scheduler, and Capability Registry foundations", "Sidebar groups collapsed by default; Recent Items moved from Dashboard to Profile/History", "Dashboard Workspace Overview, Workspace Status, and duplicate Recent Items removed"] },

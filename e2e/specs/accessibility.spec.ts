@@ -215,6 +215,12 @@ test.describe("accessibility — guided auth and account UX", () => {
     await page.getByRole("button", { name: /סיור מודרך|Guided tour/ }).click();
     await runAxeScan(page, test.info(), { label: "guided-tour-dialog" });
   });
+
+  test("first-visit walkthrough dialog", async ({ page }) => {
+    await login(page, "/help");
+    await page.getByRole("button", { name: /סיור היכרות באקדמיה|Academy first-visit tour/ }).click();
+    await runAxeScan(page, test.info(), { label: "first-visit-walkthrough-dialog" });
+  });
 });
 
 test.describe("accessibility — Runtime Engine", () => {

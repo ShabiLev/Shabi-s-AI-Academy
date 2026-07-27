@@ -13,6 +13,26 @@ export const test = base.extend({
     await page.evaluate(() => {
       localStorage.clear();
       sessionStorage.clear();
+      const timestamp = "2026-07-26T12:00:00.000Z";
+      localStorage.setItem("shabis-ai-academy:guest-profile:v1", JSON.stringify({
+        schemaVersion: 1,
+        anonymousProfileId: "playwright-default",
+        createdAt: timestamp,
+        updatedAt: timestamp,
+        lastSeenAt: timestamp,
+      }));
+      localStorage.setItem("shabis-ai-academy:walkthrough:v1:playwright-default", JSON.stringify({
+        schemaVersion: 1,
+        tourId: "first-visit-v1",
+        tourVersion: "1.7",
+        status: "completed",
+        currentStep: 7,
+        startedAt: timestamp,
+        updatedAt: timestamp,
+        completedAt: timestamp,
+        dismissedAt: null,
+        language: "he",
+      }));
     });
     await page.goto("about:blank");
     await run(page);

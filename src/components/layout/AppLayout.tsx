@@ -16,6 +16,14 @@ export function AppLayout() {
   const { mode } = useAssistant()
 
   useEffect(() => {
+    const openForWalkthrough = () => {
+      if (window.matchMedia('(max-width: 48rem)').matches) setDrawerOpen(true)
+    }
+    window.addEventListener('academy:open-navigation', openForWalkthrough)
+    return () => window.removeEventListener('academy:open-navigation', openForWalkthrough)
+  }, [])
+
+  useEffect(() => {
     if (!drawerOpen) return
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
@@ -38,9 +46,9 @@ export function AppLayout() {
 
   const closeDrawer = () => { setDrawerOpen(false); requestAnimationFrame(() => menuButtonRef.current?.focus()) }
 
-  return <div className={`app-shell assistant-shell-${mode}`}>
+  return <div className={`app-shell assistant-shell-${mode}`} data-walkthrough-ready="true">
     <a className="skip-link" href="#main-content">{t('a11y.skipToContent')}</a>
-    <aside className="desktop-sidebar"><Sidebar /></aside>
+    <aside className="desktop-sidebar" data-walkthrough="navigation"><Sidebar /></aside>
     <div className="app-column" aria-hidden={drawerOpen || undefined}>
       <Header ref={menuButtonRef} onOpenMenu={() => setDrawerOpen(true)} />
       <main id="main-content" tabIndex={-1}><PageIntroduction /><Outlet /></main>

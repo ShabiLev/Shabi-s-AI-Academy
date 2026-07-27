@@ -4,6 +4,8 @@ Version 1.3.0-beta.1 adds task-oriented Help, Page Introductions, breadcrumbs, G
 
 New visitors can start at `/`, continue as Guest, and complete `/onboarding`. Help is at `/help`; use its product-area and experience filters or open “Help for this screen” from a primary route. Account setup is optional; see the authentication and migration guides before enabling cloud data.
 
+After onboarding, a first-time local profile is offered an eight-step product walkthrough. Choose Not now to suppress automatic prompts, or complete it once. Help and Settings show its current status and can restart it without deleting Academy work; Settings can reset only the walkthrough record.
+
 Open AI Radar from the Workspace navigation or Dashboard. Search across publisher, title, summary, and practical implication; combine topic and horizon filters; use Clear filters to return to the complete snapshot. Publication is the publisher's date, while Verified is the Academy's last link and copy review. Radar is a bundled editorial snapshot rather than a live feed; follow the official-source link before relying on time-sensitive information. See [AI Radar](ai-radar.md).
 
 The profile trigger opens a keyboard-operated menu. On desktop it is anchored to the logical start edge of the trigger; on mobile it opens as a full-width sheet. Arrow keys, Home, and End move through menu items. Escape, Tab, or activation outside closes it and returns focus to the trigger.

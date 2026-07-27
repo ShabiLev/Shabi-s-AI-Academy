@@ -2565,9 +2565,12 @@ html[data-motion="reduced"] * { scroll-behavior: auto !important; animation-dura
 .page-glossary-terms { display: flex; gap: var(--space-2); margin-block-start: var(--space-2); }
 .glossary-trigger { inline-size: 1.5rem; block-size: 1.5rem; border: 1px solid var(--line); border-radius: 50%; background: var(--panel); color: var(--blue-soft); font-weight: 800; }
 .glossary-popover { position: absolute; z-index: var(--z-popover); inset-block-start: calc(100% + .5rem); inset-inline-start: 0; inline-size: min(20rem,calc(100vw - 2rem)); padding: var(--space-4); border: 1px solid var(--line-bright); border-radius: var(--radius); color: var(--text); background: #081727; box-shadow: 0 18px 45px rgb(0 0 0/.35); }
-.tour-layer { position: fixed; z-index: var(--z-modal); inset: 0; display: grid; place-items: end center; padding: var(--space-5); pointer-events: none; }
-.tour-overlay { position: absolute; inset: 0; border: 0; background: rgb(2 8 23/.55); pointer-events: auto; }
-.tour-card { position: relative; inline-size: min(32rem,100%); max-block-size: min(80vh,34rem); overflow: auto; padding: var(--space-6); border: 1px solid var(--line-bright); border-radius: var(--radius-lg); color: var(--text); background: #081727; box-shadow: 0 22px 65px rgb(0 0 0/.5); pointer-events: auto; }
+.tour-layer { position: fixed; z-index: var(--z-critical); inset: 0; padding: var(--space-5); pointer-events: auto; }
+.tour-overlay { position: absolute; inset: 0; background: rgb(2 8 23/.72); }
+.tour-layer.has-target .tour-overlay { background: transparent; }
+.tour-spotlight { position: fixed; z-index: 1; border: 2px solid #8bdcff; border-radius: var(--radius); box-shadow: 0 0 0 9999px rgb(2 8 23/.38), 0 0 0 5px rgb(91 196 255/.18); pointer-events: none; transition: inset .18s ease, inline-size .18s ease, block-size .18s ease; }
+.tour-card { position: fixed; z-index: 2; inset-block-end: var(--space-5); left: 50%; transform: translateX(-50%); inline-size: min(32rem,calc(100vw - 2rem)); max-block-size: min(80vh,34rem); overflow: auto; padding: var(--space-6); border: 1px solid var(--line-bright); border-radius: var(--radius-lg); color: var(--text); background: #081727; box-shadow: 0 22px 65px rgb(0 0 0/.5); pointer-events: auto; }
+.tour-card[style] { inset-block-end: auto; inset-inline-start: auto; transform: none; }
 .tour-card progress { inline-size: 100%; }
 .tour-skip { float: inline-end; border: 0; color: var(--muted); background: transparent; text-decoration: underline; }
 .tour-actions { display: flex; justify-content: space-between; gap: var(--space-3); margin-block-start: var(--space-5); }
@@ -2578,7 +2581,8 @@ html[data-motion="reduced"] * { scroll-behavior: auto !important; animation-dura
 .tour-list-button { display: flex; inline-size: 100%; justify-content: space-between; gap: var(--space-3); padding: var(--space-3); border: 0; border-block-end: 1px solid var(--line); color: inherit; background: transparent; text-align: start; }
 .tour-list-button span { color: var(--muted); font-size: .82rem; }
 .current-screen-help { margin-block-end: var(--space-5); border-inline-start: .3rem solid var(--blue); }
-@media (max-width:48rem) { .page-introduction { margin-inline: var(--space-3); } .page-introduction-row { align-items: stretch; flex-direction: column; } .help-filters,.help-center-grid { grid-template-columns: 1fr; } .tour-layer { padding: 0; place-items: end stretch; } .tour-card { inline-size: 100%; max-block-size: 75vh; border-end-start-radius: 0; border-end-end-radius: 0; } }
+@media (max-width:48rem) { .page-introduction { margin-inline: var(--space-3); } .page-introduction-row { align-items: stretch; flex-direction: column; } .help-filters,.help-center-grid { grid-template-columns: 1fr; } .tour-layer { padding: 0; } .tour-card,.tour-card[style] { inset: auto 0 0; left: 0; transform: none; inline-size: 100%; max-block-size: min(75vh,calc(100vh - env(safe-area-inset-top) - 1rem)); padding-block-end: calc(var(--space-6) + env(safe-area-inset-bottom)); border-end-start-radius: 0; border-end-end-radius: 0; } }
+@media (prefers-reduced-motion:reduce) { .tour-spotlight { transition: none; } }
 
 /* Public account flows */
 .auth-page { min-block-size: 100vh; display: grid; place-items: center; padding: var(--space-5); background: radial-gradient(circle at 50% 10%,rgba(35,133,200,.2),transparent 45%),var(--bg); }

@@ -612,6 +612,11 @@ test.describe("visual — 1.3 guided auth UX", () => {
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-guided-tour.png");
     await page.getByRole("button", { name: /דלג|Skip/ }).last().click();
+    await page.goto("/help");
+    await page.getByRole("button", { name: /סיור היכרות באקדמיה|Academy first-visit tour/ }).click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v17-first-visit-walkthrough.png");
+    await page.getByRole("button", { name: /לא עכשיו|Not now/ }).click();
     await page.goto("/glossary");
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-glossary.png", { fullPage: true });

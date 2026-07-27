@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.7.0-beta.2] - 2026-07-27
+
+### Added
+
+- Accessible eight-step first-visit product walkthrough with Hebrew RTL and English LTR copy, responsive spotlight targets, keyboard focus management, reduced-motion support, and mobile navigation guidance.
+- Actor-scoped, bounded and validated walkthrough progress with refresh resume, one-time completion/dismissal behavior, and restart/reset controls in Help and Settings.
+
+### Changed
+
+- Playwright fixtures now seed first-visit completion by default so existing regression and visual suites remain isolated; dedicated first-visit tests opt into fresh state.
+
+### Security and privacy
+
+- Walkthrough state remains browser-local, contains no prompt content or precise identity, is excluded from guest export/import, and records no analytics without the existing explicit consent boundary.
+
 ## [1.7.0-beta.1] - 2026-07-26
 
 ### Added

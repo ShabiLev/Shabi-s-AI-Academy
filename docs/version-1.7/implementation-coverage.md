@@ -5,6 +5,7 @@ This matrix maps product requirements to implementation and verification. A row 
 | Requirement | Implemented | Primary files | Tests / evidence | Remaining release evidence |
 | --- | --- | --- | --- | --- |
 | A. Public no-login experience | yes | `src/App.tsx`, `src/pages/RadarPage.tsx` | Version 1.7 public-beta E2E | full route/manual review |
+| A2. First-visit product walkthrough | yes | `src/guidance/tours/`, `HelpCenterPage.tsx`, `SettingsPage.tsx` | storage unit tests; first-visit desktop/mobile E2E; guided-tour a11y/visual | human bilingual/visual review |
 | B. Versioned local guest profile | yes | `src/guest-profile/`, `GuestDataSettings.tsx` | repository unit/security tests; import E2E | full storage/retention gates |
 | C. Interest onboarding | yes | `OnboardingPage.tsx`, `OnboardingContext.tsx` | onboarding unit/E2E/a11y | complete browser matrix |
 | D. Live Radar ingestion | yes | `config/radar-sources.json`, `scripts/radar/`, workflow | ingestion integration tests; isolated 88-record cycle; source-health report | exact-SHA scheduled CI |

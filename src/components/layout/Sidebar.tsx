@@ -37,7 +37,7 @@ export function Sidebar({ mobile = false, onNavigate }: { mobile?: boolean; onNa
     <div className="brand-mark"><span className="brand-orbit" aria-hidden="true">A</span><div><strong>{t("brand.name")}</strong><span>{t("brand.tagline")}</span></div></div>
     <div className="sidebar-profile"><ProfileMenu mobile={mobile} /></div>
     <GuidanceHint id="sidebar" he="התפריט מציג רק משימות מרכזיות. אפשר לעבור למצב מתקדם בכל עת." en="Navigation shows the main tasks only. You can switch to Advanced Mode at any time." />
-    <button className="sidebar-mode-switch" type="button" aria-pressed={mode === "advanced"} onClick={() => setMode(mode === "beginner" ? "advanced" : "beginner")}>
+    <button className="sidebar-mode-switch" data-walkthrough="experience-mode" type="button" aria-pressed={mode === "advanced"} onClick={() => setMode(mode === "beginner" ? "advanced" : "beginner")}>
       <strong>{language === "he" ? (mode === "beginner" ? "מצב מתחילים" : "מצב מתקדם") : (mode === "beginner" ? "Beginner Mode" : "Advanced Mode")}</strong>
       <span>{language === "he" ? (mode === "beginner" ? "הצגת כלים מתקדמים" : "חזרה לניווט ממוקד") : (mode === "beginner" ? "Show advanced tools" : "Return to focused navigation")}</span>
     </button>
@@ -48,7 +48,14 @@ export function Sidebar({ mobile = false, onNavigate }: { mobile?: boolean; onNa
         const expanded = Boolean(groupState[group.id]) || currentGroup === group.id;
         return <details key={group.id} open={expanded} onToggle={(event) => {
           if (event.currentTarget.open !== expanded) toggle(group.id, event.currentTarget.open);
-        }}><summary>{group.title[language]}</summary><div>{items.map((item) => <NavLink key={item.to} to={item.to} end={item.end} onClick={onNavigate} className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}><Icon name={item.icon} /><span>{t(item.label)}</span></NavLink>)}</div></details>;
+        }}><summary>{group.title[language]}</summary><div>{items.map((item) => {
+          const walkthrough = item.to === "/lessons" ? "nav-lessons"
+            : item.to === "/prompts" ? "nav-prompts"
+              : item.to === "/radar" ? "nav-radar"
+                : item.to === "/help" ? "nav-help"
+                  : undefined;
+          return <NavLink key={item.to} to={item.to} end={item.end} data-walkthrough={walkthrough} onClick={onNavigate} className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}><Icon name={item.icon} /><span>{t(item.label)}</span></NavLink>;
+        })}</div></details>;
       })}
     </nav>
   </div>;

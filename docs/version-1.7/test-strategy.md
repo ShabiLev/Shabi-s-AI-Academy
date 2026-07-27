@@ -66,6 +66,8 @@ release gates.
 ### End-to-end
 
 - First visit reaches core public value with no login/session modal.
+- First-visit walkthrough starts only after onboarding readiness, supports Start/Not now, resumes the exact step after refresh, completes once, restarts from Help/Settings, and opens mobile navigation through an explicit action.
+- Shared Playwright fixtures seed `first-visit-v1` as completed by default. Only dedicated first-visit scenarios remove that actor-scoped record; visual and unrelated regression suites must never inherit a surprise welcome dialog.
 - Optional onboarding completion and skip; choices remain editable.
 - Follow topic/source/keyword, save, read/unread, dismiss, read later, recent
   view, saved search rename/run/delete/reset.
@@ -171,6 +173,9 @@ At minimum, fixtures must cover:
   dismissed/favorite/read feedback, and major-news override;
 - storage unavailable, malformed legacy schema, migration chain, quota error,
   oversized import, unknown structure, merge conflict, and rollback;
+- walkthrough actor isolation, malformed/oversized records, legacy in-progress
+  migration without completion leakage, refresh resume, dismissal, completion,
+  language direction, missing target, focus return, and mobile drawer action;
 - consent absent, denied, granted, revoked, reset, and policy-version change.
 
 ## Manual validation

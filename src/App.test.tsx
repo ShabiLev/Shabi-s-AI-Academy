@@ -51,6 +51,21 @@ describe("Shabi's AI Academy", () => {
     expect(screen.queryByRole("heading", { name: "כניסה" })).not.toBeInTheDocument();
   });
 
+  it("keeps public Help filters localized and interactive", async () => {
+    const user = userEvent.setup();
+    renderApp("/help");
+    expect(screen.getByRole("heading", { level: 1, name: "מרכז עזרה" })).toBeInTheDocument();
+    const search = await screen.findByRole("searchbox", { name: "חיפוש" });
+    const area = await screen.findByRole("combobox", { name: "אזור מוצר" });
+    const level = await screen.findByRole("combobox", { name: "רמה" });
+    await user.type(search, "פרומפט");
+    await user.selectOptions(area, "build");
+    await user.selectOptions(level, "advanced");
+    expect(area).toHaveValue("build");
+    expect(level).toHaveValue("advanced");
+    expect(screen.queryByRole("button", { name: "הפעלת WALK ME מחדש" })).not.toBeInTheDocument();
+  });
+
   it("keeps BrowserRouter as the default router", async () => {
     renderApp("/about");
     expect(window.location.hash).toBe("");

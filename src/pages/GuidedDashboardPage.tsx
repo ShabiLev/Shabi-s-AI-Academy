@@ -6,7 +6,6 @@ import { courseLessons } from "../course/courseData";
 import { useCourseProgress } from "../course/CourseProgressContext";
 import { useLanguage } from "../i18n/LanguageContext";
 import { getRecommendation, useOnboarding } from "../onboarding";
-import { GuidanceHint } from "../guidance/GuidanceHint";
 
 const dashboardActions = [
   { to: "/lessons", he: "ללמוד", en: "Learn", descriptionHe: "שיעורים קצרים ומעשיים", descriptionEn: "Short, practical lessons" },
@@ -30,7 +29,6 @@ export function GuidedDashboardPage() {
 
   return <div className="page guided-dashboard" data-testid="dashboard-page">
     <MigrationNotice />
-    <GuidanceHint id="dashboard" he="לוח הבקרה מציג צעד המשך אחד וארבע דרכי התחלה. כל שאר הכלים נשארים בתפריט." en="The Dashboard shows one continuation step and four ways to start. All other tools remain in navigation." />
     <header className="dashboard-welcome">
       <p className="eyebrow">{he ? "האקדמיה שלך" : "Your Academy"}</p>
       <h1>{he ? `ברוך שובך, ${user?.displayNameHe ?? "אורח"}` : `Welcome back, ${user?.displayNameEn ?? "Guest"}`}</h1>

@@ -8,7 +8,8 @@ export const WALKTHROUGH_KEY_PREFIX = "shabis-ai-academy:walkthrough:v1:";
 const LEGACY_KEY = "shabis-ai-academy:walkthrough:v1";
 const MAX_STEP = 7;
 
-export type WalkthroughStatus = "not-started" | "in-progress" | "completed" | "dismissed";
+export type WalkthroughStatus = "not-started" | "in-progress" | "completed";
+export type WalkthroughRunMode = "first-visit" | "resume" | "manual-replay";
 
 export interface WalkthroughRecord {
   readonly schemaVersion: typeof WALKTHROUGH_SCHEMA_VERSION;
@@ -16,11 +17,10 @@ export interface WalkthroughRecord {
   readonly tourVersion: typeof FIRST_VISIT_TOUR_VERSION;
   readonly status: WalkthroughStatus;
   readonly currentStep: number;
-  readonly startedAt: string | null;
+  readonly firstStartedAt?: string;
   readonly updatedAt: string;
-  readonly completedAt: string | null;
-  readonly dismissedAt: string | null;
-  readonly language: Language;
+  readonly completedAt?: string;
+  readonly language?: Language;
 }
 
 const isIso = (value: unknown): value is string =>
@@ -45,10 +45,7 @@ export function createWalkthroughRecord(
     tourVersion: FIRST_VISIT_TOUR_VERSION,
     status: "not-started",
     currentStep: 0,
-    startedAt: null,
     updatedAt: now(),
-    completedAt: null,
-    dismissedAt: null,
     language,
   };
 }
@@ -56,31 +53,100 @@ export function createWalkthroughRecord(
 export function parseWalkthroughRecord(value: unknown): WalkthroughRecord | undefined {
   if (!value || typeof value !== "object" || Array.isArray(value)) return undefined;
   const item = value as Record<string, unknown>;
-  const statuses: WalkthroughStatus[] = ["not-started", "in-progress", "completed", "dismissed"];
+  const statuses = ["not-started", "in-progress", "completed", "dismissed"];
+  const firstStartedAt = isIso(item.firstStartedAt)
+    ? item.firstStartedAt
+    : isIso(item.startedAt)
+      ? item.startedAt
+      : undefined;
   if (
     item.schemaVersion !== WALKTHROUGH_SCHEMA_VERSION
     || item.tourId !== FIRST_VISIT_TOUR_ID
     || item.tourVersion !== FIRST_VISIT_TOUR_VERSION
-    || !statuses.includes(item.status as WalkthroughStatus)
+    || !statuses.includes(item.status as string)
     || !Number.isInteger(item.currentStep)
     || Number(item.currentStep) < 0
     || Number(item.currentStep) > MAX_STEP
     || !isIso(item.updatedAt)
+    || ![null, undefined].includes(item.firstStartedAt as null | undefined) && !isIso(item.firstStartedAt)
     || ![null, undefined].includes(item.startedAt as null | undefined) && !isIso(item.startedAt)
     || ![null, undefined].includes(item.completedAt as null | undefined) && !isIso(item.completedAt)
-    || ![null, undefined].includes(item.dismissedAt as null | undefined) && !isIso(item.dismissedAt)
   ) return undefined;
+  const status = item.status === "dismissed" ? "in-progress" : item.status as WalkthroughStatus;
   return {
     schemaVersion: WALKTHROUGH_SCHEMA_VERSION,
     tourId: FIRST_VISIT_TOUR_ID,
     tourVersion: FIRST_VISIT_TOUR_VERSION,
-    status: item.status as WalkthroughStatus,
+    status,
     currentStep: Number(item.currentStep),
-    startedAt: isIso(item.startedAt) ? item.startedAt : null,
+    ...(firstStartedAt ? { firstStartedAt } : {}),
     updatedAt: item.updatedAt as string,
-    completedAt: isIso(item.completedAt) ? item.completedAt : null,
-    dismissedAt: isIso(item.dismissedAt) ? item.dismissedAt : null,
-    language: item.language === "en" ? "en" : "he",
+    ...(status === "completed" && isIso(item.completedAt) ? { completedAt: item.completedAt } : {}),
+    ...(item.language === "he" || item.language === "en" ? { language: item.language } : {}),
+  };
+}
+
+export function beginWalkthrough(
+  record: WalkthroughRecord,
+  mode: WalkthroughRunMode,
+  language: Language,
+  now = () => new Date().toISOString(),
+): WalkthroughRecord {
+  if (mode === "manual-replay") return record;
+  const timestamp = now();
+  return {
+    ...record,
+    status: "in-progress",
+    currentStep: mode === "resume" ? record.currentStep : 0,
+    firstStartedAt: record.firstStartedAt ?? timestamp,
+    updatedAt: timestamp,
+    language,
+  };
+}
+
+export function updateWalkthroughStep(
+  record: WalkthroughRecord,
+  currentStep: number,
+  mode: WalkthroughRunMode,
+  language: Language,
+  now = () => new Date().toISOString(),
+): WalkthroughRecord {
+  if (mode === "manual-replay") return record;
+  const timestamp = now();
+  return {
+    ...record,
+    status: "in-progress",
+    currentStep,
+    firstStartedAt: record.firstStartedAt ?? timestamp,
+    updatedAt: timestamp,
+    language,
+  };
+}
+
+export function closeWalkthrough(
+  record: WalkthroughRecord,
+  currentStep: number,
+  mode: WalkthroughRunMode,
+  language: Language,
+  now = () => new Date().toISOString(),
+): WalkthroughRecord {
+  return updateWalkthroughStep(record, currentStep, mode, language, now);
+}
+
+export function completeWalkthrough(
+  record: WalkthroughRecord,
+  language: Language,
+  now = () => new Date().toISOString(),
+): WalkthroughRecord {
+  const timestamp = now();
+  return {
+    ...record,
+    status: "completed",
+    currentStep: MAX_STEP,
+    firstStartedAt: record.firstStartedAt ?? timestamp,
+    updatedAt: timestamp,
+    completedAt: timestamp,
+    language,
   };
 }
 

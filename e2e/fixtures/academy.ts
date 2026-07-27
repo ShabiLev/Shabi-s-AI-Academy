@@ -27,10 +27,9 @@ export const test = base.extend({
         tourVersion: "1.7",
         status: "completed",
         currentStep: 7,
-        startedAt: timestamp,
+        firstStartedAt: timestamp,
         updatedAt: timestamp,
         completedAt: timestamp,
-        dismissedAt: null,
         language: "he",
       }));
     });

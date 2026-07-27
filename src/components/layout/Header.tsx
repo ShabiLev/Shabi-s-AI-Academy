@@ -25,6 +25,7 @@ const routeTitles: Record<string, TranslationKey> = {
   "/settings": "nav.settings",
   "/qa": "nav.qa",
   "/how-to": "nav.howTo",
+  "/help": "nav.help",
   "/search": "nav.search",
   "/assistant": "nav.assistant",
   "/workflows": "nav.workflows",
@@ -66,7 +67,7 @@ export const Header = forwardRef<HTMLButtonElement, { onOpenMenu: () => void }>(
             ref={menuRef}
             type="button"
             className="icon-button menu-button"
-            data-walkthrough="navigation"
+            data-walkthrough="mobile-menu"
             onClick={onOpenMenu}
             aria-label={t("a11y.openMenu")}
           >

@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.7.0-beta.3] - 2026-07-27
+
+### Added
+
+- One global, bilingual eight-step WALK ME product walkthrough with speech-bubble placement, a focused spotlight, mobile bottom-sheet adaptation, and completion-gated replay in the sidebar, mobile drawer, Help Center, and Settings.
+- Typed, centralized Help Center area and level localization with direct public access.
+
+### Changed
+
+- Closing with Escape or `Not now` now preserves `in-progress` state and resumes on the next visit; only the final `הבנתי` / `Got it` action marks the actor-scoped walkthrough complete.
+- Help Center now has one semantic `h1`, localized filters and area metadata, stronger muted contrast, clearer panel affordance, responsive filters, and aligned card actions.
+
+### Removed
+
+- Module-level tour banners, repeated local tour CTAs, and generic per-module tour definitions.
+
+### Security and privacy
+
+- Walkthrough state remains bounded, validated, actor-scoped, browser-local, and excluded from exported user work. No commercial WalkMe SDK or new provider integration was added.
+
 ## [1.7.0-beta.2] - 2026-07-27
 
 ### Added

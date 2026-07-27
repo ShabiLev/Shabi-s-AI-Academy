@@ -603,20 +603,84 @@ test.describe("visual — 1.3 guided auth UX", () => {
     await expect(page).toHaveScreenshot("v13-dashboard-advanced.png", { fullPage: true });
   });
 
-  test("Help Center tour glossary and profile", async ({ page }) => {
-    await login(page, "/help");
+  test("Help Center WALK ME glossary and profile", async ({ page }) => {
+    await page.goto("/help");
     await expect(page.locator(".help-center-grid article").first()).toBeVisible();
     await stabilize(page);
-    await expect(page).toHaveScreenshot("v13-help-center.png", { fullPage: true, timeout: 15_000 });
-    await page.locator(".tour-list-button").first().click();
+    await expect(page).toHaveScreenshot("v17-help-center-he-desktop.png", { fullPage: true, timeout: 15_000 });
+    await page.evaluate(() => {
+      const timestamp = "2026-07-26T12:00:00.000Z";
+      localStorage.removeItem("shabis-ai-academy:walkthrough:v1:playwright-default");
+      localStorage.setItem("shabis-ai-academy:onboarding:v1:anonymous", JSON.stringify({
+        schemaVersion: 1,
+        mainGoal: "learn",
+        experienceLevel: "beginner",
+        interests: [],
+        completed: true,
+        recommendationId: "foundations",
+        updatedAt: timestamp,
+      }));
+    });
+    await page.goto("/dashboard");
+    const walkthrough = page.getByRole("dialog");
+    const next = walkthrough.getByRole("button", { name: /^(הבא|Next)$/ });
+    await expect(walkthrough).toBeVisible();
     await stabilize(page);
-    await expect(page).toHaveScreenshot("v13-guided-tour.png");
-    await page.getByRole("button", { name: /דלג|Skip/ }).last().click();
+    await expect(page).toHaveScreenshot("v17-walk-me-welcome-desktop.png");
+    await walkthrough.getByRole("button", { name: /התחלת הסיור|Start tour/ }).click();
+    await expect(walkthrough.getByRole("heading", { name: /ניווט ראשי|Main navigation/ })).toBeVisible();
+    await expect(walkthrough.locator(".walkthrough-pointer")).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v17-walk-me-navigation-desktop.png");
+    await next.click();
+    await expect(walkthrough.getByRole("heading", { name: /מצב מתחילים ומצב מתקדם|Beginner and Advanced modes/ })).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v17-walk-me-page-control-desktop.png");
+    for (let step = 0; step < 3; step += 1) {
+      await next.click();
+    }
+    await expect(walkthrough.getByRole("heading", { name: /רדאר AI|AI Radar/ })).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v17-walk-me-radar-desktop.png");
+    await page.evaluate(() => {
+      const key = "shabis-ai-academy:walkthrough:v1:playwright-default";
+      const record = JSON.parse(localStorage.getItem(key) ?? "{}");
+      localStorage.setItem(key, JSON.stringify({
+        ...record,
+        status: "in-progress",
+        currentStep: 7,
+        updatedAt: "2026-07-26T12:00:00.000Z",
+        completedAt: undefined,
+      }));
+    });
+    await page.reload();
+    await expect(walkthrough.getByRole("heading", { name: /עזרה והתחלה מחדש|Help and restart/ })).toBeVisible();
+    await expect(walkthrough.locator(".walkthrough-pointer")).toBeVisible();
+    await expect(page.locator('[data-walkthrough="replay"]')).toHaveCount(0);
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v17-walk-me-final-help-desktop.png");
+    await page.getByRole("button", { name: /הבנתי|Got it/ }).click();
+    await expect(page.locator('[data-walkthrough="replay"]')).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v17-walk-me-completed-replay-desktop.png");
+
+    await page.addInitScript(() => localStorage.setItem("shabis-ai-academy-language", "en"));
     await page.goto("/help");
-    await page.getByRole("button", { name: /סיור היכרות באקדמיה|Academy first-visit tour/ }).click();
+    await expect(page.getByRole("heading", { level: 1, name: "Help Center" })).toBeVisible();
     await stabilize(page);
-    await expect(page).toHaveScreenshot("v17-first-visit-walkthrough.png");
-    await page.getByRole("button", { name: /לא עכשיו|Not now/ }).click();
+    await expect(page).toHaveScreenshot("v17-help-center-en-desktop.png", { fullPage: true });
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.reload();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v17-help-center-en-mobile.png", { fullPage: true });
+    await page.getByRole("button", { name: "Replay WALK ME" }).last().click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v17-walk-me-mobile-bottom-sheet.png");
+    await page.getByRole("button", { name: "Not now" }).click();
+
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.addInitScript(() => localStorage.setItem("shabis-ai-academy-language", "he"));
     await page.goto("/glossary");
     await stabilize(page);
     await expect(page).toHaveScreenshot("v13-glossary.png", { fullPage: true });

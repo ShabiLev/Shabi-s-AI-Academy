@@ -15,6 +15,11 @@ async function createPrompt(page: Page, title = "Visual QA Prompt") {
   await page.getByRole("button", { name: "שמירה" }).click();
 }
 
+test.beforeEach(async ({ page }) => {
+  // Visual retention and relative-date states must not drift with wall-clock time.
+  await page.clock.setFixedTime(new Date("2026-07-26T12:00:00Z"));
+});
+
 test.describe("visual — current product scenarios", () => {
   test("Profile Recent Items", async ({ page }) => {
     await login(page, "/lessons");

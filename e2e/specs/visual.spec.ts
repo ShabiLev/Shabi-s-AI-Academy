@@ -668,7 +668,14 @@ test.describe("visual — 1.3 guided auth UX", () => {
     await page.goto("/help");
     await expect(page.getByRole("heading", { level: 1, name: "Help Center" })).toBeVisible();
     await stabilize(page);
-    await expect(page).toHaveScreenshot("v17-help-center-en-desktop.png", { fullPage: true });
+    // Chromium alternates between viewport and full-page frames while
+    // toHaveScreenshot performs its consecutive-capture stability probe on
+    // this very tall English catalog. Capture one explicitly stabilized
+    // full-page frame and retain the repository's exact 0.2% comparison gate.
+    expect(await page.screenshot({ fullPage: true, animations: "disabled" })).toMatchSnapshot(
+      "v17-help-center-en-desktop.png",
+      { maxDiffPixelRatio: 0.002 },
+    );
 
     await page.setViewportSize({ width: 390, height: 844 });
     await page.reload();

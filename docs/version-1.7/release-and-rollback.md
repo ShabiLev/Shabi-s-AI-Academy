@@ -1,5 +1,9 @@
 # Version 1.7 release, limitations, and rollback
 
+## 1.7.0-beta.4 delta
+
+The beta.4 hotfix makes WALK ME first-visit launch independent of onboarding completion and Dashboard-only routing. Eligible shell routes launch only after the shell is ready and no visible blocking dialog is present. Safe deep links preserve a local internal return route while the guided steps run on Dashboard. Actor storage, completion rules, Radar ingestion/feed behavior, guest-profile retention, visual tolerances, analytics consent, and provider boundaries are unchanged. Rollback uses a normal revert of the beta.4 PR; beta.3 safely reads the unchanged walkthrough schema.
+
 ## 1.7.0-beta.3 delta
 
 The beta.3 release replaces module-level guidance banners with one global WALK ME walkthrough and makes Help Center public and fully localized. It preserves the beta.2 storage key and safely migrates the former `dismissed` state to resumable `in-progress`. It does not change Radar ingestion/feed behavior, guest-profile retention, visual tolerances, analytics consent, or provider boundaries. Rollback uses a normal revert of the beta.3 PR; beta.2 safely ignores the newer resumable fields.

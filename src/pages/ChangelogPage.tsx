@@ -1,6 +1,7 @@
 import { useLanguage } from "../i18n/LanguageContext";
 
 const releases = [
+  { version: "1.7.0-beta.4", items: ["First-visit WALK ME auto-launch on every eligible ready shell route", "Onboarding-independent launch with SPA Skip and Finish coverage", "Safe deep-link return plus visible-dialog deferral and duplicate-launch protection"] },
   { version: "1.7.0-beta.3", items: ["One global eight-step WALK ME product walkthrough", "Completion-gated replay with resumable actor-scoped progress", "Public localized Help Center with improved semantics and contrast"] },
   { version: "1.7.0-beta.2", items: ["Accessible actor-scoped first-visit product walkthrough", "Responsive spotlight guidance with refresh-safe progress", "Restart and reset controls in Help and Settings"] },
   { version: "1.7.0-beta.1", items: ["Public no-login Academy and Live AI Radar", "Bounded scheduled RSS/Atom ingestion with reviewed fallback", "Versioned local guest profile, personalization, briefing, saved searches, feedback, and consent controls", "Validated guest export/import with merge, replace, and rollback"] },

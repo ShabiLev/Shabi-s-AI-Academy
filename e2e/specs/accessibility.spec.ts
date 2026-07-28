@@ -220,7 +220,7 @@ test.describe("accessibility — guided auth and account UX", () => {
 
   test("WALK ME dialog and keyboard focus", async ({ page }) => {
     await page.goto("/help");
-    const replay = page.getByRole("button", { name: /Replay WALK ME|הפעלת WALK ME מחדש/ }).last();
+    const replay = page.locator(".walkthrough-replay-panel").getByRole("button", { name: /Replay WALK ME|הפעלת WALK ME מחדש/ });
     await replay.click();
     const dialog = page.getByRole("dialog");
     await expect(dialog).toBeVisible();
@@ -235,7 +235,7 @@ test.describe("accessibility — guided auth and account UX", () => {
   test("WALK ME remains usable at 200 percent zoom", async ({ page }) => {
     await page.setViewportSize({ width: 640, height: 900 });
     await page.goto("/help");
-    await page.getByRole("button", { name: /Replay WALK ME|הפעלת WALK ME מחדש/ }).last().click();
+    await page.locator(".walkthrough-replay-panel").getByRole("button", { name: /Replay WALK ME|הפעלת WALK ME מחדש/ }).click();
     await page.evaluate(() => {
       document.documentElement.style.zoom = "2";
     });

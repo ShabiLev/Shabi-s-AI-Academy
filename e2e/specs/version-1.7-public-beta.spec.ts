@@ -85,6 +85,9 @@ test("offline refresh keeps fallback and labels the state honestly", async ({ pa
 test("corrupted profile recovers and analytics requires explicit consent", async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem("shabis-ai-academy:guest-profile:v1", "{broken"));
   await page.goto("/settings");
+  const walkthrough = page.getByRole("dialog", { name: /Welcome to the Academy|ברוכים הבאים לאקדמיה/ });
+  await expect(walkthrough).toBeVisible();
+  await walkthrough.getByRole("button", { name: /Not now|לא עכשיו/ }).click();
   const consent = page.getByRole("checkbox", { name: /אני מסכים|I consent/ });
   await expect(consent).not.toBeChecked();
   await consent.check();
@@ -131,6 +134,9 @@ test("guest export/import previews replace safely, rejects oversized input, and 
 
   page.once("dialog", (dialog) => dialog.accept());
   await page.getByRole("button", { name: /איפוס פרופיל אורח|Reset guest profile/ }).click();
+  const walkthrough = page.getByRole("dialog", { name: /Welcome to the Academy|ברוכים הבאים לאקדמיה/ });
+  await expect(walkthrough).toBeVisible();
+  await walkthrough.getByRole("button", { name: /Not now|לא עכשיו/ }).click();
   await expect(page.getByRole("checkbox", { name: /Agents/ })).not.toBeChecked();
   const reset = await page.evaluate(() => JSON.parse(localStorage.getItem("shabis-ai-academy:guest-profile:v1") ?? "null"));
   expect(reset.favoriteIds).toEqual([]);

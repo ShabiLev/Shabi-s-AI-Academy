@@ -3,6 +3,7 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { App } from '../App'
 import { LanguageProvider } from '../i18n/LanguageContext'
+import { resetAppStorageWithCompletedWalkthrough } from '../test/walkthroughFixture'
 
 function renderApp(path = '/') {
   window.history.replaceState({}, '', path)
@@ -15,7 +16,7 @@ async function demoLogin(user: ReturnType<typeof userEvent.setup>) {
 }
 
 describe('Lesson quiz and completion', () => {
-  beforeEach(() => { window.localStorage.clear(); window.sessionStorage.clear() })
+  beforeEach(resetAppStorageWithCompletedWalkthrough)
 
   it('requires every answer before scoring the quiz', async () => {
     const user = userEvent.setup()
@@ -65,7 +66,7 @@ describe('Lesson quiz and completion', () => {
 })
 
 describe('Prompt Workshop and Library flows', () => {
-  beforeEach(() => { window.localStorage.clear(); window.sessionStorage.clear() })
+  beforeEach(resetAppStorageWithCompletedWalkthrough)
 
   it('loads a sample prompt into the Builder and shows a live preview', async () => {
     const user = userEvent.setup()

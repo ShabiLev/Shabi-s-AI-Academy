@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { App } from '../App'
 import { LanguageProvider } from '../i18n/LanguageContext'
 import { sampleQualityReport } from '../quality/qualityData'
+import { resetAppStorageWithCompletedWalkthrough } from '../test/walkthroughFixture'
 
 function renderApp(path = '/') {
   window.history.replaceState({}, '', path)
@@ -20,7 +21,7 @@ function jsonFile(content: unknown, name = 'report.json') {
 }
 
 describe('QA Center — report states', () => {
-  beforeEach(() => { window.localStorage.clear(); window.sessionStorage.clear() })
+  beforeEach(resetAppStorageWithCompletedWalkthrough)
 
   it('shows Not evaluated when no report is available', async () => {
     const user = userEvent.setup()
@@ -84,7 +85,7 @@ describe('QA Center — report states', () => {
 })
 
 describe('QA Center — internal issue register', () => {
-  beforeEach(() => { window.localStorage.clear(); window.sessionStorage.clear() })
+  beforeEach(resetAppStorageWithCompletedWalkthrough)
 
   it('creates, edits, resolves, reopens, and deletes an issue', async () => {
     const user = userEvent.setup()
@@ -144,7 +145,7 @@ describe('QA Center — internal issue register', () => {
 })
 
 describe('QA Center — release checklist', () => {
-  beforeEach(() => { window.localStorage.clear(); window.sessionStorage.clear() })
+  beforeEach(resetAppStorageWithCompletedWalkthrough)
 
   it('toggling every manual check moves the sample report from warnings to Ready', async () => {
     const user = userEvent.setup()

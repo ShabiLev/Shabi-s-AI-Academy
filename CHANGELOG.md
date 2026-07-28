@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.7.0-beta.4] - 2026-07-28
+
+### Fixed
+
+- WALK ME now auto-launches for every fresh local actor on an eligible, ready Academy shell route, independently of onboarding completion.
+- Finishing or skipping onboarding launches the walkthrough on Dashboard without requiring a page reload.
+- Fresh safe deep links such as Help and Radar keep their route for the welcome step, move to Dashboard when the tour starts, and return after completion or temporary close.
+- Visible blocking dialogs defer launch until they close, while hidden dialog markup no longer blocks first-visit guidance.
+- A per-actor launch guard prevents duplicate initialization during Strict Mode, rerenders, and shell mutations.
+
+### Security and privacy
+
+- Actor-scoped walkthrough storage, completion semantics, local-only persistence, Radar behavior, retention policy, and visual tolerances remain unchanged.
+
 ## [1.7.0-beta.3] - 2026-07-27
 
 ### Added

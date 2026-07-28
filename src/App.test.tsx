@@ -3,6 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { App } from "./App";
 import { LanguageProvider } from "./i18n/LanguageContext";
+import { resetAppStorageWithCompletedWalkthrough } from "./test/walkthroughFixture";
 
 function renderApp(path = "/dashboard") {
   window.history.replaceState({}, "", path);
@@ -36,8 +37,7 @@ async function demoLogin(user: ReturnType<typeof userEvent.setup>) {
 
 describe("Shabi's AI Academy", () => {
   beforeEach(() => {
-    window.localStorage.clear();
-    window.sessionStorage.clear();
+    resetAppStorageWithCompletedWalkthrough();
   });
 
   it("renders the public landing page for unauthenticated visitors", () => {
@@ -63,7 +63,6 @@ describe("Shabi's AI Academy", () => {
     await user.selectOptions(level, "advanced");
     expect(area).toHaveValue("build");
     expect(level).toHaveValue("advanced");
-    expect(screen.queryByRole("button", { name: "הפעלת WALK ME מחדש" })).not.toBeInTheDocument();
   });
 
   it("keeps BrowserRouter as the default router", async () => {

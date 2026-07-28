@@ -1,6 +1,7 @@
-import { expect, test } from "../fixtures/academy";
+import { expect, seedCurrentRadarHistory, test } from "../fixtures/academy";
 
 test("anonymous visitor opens Radar directly without a login gate", async ({ page }) => {
+  await seedCurrentRadarHistory(page);
   await page.goto("/radar");
   await expect(page).toHaveURL(/\/radar$/);
   await expect(page.getByRole("heading", { name: /רדאר AI חי|Live AI Radar/ })).toBeVisible();
@@ -19,6 +20,7 @@ test("optional onboarding creates a versioned guest profile with consent disable
 });
 
 test("Radar persists saved, read, following, feedback, and saved-search state", async ({ page }) => {
+  await seedCurrentRadarHistory(page);
   await page.goto("/radar");
   const first = page.locator(".radar-card").first();
   await first.getByRole("button", { name: /שמירה|Save/ }).click();
@@ -55,6 +57,7 @@ test("Radar persists saved, read, following, feedback, and saved-search state", 
 });
 
 test("briefing and what-changed derive only from available records", async ({ page }) => {
+  await seedCurrentRadarHistory(page);
   await page.goto("/radar");
   await expect(page.getByRole("heading", { name: /מה השתנה מאז הביקור האחרון|What changed since your last visit/ })).toBeVisible();
   await page.getByRole("button", { name: /פתיחת התדריך|Open briefing/ }).click();
@@ -63,6 +66,7 @@ test("briefing and what-changed derive only from available records", async ({ pa
 });
 
 test("offline refresh keeps fallback and labels the state honestly", async ({ page }) => {
+  await seedCurrentRadarHistory(page);
   await page.addInitScript(() => {
     const nativeFetch = window.fetch.bind(window);
     window.fetch = (input, init) => {
@@ -134,6 +138,7 @@ test("guest export/import previews replace safely, rejects oversized input, and 
 });
 
 test("partial same-origin feed preserves records and reports impaired source health", async ({ page }) => {
+  await seedCurrentRadarHistory(page);
   await page.route("**/generated/ai-radar-feed.json", async (route) => {
     const response = await route.fetch();
     const feed = await response.json();

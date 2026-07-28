@@ -96,6 +96,8 @@ test("public Help works without login and localizes title, areas, and filters", 
   await expect(page).toHaveURL(/\/help$/);
   await expect(page.getByRole("heading", { level: 1, name: "Help Center" })).toBeVisible();
   await expect(page.locator("h1")).toHaveCount(1);
+  await expect(page.locator(".help-filters")).toBeVisible();
+  await expect(page.locator(".help-center-grid article").first()).toBeVisible();
   await expect(page.getByRole("combobox", { name: "Product area" })).toContainText("Workspace");
   await expect(page.locator(".help-center-grid .eyebrow").first()).not.toHaveText(/home|learn|build|workspace|more/);
   await page.addInitScript(() => localStorage.setItem("shabis-ai-academy-language", "he"));

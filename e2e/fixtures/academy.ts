@@ -1,4 +1,5 @@
 import { test as base, expect, type Page } from "@playwright/test";
+import { reviewedRadarFeed } from "../../src/radar/reviewedFeed";
 export const test = base.extend({
   page: async ({ page }, run) => {
     const errors: string[] = [];
@@ -60,4 +61,23 @@ export async function noOverflow(page: Page) {
         document.documentElement.clientWidth,
     ),
   ).toBeTruthy();
+}
+
+/**
+ * Keeps card-dependent Radar journeys isolated from the age of the tracked
+ * offline fallback. Product retention and the reviewed feed remain unchanged;
+ * only these explicit browser tests receive current, reviewed local history.
+ */
+export async function seedCurrentRadarHistory(page: Page) {
+  const today = new Date().toISOString().slice(0, 10);
+  const records = reviewedRadarFeed.records.map((record) => ({
+    ...record,
+    publicationDate: today,
+    retrievalDate: today,
+    lastVerifiedAt: today,
+    historical: false,
+  }));
+  await page.addInitScript((seed) => {
+    localStorage.setItem("shabis-ai-academy:radar-history:v1", JSON.stringify(seed));
+  }, records);
 }

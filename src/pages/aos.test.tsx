@@ -5,6 +5,7 @@ import { App } from '../App'
 import { LanguageProvider } from '../i18n/LanguageContext'
 import type { AosSnapshot } from '../aos/types'
 import { resolveAosSnapshotUrl } from '../aos/useAosSnapshot'
+import { resetAppStorageWithCompletedWalkthrough } from '../test/walkthroughFixture'
 
 it('resolves the generated snapshot under both local and Pages base paths', () => {
   expect(resolveAosSnapshotUrl('/')).toBe('/generated/aos-snapshot.json')
@@ -64,7 +65,7 @@ function mockSnapshotFetch(snapshot: AosSnapshot | null) {
 }
 
 describe('AOS dashboard', () => {
-  beforeEach(() => { window.localStorage.clear(); window.sessionStorage.clear() })
+  beforeEach(resetAppStorageWithCompletedWalkthrough)
   afterEach(() => { vi.unstubAllGlobals() })
 
   it('shows a "not generated" state when no snapshot is available, never a fake status', async () => {
@@ -95,7 +96,7 @@ describe('AOS dashboard', () => {
 })
 
 describe('AOS modules page', () => {
-  beforeEach(() => { window.localStorage.clear(); window.sessionStorage.clear() })
+  beforeEach(resetAppStorageWithCompletedWalkthrough)
   afterEach(() => { vi.unstubAllGlobals() })
 
   it('lists modules and can filter by category', async () => {
@@ -113,7 +114,7 @@ describe('AOS modules page', () => {
 })
 
 describe('AOS subroutes render without crashing', () => {
-  beforeEach(() => { window.localStorage.clear(); window.sessionStorage.clear() })
+  beforeEach(resetAppStorageWithCompletedWalkthrough)
   afterEach(() => { vi.unstubAllGlobals() })
 
   it('research page', async () => {

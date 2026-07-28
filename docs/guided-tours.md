@@ -1,12 +1,14 @@
 # WALK ME product walkthrough
 
-Version 1.7.0-beta.3 provides one global eight-step product walkthrough. It replaces module banners and independent page tours; no commercial WalkMe SDK is included.
+Version 1.7.0-beta.4 provides one global eight-step product walkthrough. It replaces module banners and independent page tours; no commercial WalkMe SDK is included.
 
 ## Lifecycle
 
-The walkthrough starts after optional onboarding for a new local actor. Its exact persisted statuses are `not-started`, `in-progress`, and `completed`; run mode is `first-visit`, `resume`, or `manual-replay`.
+The walkthrough starts on the first eligible Academy shell route for a new local actor, independently of onboarding completion. It never opens on landing, onboarding, authentication, account, or administration routes. Its exact persisted statuses are `not-started`, `in-progress`, and `completed`; run mode is `first-visit`, `resume`, or `manual-replay`.
 
 - Automatic launch changes a fresh record to `in-progress`.
+- Launch waits for the explicit Academy shell readiness marker and for visible blocking dialogs to close; hidden dialog markup is ignored.
+- A fresh safe deep link shows the welcome step in place. Starting the tour moves to Dashboard and preserves the internal route for return after completion or temporary close.
 - Escape and `Not now` save the current step and close only for the current visit.
 - A later visit resumes the saved step.
 - Only the final `הבנתי` / `Got it` action marks the record `completed`.

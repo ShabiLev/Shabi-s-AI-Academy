@@ -1,5 +1,5 @@
 export const RUNTIME_SCHEMA_VERSION = 1;
-export const RUNTIME_VERSION = "1.7.0-beta.3";
+export const RUNTIME_VERSION = "1.7.0-beta.4";
 export const RUNTIME_STORAGE_KEY = "shabis-ai-academy.runtime.runs.v1";
 export const MAX_RUNTIME_RUNS = 50;
 

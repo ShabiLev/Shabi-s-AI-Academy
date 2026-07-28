@@ -15,7 +15,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth";
 import { useGuestProfile } from "../../guest-profile";
 import { useLanguage } from "../../i18n/LanguageContext";
-import { useOnboarding } from "../../onboarding";
 import { findTour } from "./tourData";
 import {
   FIRST_VISIT_TOUR_ID,
@@ -49,6 +48,31 @@ type BubblePlacement = "top" | "bottom" | "left" | "right" | "center";
 
 const TourContext = createContext<TourContextValue | null>(null);
 const focusableSelector = "button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex='-1'])";
+const blockingDialogSelector = "[role='dialog'], [aria-modal='true']";
+
+export function isWalkthroughEligibleRoute(pathname: string): boolean {
+  return pathname !== "/"
+    && pathname !== "/onboarding"
+    && !pathname.startsWith("/auth/")
+    && !pathname.startsWith("/account/")
+    && !pathname.startsWith("/admin");
+}
+
+export function isActuallyVisible(element: HTMLElement): boolean {
+  const rect = element.getBoundingClientRect();
+  const style = getComputedStyle(element);
+  return rect.width > 0
+    && rect.height > 0
+    && style.display !== "none"
+    && style.visibility !== "hidden"
+    && style.opacity !== "0"
+    && !element.hidden;
+}
+
+export function hasVisibleBlockingDialog(): boolean {
+  return [...document.querySelectorAll<HTMLElement>(blockingDialogSelector)]
+    .some((element) => !element.closest("[data-tour-id]") && isActuallyVisible(element));
+}
 
 function visibleWalkthroughTarget(name: string): HTMLElement | undefined {
   const names = name === "main-navigation" ? ["main-navigation", "mobile-menu"] : [name];
@@ -69,7 +93,6 @@ function visibleWalkthroughTarget(name: string): HTMLElement | undefined {
 export function GuidedTourProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const guest = useGuestProfile();
-  const onboarding = useOnboarding();
   const { language } = useLanguage();
   const location = useLocation();
   const navigate = useNavigate();
@@ -89,7 +112,10 @@ export function GuidedTourProvider({ children }: { children: ReactNode }) {
   const dialogRef = useRef<HTMLElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
+  const returnRouteRef = useRef<string | null>(null);
+  const pendingReturnFocusKeyRef = useRef<string | null>(null);
   const temporarilyClosedRef = useRef(false);
+  const autoLaunchActorRef = useRef<string | null>(null);
   const tour = activeId ? findTour(activeId) : undefined;
   const currentStep = tour?.steps[step];
 
@@ -109,6 +135,9 @@ export function GuidedTourProvider({ children }: { children: ReactNode }) {
       if (!active) return;
       setActiveId(null);
       setStep(0);
+      returnRouteRef.current = null;
+      pendingReturnFocusKeyRef.current = null;
+      autoLaunchActorRef.current = null;
       setWalkthroughState({ actorId, record: readWalkthroughRecord(actorId, language) });
     });
     return () => { active = false; };
@@ -123,6 +152,27 @@ export function GuidedTourProvider({ children }: { children: ReactNode }) {
     return () => { active = false; };
   }, [firstVisit.language, language, saveFirstVisit]);
 
+  useEffect(() => {
+    const focusKey = pendingReturnFocusKeyRef.current;
+    if (!focusKey) return;
+    const restoreFocus = () => {
+      const selector = focusKey === "help-replay"
+        ? ".walkthrough-replay-panel button"
+        : `[data-walkthrough-focus="${focusKey}"]`;
+      const target = document.querySelector<HTMLElement>(selector);
+      if (!target) return false;
+      pendingReturnFocusKeyRef.current = null;
+      target.focus();
+      return true;
+    };
+    if (restoreFocus()) return;
+    const observer = new MutationObserver(() => {
+      if (restoreFocus()) observer.disconnect();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, [location.hash, location.pathname, location.search]);
+
   const close = useCallback((finish = false) => {
     if (activeId && runMode !== "manual-replay") {
       saveFirstVisit((current) => finish
@@ -133,18 +183,31 @@ export function GuidedTourProvider({ children }: { children: ReactNode }) {
     setActiveId(null);
     setStep(0);
     setTargetRect(null);
-    requestAnimationFrame(() => returnFocusRef.current?.focus());
-  }, [activeId, language, runMode, saveFirstVisit, step]);
+    const returnRoute = returnRouteRef.current;
+    returnRouteRef.current = null;
+    if (returnRoute && `${location.pathname}${location.search}${location.hash}` !== returnRoute) {
+      pendingReturnFocusKeyRef.current = returnFocusRef.current?.closest(".walkthrough-replay-panel")
+        ? "help-replay"
+        : returnFocusRef.current?.dataset.walkthroughFocus ?? null;
+      navigate(returnRoute);
+    } else {
+      requestAnimationFrame(() => returnFocusRef.current?.focus());
+    }
+  }, [activeId, language, location.hash, location.pathname, location.search, navigate, runMode, saveFirstVisit, step]);
 
-  const beginFirstVisit = useCallback((mode: WalkthroughRunMode) => {
+  const beginFirstVisit = useCallback((mode: WalkthroughRunMode, moveToDashboard = true) => {
     returnFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     temporarilyClosedRef.current = false;
+    const currentRoute = `${location.pathname}${location.search}${location.hash}`;
+    if (location.pathname !== "/dashboard" && isWalkthroughEligibleRoute(location.pathname)) {
+      returnRouteRef.current = currentRoute;
+    }
     setRunMode(mode);
     saveFirstVisit((current) => beginWalkthrough(current, mode, language));
     setStep(mode === "resume" ? firstVisit.currentStep : 0);
     setActiveId(FIRST_VISIT_TOUR_ID);
-    if (location.pathname !== "/dashboard") navigate("/dashboard");
-  }, [firstVisit.currentStep, language, location.pathname, navigate, saveFirstVisit]);
+    if (moveToDashboard && location.pathname !== "/dashboard") navigate("/dashboard");
+  }, [firstVisit.currentStep, language, location.hash, location.pathname, location.search, navigate, saveFirstVisit]);
 
   const startTour = useCallback((id: string) => {
     const next = findTour(id);
@@ -163,21 +226,35 @@ export function GuidedTourProvider({ children }: { children: ReactNode }) {
       setActiveId(null);
       setStep(0);
     }
-    temporarilyClosedRef.current = false;
+    temporarilyClosedRef.current = true;
+    autoLaunchActorRef.current = null;
   }, [activeId, actorId, language]);
 
   useEffect(() => {
-    if (activeId || !onboarding.profile.completed || location.pathname !== "/dashboard") return;
-    if (document.querySelector("[role='dialog'], [aria-modal='true']")) return;
-    if (firstVisit.status === "completed" || temporarilyClosedRef.current) return;
-    returnFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    let active = true;
-    queueMicrotask(() => {
-      if (!active) return;
-      beginFirstVisit(firstVisit.status === "in-progress" ? "resume" : "first-visit");
+    const tryAutoLaunch = () => {
+      if (
+        activeId
+        || autoLaunchActorRef.current === actorId
+        || firstVisit.status === "completed"
+        || temporarilyClosedRef.current
+        || !isWalkthroughEligibleRoute(location.pathname)
+        || !document.querySelector('[data-walkthrough-ready="true"]')
+        || hasVisibleBlockingDialog()
+      ) return;
+      autoLaunchActorRef.current = actorId;
+      const mode = firstVisit.status === "in-progress" ? "resume" : "first-visit";
+      beginFirstVisit(mode, mode === "resume" && firstVisit.currentStep > 0);
+    };
+    tryAutoLaunch();
+    const observer = new MutationObserver(tryAutoLaunch);
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["aria-hidden", "aria-modal", "class", "hidden", "open", "role", "style"],
     });
-    return () => { active = false; };
-  }, [activeId, beginFirstVisit, firstVisit.status, location.pathname, onboarding.profile.completed]);
+    return () => observer.disconnect();
+  }, [activeId, actorId, beginFirstVisit, firstVisit.currentStep, firstVisit.status, location.pathname]);
 
   const updateTarget = useCallback(() => {
     if (!currentStep?.target) {
@@ -201,12 +278,15 @@ export function GuidedTourProvider({ children }: { children: ReactNode }) {
 
   const advance = useCallback(() => {
     if (!tour || step >= tour.steps.length - 1) return;
+    if (step === 0 && location.pathname !== "/dashboard") {
+      navigate("/dashboard");
+    }
     if (currentStep?.action === "open-mobile-navigation") {
       window.dispatchEvent(new Event("academy:open-navigation"));
     }
     const next = step + 1;
     setFirstVisitStep(next);
-  }, [currentStep?.action, setFirstVisitStep, step, tour]);
+  }, [currentStep?.action, location.pathname, navigate, setFirstVisitStep, step, tour]);
 
   const retreat = useCallback(() => {
     if (step === 0) return;

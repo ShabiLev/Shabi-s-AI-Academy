@@ -1,6 +1,6 @@
 # Shabi's AI Academy
 
-Shabi's AI Academy is a bilingual, local-first AI learning and building workspace. The active release candidate is **Version 1.7.0-beta.3**, replacing module-level tour banners with one accessible global WALK ME walkthrough and a public, fully localized Help Center — see [`.agent/README.md`](.agent/README.md).
+Shabi's AI Academy is a bilingual, local-first AI learning and building workspace. The active release candidate is **Version 1.7.0-beta.4**, which fixes first-visit WALK ME auto-launch across eligible shell routes while preserving the accessible global walkthrough and public, fully localized Help Center — see [`.agent/README.md`](.agent/README.md).
 
 The AI Workspace connects 45 open bilingual lessons, 250 structured prompts in 11 packs, 32 immutable starter-agent templates, personal builders, Playgrounds, Projects, Knowledge Base, Global Search, Command Palette, Local Assistant, deterministic workflows, activity analytics, notifications, and complete backup. Mock and Dry Run are executable; Live remains intentionally disabled and no browser API key input exists.
 

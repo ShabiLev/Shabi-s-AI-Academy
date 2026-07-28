@@ -1,4 +1,4 @@
-import { test, login, english } from "../fixtures/academy";
+import { test, expect, login, english } from "../fixtures/academy";
 import { runAxeScan } from "../fixtures/a11y";
 
 test.describe("accessibility — Hebrew RTL", () => {
@@ -210,16 +210,39 @@ test.describe("accessibility — guided auth and account UX", () => {
     });
   }
 
-  test("guided tour dialog", async ({ page }) => {
-    await login(page, "/lessons");
-    await page.getByRole("button", { name: /סיור מודרך|Guided tour/ }).click();
-    await runAxeScan(page, test.info(), { label: "guided-tour-dialog" });
+  test("public Help Center English", async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem("shabis-ai-academy-language", "en"));
+    await page.goto("/help");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Help Center");
+    await runAxeScan(page, test.info(), { label: "public-help-center-en" });
   });
 
-  test("first-visit walkthrough dialog", async ({ page }) => {
-    await login(page, "/help");
-    await page.getByRole("button", { name: /סיור היכרות באקדמיה|Academy first-visit tour/ }).click();
-    await runAxeScan(page, test.info(), { label: "first-visit-walkthrough-dialog" });
+  test("WALK ME dialog and keyboard focus", async ({ page }) => {
+    await page.goto("/help");
+    const replay = page.getByRole("button", { name: /Replay WALK ME|הפעלת WALK ME מחדש/ }).last();
+    await replay.click();
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible();
+    await runAxeScan(page, test.info(), { label: "walk-me-dialog" });
+    await page.keyboard.press("Shift+Tab");
+    await expect(dialog.locator(":focus")).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(dialog).toBeHidden();
+    await expect(replay).toBeFocused();
+  });
+
+  test("WALK ME remains usable at 200 percent zoom", async ({ page }) => {
+    await page.setViewportSize({ width: 640, height: 900 });
+    await page.goto("/help");
+    await page.getByRole("button", { name: /Replay WALK ME|הפעלת WALK ME מחדש/ }).last().click();
+    await page.evaluate(() => {
+      document.documentElement.style.zoom = "2";
+    });
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)).toBeTruthy();
+    await runAxeScan(page, test.info(), { label: "walk-me-zoom-320" });
   });
 });
 

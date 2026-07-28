@@ -6,7 +6,7 @@ import { useLanguage } from "../../i18n/LanguageContext";
 import { Icon } from "../common/Icon";
 import { navigationGroups } from "./navigation";
 import { ProfileMenu } from "./ProfileMenu";
-import { GuidanceHint } from "../../guidance/GuidanceHint";
+import { useGuidedTour } from "../../guidance/tours";
 
 const storageKey = (userId: string) => `shabis-ai-academy:navigation-groups:v3:${userId}`;
 function loadGroupState(key: string): Record<string, boolean> {
@@ -22,6 +22,7 @@ export function Sidebar({ mobile = false, onNavigate }: { mobile?: boolean; onNa
   const { user } = useAuth();
   const { pathname } = useLocation();
   const { mode, developerModeEnabled, setMode } = useExperience();
+  const walkthrough = useGuidedTour();
   const key = storageKey(user?.id ?? "anonymous");
   const currentGroup = useMemo(() => navigationGroups.find((group) => group.items.some((item) => pathname === item.to || (!item.end && pathname.startsWith(`${item.to}/`))))?.id, [pathname]);
   const [stored, setStored] = useState<{ key: string; groups: Record<string, boolean> }>(() => ({ key, groups: loadGroupState(key) }));
@@ -36,12 +37,11 @@ export function Sidebar({ mobile = false, onNavigate }: { mobile?: boolean; onNa
   return <div className={mobile ? "sidebar sidebar-mobile" : "sidebar"}>
     <div className="brand-mark"><span className="brand-orbit" aria-hidden="true">A</span><div><strong>{t("brand.name")}</strong><span>{t("brand.tagline")}</span></div></div>
     <div className="sidebar-profile"><ProfileMenu mobile={mobile} /></div>
-    <GuidanceHint id="sidebar" he="התפריט מציג רק משימות מרכזיות. אפשר לעבור למצב מתקדם בכל עת." en="Navigation shows the main tasks only. You can switch to Advanced Mode at any time." />
     <button className="sidebar-mode-switch" data-walkthrough="experience-mode" type="button" aria-pressed={mode === "advanced"} onClick={() => setMode(mode === "beginner" ? "advanced" : "beginner")}>
       <strong>{language === "he" ? (mode === "beginner" ? "מצב מתחילים" : "מצב מתקדם") : (mode === "beginner" ? "Beginner Mode" : "Advanced Mode")}</strong>
       <span>{language === "he" ? (mode === "beginner" ? "הצגת כלים מתקדמים" : "חזרה לניווט ממוקד") : (mode === "beginner" ? "Show advanced tools" : "Return to focused navigation")}</span>
     </button>
-    <nav aria-label={t("header.workspace")} className="main-nav">
+    <nav aria-label={t("header.workspace")} className="main-nav" data-walkthrough={mobile ? undefined : "main-navigation"}>
       {navigationGroups.map((group) => {
         const items = group.items.filter((item) => visible(item.visibility));
         if (!items.length) return null;
@@ -49,14 +49,28 @@ export function Sidebar({ mobile = false, onNavigate }: { mobile?: boolean; onNa
         return <details key={group.id} open={expanded} onToggle={(event) => {
           if (event.currentTarget.open !== expanded) toggle(group.id, event.currentTarget.open);
         }}><summary>{group.title[language]}</summary><div>{items.map((item) => {
-          const walkthrough = item.to === "/lessons" ? "nav-lessons"
-            : item.to === "/prompts" ? "nav-prompts"
-              : item.to === "/radar" ? "nav-radar"
-                : item.to === "/help" ? "nav-help"
+          const walkthroughTarget = item.to === "/lessons" ? "lessons"
+            : item.to === "/prompts" ? "creation-tools"
+              : item.to === "/radar" ? "radar"
+                : item.to === "/help" ? "help"
                   : undefined;
-          return <NavLink key={item.to} to={item.to} end={item.end} data-walkthrough={walkthrough} onClick={onNavigate} className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}><Icon name={item.icon} /><span>{t(item.label)}</span></NavLink>;
+          return <NavLink key={item.to} to={item.to} end={item.end} data-walkthrough={walkthroughTarget} onClick={onNavigate} className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}><Icon name={item.icon} /><span>{t(item.label)}</span></NavLink>;
         })}</div></details>;
       })}
     </nav>
+    {walkthrough.firstVisit.status === "completed" && <button
+      type="button"
+      className="walkthrough-replay"
+      data-walkthrough="replay"
+      aria-label={language === "he" ? "הפעלת WALK ME מחדש" : "Replay WALK ME"}
+      title={language === "he" ? "הפעלת WALK ME מחדש" : "Replay WALK ME"}
+      onClick={() => {
+        walkthrough.restartFirstVisit();
+        onNavigate?.();
+      }}
+    >
+      <Icon name="lessons" />
+      <span>{language === "he" ? "הדרכה" : "Guide"}</span>
+    </button>}
   </div>;
 }

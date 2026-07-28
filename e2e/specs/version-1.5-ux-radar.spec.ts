@@ -1,5 +1,5 @@
 import type { Page } from "@playwright/test";
-import { english, expect, login, test } from "../fixtures/academy";
+import { english, expect, login, seedCurrentRadarHistory, test } from "../fixtures/academy";
 
 async function expectPopulatedDashboard(page: Page) {
   const dashboard = page.getByTestId("dashboard-page");
@@ -59,6 +59,7 @@ test("local notifications dismiss with every non-destructive mechanism", async (
 });
 
 test("Radar supports source filters, compact view, and persistent favorites", async ({ page }) => {
+  await seedCurrentRadarHistory(page);
   await login(page, "/radar");
   const cards = page.locator(".radar-card");
   await expect(cards.first()).toBeVisible();
@@ -72,6 +73,7 @@ test("Radar supports source filters, compact view, and persistent favorites", as
 });
 
 test("Radar offline refresh keeps cached data and never exposes browser exceptions", async ({ page }) => {
+  await seedCurrentRadarHistory(page);
   await page.addInitScript(() => {
     const onlineFetch = window.fetch.bind(window);
     window.fetch = (...args) => String(args[0]).includes("/generated/ai-radar-feed.json")

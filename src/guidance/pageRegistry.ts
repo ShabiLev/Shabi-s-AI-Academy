@@ -51,7 +51,7 @@ export const pageRegistry: PageMetadata[] = [
   seed({ id: "run-details", route: "/runs/:runId", area: "workspace", title: text("פרטי הרצה", "Run details"), summary: text("בדקו ציר זמן, קלטים ותוצאות.", "Inspect the timeline, inputs, and results."), parent: "runs", glossaryTerms: ["runtime", "retry"] }),
   seed({ id: "search", route: "/search", area: "more", title: text("חיפוש", "Search"), summary: text("מצאו תוכן ונכסים בכל האקדמיה.", "Find content and assets across the Academy.") }),
   seed({ id: "assistant", route: "/assistant", area: "more", title: text("עוזר מקומי", "Local Assistant"), summary: text("קבלו הכוונה מובנית לפי המסך הנוכחי.", "Get structured guidance for the current screen."), glossaryTerms: ["ai"] }),
-  seed({ id: "help", route: "/help", area: "more", title: text("מרכז עזרה", "Help Center"), summary: text("מצאו הדרכה מוכוונת משימה.", "Find task-oriented product guidance."), access: "protected" }),
+  seed({ id: "help", route: "/help", area: "more", title: text("מרכז עזרה", "Help Center"), summary: text("מצאו הדרכה מוכוונת משימה.", "Find task-oriented product guidance."), access: "public" }),
   seed({ id: "glossary", route: "/glossary", area: "more", title: text("מילון מונחים", "Glossary"), summary: text("הכירו מושגים מרכזיים בעברית ובאנגלית.", "Understand core concepts in Hebrew and English."), access: "protected" }),
   seed({ id: "settings", route: "/settings", area: "more", title: text("הגדרות", "Settings"), summary: text("התאימו שפה, חוויה ונתונים מקומיים.", "Manage language, experience, and local data.") }),
   seed({ id: "profile", route: "/profile", area: "account", title: text("פרופיל", "Profile"), summary: text("נהלו פרטים, מטרות והעדפות חוויה.", "Manage details, goals, and experience preferences.") }),

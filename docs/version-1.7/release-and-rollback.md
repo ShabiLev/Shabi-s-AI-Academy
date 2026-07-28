@@ -1,5 +1,9 @@
 # Version 1.7 release, limitations, and rollback
 
+## 1.7.0-beta.3 delta
+
+The beta.3 release replaces module-level guidance banners with one global WALK ME walkthrough and makes Help Center public and fully localized. It preserves the beta.2 storage key and safely migrates the former `dismissed` state to resumable `in-progress`. It does not change Radar ingestion/feed behavior, guest-profile retention, visual tolerances, analytics consent, or provider boundaries. Rollback uses a normal revert of the beta.3 PR; beta.2 safely ignores the newer resumable fields.
+
 ## 1.7.0-beta.2 delta
 
 The beta.2 release adds only the local first-visit product walkthrough and its test/documentation surface. It does not change Radar ingestion, guest-profile retention, visual tolerances, analytics consent, or provider boundaries. Rollback uses a normal revert of the beta.2 PR; the separate walkthrough key may remain because beta.1 ignores it safely.

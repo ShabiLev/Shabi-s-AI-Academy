@@ -2,11 +2,15 @@ import { describe, expect, it } from "vitest";
 import {
   FIRST_VISIT_TOUR_ID,
   WALKTHROUGH_MAX_BYTES,
+  beginWalkthrough,
+  closeWalkthrough,
+  completeWalkthrough,
   createWalkthroughRecord,
   parseWalkthroughRecord,
   readWalkthroughRecord,
   walkthroughStorageKey,
   writeWalkthroughRecord,
+  updateWalkthroughStep,
 } from "./walkthroughStorage";
 
 function memoryStorage(initial: Record<string, string> = {}) {
@@ -26,7 +30,7 @@ describe("first-visit walkthrough storage", () => {
       ...createWalkthroughRecord("he", () => "2026-07-26T12:00:00.000Z"),
       status: "in-progress" as const,
       currentStep: 3,
-      startedAt: "2026-07-26T12:00:00.000Z",
+      firstStartedAt: "2026-07-26T12:00:00.000Z",
     };
     expect(writeWalkthroughRecord("Guest User", record, storage)).toBe(true);
     expect(readWalkthroughRecord("Guest User", "en", storage)).toEqual(record);
@@ -48,7 +52,7 @@ describe("first-visit walkthrough storage", () => {
     });
   });
 
-  it("does not leak a legacy completion or dismissal into a new actor", () => {
+  it("does not leak a legacy completion into a new actor", () => {
     const legacyCompleted = {
       ...createWalkthroughRecord("en", () => "2026-07-26T12:00:00.000Z"),
       status: "completed" as const,
@@ -58,6 +62,72 @@ describe("first-visit walkthrough storage", () => {
       "shabis-ai-academy:walkthrough:v1": JSON.stringify(legacyCompleted),
     });
     expect(readWalkthroughRecord("new-actor", "en", storage, () => "2026-07-26T12:01:00.000Z").status).toBe("not-started");
+  });
+
+  it("migrates the beta.2 dismissed state to resumable in-progress state", () => {
+    const actor = "returning-actor";
+    const key = walkthroughStorageKey(actor);
+    const storage = memoryStorage({
+      [key]: JSON.stringify({
+        ...createWalkthroughRecord("en", () => "2026-07-26T12:00:00.000Z"),
+        status: "dismissed",
+        currentStep: 4,
+        startedAt: "2026-07-26T12:00:00.000Z",
+        dismissedAt: "2026-07-26T12:05:00.000Z",
+      }),
+    });
+    expect(readWalkthroughRecord(actor, "en", storage)).toMatchObject({
+      status: "in-progress",
+      currentStep: 4,
+      firstStartedAt: "2026-07-26T12:00:00.000Z",
+    });
+  });
+
+  it("starts fresh, closes, and resumes without completing", () => {
+    const initial = createWalkthroughRecord("en", () => "2026-07-26T12:00:00.000Z");
+    const started = beginWalkthrough(initial, "first-visit", "en", () => "2026-07-26T12:01:00.000Z");
+    const progressed = updateWalkthroughStep(started, 3, "first-visit", "en", () => "2026-07-26T12:02:00.000Z");
+    const closed = closeWalkthrough(progressed, 3, "first-visit", "en", () => "2026-07-26T12:03:00.000Z");
+    const resumed = beginWalkthrough(closed, "resume", "en", () => "2026-07-26T12:04:00.000Z");
+    expect(closed).toMatchObject({ status: "in-progress", currentStep: 3 });
+    expect(resumed).toMatchObject({ status: "in-progress", currentStep: 3 });
+  });
+
+  it("completes only through the final completion transition", () => {
+    const record = beginWalkthrough(
+      createWalkthroughRecord("he", () => "2026-07-26T12:00:00.000Z"),
+      "first-visit",
+      "he",
+      () => "2026-07-26T12:01:00.000Z",
+    );
+    expect(completeWalkthrough(record, "he", () => "2026-07-26T12:08:00.000Z")).toMatchObject({
+      status: "completed",
+      currentStep: 7,
+      completedAt: "2026-07-26T12:08:00.000Z",
+    });
+  });
+
+  it("manual replay preserves the completed record on step and close", () => {
+    const completed = completeWalkthrough(
+      createWalkthroughRecord("en", () => "2026-07-26T12:00:00.000Z"),
+      "en",
+      () => "2026-07-26T12:08:00.000Z",
+    );
+    expect(beginWalkthrough(completed, "manual-replay", "he")).toEqual(completed);
+    expect(updateWalkthroughStep(completed, 2, "manual-replay", "he")).toEqual(completed);
+    expect(closeWalkthrough(completed, 2, "manual-replay", "he")).toEqual(completed);
+  });
+
+  it("keeps actors isolated", () => {
+    const storage = memoryStorage();
+    const completed = completeWalkthrough(
+      createWalkthroughRecord("en", () => "2026-07-26T12:00:00.000Z"),
+      "en",
+      () => "2026-07-26T12:08:00.000Z",
+    );
+    writeWalkthroughRecord("actor-a", completed, storage);
+    expect(readWalkthroughRecord("actor-a", "en", storage).status).toBe("completed");
+    expect(readWalkthroughRecord("actor-b", "en", storage).status).toBe("not-started");
   });
 
   it("rejects invalid schema, step, status, and timestamp values", () => {

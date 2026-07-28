@@ -48,7 +48,7 @@ export function AppLayout() {
 
   return <div className={`app-shell assistant-shell-${mode}`} data-walkthrough-ready="true">
     <a className="skip-link" href="#main-content">{t('a11y.skipToContent')}</a>
-    <aside className="desktop-sidebar" data-walkthrough="navigation"><Sidebar /></aside>
+      <aside className="desktop-sidebar"><Sidebar /></aside>
     <div className="app-column" aria-hidden={drawerOpen || undefined}>
       <Header ref={menuButtonRef} onOpenMenu={() => setDrawerOpen(true)} />
       <main id="main-content" tabIndex={-1}><PageIntroduction /><Outlet /></main>

@@ -35,4 +35,3 @@ Twelve templates were manually adapted as inert catalog metadata from
 [`msitarzewski/agency-agents`](https://github.com/msitarzewski/agency-agents/tree/8ef49232e02431f7ca4792b487e5a85a7939ff3a)
 at revision `8ef49232e02431f7ca4792b487e5a85a7939ff3a`, MIT licensed. Runtime
 network import, source scripts and unsupported autonomy/tool claims are excluded.
-

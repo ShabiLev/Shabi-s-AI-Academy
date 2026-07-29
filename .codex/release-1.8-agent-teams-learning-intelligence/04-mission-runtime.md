@@ -25,4 +25,3 @@ overwrites newer state.
 No agent approves its own phase. `local-execute` and `connected-execute` remain
 availability-labelled and disabled; connected work always requires a fresh,
 contextual human approval in a future secure boundary.
-

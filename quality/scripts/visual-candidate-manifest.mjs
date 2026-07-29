@@ -61,6 +61,8 @@ function inferViewport(filename, title) {
 function inferRoute(filename) {
   const routes = [
     ["account-security", "/account/security"], ["migration", "/account/migration"],
+    ["mission-builder", "/missions/new"], ["mission-workspace", "/missions/:missionId"],
+    ["team-catalog", "/team"], ["team", "/team"], ["missions", "/missions"],
     ["catalog-prompt-details", "/prompts/catalog/prompts-chat-sql-query-reviewer"],
     ["starter-catalog", "/prompts/catalog"], ["prompt-builder", "/prompts/new"],
     ["prompt-library", "/prompts"], ["prompt-details", "/prompts/:local-id"],

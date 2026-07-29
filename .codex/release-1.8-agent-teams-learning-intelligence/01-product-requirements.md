@@ -28,4 +28,3 @@ running, paused, drifted, needs-input, blocked, failed and completed states.
 Local-first, deterministic, responsive from 320px to 1920px, Hebrew RTL and
 English LTR, WCAG 2.2 AA automation, no secret storage, no untrusted execution,
 bounded collections, safe corruption recovery and explainable PASS/FAIL gates.
-

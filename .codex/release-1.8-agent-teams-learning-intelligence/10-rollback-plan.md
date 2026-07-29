@@ -24,4 +24,3 @@ investigated but is not by itself a rollback trigger.
 After rollback, smoke landing/login, dashboard, lessons, Radar, Help, WALK ME,
 settings/export and existing 1.7 storage. Record the deployed SHA and preserve
 failure evidence.
-

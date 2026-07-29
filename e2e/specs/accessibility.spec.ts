@@ -1,6 +1,26 @@
 import { test, expect, login, english } from "../fixtures/academy";
 import { runAxeScan } from "../fixtures/a11y";
 
+test.describe("accessibility — Version 1.8 Agent Teams", () => {
+  test("Mission Builder, Team catalog, and active Workspace Hebrew", async ({ page }) => {
+    await page.goto("/missions/new");
+    await runAxeScan(page, test.info(), { label: "mission-builder-he" });
+    await page.getByLabel(/תיאור המשימה|Mission description/).fill("Deliver an accessible mission workspace with evidence");
+    await page.getByRole("button", { name: /יצירת משימה לבדיקה|Create mission for review/ }).click();
+    await runAxeScan(page, test.info(), { label: "mission-workspace-he" });
+    await page.goto("/team");
+    await runAxeScan(page, test.info(), { label: "team-catalog-he" });
+  });
+
+  test("mobile English Mission Builder", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/settings");
+    await page.getByRole("radio", { name: "English" }).click();
+    await page.goto("/missions/new");
+    await runAxeScan(page, test.info(), { label: "mission-builder-en-mobile" });
+  });
+});
+
 test.describe("accessibility — Hebrew RTL", () => {
   test("Login", async ({ page }) => {
     await page.goto("/login");

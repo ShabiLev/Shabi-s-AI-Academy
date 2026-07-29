@@ -20,6 +20,87 @@ test.beforeEach(async ({ page }) => {
   await page.clock.setFixedTime(new Date("2026-07-26T12:00:00Z"));
 });
 
+test.describe("visual — Version 1.8 Agent Teams", () => {
+  test("Mission Builder Hebrew desktop", async ({ page }) => {
+    await page.goto("/missions/new");
+    await page.getByLabel(/תיאור המשימה|Mission description/).fill("מסירת סביבת משימה נגישה עם ראיות רגרסיה מלאות");
+    await expect(page.getByTestId("mission-builder")).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v18-mission-builder-he-desktop.png", { fullPage: true });
+  });
+
+  test("Mission Workspace paused Hebrew desktop", async ({ page }) => {
+    await page.goto("/missions/new");
+    await page.getByLabel(/תיאור המשימה|Mission description/).fill("בדיקת שחרור בטוחה עם צוות מומחים");
+    await page.getByRole("button", { name: /יצירת משימה לבדיקה|Create mission for review/ }).click();
+    await page.getByRole("button", { name: /אישור התכנית|Approve plan/ }).click();
+    await page.getByRole("button", { name: /התחלה|Start/ }).click();
+    await page.getByRole("button", { name: /השהיה|Pause/ }).click();
+    await expect(page.locator(".mission-heading .mission-status")).toContainText(/מושהית|Paused/);
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v18-mission-workspace-paused-he-desktop.png", { fullPage: true, mask: dynamicMasks(page) });
+  });
+
+  test("Team catalog English desktop", async ({ page }) => {
+    await startEnglish(page);
+    await page.goto("/team");
+    await expect(page.getByTestId("team-page")).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v18-team-catalog-en-desktop.png", { fullPage: true });
+  });
+
+  test("Mission Builder English mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await startEnglish(page);
+    await page.goto("/missions/new");
+    await page.getByLabel("Mission description").fill("Review mobile navigation and accessible focus states");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v18-mission-builder-en-mobile.png", { fullPage: true });
+  });
+
+  test("Mission plan approval Hebrew desktop", async ({ page }) => {
+    await page.goto("/missions/new");
+    await page.getByLabel(/תיאור המשימה|Mission description/).fill("בדיקת תכנית, בעלות ושערי איכות לפני התחלה");
+    await page.getByRole("button", { name: /יצירת משימה לבדיקה|Create mission for review/ }).click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v18-mission-plan-approval-he-desktop.png", { fullPage: true, mask: dynamicMasks(page) });
+  });
+
+  test("Mission running English desktop", async ({ page }) => {
+    await startEnglish(page);
+    await page.goto("/missions/new");
+    await page.getByLabel("Mission description").fill("Coordinate an accessible feature with visible handoffs");
+    await page.getByRole("button", { name: "Create mission for review" }).click();
+    await page.getByRole("button", { name: "Approve plan" }).click();
+    await page.getByRole("button", { name: "Start" }).click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v18-mission-running-en-desktop.png", { fullPage: true, mask: dynamicMasks(page) });
+  });
+
+  test("Mission quality failure Hebrew desktop", async ({ page }) => {
+    await page.goto("/missions/new");
+    await page.getByLabel(/תיאור המשימה|Mission description/).fill("תרחיש תיקון לאחר כשל בשער איכות");
+    await page.getByRole("button", { name: /יצירת משימה לבדיקה|Create mission for review/ }).click();
+    await page.getByRole("button", { name: /אישור התכנית|Approve plan/ }).click();
+    await page.getByRole("button", { name: /התחלה|Start/ }).click();
+    await page.getByRole("button", { name: /סימון צורך בתיקון|Mark needs work/ }).click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v18-mission-needs-work-he-desktop.png", { fullPage: true, mask: dynamicMasks(page) });
+  });
+
+  test("Completed Mission and learning summary English desktop", async ({ page }) => {
+    await startEnglish(page);
+    await page.goto("/missions/new");
+    await page.getByLabel("Mission description").fill("Complete a team learning mission with evidence");
+    await page.getByRole("button", { name: "Create mission for review" }).click();
+    await page.getByRole("button", { name: "Approve plan" }).click();
+    await page.getByRole("button", { name: "Start" }).click();
+    for (let phase = 0; phase < 4; phase += 1) await page.getByRole("button", { name: "Complete simulated phase" }).click();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v18-mission-completed-en-desktop.png", { fullPage: true, mask: dynamicMasks(page) });
+  });
+});
+
 test.describe("visual — current product scenarios", () => {
   test("Profile Recent Items", async ({ page }) => {
     await login(page, "/lessons");

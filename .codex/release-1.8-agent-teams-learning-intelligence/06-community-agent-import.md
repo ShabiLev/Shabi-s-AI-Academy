@@ -32,4 +32,3 @@ autonomous execution, installation commands and environment assumptions are
 removed. Every adapted record displays source, revision, license and an
 adaptation notice; explicit copy creates an editable user record with preserved
 provenance.
-

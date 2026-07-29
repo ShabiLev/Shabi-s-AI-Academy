@@ -15,4 +15,3 @@
 Release notes must state local-only deterministic execution, disabled connected
 execution, source attribution, migration behavior, rollback and known manual
 review limitations.
-

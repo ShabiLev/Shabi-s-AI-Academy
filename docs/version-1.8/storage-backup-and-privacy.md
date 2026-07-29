@@ -20,4 +20,3 @@ data, credentials and secret-shaped fields are rejected.
 Pause stores phase ID, transition count and a deterministic state fingerprint.
 Continue compares the current state; drift moves the mission to `needs-input`
 without overwriting newer data.
-

@@ -23,4 +23,3 @@ Built-in presets:
 5. Prompt Improvement
 
 Each preset names a Conductor, implementers, independent validators and gates.
-

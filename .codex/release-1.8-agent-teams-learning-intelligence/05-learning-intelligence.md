@@ -20,4 +20,3 @@ practice mission.
 A `ContextPack` stores a localized name, bounded note, local entity references,
 source labels and timestamps. It never embeds credentials or silently copies
 complete private documents into analytics/evidence.
-

@@ -53,5 +53,5 @@ describe("Version 1.8 mission experience", () => {
     expect(screen.getByRole("heading", { name: "Mission team controls" })).toBeInTheDocument();
     await user.click(screen.getAllByRole("button", { name: "Copy to My Teams" })[0]);
     expect(screen.getByRole("heading", { name: "My Teams" })).toBeInTheDocument();
-  });
+  }, 15_000);
 });

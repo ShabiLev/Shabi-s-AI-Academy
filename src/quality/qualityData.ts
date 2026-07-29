@@ -18,7 +18,7 @@ export const IMPORTED_REPORT_STORAGE_KEY =
  */
 export const sampleQualityReport: QualityReport = {
   schemaVersion: QUALITY_SCHEMA_VERSION,
-  applicationVersion: "1.7.0-beta.4",
+  applicationVersion: "1.8.0-beta.1",
   commitSha: "sample01",
   branch: "main",
   environment: "sample",

@@ -1,4 +1,4 @@
-export type WorkspaceEntityType = "lesson" | "prompt" | "agent" | "project" | "document" | "run" | "workflow" | "help" | "documentation";
+export type WorkspaceEntityType = "lesson" | "prompt" | "agent" | "project" | "document" | "run" | "workflow" | "mission" | "team" | "help" | "documentation";
 export type ActivityKind = "opened" | "edited" | "run" | "searched" | "created" | "imported" | "completed";
 export interface EntityActivity { id: string; entityId: string; entityType: WorkspaceEntityType; kind: ActivityKind; title: string; route: string; timestamp: string }
 export interface EntityPreference { entityId: string; entityType: WorkspaceEntityType; favorite: boolean; pinned: boolean; updatedAt: string }

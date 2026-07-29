@@ -1,5 +1,13 @@
 import type { HelpSection } from "./types";
 const names = [
+  ["mission-builder", "Mission and Team Builder", "בונה משימות וצוותים", "/missions/new"],
+  ["mission-workspace", "Mission Workspace", "סביבת משימה", "/missions"],
+  ["team-presets", "Agent Team Presets", "תבניות צוותי סוכנים", "/team"],
+  ["mission-pause-continue", "Safe Pause and Continue", "השהיה והמשך בטוחים", "/missions"],
+  ["mission-evidence", "Mission Evidence", "ראיות משימה", "/evidence"],
+  ["skill-map", "Skill Map", "מפת מיומנויות", "/team"],
+  ["context-packs", "Context Packs", "חבילות הקשר", "/missions"],
+  ["execution-levels", "Safe Execution Levels", "רמות הרצה בטוחות", "/missions/new"],
   ["getting-started", "Getting Started", "מתחילים", "/"],
   ["login", "Login", "כניסה", "/login"],
   ["dashboard", "Dashboard", "לוח הבקרה", "/"],
@@ -70,7 +78,11 @@ export const helpSections: HelpSection[] = names.map(
   ([id, en, he, route], i) => ({
     id,
     slug: id,
-    category: i < 4 ? "basics" : i < 10 ? "features" : "quality",
+    category: ["getting-started", "login", "dashboard", "lessons"].includes(id)
+      ? "basics"
+      : ["mission-builder", "mission-workspace", "team-presets", "mission-pause-continue", "mission-evidence", "skill-map", "context-packs", "execution-levels", "prompt-workshop", "prompt-library", "starter-catalog", "catalog-import", "catalog-duplicates", "catalog-attribution"].includes(id)
+        ? "features"
+        : "quality",
     titleHe: he,
     titleEn: en,
     summaryHe:

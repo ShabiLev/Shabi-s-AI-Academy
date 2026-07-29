@@ -1,6 +1,6 @@
 # AOS Master — Orchestration Entry Point
 
-AOS version: `1.1.0` ([`VERSION`](VERSION)) · Application version: `1.7.0-beta.4`
+AOS version: `1.1.0` ([`VERSION`](VERSION)) · Application version: `1.8.0-beta.1`
 Owner: Shabi · Status: active
 
 Every AI coding agent (Codex, Claude Code, or a compatible future agent)

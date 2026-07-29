@@ -945,6 +945,87 @@
     "routerModes": ["browser", "hash"]
   },
   {
+    "route": "/missions",
+    "pageId": "missions",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/missions",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/missions/new",
+    "pageId": "missions.new",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/missions/new",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/missions/:missionId",
+    "pageId": "missions.by-missionId",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/missions/mission-example",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/missions/:missionId/team",
+    "pageId": "missions.by-missionId.team",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/missions/mission-example/team",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/missions/:missionId/plan",
+    "pageId": "missions.by-missionId.plan",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/missions/mission-example/plan",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/missions/:missionId/evidence",
+    "pageId": "missions.by-missionId.evidence",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/missions/mission-example/evidence",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/team",
+    "pageId": "team",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/team",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/plan",
+    "pageId": "plan",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/plan",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/evidence",
+    "pageId": "evidence",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/evidence",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
     "route": "/history",
     "pageId": "history",
     "group": "workspace",

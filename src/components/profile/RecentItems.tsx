@@ -13,6 +13,8 @@ export function RecentItems() {
   const items = useMemo(() => [...state.activities].filter((item) => type === "all" || item.entityType === type).sort((a, b) => b.timestamp.localeCompare(a.timestamp)).slice(0, 25), [state.activities, type]);
   const types = [...new Set(state.activities.map((item) => item.entityType))];
   const entityNames: Record<WorkspaceEntityType, { he: string; en: string }> = {
+    mission: { he: "משימה", en: "Mission" },
+    team: { he: "צוות סוכנים", en: "Agent team" },
     lesson: { he: "שיעור", en: "Lesson" }, prompt: { he: "פרומפט", en: "Prompt" }, agent: { he: "סוכן", en: "Agent" },
     project: { he: "פרויקט", en: "Project" }, document: { he: "מסמך ידע", en: "Knowledge document" }, run: { he: "הרצה", en: "Run" },
     workflow: { he: "תהליך", en: "Workflow" }, help: { he: "עזרה", en: "Help" }, documentation: { he: "תיעוד", en: "Documentation" },

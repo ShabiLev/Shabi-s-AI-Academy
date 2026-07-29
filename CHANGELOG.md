@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.8.0-beta.1] - 2026-07-29
+
+### Added
+
+- Explainable Agent Team Builder with one Conductor, at most eight unique active members, bounded permissions, five immutable presets, and editable local copies.
+- Mission Workspace with interpretation, acceptance criteria, explicit plan approval, sequential phases, independent review, PASS/FAIL evidence, safe execution levels, four guidance modes, and persistent Pause/Continue drift detection.
+- Twelve inert, manually adapted specialist templates from `msitarzewski/agency-agents`, pinned to revision `8ef49232e02431f7ca4792b487e5a85a7939ff3a` with MIT attribution and no runtime network import.
+- Evidence-derived 12-domain Skill Map and bounded local Context Packs.
+- Actor-scoped repositories for missions, teams, skill evidence, Context Packs, and allowlisted mission analytics, including corruption quarantine, independent reset, and transactional backup/rollback.
+- Bilingual, responsive routes for Missions, Mission Builder, Mission Workspace, Agent Teams, Plan, and Evidence.
+
+### Changed
+
+- Dashboard priorities now lead with Continue mission, Start mission with a team, and Learn a skill while preserving Radar as a secondary learning surface.
+- Complete Workspace backup now previews, merges/replaces, and rolls back the five Version 1.8 domains.
+
+### Security and privacy
+
+- Connected and local execution levels are visible for learning but disabled. No browser credential field or external action is introduced.
+- Agents cannot approve their own phases; imported/stored content remains inert, bounded, actor-scoped, and excluded from analytics.
+
 ## [1.7.0-beta.4] - 2026-07-28
 
 ### Fixed

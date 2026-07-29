@@ -102,8 +102,8 @@ export function HowToPage() {
         </h2>
         <p>
           {ui === "he"
-            ? "בגרסה 1.7.0-beta.4 פלט Mock הוא סימולציה ו-Dry Run הוא תצוגה מקדימה. הרצה חיה מושבתת, מידע אינו נשלח החוצה וכלים חיצוניים אינם מופעלים."
-            : "In Version 1.7.0-beta.4, Mock output is simulated and Dry Run is a preview. Live Run is disabled, no data is sent externally, and no real tool is executed."}
+            ? "בגרסה 1.8.0-beta.1 פלט Simulate הוא סימולציה ו-Dry Run הוא תצוגה מקדימה. Local Execute ו-Connected Execute מושבתים, מידע אינו נשלח החוצה וכלים חיצוניים אינם מופעלים."
+            : "In Version 1.8.0-beta.1, Simulate output is deterministic and Dry Run is a preview. Local Execute and Connected Execute are disabled, no data is sent externally, and no real tool is executed."}
         </p>
       </section>
     </div>

@@ -22,6 +22,8 @@ export const translations: Record<Language, Translations> = {
     "common.minutes": "דקות",
     "common.beginner": "מתחילים",
     "nav.dashboard": "לוח הבקרה",
+    "nav.missions": "משימות",
+    "nav.teams": "צוותי סוכנים",
     "nav.lessons": "שיעורים",
     "nav.prompts": "ספריית פרומפטים",
     "nav.agents": "הסוכנים שלי",
@@ -157,7 +159,7 @@ export const translations: Record<Language, Translations> = {
     "auth.description": "סביבת למידה מעשית לבניית מיומנויות בהנדסת AI וסוכנים.",
     "auth.developmentNotice":
       "מצב ההדגמה מיועד לפיתוח מקומי בלבד ואינו אימות מאובטח לשימוש אמיתי.",
-    "footer.version": "גרסה 1.7.0-beta.4",
+    "footer.version": "גרסה 1.8.0-beta.1",
     "footer.builtWhileLearning": "נבנה תוך כדי לימודי הנדסת AI",
   },
   en: {
@@ -181,6 +183,8 @@ export const translations: Record<Language, Translations> = {
     "common.minutes": "minutes",
     "common.beginner": "Beginner",
     "nav.dashboard": "Dashboard",
+    "nav.missions": "Missions",
+    "nav.teams": "Agent Teams",
     "nav.lessons": "Lessons",
     "nav.prompts": "Prompt Library",
     "nav.agents": "My Agents",
@@ -322,7 +326,7 @@ export const translations: Record<Language, Translations> = {
       "A practical learning environment for building AI engineering and agent-development skills.",
     "auth.developmentNotice":
       "Demo mode is a local development simulation only and is not secure production authentication.",
-    "footer.version": "Version 1.7.0-beta.4",
+    "footer.version": "Version 1.8.0-beta.1",
     "footer.builtWhileLearning": "Built while learning AI engineering",
   },
 };

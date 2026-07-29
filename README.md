@@ -1,6 +1,6 @@
 # Shabi's AI Academy
 
-Shabi's AI Academy is a bilingual, local-first AI learning and building workspace. The active release candidate is **Version 1.7.0-beta.4**, which fixes first-visit WALK ME auto-launch across eligible shell routes while preserving the accessible global walkthrough and public, fully localized Help Center — see [`.agent/README.md`](.agent/README.md).
+Shabi's AI Academy is a bilingual, local-first AI learning and building workspace. The active release candidate is **Version 1.8.0-beta.1**, which adds guided Agent Teams, persistent Missions, explainable evidence, safe execution levels, Context Packs, and evidence-derived Skill Maps while preserving Version 1.7 Radar and WALK ME behavior — see [`.agent/README.md`](.agent/README.md).
 
 The AI Workspace connects 45 open bilingual lessons, 250 structured prompts in 11 packs, 32 immutable starter-agent templates, personal builders, Playgrounds, Projects, Knowledge Base, Global Search, Command Palette, Local Assistant, deterministic workflows, activity analytics, notifications, and complete backup. Mock and Dry Run are executable; Live remains intentionally disabled and no browser API key input exists.
 
@@ -34,6 +34,8 @@ Sprint 7.1 adds a deterministic browser-local Runtime Engine with Mock and Dry R
 - Portal-based accessible desktop profile menu, full-width mobile profile sheet, controlled layer tokens, isolated sidebar scrolling, and viewport-aware RTL/LTR anchoring
 - Guided first-time onboarding, Beginner/Advanced presentation modes, grouped navigation, breadcrumbs, contextual Help, Glossary, and Tours
 - Actor-scoped first-visit product walkthrough with bilingual spotlight guidance, refresh-safe progress, and restart/reset controls
+- Explainable Agent Team Builder with one Conductor, bounded permissions, immutable presets, attributed community adaptations, and editable local copies
+- Persistent Mission Workspace with plan approval, sequential handoffs, PASS/FAIL evidence, safe Pause/Continue drift detection, guidance modes, Context Packs, and Skill Map learning
 - Optional Supabase authentication foundation with Guest fallback, profiles, RLS-backed repositories, explicit migration review, and secure Admin route foundations
 
 ## Accounts, Guest mode, and security

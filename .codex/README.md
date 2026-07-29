@@ -6,8 +6,8 @@ This directory is the authoritative engineering source of truth for architecture
 
 - Engineering Kit: **1.0.0**
 - Current released application: **1.6.0-beta.1**
-- Active release candidate: **1.7.0-beta.1**
-- Active work: **Public Beta — Live AI Radar + Guest Personalization**
+- Active release candidate: **1.8.0-beta.1**
+- Active work: **Agent Teams and Learning Intelligence**
 
 The AOS at [`../.agent/`](../.agent/README.md) is the orchestration layer
 that tells any AI coding agent how and when to read this Engineering Kit —
@@ -37,6 +37,7 @@ it does not replace anything below.
 - [1.4 Agent Operating System master specification](release-1.4-aos/00-master-spec.md)
 - [1.4 Agent Operating System handoff](release-1.4-aos/handoff.md)
 - [1.7 Public Beta master specification](release-1.7-public-beta-live-radar-personalization/00-master-spec.md)
+- [1.8 Agent Teams master specification](release-1.8-agent-teams-learning-intelligence/00-master-spec.md)
 - [Templates](templates/feature.md)
 - [Codex prompts](prompts/feature-template.md)
 

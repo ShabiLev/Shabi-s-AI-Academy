@@ -3,7 +3,7 @@
 Shabi's AI Academy is a bilingual, local-first React learning application for prompts, agents, and quality engineering.
 
 - Stack: React, TypeScript, Vite, React Router, Vitest, Playwright, axe, and Lighthouse.
-- Active release candidate: 1.7.0-beta.1 (Public Beta — Live AI Radar + Guest Personalization). The controlling release specification is `.codex/release-1.7-public-beta-live-radar-personalization/`; the operational source is `.agent/`.
+- Active release candidate: 1.8.0-beta.1 (Agent Teams and Learning Intelligence). The controlling release specification is `.codex/release-1.8-agent-teams-learning-intelligence/`; the operational source is `.agent/`.
 - Engineering Kit: 1.0.0. AOS: 1.0.0.
 
 ## Agent Operating System (mandatory)

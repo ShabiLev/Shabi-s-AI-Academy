@@ -90,11 +90,11 @@ const releaseState = failedGates.length
     ? "readyWithWarnings"
     : "ready";
 const releaseTask =
-  "Version 1.7 public beta, live AI Radar, guest personalization, and release validation";
+  "Version 1.8 Agent Teams, Missions, Learning Intelligence, and release validation";
 const releaseObjective =
-  "Complete and validate the bilingual public beta, publish the authorized feature branch, and release only after every automated and human gate is green.";
+  "Complete and validate the bilingual local-first Mission environment, publish the authorized feature branch, and release only after every mandatory automated gate is green.";
 const releaseMilestone =
-  "Public Beta - Live AI Radar and Guest Personalization";
+  "Agent Teams, Missions and Learning Intelligence";
 const startingCommit = git("merge-base", "origin/main", "HEAD");
 
 const states = {
@@ -111,9 +111,9 @@ const states = {
     startingCommit,
     objective: releaseObjective,
     completedWork: [
-      "Version 1.7 architecture and release planning completed",
-      "Guest profile, live Radar ingestion, personalization, briefing, and privacy boundaries implemented",
-      "Focused unit and end-to-end regression suites implemented",
+      "Version 1.8 architecture, threat model, test matrix, and release planning completed",
+      "Agent Teams, Mission lifecycle, learning evidence, Context Packs, and actor-scoped repositories implemented",
+      "Focused unit, cross-browser, accessibility, and visual regression suites implemented",
     ],
     workInProgress: dirty ? ["Uncommitted reviewed implementation"] : [],
     blockedWork: blockers,
@@ -232,9 +232,9 @@ const states = {
             date: "2026-07-26",
             command: "npm run test:visual",
             symptom:
-              "Version 1.7 visual candidates and pre-existing stale Windows baselines require human review.",
+              "Version 1.8 visual candidates and changed Windows baselines require human review.",
             rootCause:
-              "Existing expected images predate the current interface and new Version 1.7 views do not yet have human-approved platform baselines.",
+              "Version 1.8 expected images require explicit platform review before promotion.",
             fix: "Human-review each diff and update only approved platform-correct baselines.",
             preventionTest: "npm run test:visual",
             status: "active",

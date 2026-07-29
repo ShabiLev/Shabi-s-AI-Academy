@@ -45,6 +45,7 @@ import { NotFoundPage } from "./pages/NotFoundPage";
 import { AosCoreProvider } from "./aos-core";
 import { RadarDataProvider } from "./radar";
 import { GuestProfileProvider } from "./guest-profile";
+import { MissionProvider } from "./missions";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
 const DashboardPage = lazy(() => import("./pages/GuidedDashboardPage").then((module) => ({ default: module.GuidedDashboardPage })));
@@ -87,6 +88,13 @@ const AosReleasesPage = lazy(() => import("./pages/aos").then((module) => ({ def
 const AosProgressPage = lazy(() => import("./pages/aos").then((module) => ({ default: module.AosProgressPage })));
 const AosMemoryPage = lazy(() => import("./pages/aos").then((module) => ({ default: module.AosMemoryPage })));
 const AosCorePage = lazy(() => import("./pages/AosCorePage").then((module) => ({ default: module.AosCorePage })));
+const MissionsPage = lazy(() => import("./pages/MissionsPage").then((module) => ({ default: module.MissionsPage })));
+const MissionBuilderPage = lazy(() => import("./pages/MissionBuilderPage").then((module) => ({ default: module.MissionBuilderPage })));
+const MissionWorkspacePage = lazy(() => import("./pages/MissionWorkspacePage").then((module) => ({ default: module.MissionWorkspacePage })));
+const TeamPage = lazy(() => import("./pages/TeamPage").then((module) => ({ default: module.TeamPage })));
+const MissionPlanPage = lazy(() => import("./pages/MissionPlanPage").then((module) => ({ default: module.MissionPlanPage })));
+const MissionEvidencePage = lazy(() => import("./pages/MissionEvidencePage").then((module) => ({ default: module.MissionEvidencePage })));
+const missionRouteFallback = <div className="page" role="status" aria-live="polite">טוען משימה… / Loading Mission…</div>;
 
 export interface AppProps {
   routerMode?: RouterMode;
@@ -111,6 +119,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                 <KnowledgeProvider>
                   <RuntimeProvider>
                   <WorkspaceProvider>
+                  <MissionProvider>
                   <CommandPaletteProvider>
                   <WorkflowProvider>
                   <AssistantProvider>
@@ -198,6 +207,15 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                     <Route path="settings" element={<SettingsPage />} />
                     <Route path="profile" element={<Suspense fallback={null}><ProfilePage /></Suspense>} />
                     <Route path="history" element={<Suspense fallback={null}><HistoryPage /></Suspense>} />
+                    <Route path="missions" element={<Suspense fallback={missionRouteFallback}><MissionsPage /></Suspense>} />
+                    <Route path="missions/new" element={<Suspense fallback={missionRouteFallback}><MissionBuilderPage /></Suspense>} />
+                    <Route path="missions/:missionId" element={<Suspense fallback={missionRouteFallback}><MissionWorkspacePage /></Suspense>} />
+                    <Route path="missions/:missionId/team" element={<Suspense fallback={missionRouteFallback}><TeamPage /></Suspense>} />
+                    <Route path="missions/:missionId/plan" element={<Suspense fallback={missionRouteFallback}><MissionPlanPage /></Suspense>} />
+                    <Route path="missions/:missionId/evidence" element={<Suspense fallback={missionRouteFallback}><MissionEvidencePage /></Suspense>} />
+                    <Route path="team" element={<Suspense fallback={null}><TeamPage /></Suspense>} />
+                    <Route path="plan" element={<Suspense fallback={null}><MissionPlanPage /></Suspense>} />
+                    <Route path="evidence" element={<Suspense fallback={null}><MissionEvidencePage /></Suspense>} />
                     <Route element={<AuthenticatedRoute />}><Route path="account/security" element={<Suspense fallback={null}><AccountSecurityPage /></Suspense>} /><Route path="account/migration" element={<Suspense fallback={null}><AccountMigrationPage /></Suspense>} /></Route>
                     <Route element={<AdminRoute />}><Route path="admin" element={<AdminDashboardPage />} /><Route path="admin/users" element={<AdminUsersPage />} /><Route path="admin/content" element={<AdminContentPage />} /><Route path="admin/audit" element={<AdminAuditPage />} /></Route>
                     <Route path="qa" element={<QACenterPage />} />
@@ -221,6 +239,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                   </AssistantProvider>
                   </WorkflowProvider>
                   </CommandPaletteProvider>
+                  </MissionProvider>
                   </WorkspaceProvider>
                   </RuntimeProvider>
                 </KnowledgeProvider>

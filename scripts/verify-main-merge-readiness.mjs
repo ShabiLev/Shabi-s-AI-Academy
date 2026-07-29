@@ -8,6 +8,7 @@ const allowedBranches = new Set([
   "main",
   "fix/1.4.0-ci-memory-visual-release",
   "feature/1.5.0-aos-core-ux-radar",
+  "feature/1.8-agent-teams-learning-intelligence",
 ]);
 const blockers = [];
 if (git("status", "--porcelain=v1")) blockers.push("working tree is dirty");

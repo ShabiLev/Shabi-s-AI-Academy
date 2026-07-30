@@ -16,7 +16,7 @@ test.describe("AOS dashboard", () => {
   test("opens and shows the current AOS and application version", async ({ page }) => {
     await login(page, "/aos");
     await expect(page.getByRole("heading", { name: /מערכת הפעלה לסוכני AI|Agent Operating System/ })).toBeVisible();
-    await expect(page.getByText(/1\.8\.0-beta\.1/).first()).toBeVisible();
+    await expect(page.getByText(/1\.9\.0-beta\.1/).first()).toBeVisible();
   });
 
   test("shows the module count and links to the full module list", async ({ page }) => {

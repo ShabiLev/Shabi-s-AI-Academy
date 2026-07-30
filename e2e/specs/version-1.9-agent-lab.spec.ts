@@ -232,6 +232,11 @@ test("@v1.9 Codex export validates TOML round trip and downloads without install
   for await (const chunk of stream) chunks.push(Buffer.from(chunk));
   expect(Buffer.concat(chunks).toString("utf8")).toContain("[agent]");
   await expect(page.getByText(/not installed|does not install/i)).toBeVisible();
+  const layout = await page.evaluate(() => ({
+    clientWidth: document.documentElement.clientWidth,
+    scrollWidth: document.documentElement.scrollWidth,
+  }));
+  expect(layout.scrollWidth, JSON.stringify(layout)).toBeLessThanOrEqual(layout.clientWidth + 1);
 });
 
 test("@v1.9 mobile English 320x568 preserves focus, LTR, and has no horizontal overflow", async ({ page }) => {

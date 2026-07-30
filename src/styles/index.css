@@ -3552,6 +3552,16 @@ html[data-motion="reduced"] * { scroll-behavior: auto !important; animation-dura
   gap: 1rem;
 }
 
+.evaluation-export-panel > * {
+  min-inline-size: 0;
+}
+
+.evaluation-export-panel pre {
+  max-inline-size: 100%;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 .evaluation-blocker {
   border-color: #ff9daa;
 }

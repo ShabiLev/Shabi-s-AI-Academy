@@ -50,4 +50,3 @@ TOML strings and comments are escaped by an allowlisted serializer and parsed
 back before download. Imported/user text remains inert. Never paste a secret
 into an Agent definition; exports and backups must remain safe if inspected or
 shared.
-

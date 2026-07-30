@@ -55,4 +55,3 @@ Evaluation data is actor-scoped and local to the current browser. Trace/export
 views omit hidden chain-of-thought and should not contain credentials, raw local
 paths, or private documents. Use complete backup preview before import or
 rollback, and review any quarantine warning before resetting a domain.
-

@@ -81,4 +81,3 @@ Any future write action requires a separate server-side authorization design,
 real connector state, least-privilege scopes, fresh contextual human approval,
 idempotency, audit evidence, failure recovery, revocation, and dedicated
 security/privacy review. Preview records are not execution authorization.
-

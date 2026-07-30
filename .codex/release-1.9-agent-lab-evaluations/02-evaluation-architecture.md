@@ -106,4 +106,3 @@ virtualize safely; derived comparison data is memoized by immutable hashes.
 The release test matrix includes 100+ runs, long traces, version histories,
 suites, backup, and mobile rendering. A feature must not evade bounds by
 splitting one logical payload into unlimited child records.
-

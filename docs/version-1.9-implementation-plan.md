@@ -140,4 +140,3 @@ Exit: only current evidence and actual manual statuses determine release state.
 Each unit of work follows implement → focused developer test → independent QA
 analysis → smallest fix. After three failed loops, stop that unit, preserve
 evidence, and escalate the exact unresolved root cause to the Conductor.
-

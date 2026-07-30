@@ -63,4 +63,3 @@ in the authoritative task/PR state.
 - UI Finish Gate reviews candidate images but cannot update baselines.
 - DevOps verifies deployment identity but does not waive application,
   accessibility, security, or manual gates.
-

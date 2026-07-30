@@ -39,4 +39,3 @@ Imported rubric text is inert and bounded. Unsupported schema, dangerous keys,
 invalid weights, unknown evidence types, excessive nesting, or non-finite
 numbers are rejected/quarantined. Deprecation hides a version from normal
 selection but never changes old runs. Rollback creates a new version.
-

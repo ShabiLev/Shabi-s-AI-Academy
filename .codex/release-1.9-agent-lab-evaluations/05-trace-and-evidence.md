@@ -83,4 +83,3 @@ quarantine corrupt entries. Retention must preserve active/certified references
 or block with a clear recovery path; it must not silently orphan a result.
 Analytics includes only allowlisted coarse events and excludes summaries,
 evidence, IDs, hashes, content, paths, and private metadata.
-

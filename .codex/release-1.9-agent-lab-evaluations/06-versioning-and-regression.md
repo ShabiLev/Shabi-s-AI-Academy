@@ -95,4 +95,3 @@ label source. They show run count, success rate, retry average, common failures,
 confidence, freshness, and limitations. Low sample sizes are explicitly low
 confidence. Community-derived labels describe provenance, not measured local
 performance.
-

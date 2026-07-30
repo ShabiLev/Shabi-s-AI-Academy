@@ -98,4 +98,3 @@ listed in [09-test-strategy.md](09-test-strategy.md). Visuals run twice
 sequentially. Exact PR-head CI, independent Reality Check, exact main merge-SHA
 CI, deployments, and production smoke are separate gates. A missing or not-run
 gate remains explicit and never becomes a pass.
-

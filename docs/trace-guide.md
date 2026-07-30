@@ -38,4 +38,3 @@ Printable HTML is supported only through a safe fixed template. Every export
 states Academy deterministic evaluation, certification status, versions,
 evidence limitations, and omissions. Treat exported content as potentially
 private local data.
-

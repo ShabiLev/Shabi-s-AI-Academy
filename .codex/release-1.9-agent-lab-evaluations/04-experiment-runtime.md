@@ -90,4 +90,3 @@ criterion findings, evaluator versions, evidence coverage, confidence,
 disagreements, missing evidence, Reality Checker decision, result checksums, and
 timestamps. It is immutable and visibly distinguishes Academy simulation from
 provider evidence.
-

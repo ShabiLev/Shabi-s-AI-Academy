@@ -9,7 +9,7 @@ const minutesAfter = (minutes: number) => new Date(generatedAtMs + minutes * 60_
 
 describe('computeReportStaleness', () => {
   it('flags no staleness for a fresh, matching report', () => {
-    const staleness = computeReportStaleness(sampleQualityReport, '1.8.0-beta.1', 'sample01', minutesAfter(30))
+    const staleness = computeReportStaleness(sampleQualityReport, sampleQualityReport.applicationVersion, 'sample01', minutesAfter(30))
     expect(staleness).toEqual({ versionMismatch: false, commitMismatch: false, old: false })
   })
 

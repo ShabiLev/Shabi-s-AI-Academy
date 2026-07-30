@@ -1,5 +1,15 @@
 # Testing strategy
 
+Version 1.9 adds a dedicated matrix for the Evaluation Arena, rubric
+validation, independent evaluators, deterministic lifecycle and exact resume,
+safe traces, immutable versioning, regression suites, Failure Cases,
+preview-only connectors, Codex TOML round-trip, actor isolation, backup/import,
+analytics redaction, and Version 1.8 compatibility. `npm run
+test:version-1.9` runs the focused Vitest and Desktop Chromium regression.
+Release validation additionally covers Firefox, WebKit, Mobile Chromium,
+Mobile WebKit, axe, 14 new visual states, Lighthouse, storage/retention, and
+evidence integrity.
+
 Version 1.3.0-beta.1 extends the complete beta coverage with public landing and auth routes, Guest onboarding, Beginner/Advanced navigation, page guidance, Help, Glossary, Tours, profiles, provider repositories, migration/conflicts, RLS documentation, Admin denial, and the machine-readable browser quality program documented in [system-quality-program.md](system-quality-program.md). Runtime and cloud-provider tests use injected boundaries and never call real external services.
 
 The release browser matrix covers the required desktop/mobile viewports, Hebrew RTL and English LTR, refresh persistence, keyboard operation, no-network boundaries, corruption recovery, visual baselines, and axe scans for every complex AI Workspace surface. Lighthouse audits Dashboard, Search, Assistant, Workflow Builder, and Analytics on desktop and mobile without lowering thresholds.
@@ -11,6 +21,8 @@ Vitest and Testing Library provide fast component/integration coverage. Playwrig
 ## Commands
 
 - `npm run test:run` and `npm test`: Vitest once or watch mode.
+- `npm run test:version-1.9`: focused Version 1.9 domain, component, storage,
+  and Desktop Chromium lifecycle regression.
 - `npm run test:coverage` / `test:coverage:open`: Vitest with enforced coverage thresholds — see `docs/quality-gates.md`.
 - `npm run test:e2e:functional`: functional Desktop Chromium only; `test:e2e:cross-browser`: Firefox, WebKit, and mobile compatibility; `test:a11y` and `test:visual`: isolated specialist suites. `test:e2e:full` aggregates those four commands for local release use, while CI runs each independently.
 - `npm run build:pages`: create and validate the GitHub Pages artifact with its repository base path, HashRouter mode, production metadata, and bundle safety checks.

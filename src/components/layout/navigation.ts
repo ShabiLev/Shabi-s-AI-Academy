@@ -19,6 +19,7 @@ export interface NavigationGroup {
 const beginner: NavigationItem[] = [
   { to: "/dashboard", label: "nav.dashboard", icon: "dashboard", end: true },
   { to: "/missions", label: "nav.missions", icon: "projects" },
+  { to: "/evaluations", label: "nav.evaluations", icon: "qa" },
   { to: "/team", label: "nav.teams", icon: "agents" },
   { to: "/lessons", label: "nav.lessons", icon: "lessons" },
   { to: "/prompts", label: "nav.prompts", icon: "prompts" },
@@ -30,6 +31,7 @@ const beginner: NavigationItem[] = [
 ];
 
 const advanced: NavigationItem[] = [
+  { to: "/evaluation-suites", label: "nav.evaluationSuites", icon: "qa", visibility: "advanced" },
   { to: "/playground/prompts", label: "nav.playgrounds", icon: "prompts", visibility: "advanced" },
   { to: "/workflows", label: "nav.workflows", icon: "projects", visibility: "advanced" },
   { to: "/runs", label: "nav.runtime", icon: "clock", visibility: "advanced" },
@@ -45,8 +47,8 @@ const advanced: NavigationItem[] = [
 
 export const navigationItems = [...beginner, ...advanced];
 export const navigationGroups: NavigationGroup[] = [
-  { id: "start", title: { he: "התחלה", en: "Start" }, items: beginner.slice(0, 5) },
-  { id: "workspace", title: { he: "עבודה ועזרה", en: "Work and help" }, items: beginner.slice(5) },
-  { id: "advanced-create", title: { he: "יצירה מתקדמת", en: "Advanced creation" }, items: advanced.slice(0, 3) },
-  { id: "advanced-system", title: { he: "מערכת ואיכות", en: "System and quality" }, items: advanced.slice(3) },
+  { id: "start", title: { he: "התחלה", en: "Start" }, items: beginner.slice(0, 6) },
+  { id: "workspace", title: { he: "עבודה ועזרה", en: "Work and help" }, items: beginner.slice(6) },
+  { id: "advanced-create", title: { he: "יצירה מתקדמת", en: "Advanced creation" }, items: advanced.slice(0, 4) },
+  { id: "advanced-system", title: { he: "מערכת ואיכות", en: "System and quality" }, items: advanced.slice(4) },
 ];

@@ -176,7 +176,7 @@ if (
     "Current released application 1.6.0-beta.1 or Sprint baseline 0.6.1 is not documented consistently.",
   );
 if (
-  !index.includes("Active release candidate: **1.8.0-beta.1**") ||
+  !index.includes("Active release candidate: **1.9.0-beta.1**") ||
   !master.includes("Target application: **0.7.0**")
 )
   errors.push("Active release candidate or archived Sprint target is not documented consistently.");

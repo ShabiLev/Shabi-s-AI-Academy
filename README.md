@@ -1,6 +1,6 @@
 # Shabi's AI Academy
 
-Shabi's AI Academy is a bilingual, local-first AI learning and building workspace. The active release candidate is **Version 1.8.0-beta.1**, which adds guided Agent Teams, persistent Missions, explainable evidence, safe execution levels, Context Packs, and evidence-derived Skill Maps while preserving Version 1.7 Radar and WALK ME behavior — see [`.agent/README.md`](.agent/README.md).
+Shabi's AI Academy is a bilingual, local-first AI learning and building workspace. The active release candidate is **Version 1.9.0-beta.1**, which adds the deterministic Agent Evaluation Lab, transparent rubrics, immutable comparisons, regression suites, safe connected-action previews, and validated Codex export while preserving Version 1.8 Missions and Agent Teams — see [`.agent/README.md`](.agent/README.md).
 
 The AI Workspace connects 45 open bilingual lessons, 250 structured prompts in 11 packs, 32 immutable starter-agent templates, personal builders, Playgrounds, Projects, Knowledge Base, Global Search, Command Palette, Local Assistant, deterministic workflows, activity analytics, notifications, and complete backup. Mock and Dry Run are executable; Live remains intentionally disabled and no browser API key input exists.
 
@@ -36,6 +36,7 @@ Sprint 7.1 adds a deterministic browser-local Runtime Engine with Mock and Dry R
 - Actor-scoped first-visit product walkthrough with bilingual spotlight guidance, refresh-safe progress, and restart/reset controls
 - Explainable Agent Team Builder with one Conductor, bounded permissions, immutable presets, attributed community adaptations, and editable local copies
 - Persistent Mission Workspace with plan approval, sequential handoffs, PASS/FAIL evidence, safe Pause/Continue drift detection, guidance modes, Context Packs, and Skill Map learning
+- Evidence-based Agent Evaluation Lab with criterion-level rubrics, independent read-only evaluators, deterministic comparison runs, trace inspection, version regression suites, a Failure Library, preview-only connected actions, and safe Codex TOML export
 - Optional Supabase authentication foundation with Guest fallback, profiles, RLS-backed repositories, explicit migration review, and secure Admin route foundations
 
 ## Accounts, Guest mode, and security

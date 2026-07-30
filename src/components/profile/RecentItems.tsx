@@ -15,6 +15,9 @@ export function RecentItems() {
   const entityNames: Record<WorkspaceEntityType, { he: string; en: string }> = {
     mission: { he: "משימה", en: "Mission" },
     team: { he: "צוות סוכנים", en: "Agent team" },
+    evaluation: { he: "הערכה", en: "Evaluation" },
+    suite: { he: "חבילת רגרסיה", en: "Regression suite" },
+    failureCase: { he: "מקרה כשל", en: "Failure case" },
     lesson: { he: "שיעור", en: "Lesson" }, prompt: { he: "פרומפט", en: "Prompt" }, agent: { he: "סוכן", en: "Agent" },
     project: { he: "פרויקט", en: "Project" }, document: { he: "מסמך ידע", en: "Knowledge document" }, run: { he: "הרצה", en: "Run" },
     workflow: { he: "תהליך", en: "Workflow" }, help: { he: "עזרה", en: "Help" }, documentation: { he: "תיעוד", en: "Documentation" },

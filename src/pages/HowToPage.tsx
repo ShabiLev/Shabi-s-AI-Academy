@@ -102,8 +102,8 @@ export function HowToPage() {
         </h2>
         <p>
           {ui === "he"
-            ? "בגרסה 1.8.0-beta.1 פלט Simulate הוא סימולציה ו-Dry Run הוא תצוגה מקדימה. Local Execute ו-Connected Execute מושבתים, מידע אינו נשלח החוצה וכלים חיצוניים אינם מופעלים."
-            : "In Version 1.8.0-beta.1, Simulate output is deterministic and Dry Run is a preview. Local Execute and Connected Execute are disabled, no data is sent externally, and no real tool is executed."}
+            ? "בגרסה 1.9.0-beta.1 פלט Simulate והערכות Academy הם דטרמיניסטיים, ופעולה מחוברת היא תצוגה מקדימה בלבד. מידע אינו נשלח החוצה וכלים חיצוניים אינם מופעלים."
+            : "In Version 1.9.0-beta.1, Simulate and Academy evaluation output is deterministic, and connected actions are preview-only. No data is sent externally and no real tool is executed."}
         </p>
       </section>
     </div>

@@ -3,11 +3,11 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState, type R
 import { useAuth } from "../auth/AuthContext";
 import { useGuestProfile } from "../guest-profile";
 import { useWorkspace } from "../workspace";
-import { agentCatalog, teamPresets } from "./catalog";
+import { agentCatalog, skillCatalog, teamPresets } from "./catalog";
 import { createMission, deriveSkillProgress, transitionMission, type MissionAction } from "./missionEngine";
 import { loadMissionRepository, resetMissionDomain, saveMissionRepository, type MissionRepositorySnapshot } from "./repository";
-import type { AgentTeam, ContextPack, ExecutionLevel, GuidanceMode, Mission, SkillProgress } from "./types";
-import { validateTeam } from "./validation";
+import type { AgentTeam, ContextPack, ExecutionLevel, GuidanceMode, Mission, SkillEvidence, SkillProgress } from "./types";
+import { validateSkillEvidence, validateTeam } from "./validation";
 
 interface CreateMissionInput {
   goal: string;
@@ -33,6 +33,8 @@ interface MissionContextValue {
   replaceAgent: (missionId: string, phaseId: string, agentId: string) => boolean;
   addSpecialist: (missionId: string, agentId: string) => boolean;
   setGuidanceMode: (missionId: string, mode: GuidanceMode) => boolean;
+  addEvaluationSkillEvidence: (evidence: SkillEvidence) => boolean;
+  removeSkillEvidence: (evidenceId: string) => boolean;
   resetDomain: (domain: "missions" | "teams" | "skills" | "contextPacks" | "analytics") => void;
 }
 
@@ -202,6 +204,17 @@ export function MissionProvider({ children }: { children: ReactNode }) {
       ...current,
       missions: current.missions.map((mission) => mission.id === missionId ? { ...mission, guidanceMode: mode, updatedAt: new Date().toISOString() } : mission),
     }, "learning_mode_selected", mode)),
+    addEvaluationSkillEvidence: (evidence) => {
+      if (evidence.source !== "evaluation" || !skillCatalog.some((skill) => skill.id === evidence.skillId)
+        || !validateSkillEvidence(evidence)) return false;
+      return mutate((current) => current.skillEvidence.some((item) => item.id === evidence.id)
+        ? current
+        : { ...current, skillEvidence: [...current.skillEvidence, evidence].slice(-500) });
+    },
+    removeSkillEvidence: (evidenceId) => mutate((current) => ({
+      ...current,
+      skillEvidence: current.skillEvidence.filter((item) => item.id !== evidenceId),
+    })),
     resetDomain: (domain) => {
       resetMissionDomain(actorId, domain);
       const next = loadMissionRepository(actorId);

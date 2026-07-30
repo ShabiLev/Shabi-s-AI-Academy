@@ -8,11 +8,12 @@ const baseURL = `http://127.0.0.1:${port}`;
 const reportName = process.env.PW_REPORT_NAME || "functional";
 const version17Titles = /anonymous visitor|optional onboarding|Radar persists|briefing and what-changed|offline refresh|corrupted profile|guest export\/import|partial same-origin feed|structured feedback|mobile English Radar|empty filtered state|anonymous users cannot open administrative routes/;
 const version18Titles = /mission journey|unavailable connected execution|Team catalog preserves attribution|English 320px mobile mission builder|quality failure|English Expert Dry Run|Audit Only|completed Mission/;
+const version19Titles = /@v1\.9/;
 const fullDesktopTitles = new RegExp(
-  `redirects, logs in|Hebrew defaults|catalog exposes all|Hebrew prompt saves|directional and overflow|public About|complete curriculum|prompt packs support|starter agents import|agent playground links|Prompt Playground runs|projects and Knowledge|platform centers|new beta workspaces|${version17Titles.source}|${version18Titles.source}`,
+  `redirects, logs in|Hebrew defaults|catalog exposes all|Hebrew prompt saves|directional and overflow|public About|complete curriculum|prompt packs support|starter agents import|agent playground links|Prompt Playground runs|projects and Knowledge|platform centers|new beta workspaces|${version17Titles.source}|${version18Titles.source}|${version19Titles.source}`,
 );
-const crossBrowserTitles = new RegExp(`login 320|dashboard desktop|${version17Titles.source}|${version18Titles.source}`);
-const mobileTitles = new RegExp(`dashboard mobile|lesson mobile|directional and overflow|${version17Titles.source}|${version18Titles.source}`);
+const crossBrowserTitles = new RegExp(`login 320|dashboard desktop|${version17Titles.source}|${version18Titles.source}|@v1\\.9 cross-browser`);
+const mobileTitles = new RegExp(`dashboard mobile|lesson mobile|directional and overflow|${version17Titles.source}|${version18Titles.source}|@v1\\.9 mobile`);
 export default defineConfig({
   testDir: "./e2e/specs",
   fullyParallel: true,
@@ -69,25 +70,25 @@ export default defineConfig({
     },
     {
       name: "Desktop Firefox",
-      testMatch: /(?:responsive|version-1\.7-public-beta|version-1\.8-agent-teams)\.spec\.ts/,
+      testMatch: /(?:responsive|version-1\.7-public-beta|version-1\.8-agent-teams|version-1\.9-agent-lab)\.spec\.ts/,
       grep: crossBrowserTitles,
       use: { ...devices["Desktop Firefox"] },
     },
     {
       name: "Desktop WebKit",
-      testMatch: /(?:responsive|version-1\.7-public-beta|version-1\.8-agent-teams)\.spec\.ts/,
+      testMatch: /(?:responsive|version-1\.7-public-beta|version-1\.8-agent-teams|version-1\.9-agent-lab)\.spec\.ts/,
       grep: crossBrowserTitles,
       use: { ...devices["Desktop Safari"] },
     },
     {
       name: "Mobile Chromium",
-      testMatch: /(?:responsive|prompts|version-1\.7-public-beta|version-1\.8-agent-teams)\.spec\.ts/,
+      testMatch: /(?:responsive|prompts|version-1\.7-public-beta|version-1\.8-agent-teams|version-1\.9-agent-lab)\.spec\.ts/,
       grep: mobileTitles,
       use: { ...devices["Pixel 7"] },
     },
     {
       name: "Mobile WebKit",
-      testMatch: /(?:responsive|prompts|version-1\.7-public-beta|version-1\.8-agent-teams)\.spec\.ts/,
+      testMatch: /(?:responsive|prompts|version-1\.7-public-beta|version-1\.8-agent-teams|version-1\.9-agent-lab)\.spec\.ts/,
       grep: mobileTitles,
       use: { ...devices["iPhone 14"] },
     },

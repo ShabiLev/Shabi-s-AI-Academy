@@ -16,10 +16,10 @@ function memoryStorage(): Storage {
 }
 
 describe("Version 1.6 simplification and user isolation", () => {
-  it("exposes the Version 1.8 beginner destinations and keeps advanced tools separate", () => {
+  it("exposes the Version 1.9 beginner destinations and keeps advanced tools separate", () => {
     const beginner = navigationGroups.flatMap((group) => group.items).filter((item) => !item.visibility);
-    expect(beginner.map((item) => item.to)).toEqual(["/dashboard", "/missions", "/team", "/lessons", "/prompts", "/agents", "/projects", "/radar", "/history", "/help"]);
-    expect(navigationGroups.flatMap((group) => group.items).filter((item) => item.visibility === "advanced")).toHaveLength(10);
+    expect(beginner.map((item) => item.to)).toEqual(["/dashboard", "/missions", "/evaluations", "/team", "/lessons", "/prompts", "/agents", "/projects", "/radar", "/history", "/help"]);
+    expect(navigationGroups.flatMap((group) => group.items).filter((item) => item.visibility === "advanced")).toHaveLength(11);
   });
 
   it("isolates experience preferences between user IDs", () => {

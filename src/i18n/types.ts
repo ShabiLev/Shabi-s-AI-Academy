@@ -18,6 +18,8 @@ export type TranslationKey =
   | "profile.menu"
   | "nav.dashboard"
   | "nav.missions"
+  | "nav.evaluations"
+  | "nav.evaluationSuites"
   | "nav.teams"
   | "nav.search"
   | "nav.assistant"

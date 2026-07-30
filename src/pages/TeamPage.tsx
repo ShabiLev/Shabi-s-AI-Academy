@@ -141,8 +141,8 @@ export function TeamPage() {
         <h2>{he ? "מפת מיומנויות" : "Skill Map"}</h2>
         <p>
           {he
-            ? "צפייה בדף אינה מעלה רמה. רק שיעור, תרגיל או משימה שהושלמו נחשבים ראיה."
-            : "A page view never raises a level. Only completed lessons, exercises, or missions count as evidence."}
+            ? "צפייה בדף אינה מעלה רמה. רק השלמה או ראיית Evaluation מאומתת נחשבות; ראיית Evaluation ניתנת להסרה."
+            : "A page view never raises a level. Only completion or validated Evaluation evidence counts; Evaluation evidence is removable."}
         </p>
         <div className="skill-grid">
           {skillCatalog.map((skill) => {
@@ -153,6 +153,14 @@ export function TeamPage() {
               <article key={skill.id}>
                 <h3>{skill.name[language]}</h3>
                 <span>{skillLevelLabel(progress.level, language)}</span>
+                {progress.evidence.filter((item) => item.source === "evaluation").map((evidence) => (
+                  <div className="skill-evidence-row" key={evidence.id}>
+                    <small>{he ? "ראיית Evaluation" : "Evaluation evidence"} · {evidence.outcome} · {evidence.confidence}</small>
+                    <button type="button" onClick={() => missions.removeSkillEvidence(evidence.id)}>
+                      {he ? "הסרת ראיה" : "Remove evidence"}
+                    </button>
+                  </div>
+                ))}
                 <Link to={skill.lessonRoute}>
                   {he ? "שלב למידה הבא" : "Next learning step"}
                 </Link>

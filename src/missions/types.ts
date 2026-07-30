@@ -158,7 +158,7 @@ export interface SkillDefinition {
 }
 
 export type SkillLevel = "not-introduced" | "introduced" | "practised" | "demonstrated" | "mastered" | "needs-reinforcement";
-export type SkillEvidenceSource = "lesson" | "exercise" | "mission";
+export type SkillEvidenceSource = "lesson" | "exercise" | "mission" | "evaluation";
 
 export interface SkillEvidence {
   id: string;
@@ -166,6 +166,10 @@ export interface SkillEvidence {
   source: SkillEvidenceSource;
   sourceId: string;
   completedAt: string;
+  outcome?: "practice" | "demonstrated";
+  evaluatorId?: string;
+  confidence?: "low" | "medium" | "high";
+  evidenceIds?: string[];
 }
 
 export interface SkillProgress {

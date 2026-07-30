@@ -47,7 +47,7 @@ test.describe("AOS dashboard", () => {
 
   test("releases view shows the real application version, not a hardcoded one", async ({ page }) => {
     await login(page, "/aos/releases");
-    await expect(page.getByText("1.8.0-beta.1")).toBeVisible();
+    await expect(page.getByText("1.9.0-beta.1")).toBeVisible();
   });
 
   test("does not expose a local machine path", async ({ page }) => {

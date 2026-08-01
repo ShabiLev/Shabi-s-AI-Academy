@@ -88,4 +88,3 @@ Run `git diff --check`, inspect the current diff, then run the focused TypeScrip
 ## Prohibited assumptions
 
 Do not assume the Reality Check blockers are fixed, the working tree is clean, the local evidence is current, or PR #9 is merge-ready. Do not overwrite changes made after this pause. Verify branch, HEAD, status, and changed-file list against this handoff before resuming.
-

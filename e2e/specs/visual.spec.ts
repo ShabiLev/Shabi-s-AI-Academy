@@ -68,6 +68,14 @@ test.describe("visual — Version 1.9 Agent Lab", () => {
     await expect(page).toHaveScreenshot("v19-evaluation-arena-en-mobile.png", { fullPage: true });
   });
 
+  test("Evaluation Arena Hebrew mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/evaluations");
+    await expect(page.getByTestId("evaluation-arena")).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v19-evaluation-arena-he-mobile.png", { fullPage: true });
+  });
+
   test("Rubric Builder Hebrew desktop", async ({ page }) => {
     await page.goto("/evaluations/new");
     await expect(page.locator(".evaluation-rubric")).toBeVisible();
@@ -82,6 +90,14 @@ test.describe("visual — Version 1.9 Agent Lab", () => {
     await page.locator('input[maxlength="120"]').fill("Mobile prompt comparison");
     await stabilize(page);
     await expect(page).toHaveScreenshot("v19-evaluation-builder-en-mobile.png", { fullPage: true });
+  });
+
+  test("Evaluation Builder Hebrew mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 568 });
+    await page.goto("/evaluations/new");
+    await page.locator('input[maxlength="120"]').fill("השוואת מובייל נגישה");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v19-evaluation-builder-he-mobile.png", { fullPage: true });
   });
 
   test("Evaluation running English desktop", async ({ page }) => {
@@ -151,7 +167,8 @@ test.describe("visual — Version 1.9 Agent Lab", () => {
     await startEnglish(page);
     const evaluationId = await completeVisualEvaluation(page, "Failure evidence learning");
     await page.goto(`/evaluations/${evaluationId}/results`);
-    await page.getByRole("button", { name: "Create failure case" }).click();
+    await page.getByRole("button", { name: "Prepare failure case for review" }).click();
+    await page.getByRole("button", { name: "Confirm and save locally" }).click();
     await expect(page.getByRole("status")).toBeVisible();
     await stabilize(page);
     await expect(page).toHaveScreenshot("v19-failure-case-en-desktop.png", { fullPage: true, mask: dynamicMasks(page) });

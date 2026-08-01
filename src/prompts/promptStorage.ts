@@ -28,9 +28,9 @@ const valid = (p: unknown): p is Prompt =>
       typeof (p as Prompt).task === "string" &&
       categories.includes((p as Prompt).category),
   );
-export function loadPromptState(): PromptState {
+export function loadPromptState(storage: Pick<Storage, "getItem"> = localStorage): PromptState {
   try {
-    const raw = localStorage.getItem(PROMPT_STORAGE_KEY);
+    const raw = storage.getItem(PROMPT_STORAGE_KEY);
     if (!raw) return emptyState();
     const value = JSON.parse(raw) as PromptState;
     if (value?.schemaVersion !== 1 || !Array.isArray(value.prompts))

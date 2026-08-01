@@ -34,6 +34,9 @@ focus and correct RTL/LTR direction.
 ## Export
 
 JSON and Markdown exports are versioned, validated, escaped, and checksummed.
+The UI uses the same centralized exporters. Trace metadata accepts only the
+documented phase, actor/result reference, permission, retry, evidence type,
+gate, and next-action fields; secret-shaped values and local paths are rejected.
 Printable HTML is supported only through a safe fixed template. Every export
 states Academy deterministic evaluation, certification status, versions,
 evidence limitations, and omissions. Treat exported content as potentially

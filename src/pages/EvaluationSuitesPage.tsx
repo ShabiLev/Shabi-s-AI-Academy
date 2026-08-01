@@ -9,6 +9,7 @@ export function EvaluationSuitesPage() {
   const { language } = useLanguage();
   const evaluations = useEvaluations();
   const he = language === "he";
+  const runStatus = (status: string) => he ? ({ completed: "הושלמה", blocked: "חסומה" }[status] ?? status) : status;
   const createSuite = () => {
     if (!evaluations.suites.some((item) => item.id === "react-accessibility")) {
       evaluations.createSuite(createReactAccessibilitySuite(new Date().toISOString()));
@@ -29,7 +30,7 @@ export function EvaluationSuitesPage() {
             <div className="evaluation-card-topline"><EvaluationBadge tone={suite.status === "blocked" ? "danger" : suite.status === "completed" ? "positive" : "warning"}>{suite.status === "blocked" ? (he ? "רגרסיה חוסמת" : "Blocking regression") : suite.status === "completed" ? (he ? "הושלמה" : "Completed") : (he ? "מוכנה להרצה" : "Ready to run")}</EvaluationBadge><span>{suite.missionSnapshotIds.length} {he ? "מקרים" : "cases"}</span></div>
             <h2>{suite.name}</h2>
             <p>{he ? `ה־baseline נשמר בגרסה ${suite.baselineEntityRefs[0]?.version}. ${suite.runHistory?.length ?? 0} הרצות היסטוריות נשמרו.` : `The baseline remains version ${suite.baselineEntityRefs[0]?.version}. ${suite.runHistory?.length ?? 0} historical runs are preserved.`}</p>
-            {latest ? <p>{he ? "הרצה אחרונה" : "Latest run"}: {latest.status} · {latest.results.length} {he ? "תוצאות" : "results"}</p> : null}
+            {latest ? <p>{he ? "הרצה אחרונה" : "Latest run"}: {runStatus(latest.status)} · {latest.results.length} {he ? "תוצאות" : "results"}</p> : null}
             <Link to={`/evaluation-suites/${suite.id}`}>{he ? "פתיחת הסדרה" : "Open suite"}</Link>
           </article>;
         })}

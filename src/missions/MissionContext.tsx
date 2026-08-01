@@ -51,6 +51,7 @@ export function MissionProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Actor changes are an isolation boundary, not a merge.
     const next = loadMissionRepository(actorId);
+    try { localStorage.setItem("shabis-ai-academy:mission-actor:v1", actorId.toLowerCase().replace(/[^a-z0-9._-]/g, "-").slice(0, 80) || "local-guest"); } catch { /* Backup actor discovery remains optional when storage is unavailable. */ }
     snapshotRef.current = next;
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSnapshot(next);

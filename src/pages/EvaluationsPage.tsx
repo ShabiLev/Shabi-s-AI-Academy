@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { DeterministicNotice } from "../components/evaluations/DeterministicNotice";
 import { EvaluationBadge } from "../components/evaluations/EvaluationBadge";
+import { EvaluationRecoveryNotice } from "../components/evaluations/EvaluationRecoveryNotice";
 import { EvaluationSubnav } from "../components/evaluations/EvaluationSubnav";
 import { useLanguage } from "../i18n/LanguageContext";
 import { buildTeamRecommendation, builtInFailureCases, useEvaluations } from "../evaluations";
@@ -11,6 +12,8 @@ export function EvaluationsPage() {
   const evaluations = useEvaluations();
   const { experiments } = evaluations;
   const he = language === "he";
+  const confidenceText = (value: string) => he ? ({ low: "נמוכה", medium: "בינונית", high: "גבוהה" }[value] ?? value) : value;
+  const failureCategoryText = (value: string) => he ? ({ "requirement gap": "פער בדרישות", "hallucinated capability": "יכולת מומצאת", "test fixture masking": "הסתרה בנתוני בדיקה", "stale context": "הקשר מיושן", "scope creep": "חריגת היקף", "self-approval": "אישור עצמי", "permission violation": "הפרת הרשאה", "accessibility regression": "רגרסיית נגישות", "security failure": "כשל אבטחה", "performance regression": "רגרסיית ביצועים", "repository hygiene": "היגיינת מאגר", "deployment mismatch": "אי־התאמת פריסה" }[value] ?? value) : value;
   const recent = [...experiments].reverse();
   const completedRuns = evaluations.runs.filter((run) => run.status === "completed");
   const certifiedResults = completedRuns.flatMap((run) => run.results)
@@ -37,6 +40,7 @@ export function EvaluationsPage() {
         <Link className="button primary-button" to="/evaluations/new">{he ? "הערכה חדשה" : "New evaluation"}</Link>
       </header>
       <DeterministicNotice language={language} />
+      <EvaluationRecoveryNotice language={language} />
       <EvaluationSubnav language={language} current="arena" />
       <section className="evaluation-metrics" aria-label={he ? "סיכום מעבדת ההערכה" : "Evaluation lab summary"}>
         <article><strong>{experiments.length}</strong><span>{he ? "ניסויים שמורים" : "Saved experiments"}</span></article>
@@ -70,14 +74,14 @@ export function EvaluationsPage() {
       <div className="evaluation-results-grid">
         <section className="evaluation-panel" aria-labelledby="team-recommendation-heading">
           <h2 id="team-recommendation-heading">{he ? "המלצת צוות מבוססת ראיות" : "Evidence-based team recommendation"}</h2>
-          <p><strong>Quality Core</strong> · {recommendation.source}</p>
+          <p><strong>Quality Core</strong> · {he ? "נצפה מקומית" : recommendation.source}</p>
           <dl className="evaluation-preview-details">
             <div><dt>{he ? "הרצות דומות" : "Comparable runs"}</dt><dd>{recommendation.comparableRunCount}</dd></div>
             <div><dt>{he ? "שיעור הצלחה" : "Success rate"}</dt><dd>{recommendation.successRate}%</dd></div>
             <div><dt>{he ? "ניסיונות חוזרים ממוצעים" : "Average retries"}</dt><dd>{recommendation.averageRetries}</dd></div>
-            <div><dt>{he ? "רמת ביטחון" : "Confidence"}</dt><dd>{recommendation.confidence}</dd></div>
+            <div><dt>{he ? "רמת ביטחון" : "Confidence"}</dt><dd>{confidenceText(recommendation.confidence)}</dd></div>
             <div><dt>{he ? "עדכניות" : "Freshness"}</dt><dd>{recommendation.freshness}</dd></div>
-            <div><dt>{he ? "כשלים נפוצים" : "Common failures"}</dt><dd>{recommendation.commonFailures.join(", ") || (he ? "אין עדיין" : "None yet")}</dd></div>
+            <div><dt>{he ? "כשלים נפוצים" : "Common failures"}</dt><dd>{recommendation.commonFailures.map((failure) => he ? ({ "requirement gap": "פער בדרישות", "hallucinated capability": "יכולת מדומה", "test fixture masking": "בדיקת fixture שהסתירה כשל", "stale context": "הקשר מיושן", "scope creep": "חריגת היקף", "self-approval": "אישור עצמי", "permission violation": "הפרת הרשאות", "accessibility regression": "רגרסיית נגישות", "security failure": "כשל אבטחה", "performance regression": "רגרסיית ביצועים", "repository hygiene": "היגיינת מאגר", "deployment mismatch": "אי־התאמת פריסה" }[failure] ?? "קטגוריית כשל") : failure).join(", ") || (he ? "אין עדיין" : "None yet")}</dd></div>
           </dl>
           {recommendation.limitations.map((item) => <p className="evaluation-chart-alt" key={item.en}>{item[language]}</p>)}
         </section>
@@ -89,7 +93,7 @@ export function EvaluationsPage() {
             return <article className="evaluation-finding" key={failure.id}>
               <div><strong>{failure.title[language]}</strong><EvaluationBadge tone={failure.sourceRunIds.length ? "warning" : "neutral"}>{failure.sourceRunIds.length ? (he ? "מקומי" : "Local") : (he ? "דוגמה בדוקה" : "Reviewed example")}</EvaluationBadge></div>
               <p>{failure.reusableRule[language]}</p>
-              <small>{failure.category} · {failure.evidenceIds.length} {he ? "ראיות" : "evidence items"}</small>
+              <small>{failureCategoryText(failure.category)} · {failure.evidenceIds.length} {he ? "ראיות" : "evidence items"}</small>
               {experiment ? <p><Link to={`/evaluations/${experiment.id}/results`}>{he ? "פתיחת הרצת המקור" : "Open source run"}</Link> · <Link to="/team">{he ? "פתיחת מפת המיומנויות" : "Open Skill Map"}</Link></p> : null}
             </article>;
           })}

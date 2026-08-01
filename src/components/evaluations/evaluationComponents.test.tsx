@@ -1,6 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { ComparisonTable } from "./ComparisonTable";
 import { ConnectorPreview } from "./ConnectorPreview";
 import { DeterministicNotice } from "./DeterministicNotice";
@@ -37,8 +37,20 @@ describe("Version 1.9 evaluation UI", () => {
     render(<RubricBuilder language="en" rubric={builtInRubrics[0]} />);
     expect(screen.queryByRole("spinbutton")).not.toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: /clone to edit/i }));
-    expect(screen.getAllByRole("spinbutton")).toHaveLength(builtInRubrics[0].criteria.length);
-    expect(screen.getByText(/built-in source is unchanged/i)).toBeVisible();
+    expect(screen.getAllByLabelText("Weight")).toHaveLength(builtInRubrics[0].criteria.length);
+    expect(screen.getByText(/source preserved/i)).toBeVisible();
+  });
+
+  it("saves an edited user rubric as a new immutable lineage version", async () => {
+    const source = { ...structuredClone(builtInRubrics[0]), id: "rubric-user-1", source: "user" as const, sourceRubricId: builtInRubrics[0].id };
+    const onSave = vi.fn();
+    render(<RubricBuilder language="en" rubric={source} onSave={onSave} />);
+    await userEvent.click(screen.getByRole("button", { name: /create new version/i }));
+    await userEvent.click(screen.getByRole("button", { name: /save immutable version/i }));
+    expect(onSave).toHaveBeenCalledOnce();
+    const saved = onSave.mock.calls[0][0];
+    expect(saved.id).not.toBe(source.id);
+    expect(saved.sourceRubricId).toBe(source.id);
   });
 
   it("filters the safe trace and announces the visible event count", async () => {
@@ -56,9 +68,9 @@ describe("Version 1.9 evaluation UI", () => {
       evidenceIds: ["evidence-1"], metadata: { phase: "evaluation", gateStatus: "PASS" as const },
     }];
     render(<TraceTimeline language="en" events={events} />);
-    expect(screen.getByText("2 events shown")).toBeInTheDocument();
+    expect(screen.getByText("2 of 2 events shown")).toBeInTheDocument();
     await userEvent.selectOptions(screen.getByRole("combobox", { name: /filter by phase/i }), "setup");
-    expect(screen.getByText("1 events shown")).toBeInTheDocument();
+    expect(screen.getByText("1 of 1 events shown")).toBeInTheDocument();
     expect(screen.getByText(/versions were frozen/i)).toBeVisible();
     expect(screen.queryByText(/simulation output was produced/i)).not.toBeInTheDocument();
   });
@@ -68,5 +80,11 @@ describe("Version 1.9 evaluation UI", () => {
     expect(screen.getByText("Unavailable")).toBeVisible();
     expect(screen.getByText(/will not write to GitHub/i)).toBeVisible();
     expect(screen.getByRole("button", { name: /connector unavailable/i })).toBeDisabled();
+  });
+
+  it("shows an expired preview and offers a fresh local draft", () => {
+    render(<ConnectorPreview language="en" preview={{ schemaVersion: 1, id: "preview-1", connectorType: "github", actionType: "draft", targetSummary: "Evaluation", payloadSummary: { he: "טיוטה", en: "Draft" }, requiredPermissions: ["repository:read"], riskLevel: "low", reversible: true, status: "expired", createdAt: "2026-07-30T00:00:00.000Z", expiresAt: "2026-07-30T01:00:00.000Z" }} onSave={() => undefined} />);
+    expect(screen.getByText("Expired")).toBeVisible();
+    expect(screen.getByRole("button", { name: /fresh local draft/i })).toBeEnabled();
   });
 });

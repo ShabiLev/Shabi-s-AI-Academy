@@ -1,4 +1,4 @@
-import { immutableCopy } from "./hash";
+import { deterministicHash, immutableCopy } from "./hash";
 import type { EvaluationRubric, LocalizedText, RubricCriterion } from "./types";
 
 const t = (he: string, en: string): LocalizedText => ({ he, en });
@@ -28,6 +28,8 @@ function rubric(id: string, he: string, en: string, criteria: RubricCriterion[],
     name: t(he, en),
     description: t(`מחוון מובנה עבור ${he}`, `Built-in rubric for ${en.toLowerCase()}`),
     source: "system",
+    lineageId: id,
+    version: "1.0.0",
     criteria,
     totalWeight: 100,
     passingScore,
@@ -113,6 +115,17 @@ export const readOnlyEvaluators: readonly ReadOnlyEvaluator[] = immutableCopy([
   realityChecker: id === "reality-checker",
 })));
 
+export const evaluationMissionSnapshots = immutableCopy([
+  { id: "mission-accessible-react-snapshot", version: "1.0.0", name: t("משימת React נגישה", "Accessible React mission"), source: "system-demo", constraints: ["local-only", "deterministic", "bilingual"] },
+]);
+
+export const evaluationCompetitors = immutableCopy([
+  { id: "accessible-react-v1.3", version: "1.3.0", name: t("React נגיש — גרסה 1.3", "Accessible React — version 1.3"), kind: "agent-preset", source: "system-demo" },
+  { id: "baseline-react-v1.2", version: "1.2.0", name: t("React בסיס — גרסה 1.2", "Baseline React — version 1.2"), kind: "agent-preset", source: "system-demo" },
+  { id: "guided-team-v2.0", version: "2.0.0", name: t("צוות מודרך — גרסה 2.0", "Guided Team — version 2.0"), kind: "team-preset", source: "system-demo" },
+  { id: "expert-team-v2.0", version: "2.0.0", name: t("צוות Expert — גרסה 2.0", "Expert Team — version 2.0"), kind: "team-preset", source: "system-demo" },
+]);
+
 export function cloneBuiltInRubric(id: string, newId: string, nowIso: string): EvaluationRubric {
   const source = builtInRubrics.find((item) => item.id === id);
   if (!source) throw new Error("Unknown built-in rubric.");
@@ -121,6 +134,9 @@ export function cloneBuiltInRubric(id: string, newId: string, nowIso: string): E
     id: newId,
     source: "user" as const,
     sourceRubricId: source.id,
+    lineageId: source.lineageId ?? source.id,
+    version: "1.0.1",
+    parentVersionRef: { entityId: source.id, version: source.version ?? "1.0.0", contentHash: deterministicHash(source) },
     createdAt: nowIso,
     updatedAt: nowIso,
   });

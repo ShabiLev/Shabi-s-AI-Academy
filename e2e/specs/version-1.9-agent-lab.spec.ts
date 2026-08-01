@@ -8,6 +8,7 @@ import {
   parseCodexToml,
   type LearningEvidence,
 } from "../../src/evaluations";
+import { checksumPayload } from "../../src/backup";
 
 async function startEnglish(page: Page): Promise<void> {
   await page.addInitScript(() => localStorage.setItem("shabis-ai-academy-language", "en"));
@@ -16,15 +17,28 @@ async function startEnglish(page: Page): Promise<void> {
 async function createExperiment(
   page: Page,
   name: string,
-  options: { english?: boolean; extraCompetitor?: boolean } = {},
+  options: { english?: boolean; promptComparison?: boolean } = {},
 ): Promise<string> {
   if (options.english) await startEnglish(page);
+  if (options.promptComparison) {
+    await page.addInitScript(() => localStorage.setItem("shabi-ai-academy.prompt-library.v1", JSON.stringify({
+      schemaVersion: 1,
+      prompts: [
+        { id: "prompt-local-a", title: "Prompt Alpha", task: "Review Alpha", category: "qa", version: 1, isFavorite: false, createdAt: "2026-07-30T00:00:00.000Z", updatedAt: "2026-07-30T00:00:00.000Z" },
+        { id: "prompt-local-b", title: "Prompt Beta", task: "Review Beta", category: "qa", version: 1, isFavorite: false, createdAt: "2026-07-30T00:00:00.000Z", updatedAt: "2026-07-30T00:00:00.000Z" },
+      ],
+      filters: { search: "", category: "all", language: "all", favoritesOnly: false, sort: "updated" },
+    })));
+  }
   await page.goto("/evaluations/new");
   await expect(page.getByTestId("evaluation-builder")).toBeVisible();
   const nameInput = page.locator('input[maxlength="120"]');
   await nameInput.fill(name);
-  if (options.extraCompetitor) {
-    await page.getByRole("checkbox", { name: /Guided Team|צוות מודרך/ }).check();
+  if (options.promptComparison) {
+    await page.getByRole("checkbox", { name: /Accessible React — version 1\.3/ }).uncheck();
+    await page.getByRole("checkbox", { name: /Baseline React — version 1\.2/ }).uncheck();
+    await page.getByRole("checkbox", { name: /Prompt Alpha — Prompt v1/ }).check();
+    await page.getByRole("checkbox", { name: /Prompt Beta — Prompt v1/ }).check();
   }
   await page.getByRole("button", { name: /Create experiment draft|יצירת טיוטת ניסוי/ }).click();
   await expect(page).toHaveURL(/\/evaluations\/evaluation-/);
@@ -70,7 +84,7 @@ test("@v1.9 cross-browser Hebrew Agent comparison freezes two exact competitors"
 });
 
 test("@v1.9 cross-browser English Prompt A/B preserves seed, repetitions, and evaluator versions", async ({ page }) => {
-  await createExperiment(page, "Prompt A B controlled comparison", { english: true, extraCompetitor: true });
+  await createExperiment(page, "Prompt A B controlled comparison", { english: true, promptComparison: true });
   await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
   await expect(page.getByRole("heading", { name: "Prompt A B controlled comparison" })).toBeVisible();
   const stored = await readEvaluationDomain(page, "evaluation-experiments");
@@ -78,7 +92,7 @@ test("@v1.9 cross-browser English Prompt A/B preserves seed, repetitions, and ev
     expect.objectContaining({
       seed: "academy-19-beta",
       repetitionCount: 2,
-      competitorIds: expect.arrayContaining(["accessible-react-v1.3", "baseline-react-v1.2", "guided-team-v2.0"]),
+      competitorIds: ["prompt-local-a", "prompt-local-b"],
       evaluatorIds: expect.arrayContaining(["requirements-evaluator", "accessibility-evaluator", "reality-checker"]),
     }),
   ]));
@@ -88,13 +102,13 @@ test("@v1.9 Rubric creation validates exactly 100 and clone preserves built-in s
   await startEnglish(page);
   await page.goto("/evaluations/new");
   const rubric = page.locator(".evaluation-rubric");
-  await expect(rubric).toContainText("Weights total exactly 100.");
+  await expect(rubric).toContainText("Weights total exactly 100");
   await rubric.getByRole("button", { name: "Clone to edit" }).click();
   await expect(rubric).toContainText("User copy · source preserved");
-  const weights = await rubric.locator('input[type="number"]').allTextContents();
-  expect(weights).toHaveLength(4);
-  await rubric.locator('input[type="number"]').first().fill("31");
-  await expect(rubric).toContainText("A total of 100 is required; current total is 101.");
+  const weights = rubric.getByLabel("Weight");
+  await expect(weights).toHaveCount(4);
+  await weights.first().fill("31");
+  await expect(rubric).toContainText(/current total is 101/i);
 });
 
 test("@v1.9 Evaluator disagreement remains visible and cannot silently certify", async ({ page }) => {
@@ -102,9 +116,10 @@ test("@v1.9 Evaluator disagreement remains visible and cannot silently certify",
   await page.goto(`/evaluations/${evaluationId}/results`);
   await expect(page.getByTestId("evaluation-results")).toBeVisible();
   const rows = page.locator(".evaluation-comparison tbody tr");
-  await expect(rows).toHaveCount(8);
+  await expect(rows).toHaveCount(48);
   const statuses = await rows.locator("td:nth-child(3)").allTextContents();
   expect(new Set(statuses).size).toBeGreaterThan(1);
+  await expect(page.getByRole("alert")).toContainText("Evaluator disagreement requires review");
   await expect(page.getByText(/Uncertified|Rubric certified/)).toBeVisible();
   await expect(rows.first().locator("td:nth-child(5)")).not.toBeEmpty();
   await expect(rows.first().locator("td:nth-child(6)")).toContainText(/high/);
@@ -152,7 +167,10 @@ test("@v1.9 Blocking regression suite keeps the baseline immutable and exposes p
 test("@v1.9 Failure Case creates reusable practice evidence without granting mastery", async ({ page }) => {
   const evaluationId = await completeExperiment(page, "Failure learning evidence");
   await page.goto(`/evaluations/${evaluationId}/results`);
-  await page.getByRole("button", { name: "Create failure case" }).click();
+  await page.getByRole("button", { name: "Prepare failure case for review" }).click();
+  await expect(page.getByRole("heading", { name: "Review failure case before saving" })).toBeVisible();
+  expect((await readEvaluationDomain(page, "failure-library"))?.items).toEqual([]);
+  await page.getByRole("button", { name: "Confirm and save locally" }).click();
   await expect(page.getByRole("status")).toContainText(/failure case/i);
   const stored = await readEvaluationDomain(page, "failure-library");
   expect(stored?.items).toEqual(expect.arrayContaining([
@@ -263,13 +281,35 @@ test("@v1.9 mobile English 320x568 preserves focus, LTR, and has no horizontal o
   expect(overflow.scrollWidth, JSON.stringify(overflow)).toBe(overflow.clientWidth);
 });
 
+test("@v1.9 mobile 320x568 completes create, run, results, evidence, and trace journey", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  const evaluationId = await completeExperiment(page, "Mobile complete evaluation", true);
+  await page.goto(`/evaluations/${evaluationId}/results`);
+  await expect(page.getByRole("heading", { name: "Mobile complete evaluation" })).toBeVisible();
+  const firstEvidence = page.locator(".evaluation-evidence-list details").first();
+  await firstEvidence.locator("summary").click();
+  await expect(firstEvidence.getByText("Finding links")).toBeVisible();
+  await page.goto(`/evaluations/${evaluationId}/trace`);
+  await page.getByLabel("Filter by phase").selectOption("evaluate");
+  await page.getByLabel("Finding status in result").selectOption("fail");
+  await expect(page.locator(".evaluation-trace-list > li").first()).toBeVisible();
+  await page.getByText("Show evidence details").first().click();
+  const evidenceLink = page.locator(".evaluation-trace-list details a").first();
+  const evidenceId = (await evidenceLink.locator("code").textContent())!;
+  await evidenceLink.click();
+  const evidenceTarget = page.locator(`#evidence-${evidenceId}`);
+  await expect(evidenceTarget).toHaveAttribute("open", "");
+  await expect(evidenceTarget).toBeFocused();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)).toBe(true);
+});
+
 test("@v1.9 safe trace exposes evidence and permissions without private reasoning or local paths", async ({ page }) => {
   const evaluationId = await completeExperiment(page, "Sanitized trace evidence");
   await page.goto(`/evaluations/${evaluationId}/trace`);
   await expect(page.getByRole("heading", { name: "Safe run trace" })).toBeVisible();
   await page.getByLabel("Filter by phase").selectOption("evaluate");
   await expect(page.locator(".evaluation-trace-list > li")).toHaveCount(4);
-  await expect(page.getByText("4 events shown")).toHaveClass(/sr-only/);
+  await expect(page.getByText("4 of 4 events shown")).toHaveClass(/sr-only/);
   const text = await page.getByTestId("evaluation-trace").innerText();
   expect(text).toContain("permission: read-only");
   expect(text).not.toMatch(/[A-Z]:\\Users\\|\/(?:home|Users)\//i);
@@ -287,4 +327,15 @@ test("@v1.9 V1.8 regression keeps Missions, Teams, WALK ME, Help, Radar, and bac
   await expect(page.locator(".radar-page")).toBeVisible();
   await page.goto("/settings");
   await expect(page.getByText(/Backup|גיבוי/).first()).toBeVisible();
+});
+
+test("@v1.9 legacy backup restore previews ownership and confirms through Settings", async ({ page }) => {
+  await startEnglish(page);
+  await page.goto("/settings");
+  const unsigned = { schemaVersion: 1 as const, appVersion: "1.8.0-beta.1", exportedAt: "2026-07-30T00:00:00.000Z", domainVersions: { settings: 1 }, domains: { settings: "en" } };
+  const backup = JSON.stringify({ ...unsigned, checksum: checksumPayload(unsigned) });
+  await page.getByLabel("Choose import file", { exact: true }).setInputFiles({ name: "legacy-workspace.json", mimeType: "application/json", buffer: Buffer.from(backup) });
+  await expect(page.getByText(/local-guest.*playwright-default/)).toBeVisible();
+  await page.getByRole("button", { name: "Confirm import" }).click();
+  await expect(page.getByRole("status")).toContainText("Import completed");
 });

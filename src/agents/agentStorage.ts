@@ -26,9 +26,9 @@ const valid = (a: unknown): a is Agent =>
     typeof (a as Agent).goal === "string" &&
     categories.includes((a as Agent).category),
   );
-export function loadAgentState() {
+export function loadAgentState(storage: Pick<Storage, "getItem"> = localStorage) {
   try {
-    const raw = localStorage.getItem(AGENT_STORAGE_KEY);
+    const raw = storage.getItem(AGENT_STORAGE_KEY);
     if (!raw) return emptyAgentState();
     const value = JSON.parse(raw) as AgentState;
     if (value?.schemaVersion !== 1 || !Array.isArray(value.agents))

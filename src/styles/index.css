@@ -3525,6 +3525,15 @@ html[data-motion="reduced"] * { scroll-behavior: auto !important; animation-dura
   padding: .8rem;
 }
 
+.evaluation-trace-list li > div,
+.evaluation-trace-list details,
+.evaluation-trace-list a,
+.evaluation-trace-list code {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 .evaluation-sequence {
   display: grid;
   min-inline-size: 2.75rem;

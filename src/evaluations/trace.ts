@@ -25,8 +25,9 @@ export function exportTraceJson(events: readonly TraceEvent[]): string {
 
 export function exportTraceMarkdown(events: readonly TraceEvent[], language: "he" | "en" = "en"): string {
   if (!events.every(validateTrace)) throw new Error("Unsafe trace cannot be exported.");
+  const markdownEscape = (value: string) => value.replace(/([\\`*_[\]<>#])/g, "\\$1");
   return ["# Evaluation trace", "", ...events.map((event) =>
-    `- ${event.sequence}. ${event.timestamp} — **${event.eventType}** — ${event.summary[language].replace(/[\r\n]+/g, " ")}`)].join("\n");
+    `- ${event.sequence}. ${event.timestamp} — **${event.eventType}** — ${markdownEscape(event.summary[language].replace(/[\r\n]+/g, " "))}`)].join("\n");
 }
 
 const htmlEscape = (value: string) => value.replace(/[&<>"']/g, (match) =>

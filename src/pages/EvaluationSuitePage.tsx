@@ -22,6 +22,7 @@ export function EvaluationSuitePage() {
   const { language } = useLanguage();
   const evaluations = useEvaluations();
   const he = language === "he";
+  const classificationText = (value: string) => he ? ({ improvement: "שיפור", regression: "רגרסיה", "no-change": "ללא שינוי", "not-scored": "לא ניתן לניקוד" }[value] ?? value) : value;
   const [message, setMessage] = useState("");
   const suite = evaluations.suites.find((item) => item.id === suiteId);
   const latest = suite?.runHistory?.at(-1);
@@ -78,7 +79,7 @@ export function EvaluationSuitePage() {
           <table>
             <caption className="sr-only">{he ? "השוואת baseline ומועמד לפי מקרה וראיות" : "Comparison of baseline and candidate by case and evidence"}</caption>
             <thead><tr><th scope="col">{he ? "מקרה" : "Case"}</th><th scope="col">Baseline</th><th scope="col">{he ? "מועמד" : "Candidate"}</th><th scope="col">{he ? "סיווג" : "Classification"}</th><th scope="col">{he ? "ראיות" : "Evidence"}</th></tr></thead>
-            <tbody>{latest.results.map((item) => <tr key={item.caseId}><th scope="row">{caseNames[item.caseId]?.[language] ?? (he ? "מקרה" : "Case")}</th><td>{item.baselineScore ?? (he ? "לא ניתן לניקוד" : "Not scored")}</td><td>{item.candidateScore ?? (he ? "לא ניתן לניקוד" : "Not scored")}</td><td><EvaluationBadge tone={item.classification === "regression" ? "danger" : item.classification === "improvement" ? "positive" : "warning"}>{item.classification}</EvaluationBadge></td><td>{item.evidenceIds.length}</td></tr>)}</tbody>
+            <tbody>{latest.results.map((item) => <tr key={item.caseId}><th scope="row">{caseNames[item.caseId]?.[language] ?? (he ? "מקרה" : "Case")}</th><td>{item.baselineScore ?? (he ? "לא ניתן לניקוד" : "Not scored")}</td><td>{item.candidateScore ?? (he ? "לא ניתן לניקוד" : "Not scored")}</td><td><EvaluationBadge tone={item.classification === "regression" ? "danger" : item.classification === "improvement" ? "positive" : "warning"}>{classificationText(item.classification)}</EvaluationBadge></td><td>{item.evidenceIds.length}</td></tr>)}</tbody>
           </table>
         </div>
       </section> : <section className="evaluation-empty-card"><h2>{he ? "אין תוצאות מפוברקות" : "No fabricated results"}</h2><p>{he ? "הטבלה תופיע רק לאחר הרצת כל המקרים." : "The table appears only after every case is run."}</p></section>}

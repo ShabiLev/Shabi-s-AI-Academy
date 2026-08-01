@@ -4,6 +4,7 @@ import {
   buildTeamRecommendation,
   builtInRubrics,
   cancelRun,
+  calculateEvaluationResultChecksum,
   canonicalJson,
   certifyFindings,
   certifySuite,
@@ -16,6 +17,7 @@ import {
   createExperiment,
   createFailureCase,
   createImmutableSnapshot,
+  createRevalidationExperiment,
   createSuite,
   createTraceEvent,
   deprecateVersion,
@@ -34,6 +36,7 @@ import {
   markVersionActive,
   parseCodexToml,
   pauseRun,
+  prepareEvaluationRepositorySnapshot,
   readOnlyEvaluators,
   removeLearningEvidence,
   replaceSuiteBaseline,
@@ -46,6 +49,7 @@ import {
   validateExperiment,
   validateFinding,
   validateRubric,
+  validateTrace,
   withBuiltInRubrics,
 } from "./index";
 import type {
@@ -83,7 +87,7 @@ class MemoryStorage implements Storage {
   }
 }
 
-const refs: VersionedEntityRef[] = ["mission", "rubric", "agent-a", "agent-b"].map((entityId) => ({
+const refs: VersionedEntityRef[] = ["mission", "rubric", "agent-a", "agent-b", "reality-checker"].map((entityId) => ({
   entityId,
   version: "1",
   contentHash: deterministicHash({ entityId }),
@@ -281,20 +285,48 @@ describe("controlled experiment runtime and immutable versioning", () => {
 
   it("executes deterministic competitors with criterion evidence, certification and traces", () => {
     const evaluation = experiment({ rubricId: "general-mission-quality" });
-    const evaluationRefs = refs.map((ref) => ref.entityId === "rubric" ? { ...ref, entityId: "general-mission-quality" } : ref);
+    const evaluationRefs = refs.map((ref) => ref.entityId === "rubric" ? {
+      ...ref,
+      entityId: "general-mission-quality",
+      version: builtInRubrics[0].version!,
+      contentHash: deterministicHash(builtInRubrics[0]),
+    } : ref);
     const firstRun = startExperiment(evaluation, evaluationRefs, "run-1", now).run;
     const secondRun = startExperiment(evaluation, evaluationRefs, "run-2", now).run;
     const first = executeDeterministicEvaluation(evaluation, firstRun, builtInRubrics[0], later);
     const second = executeDeterministicEvaluation(evaluation, secondRun, builtInRubrics[0], later);
     expect(first.results).toHaveLength(evaluation.competitorIds.length * evaluation.repetitionCount);
-    expect(first.results.every((result) => result.findings.length === builtInRubrics[0].criteria.length)).toBe(true);
+    expect(first.results.every((result) => result.findings.length === builtInRubrics[0].criteria.length * evaluation.evaluatorIds.length)).toBe(true);
+    expect(first.results.every((result) => new Set(result.findings.map((finding) => finding.evaluatorId)).size === evaluation.evaluatorIds.length)).toBe(true);
+    expect(first.results.filter((result) => result.findings.some((finding) => finding.evaluatorId === "reality-checker" && finding.status === "fail")).every((result) => result.certification.status === "blocked")).toBe(true);
     expect(first.results.every((result) => result.evidence.length >= builtInRubrics[0].criteria.length)).toBe(true);
     expect(first.results.map((result) => result.resultChecksum))
-      .toEqual(second.results.map((result) => result.resultChecksum));
+      .not.toEqual(second.results.map((result) => result.resultChecksum));
+    expect(calculateEvaluationResultChecksum(first.run.inputHash, { ...first.results[0], id: "forged-result" }))
+      .not.toBe(first.results[0].resultChecksum);
+    expect(first.results.map((result) => result.findings.map((finding) => ({ criterionId: finding.criterionId, status: finding.status, score: finding.score }))))
+      .toEqual(second.results.map((result) => result.findings.map((finding) => ({ criterionId: finding.criterionId, status: finding.status, score: finding.score }))));
     expect(first.run).toMatchObject({ status: "completed", resultIds: first.results.map((item) => item.id) });
     expect(first.traces.at(-1)?.eventType).toBe("complete");
     expect(Object.isFrozen(first.results[0].findings)).toBe(true);
     expect(() => executeDeterministicEvaluation(evaluation, first.run, builtInRubrics[0], later)).toThrow(/immutable|match/);
+  });
+
+  it("creates a separate draft for imported-result revalidation without rewriting history", () => {
+    const source = experiment({ rubricId: "general-mission-quality", status: "completed" });
+    const evaluationRefs = refs.map((ref) => ref.entityId === "rubric" ? {
+      ...ref,
+      entityId: "general-mission-quality",
+      version: builtInRubrics[0].version!,
+      contentHash: deterministicHash(builtInRubrics[0]),
+    } : ref);
+    const running = startExperiment({ ...source, status: "draft" }, evaluationRefs, "run-imported", now).run;
+    const output = executeDeterministicEvaluation({ ...source, status: "running" }, running, builtInRubrics[0], later);
+    const importedRun = { ...output.run, results: output.run.results.map((result) => ({ ...result, certification: { ...result.certification, status: "needs-evidence" as const } })) };
+    const created = createRevalidationExperiment(source, importedRun, "evaluation-revalidation", later);
+    expect(created).toMatchObject({ id: "evaluation-revalidation", status: "draft", resultIds: [], competitorIds: source.competitorIds, seed: source.seed });
+    expect(importedRun.id).toBe("run-imported");
+    expect(importedRun.results.every((result) => result.certification.status === "needs-evidence")).toBe(true);
   });
 
   it("prevents destructive version overwrite and makes rollback a new version", () => {
@@ -340,6 +372,8 @@ describe("safe traces, previews and Codex export", () => {
     expect(JSON.parse(exportTraceJson([event])).events).toHaveLength(1);
     expect(exportTraceMarkdown([event])).toContain("Check passed");
     const injected = { ...event, summary: { he: "<script>", en: "<script>alert(1)</script>" } };
+    const markdown = exportTraceMarkdown([{ ...event, summary: { he: "*מודגש*", en: "**bold** <b>" } }]);
+    expect(markdown).toContain("\\*\\*bold\\*\\* \\<b\\>");
     expect(exportTraceHtml([injected])).toContain("&lt;script&gt;");
     expect(exportTraceHtml([injected])).not.toContain("<script>alert");
   });
@@ -348,6 +382,12 @@ describe("safe traces, previews and Codex export", () => {
     expect(safeTraceSummary({ he: "token=abc", en: "password secret" }).en).toContain("redacted");
     expect(safeTraceSummary({ he: "קובץ C:\\Users\\me\\secret.txt", en: "file C:\\Users\\me\\secret.txt" }).en)
       .not.toContain("C:\\Users");
+  });
+
+  it("rejects hostile trace metadata and blocks centralized exports", () => {
+    const hostile = { ...event, metadata: { permission: "token=abc", unexpected: "C:\\Users\\private" } };
+    expect(validateTrace(hostile)).toBe(false);
+    expect(() => exportTraceJson([hostile as never])).toThrow(/Unsafe/);
   });
 
   it("creates preview-only actions and refuses execution", () => {
@@ -360,13 +400,11 @@ describe("safe traces, previews and Codex export", () => {
       requiredPermissions: ["pull_requests:write"],
       riskLevel: "medium" as const,
       reversible: true,
-      connectorAvailable: true,
       createdAt: now,
       expiresAt: later,
     };
     const preview = createConnectedPreview(previewInput);
-    expect(preview.status).toBe("ready");
-    expect(createConnectedPreview({ ...previewInput, connectorAvailable: false }).status).toBe("unavailable");
+    expect(preview.status).toBe("unavailable");
     expect(() => executeConnectedPreview()).toThrow(/preview-only/);
     expect(() => createConnectedPreview({
       ...previewInput,
@@ -507,7 +545,7 @@ describe("bounded actor-scoped repository", () => {
     const storage = new MemoryStorage();
     const snapshot = emptySnapshot();
     snapshot.experiments = [experiment()];
-    saveEvaluationRepository("actor-a", snapshot, storage, now);
+    expect(saveEvaluationRepository("actor-a", snapshot, storage, now)).toBe(true);
     const key = [...storage.values.keys()].find((item) => item.includes("evaluation-experiments"))!;
     const parsed = JSON.parse(storage.getItem(key)!);
     parsed.items[0].name = "forged";
@@ -521,18 +559,27 @@ describe("bounded actor-scoped repository", () => {
   it("rejects a forged result even when the attacker recomputes the domain envelope checksum", () => {
     const storage = new MemoryStorage();
     const evaluation = experiment({ rubricId: "general-mission-quality" });
-    const evaluationRefs = refs.map((ref) => ref.entityId === "rubric" ? { ...ref, entityId: "general-mission-quality" } : ref);
+    const evaluationRefs = refs.map((ref) => ref.entityId === "rubric" ? {
+      ...ref, entityId: "general-mission-quality", version: builtInRubrics[0].version!,
+      contentHash: deterministicHash(builtInRubrics[0]),
+    } : ref);
     const started = startExperiment(evaluation, evaluationRefs, "run-forgery", now).run;
     const completed = executeDeterministicEvaluation(evaluation, started, builtInRubrics[0], later);
     const snapshot = emptySnapshot();
     snapshot.runs = [completed.run];
     snapshot.evidence = completed.evidence;
     snapshot.traces = completed.traces;
-    saveEvaluationRepository("actor-a", snapshot, storage, now);
+    expect(saveEvaluationRepository("actor-a", snapshot, storage, now)).toBe(true);
 
     const key = [...storage.values.keys()].find((item) => item.includes("evaluation-runs"))!;
     const parsed = JSON.parse(storage.getItem(key)!);
-    parsed.items[0].results[0].certification.status = "blocked";
+    parsed.items[0].results[0].certification.status = parsed.items[0].results[0].certification.status === "blocked"
+      ? "certified"
+      : "blocked";
+    parsed.items[0].results[0].resultChecksum = calculateEvaluationResultChecksum(
+      parsed.items[0].inputHash,
+      parsed.items[0].results[0],
+    );
     const base = {
       schemaVersion: parsed.schemaVersion,
       actorId: parsed.actorId,
@@ -585,7 +632,10 @@ describe("bounded actor-scoped repository", () => {
 
   it("retains old certified runs, traces and evidence referenced by certified results", () => {
     const evaluation = experiment({ rubricId: "general-mission-quality" });
-    const evaluationRefs = refs.map((ref) => ref.entityId === "rubric" ? { ...ref, entityId: "general-mission-quality" } : ref);
+    const evaluationRefs = refs.map((ref) => ref.entityId === "rubric" ? {
+      ...ref, entityId: "general-mission-quality", version: builtInRubrics[0].version!,
+      contentHash: deterministicHash(builtInRubrics[0]),
+    } : ref);
     const started = startExperiment(evaluation, evaluationRefs, "run-certified-retention", now).run;
     const completed = executeDeterministicEvaluation(evaluation, started, builtInRubrics[0], later);
     const certifiedResult = {
@@ -611,5 +661,14 @@ describe("bounded actor-scoped repository", () => {
     expect(retained.runs).toHaveLength(1);
     expect(retained.evidence).toHaveLength(oldEvidence.length);
     expect(retained.traces).toHaveLength(1);
+  });
+
+  it("evicts only unprotected runs when capacity is reached", () => {
+    const base = startExperiment(experiment(), refs, "protected-run", now).run;
+    const snapshot = emptySnapshot();
+    snapshot.runs = [base, ...Array.from({ length: 200 }, (_, index) => ({ ...base, id: `cancelled-${index}`, status: "cancelled" as const, updatedAt: later }))];
+    const prepared = prepareEvaluationRepositorySnapshot(snapshot, Date.parse(later));
+    expect(prepared?.runs).toHaveLength(200);
+    expect(prepared?.runs.some((run) => run.id === "protected-run")).toBe(true);
   });
 });

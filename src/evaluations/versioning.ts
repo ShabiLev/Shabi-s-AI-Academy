@@ -6,7 +6,7 @@ const VERSION = /^[0-9]+(?:\.[0-9]+){0,2}$/;
 
 export function createEntityVersion<T>(
   existing: readonly EntityVersion<T>[],
-  input: { entityId: string; version: string; content: T; changelog: LocalizedText; createdAt: string; activate?: boolean },
+  input: { entityId: string; version: string; content: T; changelog: LocalizedText; createdAt: string; activate?: boolean; parentRef?: VersionedEntityRef; authorSource?: string },
 ): EntityVersion<T>[] {
   if (!SAFE_ID.test(input.entityId) || !VERSION.test(input.version)) throw new Error("Invalid entity version.");
   if (existing.some((item) => item.entityId === input.entityId && item.version === input.version)) {
@@ -14,12 +14,24 @@ export function createEntityVersion<T>(
   }
   const next = existing.map((item) => input.activate && item.entityId === input.entityId && item.status === "active"
     ? { ...item, status: "inactive" as const } : item);
+  const parent = input.parentRef ? existing.find((item) => item.entityId === input.parentRef!.entityId && item.version === input.parentRef!.version) : undefined;
+  if (input.parentRef && (!parent || parent.contentHash !== input.parentRef.contentHash)) throw new Error("Version parent reference is invalid.");
+  const before = parent && parent.content && typeof parent.content === "object" ? parent.content as Record<string, unknown> : {};
+  const after = input.content && typeof input.content === "object" ? input.content as Record<string, unknown> : {};
+  const fieldChanges = [...new Set([...Object.keys(before), ...Object.keys(after)])].filter((key) => deterministicHash({ value: before[key] ?? null }) !== deterministicHash({ value: after[key] ?? null })).slice(0, 100).map((key) => ({
+    path: key,
+    before: JSON.stringify(before[key] ?? null).slice(0, 500),
+    after: JSON.stringify(after[key] ?? null).slice(0, 500),
+  }));
   return [...next, immutableCopy({
     schemaVersion: 1 as const,
     entityId: input.entityId,
     version: input.version,
     contentHash: deterministicHash(input.content),
     content: input.content,
+    ...(input.parentRef ? { parentRef: input.parentRef } : {}),
+    authorSource: input.authorSource ?? "local-user",
+    fieldChanges,
     changelog: input.changelog,
     status: input.activate ? "active" as const : "inactive" as const,
     createdAt: input.createdAt,

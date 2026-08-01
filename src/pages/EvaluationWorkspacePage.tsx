@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DeterministicNotice } from "../components/evaluations/DeterministicNotice";
 import { EvaluationBadge } from "../components/evaluations/EvaluationBadge";
 import { EvaluationSubnav } from "../components/evaluations/EvaluationSubnav";
+import { EvaluationRecoveryNotice } from "../components/evaluations/EvaluationRecoveryNotice";
 import { RubricSummary } from "../components/evaluations/RubricSummary";
 import { useLanguage } from "../i18n/LanguageContext";
 import { useEvaluations } from "../evaluations";
@@ -12,12 +13,14 @@ export function EvaluationWorkspacePage() {
   const { evaluationId = "sample-evaluation" } = useParams();
   const { language } = useLanguage();
   const evaluations = useEvaluations();
+  const navigate = useNavigate();
   const he = language === "he";
   const [message, setMessage] = useState("");
   const experiment = evaluations.experiments.find((item) => item.id === evaluationId);
   const run = [...evaluations.runs].reverse().find((item) => item.experimentId === evaluationId);
   if (!experiment) return <div className="page evaluation-page"><section className="evaluation-empty-card"><h1>{he ? "הניסוי לא נמצא" : "Experiment not found"}</h1><p>{he ? "ייתכן שהניסוי שייך לפרופיל מקומי אחר או הוסר." : "The experiment may belong to another local profile or was removed."}</p></section></div>;
   const status = run?.status ?? experiment.status;
+  const requiresRevalidation = Boolean(run?.results.some((result) => result.certification.status === "needs-evidence"));
   const totalUnits = experiment.competitorIds.length * experiment.repetitionCount * Math.max(1, experiment.evaluatorIds.length);
   const completedUnits = run ? (run.progress.competitorIndex * experiment.repetitionCount * experiment.evaluatorIds.length) + (run.progress.repetitionIndex * experiment.evaluatorIds.length) + run.progress.evaluatorIndex : 0;
   const progress = status === "completed" ? 100 : run ? Math.min(99, Math.round((completedUnits / Math.max(1, totalUnits)) * 100)) : 0;
@@ -55,6 +58,7 @@ export function EvaluationWorkspacePage() {
         <EvaluationBadge tone={status === "running" ? "positive" : status === "blocked" ? "danger" : "warning"}>{evaluationText(language, evaluationStatusText[status])}</EvaluationBadge>
       </header>
       <DeterministicNotice language={language} />
+      <EvaluationRecoveryNotice language={language} />
       <EvaluationSubnav language={language} evaluationPath={`/evaluations/${evaluationId}`} current="workspace" />
       {message ? <div className="evaluation-alert" role="status">{message}</div> : null}
       <div className="evaluation-control-room">
@@ -69,7 +73,7 @@ export function EvaluationWorkspacePage() {
           <h3>{he ? "מתחרים" : "Competitors"}</h3>
           <ol className="evaluation-competitor-list">{experiment.competitorIds.map((competitorId, index) => <li key={competitorId}>{he ? `מתחרה ${index + 1} · גרסה קפואה` : `Competitor ${index + 1} · frozen version`}</li>)}</ol>
         </aside>
-        <main className="evaluation-panel evaluation-run-panel">
+        <section className="evaluation-panel evaluation-run-panel">
           <p className="eyebrow">{he ? "התקדמות נוכחית" : "Current progress"}</p>
           <h2>{progress === 0 ? (he ? "הניסוי מוכן לאימות" : "Experiment ready to validate") : progress < 50 ? (he ? "הרצת המתחרה הראשון" : "Running first competitor") : (he ? "הרצת המתחרה השני" : "Running second competitor")}</h2>
           <div className="evaluation-progress" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress} aria-label={he ? "התקדמות ניסוי" : "Experiment progress"}><span style={{ inlineSize: `${progress}%` }} /></div>
@@ -82,11 +86,11 @@ export function EvaluationWorkspacePage() {
             <li data-state="pending">{he ? "אישור או דרישת ראיות" : "Certify or request evidence"}</li>
           </ol>
           <div className="evaluation-run-actions">
-            {["draft", "ready", "running", "paused", "needs-evidence"].includes(status) ? <button type="button" className="primary-button" onClick={act}>{action}</button> : <span>{he ? "אין פעולת מעבר זמינה במצב זה." : "No transition action is available in this state."}</span>}
+            {requiresRevalidation ? <button type="button" className="primary-button" onClick={() => { const created = evaluations.createRevalidation(experiment.id); navigate(`/evaluations/${created.id}`); }}>{he ? "יצירת הרצת אימות מקומית חדשה" : "Create a new local revalidation run"}</button> : ["draft", "ready", "running", "paused", "needs-evidence"].includes(status) ? <button type="button" className="primary-button" onClick={act}>{action}</button> : <span>{he ? "אין פעולת מעבר זמינה במצב זה." : "No transition action is available in this state."}</span>}
             {status === "running" ? <button type="button" onClick={complete}>{he ? "השלמת הערכה דטרמיניסטית" : "Complete deterministic evaluation"}</button> : null}
             {run && !["completed", "cancelled"].includes(status) ? <button type="button" onClick={cancel}>{he ? "ביטול ללא ציון" : "Cancel without score"}</button> : null}
           </div>
-        </main>
+        </section>
         <aside><RubricSummary language={language} /></aside>
       </div>
     </div>

@@ -40,6 +40,9 @@ export interface EvaluationRubric {
   description: LocalizedText;
   source: "system" | "user";
   sourceRubricId?: string;
+  lineageId?: string;
+  version?: string;
+  parentVersionRef?: VersionedEntityRef;
   criteria: RubricCriterion[];
   totalWeight: number;
   passingScore: number;
@@ -196,8 +199,10 @@ export interface SafeTraceMetadata {
   permission?: string;
   gateStatus?: "PASS" | "FAIL" | "INFO";
   evidenceType?: EvidenceType;
+  evidenceTypes?: EvidenceType[];
   retry?: number;
   nextAction?: string;
+  resultId?: string;
 }
 
 export interface TraceEvent {
@@ -220,6 +225,9 @@ export interface EntityVersion<T = unknown> {
   version: string;
   contentHash: string;
   content: T;
+  parentRef?: VersionedEntityRef;
+  authorSource?: string;
+  fieldChanges?: Array<{ path: string; before: string; after: string }>;
   changelog: LocalizedText;
   status: "active" | "inactive" | "deprecated";
   createdAt: string;

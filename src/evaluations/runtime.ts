@@ -17,6 +17,9 @@ import { validateExperiment } from "./validation";
 import { hasVersionDrift } from "./versioning";
 
 interface EvaluationResultChecksumInput {
+  id: string;
+  runId: string;
+  competitorId: string;
   competitorRef: VersionedEntityRef;
   repetition: number;
   seed: string;
@@ -24,6 +27,7 @@ interface EvaluationResultChecksumInput {
   findings: EvaluationFinding[];
   evidence: EvaluationEvidence[];
   certification: CertificationResult;
+  completedAt: string;
 }
 
 export function calculateEvaluationResultChecksum(
@@ -45,16 +49,21 @@ export function calculateEvaluationResultChecksum(
   });
   return deterministicHash({
     inputHash,
+    id: result.id,
+    runId: result.runId,
+    competitorId: result.competitorId,
     competitorRef: result.competitorRef,
     repetition: result.repetition,
     seed: result.seed,
     evaluatorIds: result.evaluatorIds,
     findings: result.findings.map(normalizeFinding),
     evidence: result.evidence.map((item) => ({
+      id: item.id,
       type: item.type,
       summary: item.summary,
       contentHash: item.contentHash,
       sourceActorId: item.sourceActorId,
+      createdAt: item.createdAt,
     })),
     certification: {
       status: result.certification.status,
@@ -69,6 +78,7 @@ export function calculateEvaluationResultChecksum(
       })),
       reasons: result.certification.reasons,
     },
+    completedAt: result.completedAt,
   });
 }
 
@@ -76,6 +86,17 @@ export function createExperiment(input: Omit<EvaluationExperiment, "schemaVersio
   const experiment: EvaluationExperiment = { ...input, schemaVersion: 1, status: "draft", resultIds: [] };
   if (!validateExperiment(experiment, input.actorId)) throw new Error("Invalid evaluation experiment.");
   return experiment;
+}
+
+export function createRevalidationExperiment(source: EvaluationExperiment, sourceRun: EvaluationRun, newId: string, now: string): EvaluationExperiment {
+  if (sourceRun.experimentId !== source.id || !sourceRun.results.some((result) => result.certification.status === "needs-evidence")) {
+    throw new Error("Only imported uncertified results require revalidation.");
+  }
+  return createExperiment({
+    id: newId, actorId: source.actorId, name: `${source.name} — revalidation`, missionSnapshotId: source.missionSnapshotId,
+    competitorIds: [...source.competitorIds], rubricId: source.rubricId, evaluatorIds: [...source.evaluatorIds],
+    repetitionCount: source.repetitionCount, seed: source.seed, createdAt: now, updatedAt: now,
+  });
 }
 
 export function updateExperiment(experiment: EvaluationExperiment, patch: Partial<Pick<EvaluationExperiment, "name" | "missionSnapshotId" | "competitorIds" | "rubricId" | "evaluatorIds" | "repetitionCount" | "seed">> & { updatedAt: string }): EvaluationExperiment {
@@ -182,11 +203,12 @@ function deterministicFinding(
   competitorIndex: number,
   repetition: number,
   criterionIndex: number,
+  evaluatorId: string,
+  evaluatorIndex: number,
   now: string,
 ): { finding: EvaluationFinding; evidence: EvaluationEvidence[] } {
   const criterion = rubric.criteria[criterionIndex];
-  const evaluatorId = experiment.evaluatorIds[(competitorIndex + repetition + criterionIndex) % experiment.evaluatorIds.length];
-  const numericSeed = deterministicSeed(experiment.seed, `${competitorId}:${criterion.id}`, repetition);
+  const numericSeed = deterministicSeed(experiment.seed, `${competitorId}:${criterion.id}:${evaluatorId}`, repetition);
   const span = criterion.scoringScale.max - criterion.scoringScale.min;
   const score = criterion.scoringScale.min + (numericSeed % (Math.floor(span) + 1));
   const normalized = (score - criterion.scoringScale.min) / span;
@@ -198,7 +220,7 @@ function deterministicFinding(
     };
     return {
       schemaVersion: 1,
-      id: `${run.id}-c${competitorIndex}-r${repetition}-k${criterionIndex}-e${evidenceIndex}`,
+      id: `${run.id}-c${competitorIndex}-r${repetition}-k${criterionIndex}-v${evaluatorIndex}-e${evidenceIndex}`,
       type,
       summary,
       contentHash: deterministicHash({
@@ -269,11 +291,14 @@ export function executeDeterministicEvaluation(
       const findings: EvaluationFinding[] = [];
       const evidence: EvaluationEvidence[] = [];
       rubric.criteria.forEach((_criterion, criterionIndex) => {
-        const generated = deterministicFinding(run, experiment, rubric, competitorId, competitorIndex, repetition, criterionIndex, now);
-        findings.push(generated.finding);
-        evidence.push(...generated.evidence);
+        experiment.evaluatorIds.forEach((evaluatorId, evaluatorIndex) => {
+          const generated = deterministicFinding(run, experiment, rubric, competitorId, competitorIndex, repetition, criterionIndex, evaluatorId, evaluatorIndex, now);
+          findings.push(generated.finding);
+          evidence.push(...generated.evidence);
+        });
       });
-      const certification = certifyFindings(rubric, findings, evidence);
+      const certification = certifyFindings(rubric, findings, evidence,
+        findings.some((finding) => finding.evaluatorId === "reality-checker" && finding.status === "fail"));
       const resultWithoutChecksum = {
         schemaVersion: 1,
         id: `${run.id}-c${competitorIndex}-r${repetition}`,
@@ -300,14 +325,14 @@ export function executeDeterministicEvaluation(
         sequence: sequence++,
         timestamp: now,
         actorType: "evaluator",
-        actorId: experiment.evaluatorIds[0],
+        actorId: "independent-evaluator-panel",
         eventType: "evaluation",
         summary: {
           he: `הערכת סימולציה דטרמיניסטית הושלמה עבור מתחרה ${competitorIndex + 1}, חזרה ${repetition + 1}.`,
           en: `Deterministic simulation completed for competitor ${competitorIndex + 1}, repetition ${repetition + 1}.`,
         },
         evidenceIds: evidence.map((item) => item.id).slice(0, 30),
-        metadata: { phase: "evaluate", gateStatus: certification.status === "certified" ? "PASS" : "FAIL" },
+        metadata: { phase: "evaluate", gateStatus: certification.status === "certified" ? "PASS" : "FAIL", permission: "read-only", retry: repetition, evidenceType: evidence[0]?.type, evidenceTypes: [...new Set(evidence.map((item) => item.type))], resultId: result.id },
       }));
     }
   });

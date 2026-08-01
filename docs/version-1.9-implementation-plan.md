@@ -53,7 +53,7 @@ Exit: no score without evidence; no self-evaluation; certification cases pass.
 ### Phase 3 — Versioning, repositories, migration, and backup
 
 - Add immutable entity/snapshot versions and active/deprecated pointers.
-- Add the seven actor-scoped repository domains from the architecture spec.
+- Add all nine actor-scoped evaluation repository domains, including evidence and traces.
 - Implement quotas, checksum, quarantine, retention, deduplication, domain
   reset, idempotent migration, and transactional backup/import.
 - Preserve all Version 1.8 keys and behavior.

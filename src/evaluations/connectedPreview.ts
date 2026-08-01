@@ -13,7 +13,6 @@ export function createConnectedPreview(input: {
   riskLevel: ConnectedActionPreview["riskLevel"];
   reversible: boolean;
   recoveryPlan?: LocalizedText;
-  connectorAvailable: boolean;
   createdAt: string;
   expiresAt: string;
 }): ConnectedActionPreview {
@@ -29,11 +28,11 @@ export function createConnectedPreview(input: {
     riskLevel: input.riskLevel,
     reversible: input.reversible,
     recoveryPlan: input.recoveryPlan,
-    status: supported && input.connectorAvailable ? "ready" : "unavailable",
+    status: "unavailable",
     createdAt: input.createdAt,
     expiresAt: input.expiresAt,
   };
-  if (!validatePreview(preview)) throw new Error("Invalid connected action preview.");
+  if (!supported || !validatePreview(preview)) throw new Error("Invalid connected action preview.");
   return preview;
 }
 

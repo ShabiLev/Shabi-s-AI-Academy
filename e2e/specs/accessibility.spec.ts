@@ -55,7 +55,7 @@ test.describe("accessibility — Version 1.9 Agent Lab", () => {
     await expect(table).toBeVisible();
     await expect(table.locator("caption")).toContainText("Comparison of scores, evidence, and confidence");
     await expect(table.locator('th[scope="col"]')).toHaveCount(6);
-    await expect(table.locator('th[scope="row"]')).toHaveCount(8);
+    await expect(table.locator('th[scope="row"]')).toHaveCount(48);
     await expect(page.getByText(/Chart text alternative:/)).toBeVisible();
     await runAxeScan(page, test.info(), { label: "v19-results-en-semantics" });
   });
@@ -65,7 +65,7 @@ test.describe("accessibility — Version 1.9 Agent Lab", () => {
     const evaluationId = await completeEvaluationForA11y(page, "Accessible trace semantics");
     await page.goto(`/evaluations/${evaluationId}/trace`);
     await page.getByLabel("Filter by phase").selectOption("evaluate");
-    await expect(page.getByText("4 events shown")).toHaveAttribute("aria-live", "polite");
+    await expect(page.getByText("4 of 4 events shown")).toHaveAttribute("aria-live", "polite");
     await runAxeScan(page, test.info(), { label: "v19-trace-en" });
   });
 

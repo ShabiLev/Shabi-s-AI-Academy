@@ -17,7 +17,15 @@ Connected workflow cards are previews only and do not write externally.
 6. Resolve every validation error, then start to freeze the setup.
 
 All competitors receive the same frozen input, constraints, rubric, and
-evaluator policy. Changing any of them requires a new run.
+evaluator policy. The selector includes compatible local Agents, prompts, and
+Teams in addition to clearly labelled system demonstrations. Frozen references
+use the canonical hash of the actual local Mission snapshot, competitor/team,
+rubric, and evaluator definition. A changed local Mission or Team receives a
+new immutable patch version; changing any frozen entity requires a new run.
+Rubric edits create an immutable
+version with source/parent provenance, a changelog, exact hashes, and an inert
+field-level comparison before save. Older versions remain available for an
+explicit rollback-as-new-version or deprecation flow.
 
 ## Read results
 
@@ -54,4 +62,18 @@ evidence. Visits and one success never establish mastery.
 Evaluation data is actor-scoped and local to the current browser. Trace/export
 views omit hidden chain-of-thought and should not contain credentials, raw local
 paths, or private documents. Use complete backup preview before import or
-rollback, and review any quarantine warning before resetting a domain.
+profile transfer. Certified runs, their evidence, and their traces are retained
+as a single bounded graph; when protected data alone exceeds capacity, the
+write fails instead of silently orphaning certified evidence.
+
+Result and domain checksums cover identity, frozen references, evidence IDs,
+timestamps, and certification fields. Repository load and save also recompute
+certification from the exact frozen rubric version and reject a mismatch, even
+when both storage checksums were recomputed. These are deterministic integrity
+checks, not cryptographic signatures or proof of origin.
+Import validates the complete candidate graph before writing, uses an all-domain
+rollback on storage failure, downgrades imported evaluation results until local
+revalidation, and surfaces source/target ownership. From an imported completed
+experiment, use **Create a new local revalidation run**; the historical import
+remains immutable and the new run freezes current local versions. Review any
+quarantine warning before resetting a domain.

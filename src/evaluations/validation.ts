@@ -27,6 +27,10 @@ export function validLocalized(value: unknown, max = 500): value is LocalizedTex
     && boundedText(item.he, max) && boundedText(item.en, max);
 }
 
+export function hasSensitiveText(value: unknown): boolean {
+  return typeof value === "string" && (SECRET_VALUE.test(value) || LOCAL_PATH.test(value));
+}
+
 export function hasUnsafeContent(value: unknown, depth = 0): boolean {
   if (depth > 24 || typeof value === "function" || typeof value === "symbol" || typeof value === "bigint") return true;
   if (!value || typeof value !== "object") return false;
@@ -112,9 +116,22 @@ export function validateTrace(event: unknown): event is TraceEvent {
   return item.schemaVersion === 1 && SAFE_ID.test(item.id) && SAFE_ID.test(item.runId)
     && Number.isInteger(item.sequence) && item.sequence >= 0 && isIsoDate(item.timestamp)
     && ["user", "conductor", "agent", "evaluator", "system"].includes(item.actorType)
-    && SAFE_ID.test(item.actorId) && validLocalized(item.summary, 1_000)
+    && SAFE_ID.test(item.actorId) && ["setup", "snapshot", "execution", "evaluation", "gate", "evidence", "retry", "pause", "resume", "complete", "cancel", "block"].includes(item.eventType)
+    && validLocalized(item.summary, 1_000)
     && !LOCAL_PATH.test(item.summary.he) && !LOCAL_PATH.test(item.summary.en)
-    && Array.isArray(item.evidenceIds) && item.evidenceIds.length <= 30 && item.evidenceIds.every((id) => SAFE_ID.test(id));
+    && !SECRET_VALUE.test(item.summary.he) && !SECRET_VALUE.test(item.summary.en)
+    && Array.isArray(item.evidenceIds) && item.evidenceIds.length <= 30 && item.evidenceIds.every((id) => SAFE_ID.test(id))
+    && Boolean(item.metadata) && typeof item.metadata === "object" && !Array.isArray(item.metadata)
+    && Object.keys(item.metadata).every((key) => ["phase", "permission", "gateStatus", "evidenceType", "evidenceTypes", "retry", "nextAction", "resultId"].includes(key))
+    && (item.metadata.phase === undefined || (boundedText(item.metadata.phase, 80) && !LOCAL_PATH.test(item.metadata.phase) && !SECRET_VALUE.test(item.metadata.phase)))
+    && (item.metadata.permission === undefined || (boundedText(item.metadata.permission, 80) && !LOCAL_PATH.test(item.metadata.permission) && !SECRET_VALUE.test(item.metadata.permission)))
+    && (item.metadata.gateStatus === undefined || ["PASS", "FAIL", "INFO"].includes(item.metadata.gateStatus))
+    && (item.metadata.evidenceType === undefined || ["requirement", "output", "test", "accessibility", "security", "performance", "trace", "review"].includes(item.metadata.evidenceType))
+    && (item.metadata.evidenceTypes === undefined || (Array.isArray(item.metadata.evidenceTypes) && item.metadata.evidenceTypes.length <= 8
+      && item.metadata.evidenceTypes.every((type) => ["requirement", "output", "test", "accessibility", "security", "performance", "trace", "review"].includes(type))))
+    && (item.metadata.retry === undefined || (Number.isInteger(item.metadata.retry) && item.metadata.retry >= 0 && item.metadata.retry <= 100))
+    && (item.metadata.nextAction === undefined || (boundedText(item.metadata.nextAction, 160) && !LOCAL_PATH.test(item.metadata.nextAction) && !SECRET_VALUE.test(item.metadata.nextAction)))
+    && (item.metadata.resultId === undefined || SAFE_ID.test(item.metadata.resultId));
 }
 
 export function validateFailureCase(value: unknown): value is FailureCase {

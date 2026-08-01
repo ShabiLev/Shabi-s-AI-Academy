@@ -1,6 +1,7 @@
 import { useLanguage } from "../i18n/LanguageContext";
 
 const releases = [
+  { version: "1.9.0-beta.1", items: ["Deterministic Agent Evaluation Lab with transparent rubrics and evidence", "Immutable comparisons, safe traces, regression suites, and local failure cases", "Preview-only connected actions and validated Codex TOML export"] },
   { version: "1.8.0-beta.1", items: ["Explainable Agent Teams and immutable presets", "Persistent Mission Workspace with safe Pause/Continue", "Evidence-derived Skill Map, Context Packs, and attributed community adaptations"] },
   { version: "1.7.0-beta.4", items: ["First-visit WALK ME auto-launch on every eligible ready shell route", "Onboarding-independent launch with SPA Skip and Finish coverage", "Safe deep-link return plus visible-dialog deferral and duplicate-launch protection"] },
   { version: "1.7.0-beta.3", items: ["One global eight-step WALK ME product walkthrough", "Completion-gated replay with resumable actor-scoped progress", "Public localized Help Center with improved semantics and contrast"] },

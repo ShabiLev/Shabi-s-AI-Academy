@@ -2,11 +2,15 @@
 
 ## Purpose
 
-Define the controlling system shape for Shabi's AI Academy 1.2.0-beta.1 and its post-release follow-up.
+Define the controlling system shape for Shabi's AI Academy 1.9.0-beta.1 and its post-release follow-up.
 
 ## Current state
 
-The application is a protected React + TypeScript + Vite single-page application. It provides bilingual lessons, prompt and agent builders, local libraries, a read-only prompt catalog, a deterministic Mock/Dry Run Runtime with browser-local history, How To content, and a QA Center. There is no production backend or live AI provider.
+The application is a React + TypeScript + Vite single-page application with
+public and protected routes. It provides bilingual learning, local builders,
+Version 1.8 Agent Teams and Missions, and a Version 1.9 deterministic Agent
+Evaluation Lab. There is no production evaluation backend or live model
+provider. Connected workflows remain preview-only.
 
 ## Decision
 
@@ -18,6 +22,10 @@ flowchart LR
   Domain --> Catalog[Read-only built-ins]
   Domain --> Storage[Validated local storage]
   Domain --> Runtime[Runtime state machine]
+  Domain --> Evaluation[Evaluation repository and runtime]
+  Evaluation --> Evidence[Immutable evidence and safe trace]
+  Evaluation --> Export[Validated local Codex TOML export]
+  Evaluation -. preview only .-> Connector[Connected action preview]
   Runtime --> Provider[Provider abstraction]
   Runtime --> Tools[Tool registry abstraction]
   Provider --> Mock[Deterministic Mock Provider]
@@ -31,6 +39,13 @@ flowchart LR
 - Built-in catalogs never become user-owned until explicit import.
 - Mock and Dry Run are deterministic prerequisites to Live Run.
 - Provider and tool registries are abstractions; UI never calls provider APIs.
+- Evaluation runs freeze version references, use bounded deterministic
+  simulations, and never turn missing evidence into a zero score.
+- Evaluators are read-only and cannot certify their own implementation.
+- Certified results, evidence, and baselines are immutable; rollback creates a
+  new version.
+- Connected previews expose target, fields, permissions, risk, and recovery but
+  never perform an external write.
 - External data is untrusted plain data and is never executed.
 - Secrets never enter localStorage, bundles, fixtures, screenshots, or logs.
 - Hebrew RTL and English LTR are complete, semantic experiences.

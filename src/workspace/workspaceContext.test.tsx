@@ -46,10 +46,12 @@ describe("WorkspaceProvider", () => {
     await user.click(screen.getByRole("button", { name: "enable analytics" }));
     await user.click(screen.getByRole("button", { name: "track" }));
     expect(Number(screen.getByTestId("analytics").textContent)).toBeGreaterThan(0);
+    localStorage.setItem("shabis-ai-academy:mission-analytics:v1:local-guest", JSON.stringify({ events: [{ id: "mission-event" }] }));
     await user.click(screen.getByRole("button", { name: "disable analytics" }));
-    const analyticsCount = screen.getByTestId("analytics").textContent;
+    expect(screen.getByTestId("analytics")).toHaveTextContent("0");
+    expect(localStorage.getItem("shabis-ai-academy:mission-analytics:v1:local-guest")).toBeNull();
     await user.click(screen.getByRole("button", { name: "track" }));
-    expect(screen.getByTestId("analytics")).toHaveTextContent(analyticsCount ?? "");
+    expect(screen.getByTestId("analytics")).toHaveTextContent("0");
     await user.click(screen.getByRole("button", { name: "reset preferences" }));
     expect(screen.getByTestId("preferences")).toHaveTextContent("0");
     await user.click(screen.getByRole("button", { name: "delete" }));

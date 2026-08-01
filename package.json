@@ -1,7 +1,7 @@
 {
   "name": "shabis-ai-academy",
   "private": true,
-  "version": "1.8.0-beta.1",
+  "version": "1.9.0-beta.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -17,7 +17,7 @@
     "test:coverage:open": "vitest run --coverage && node -e \"const {execSync}=require('node:child_process');execSync(process.platform==='win32'?'start coverage/index.html':'open coverage/index.html',{shell:true})\"",
     "test:e2e": "cross-env PW_REPORT_NAME=fast playwright test --project=\"Desktop Chromium\"",
     "test:e2e:functional": "cross-env PW_FULL=1 PW_WORKERS=2 PW_REPORT_NAME=functional playwright test --project=\"Desktop Chromium\"",
-    "test:e2e:cross-browser": "cross-env PW_FULL=1 PW_WORKERS=2 PW_REPORT_NAME=cross-browser playwright test --project=\"Desktop Firefox\" --project=\"Desktop WebKit\" --project=\"Mobile Chromium\" --project=\"Mobile WebKit\"",
+    "test:e2e:cross-browser": "cross-env PW_FULL=1 PW_WORKERS=1 PW_REPORT_NAME=cross-browser playwright test --project=\"Desktop Firefox\" --project=\"Desktop WebKit\" --project=\"Mobile Chromium\" --project=\"Mobile WebKit\"",
     "test:e2e:full": "npm run test:e2e:functional && npm run test:e2e:cross-browser && npm run test:a11y && npm run test:visual",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --project=\"Desktop Chromium\" --headed",
@@ -106,6 +106,7 @@
     "test:radar": "vitest run src/radar/records.test.ts",
     "test:guest-profile": "vitest run src/guest-profile/repository.test.ts",
     "test:personalization": "vitest run src/radar/personalization.test.ts",
+    "test:version-1.9": "vitest run src/evaluations/evaluations.test.ts src/components/evaluations/evaluationComponents.test.tsx src/backup/backup.test.ts src/workspace/workspace.test.ts src/workspace/workspaceContext.test.tsx && playwright test e2e/specs/version-1.9-agent-lab.spec.ts --project=\"Desktop Chromium\"",
     "test:version-1.7": "npm run test:radar-ingestion && vitest run src/guest-profile/repository.test.ts src/radar/records.test.ts src/radar/personalization.test.ts",
     "test:aos-core": "vitest run src/aos-core/aosCore.test.ts",
     "test:version-1.5": "vitest run src/radar/records.test.ts src/aos-core/aosCore.test.ts src/components/workspace/NotificationCenter.test.tsx src/components/profile/RecentItems.test.tsx",
@@ -122,7 +123,7 @@
     "@tailwindcss/vite": "^4.3.2",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "react-router-dom": "7.18.1",
+    "react-router-dom": "7.18.2",
     "tailwindcss": "^4.3.2"
   },
   "devDependencies": {

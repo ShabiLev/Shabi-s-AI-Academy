@@ -1033,5 +1033,68 @@
     "parameterExample": "/history",
     "access": "guest-or-authenticated",
     "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/evaluations",
+    "pageId": "evaluations",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/evaluations",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/evaluations/new",
+    "pageId": "evaluations.new",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/evaluations/new",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/evaluations/:evaluationId",
+    "pageId": "evaluations.by-evaluationId",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/evaluations/evaluation-example",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/evaluations/:evaluationId/results",
+    "pageId": "evaluations.by-evaluationId.results",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/evaluations/evaluation-example/results",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/evaluations/:evaluationId/trace",
+    "pageId": "evaluations.by-evaluationId.trace",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/evaluations/evaluation-example/trace",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/evaluation-suites",
+    "pageId": "evaluation-suites",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/evaluation-suites",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
+  },
+  {
+    "route": "/evaluation-suites/:suiteId",
+    "pageId": "evaluation-suites.by-suiteId",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/evaluation-suites/suite-example",
+    "access": "guest-or-authenticated",
+    "routerModes": ["browser", "hash"]
   }
 ]

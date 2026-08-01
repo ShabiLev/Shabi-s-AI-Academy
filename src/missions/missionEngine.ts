@@ -214,6 +214,16 @@ export function transitionMission(mission: Mission, action: MissionAction, now =
 }
 
 export function deriveSkillLevel(evidenceItems: SkillEvidence[]): SkillLevel {
+  const evaluationEvidence = evidenceItems.filter((item) => item.source === "evaluation");
+  const independentHighConfidence = evaluationEvidence.filter((item) =>
+    item.outcome === "demonstrated"
+    && item.confidence === "high"
+    && (item.evidenceIds?.length ?? 0) > 0);
+  const evaluationRuns = new Set(independentHighConfidence.map((item) => item.sourceId));
+  const evaluationEvaluators = new Set(independentHighConfidence.map((item) => item.evaluatorId));
+  if (evaluationRuns.size >= 3 && evaluationEvaluators.size >= 2) return "mastered";
+  if (evaluationRuns.size >= 1) return "demonstrated";
+  if (evaluationEvidence.length > 0) return "practised";
   const unique = new Set(evidenceItems.map((item) => `${item.source}:${item.sourceId}`)).size;
   if (unique >= 6 && evidenceItems.some((item) => item.source === "mission")) return "mastered";
   if (unique >= 4 && evidenceItems.some((item) => item.source === "mission")) return "demonstrated";

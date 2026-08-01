@@ -1,8 +1,12 @@
 # Workspace Export and Import
 
-Settings can export a versioned JSON Workspace backup covering supported browser-local domains. The envelope records app/schema/domain versions, export time, and a deterministic checksum. Secret-shaped data and malformed domains are excluded.
+Settings exports a schema-2 JSON Workspace backup covering supported browser-local domains. The envelope records app/schema/domain versions, the normalized source actor, export time, and a deterministic checksum. Version 1.9 includes evaluation runs, evidence, and traces as one protected graph. Domains containing secret-shaped keys, secret-like values, private paths, or malformed data are excluded. Legacy schema-1 backups without an actor field remain importable as `local-guest` data.
 
-Import is preview-first. Size, schema, checksum, prototype/executable content, supported domains, and conflicts are validated before replace or merge is confirmed. Application uses staged writes with rollback on failure. Import never executes content, restores credentials, or silently overwrites data.
+Import is preview-first. Size, schema, per-domain schema version, outer and evaluation-envelope checksums, prototype/executable content, secret values, supported domains, source/target ownership, and conflicts are validated before replace or merge is confirmed. Evaluation runs, standalone evidence, and traces must be imported together; incomplete or orphaned graphs are rejected. The complete candidate repository is loaded and validated in an in-memory staging layer before the first persistent write. An explicit restore into another local profile rebinds ownership fields while preserving system/evaluator trace attribution, recalculates result and storage checksums, and writes only to the target actor's keys. Imported evaluation results are downgraded to `needs-evidence`; the saved experiment offers an explicit action that creates a separate local revalidation run while preserving the imported historical result. Import uses staged writes with rollback on a storage failure. It never executes content, restores credentials, or silently overwrites unrelated actor data.
+
+Secret detection covers credential-shaped keys and values as well as bearer values, standalone provider/GitHub/AWS tokens, JWT-shaped values, private-key blocks, UNC paths, Windows absolute paths, and common private POSIX paths. This is defense in depth; users must still inspect a backup before sharing it.
+
+The FNV checksums detect accidental corruption and inconsistent local records. They are not signatures, do not prove who created an export, and are not a defense against an attacker who can rewrite both a payload and its checksum.
 
 Version 1.3 keeps provider-owned authentication sessions, access/refresh tokens, passwords, and Admin claims outside the backup allowlist. A Workspace backup can be downloaded before local-to-cloud migration, but importing it never signs in a user or starts synchronization.
 

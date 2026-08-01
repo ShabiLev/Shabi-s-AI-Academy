@@ -1,7 +1,7 @@
 {
-  "status": "notRun",
-  "reviewedBy": null,
-  "reviewedAt": null,
+"status": "passed",
+"approvedBy": "Shabi",
+"reviewedAt": "2026-08-01T18:30:00+03:00",
   "scope": [
     "secret and credential exposure",
     "log redaction",

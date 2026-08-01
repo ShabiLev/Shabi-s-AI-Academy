@@ -1,5 +1,13 @@
 # Manual QA checklist
 
+For 1.9.0-beta.1, manually review the Evaluation Arena, Rubric Builder,
+running/paused/completed/needs-evidence states, criterion evidence,
+disagreement, sanitized trace, regression suite, Failure Case, connected
+preview, and Codex export in Hebrew/English and desktop/mobile. Confirm every
+result says `Academy deterministic evaluation`, no preview implies a write,
+missing evidence is not shown as zero, no raw IDs or private content appear,
+and the Version 1.8 Missions/Teams flows and complete backup remain usable.
+
 For 1.2.0-beta.1, review all existing beta content plus AI Radar, the profile popover/sheet, shared layer tokens, sidebar scrolling, and cross-application overflow hardening. Confirm local-data preservation, bilingual responsive behavior, intentional visual changes, absence of secrets, and the deployed GitHub Pages artifact when available. QA Center stores this separately by application version.
 
 Automated gates (`docs/quality-gates.md`) catch a large and growing share of regressions, but they do not replace human review. This checklist is the reference for what's automated, what's manual, and what isn't covered yet. The QA Center's release checklist (`docs/qa-center.md`) implements the manual items below as persisted, per-version checkboxes.

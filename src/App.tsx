@@ -1,5 +1,5 @@
 import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, type ReactNode } from "react";
 import { AuthProvider } from "./auth/AuthContext";
 import { AppLayout } from "./components/layout/AppLayout";
 import { AgentsPage } from "./pages/AgentsPage";
@@ -45,7 +45,8 @@ import { NotFoundPage } from "./pages/NotFoundPage";
 import { AosCoreProvider } from "./aos-core";
 import { RadarDataProvider } from "./radar";
 import { GuestProfileProvider } from "./guest-profile";
-import { MissionProvider } from "./missions";
+import { MissionProvider, useMissions } from "./missions";
+import { EvaluationProvider } from "./evaluations";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
 const DashboardPage = lazy(() => import("./pages/GuidedDashboardPage").then((module) => ({ default: module.GuidedDashboardPage })));
@@ -67,6 +68,11 @@ const ChangelogPage = lazy(() => import("./pages/ChangelogPage").then((module) =
 const DocumentationPage = lazy(() => import("./pages/DocumentationPage").then((module) => ({ default: module.DocumentationPage })));
 const ReleaseCenterPage = lazy(() => import("./pages/ReleaseCenterPage").then((module) => ({ default: module.ReleaseCenterPage })));
 const DeveloperModePage = lazy(() => import("./pages/DeveloperModePage").then((module) => ({ default: module.DeveloperModePage })));
+
+function ActorScopedEvaluationProvider({ children }: { children: ReactNode }) {
+  const { actorId } = useMissions();
+  return <EvaluationProvider actorId={actorId}>{children}</EvaluationProvider>;
+}
 const SearchPage = lazy(() => import("./pages/SearchPage").then((module) => ({ default: module.SearchPage })));
 const AssistantPage = lazy(() => import("./pages/AssistantPage").then((module) => ({ default: module.AssistantPage })));
 const WorkflowsPage = lazy(() => import("./pages/WorkflowsPage").then((module) => ({ default: module.WorkflowsPage })));
@@ -94,7 +100,15 @@ const MissionWorkspacePage = lazy(() => import("./pages/MissionWorkspacePage").t
 const TeamPage = lazy(() => import("./pages/TeamPage").then((module) => ({ default: module.TeamPage })));
 const MissionPlanPage = lazy(() => import("./pages/MissionPlanPage").then((module) => ({ default: module.MissionPlanPage })));
 const MissionEvidencePage = lazy(() => import("./pages/MissionEvidencePage").then((module) => ({ default: module.MissionEvidencePage })));
+const EvaluationsPage = lazy(() => import("./pages/EvaluationsPage").then((module) => ({ default: module.EvaluationsPage })));
+const EvaluationBuilderPage = lazy(() => import("./pages/EvaluationBuilderPage").then((module) => ({ default: module.EvaluationBuilderPage })));
+const EvaluationWorkspacePage = lazy(() => import("./pages/EvaluationWorkspacePage").then((module) => ({ default: module.EvaluationWorkspacePage })));
+const EvaluationResultsPage = lazy(() => import("./pages/EvaluationResultsPage").then((module) => ({ default: module.EvaluationResultsPage })));
+const EvaluationTracePage = lazy(() => import("./pages/EvaluationTracePage").then((module) => ({ default: module.EvaluationTracePage })));
+const EvaluationSuitesPage = lazy(() => import("./pages/EvaluationSuitesPage").then((module) => ({ default: module.EvaluationSuitesPage })));
+const EvaluationSuitePage = lazy(() => import("./pages/EvaluationSuitePage").then((module) => ({ default: module.EvaluationSuitePage })));
 const missionRouteFallback = <div className="page" role="status" aria-live="polite">טוען משימה… / Loading Mission…</div>;
+const evaluationRouteFallback = <div className="page" role="status" aria-live="polite">טוען מעבדת הערכה… / Loading Evaluation Lab…</div>;
 
 export interface AppProps {
   routerMode?: RouterMode;
@@ -120,6 +134,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                   <RuntimeProvider>
                   <WorkspaceProvider>
                   <MissionProvider>
+                  <ActorScopedEvaluationProvider>
                   <CommandPaletteProvider>
                   <WorkflowProvider>
                   <AssistantProvider>
@@ -216,6 +231,13 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                     <Route path="team" element={<Suspense fallback={null}><TeamPage /></Suspense>} />
                     <Route path="plan" element={<Suspense fallback={null}><MissionPlanPage /></Suspense>} />
                     <Route path="evidence" element={<Suspense fallback={null}><MissionEvidencePage /></Suspense>} />
+                    <Route path="evaluations" element={<Suspense fallback={evaluationRouteFallback}><EvaluationsPage /></Suspense>} />
+                    <Route path="evaluations/new" element={<Suspense fallback={evaluationRouteFallback}><EvaluationBuilderPage /></Suspense>} />
+                    <Route path="evaluations/:evaluationId" element={<Suspense fallback={evaluationRouteFallback}><EvaluationWorkspacePage /></Suspense>} />
+                    <Route path="evaluations/:evaluationId/results" element={<Suspense fallback={evaluationRouteFallback}><EvaluationResultsPage /></Suspense>} />
+                    <Route path="evaluations/:evaluationId/trace" element={<Suspense fallback={evaluationRouteFallback}><EvaluationTracePage /></Suspense>} />
+                    <Route path="evaluation-suites" element={<Suspense fallback={evaluationRouteFallback}><EvaluationSuitesPage /></Suspense>} />
+                    <Route path="evaluation-suites/:suiteId" element={<Suspense fallback={evaluationRouteFallback}><EvaluationSuitePage /></Suspense>} />
                     <Route element={<AuthenticatedRoute />}><Route path="account/security" element={<Suspense fallback={null}><AccountSecurityPage /></Suspense>} /><Route path="account/migration" element={<Suspense fallback={null}><AccountMigrationPage /></Suspense>} /></Route>
                     <Route element={<AdminRoute />}><Route path="admin" element={<AdminDashboardPage />} /><Route path="admin/users" element={<AdminUsersPage />} /><Route path="admin/content" element={<AdminContentPage />} /><Route path="admin/audit" element={<AdminAuditPage />} /></Route>
                     <Route path="qa" element={<QACenterPage />} />
@@ -239,6 +261,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                   </AssistantProvider>
                   </WorkflowProvider>
                   </CommandPaletteProvider>
+                  </ActorScopedEvaluationProvider>
                   </MissionProvider>
                   </WorkspaceProvider>
                   </RuntimeProvider>

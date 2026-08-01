@@ -113,8 +113,20 @@ export function validateContextPack(value: unknown): value is ContextPack {
 export function validateSkillEvidence(value: unknown): value is SkillEvidence {
   if (!value || typeof value !== "object" || hasDangerousKeys(value)) return false;
   const evidence = value as SkillEvidence;
-  return ID.test(evidence.id) && ID.test(evidence.skillId) && ["lesson", "exercise", "mission"].includes(evidence.source)
+  const baseValid = ID.test(evidence.id) && ID.test(evidence.skillId)
+    && ["lesson", "exercise", "mission", "evaluation"].includes(evidence.source)
     && ID.test(evidence.sourceId) && boundedString(evidence.completedAt, 40);
+  if (!baseValid) return false;
+  if (evidence.source !== "evaluation") {
+    return evidence.outcome === undefined && evidence.evaluatorId === undefined
+      && evidence.confidence === undefined && evidence.evidenceIds === undefined;
+  }
+  return ["practice", "demonstrated"].includes(evidence.outcome ?? "")
+    && ID.test(evidence.evaluatorId ?? "")
+    && ["low", "medium", "high"].includes(evidence.confidence ?? "")
+    && Array.isArray(evidence.evidenceIds)
+    && evidence.evidenceIds.length <= 50
+    && evidence.evidenceIds.every((id) => ID.test(id));
 }
 
 export function validateMissionAnalyticsEvent(value: unknown): value is MissionAnalyticsEvent {

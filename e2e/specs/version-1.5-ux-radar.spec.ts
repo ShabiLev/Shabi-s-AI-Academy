@@ -40,7 +40,7 @@ test("Dashboard root and primary actions render in Beginner and Advanced modes",
 
 test("Recent Items is available from History and beginner navigation stays focused", async ({ page }) => {
   await login(page, "/radar");
-  await expect(page.locator(".desktop-sidebar nav .nav-link")).toHaveCount(10);
+  await expect(page.locator(".desktop-sidebar nav .nav-link")).toHaveCount(11);
   await page.goto("/history");
   await expect(page.getByRole("heading", { name: /^(פריטים אחרונים|Recent Items)$/ })).toBeVisible();
 });

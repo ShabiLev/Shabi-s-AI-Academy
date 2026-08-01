@@ -1,5 +1,148 @@
 import { test, expect, login, english } from "../fixtures/academy";
 import { runAxeScan } from "../fixtures/a11y";
+import type { Page } from "@playwright/test";
+
+async function createEvaluationForA11y(page: Page, name = "Accessible evaluation checkpoint"): Promise<void> {
+  await page.goto("/evaluations/new");
+  await page.locator('input[maxlength="120"]').fill(name);
+  await page.getByRole("button", { name: /Create experiment draft|יצירת טיוטת ניסוי/ }).click();
+  await expect(page).toHaveURL(/\/evaluations\/evaluation-/);
+}
+
+async function completeEvaluationForA11y(page: Page, name: string): Promise<string> {
+  await createEvaluationForA11y(page, name);
+  const evaluationId = page.url().split("/").at(-1) ?? "";
+  await page.getByRole("button", { name: /Start run|התחלת הרצה/ }).click();
+  await page.getByRole("button", { name: /Complete deterministic evaluation|השלמת הערכה דטרמיניסטית/ }).click();
+  await expect(page.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "100");
+  return evaluationId;
+}
+
+async function runSuiteForA11y(page: Page): Promise<void> {
+  await page.goto("/evaluation-suites/react-accessibility");
+  await page.getByRole("button", { name: /Create accessibility suite|יצירת סדרת נגישות/ }).click();
+  await page.getByRole("button", { name: /Run all suite cases|הרצת כל מקרי הסדרה/ }).click();
+  await expect(page.getByRole("table")).toBeVisible();
+}
+
+test.describe("accessibility — Version 1.9 Agent Lab", () => {
+  test("Evaluation arena Hebrew axe and RTL semantics", async ({ page }) => {
+    await page.goto("/evaluations");
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    await expect(page.getByTestId("evaluation-arena")).toBeVisible();
+    await runAxeScan(page, test.info(), { label: "v19-arena-he" });
+  });
+
+  test("Evaluation Builder English axe and form grouping", async ({ page }) => {
+    await english(page);
+    await page.goto("/evaluations/new");
+    await expect(page.getByRole("group", { name: /Competitors/ })).toBeVisible();
+    await expect(page.getByRole("group", { name: /Independent, read-only evaluators/ })).toBeVisible();
+    await runAxeScan(page, test.info(), { label: "v19-builder-en" });
+  });
+
+  test("Evaluation Workspace Hebrew axe with live progress", async ({ page }) => {
+    await createEvaluationForA11y(page, "בדיקת נגישות לסביבת הערכה");
+    await expect(page.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "0");
+    await runAxeScan(page, test.info(), { label: "v19-workspace-he" });
+  });
+
+  test("Evaluation Results English axe, table semantics, and chart alternative", async ({ page }) => {
+    await english(page);
+    const evaluationId = await completeEvaluationForA11y(page, "Accessible results semantics");
+    await page.goto(`/evaluations/${evaluationId}/results`);
+    const table = page.getByRole("table");
+    await expect(table).toBeVisible();
+    await expect(table.locator("caption")).toContainText("Comparison of scores, evidence, and confidence");
+    await expect(table.locator('th[scope="col"]')).toHaveCount(6);
+    await expect(table.locator('th[scope="row"]')).toHaveCount(48);
+    await expect(page.getByText(/Chart text alternative:/)).toBeVisible();
+    await runAxeScan(page, test.info(), { label: "v19-results-en-semantics" });
+  });
+
+  test("Evaluation Trace English axe and polite filtered count", async ({ page }) => {
+    await english(page);
+    const evaluationId = await completeEvaluationForA11y(page, "Accessible trace semantics");
+    await page.goto(`/evaluations/${evaluationId}/trace`);
+    await page.getByLabel("Filter by phase").selectOption("evaluate");
+    await expect(page.getByText("4 of 4 events shown")).toHaveAttribute("aria-live", "polite");
+    await runAxeScan(page, test.info(), { label: "v19-trace-en" });
+  });
+
+  test("Regression suites Hebrew axe", async ({ page }) => {
+    await page.goto("/evaluation-suites");
+    await expect(page.getByTestId("evaluation-suites")).toBeVisible();
+    await runAxeScan(page, test.info(), { label: "v19-suites-he" });
+  });
+
+  test("Regression suite English table and blocking alert semantics", async ({ page }) => {
+    await english(page);
+    await runSuiteForA11y(page);
+    await expect(page.getByRole("table").locator("caption")).toContainText("Comparison of baseline and candidate");
+    await expect(page.getByRole("alert")).toContainText("Critical regression");
+    await runAxeScan(page, test.info(), { label: "v19-suite-en-semantics" });
+  });
+
+  test("Evaluation Builder keyboard journey keeps visible logical focus", async ({ page }) => {
+    await english(page);
+    await page.goto("/evaluations/new");
+    await page.keyboard.press("Tab");
+    await expect(page.locator(":focus")).toBeVisible();
+    const action = page.getByRole("button", { name: "Create experiment draft" });
+    await action.focus();
+    await expect(action).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(page.getByRole("alert")).toBeVisible();
+    await runAxeScan(page, test.info(), { label: "v19-builder-keyboard-error" });
+  });
+
+  test("Evaluation Results remains usable at 200 percent zoom", async ({ page }) => {
+    await page.setViewportSize({ width: 640, height: 900 });
+    await english(page);
+    const evaluationId = await completeEvaluationForA11y(page, "Accessible zoom results");
+    await page.goto(`/evaluations/${evaluationId}/results`);
+    await page.evaluate(() => {
+      document.documentElement.style.zoom = "200%";
+    });
+    await expect(page.getByTestId("evaluation-results")).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+    await runAxeScan(page, test.info(), { label: "v19-results-zoom-200" });
+  });
+
+  test("Evaluation arena respects reduced motion", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/evaluations");
+    expect(await page.evaluate(() => matchMedia("(prefers-reduced-motion: reduce)").matches)).toBe(true);
+    const animated = await page.locator("*").evaluateAll((nodes) => nodes.filter((node) => {
+      const style = getComputedStyle(node);
+      return style.animationDuration !== "0s" && style.animationName !== "none";
+    }).length);
+    expect(animated).toBe(0);
+    await runAxeScan(page, test.info(), { label: "v19-arena-reduced-motion" });
+  });
+
+  test("Evaluation routes switch semantic RTL and LTR direction", async ({ page }) => {
+    await page.goto("/evaluations");
+    await expect(page.locator("html")).toHaveAttribute("lang", "he");
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    await english(page);
+    await page.goto("/evaluations");
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+    await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
+    await runAxeScan(page, test.info(), { label: "v19-arena-en-ltr" });
+  });
+
+  test("Evaluation Builder 320x568 mobile has no overflow and retains focus", async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 568 });
+    await english(page);
+    await page.goto("/evaluations/new");
+    const action = page.getByRole("button", { name: "Create experiment draft" });
+    await action.focus();
+    await expect(action).toBeFocused();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+    await runAxeScan(page, test.info(), { label: "v19-builder-en-mobile-320" });
+  });
+});
 
 test.describe("accessibility — Version 1.8 Agent Teams", () => {
   test("Mission Builder, Team catalog, and active Workspace Hebrew", async ({ page }) => {

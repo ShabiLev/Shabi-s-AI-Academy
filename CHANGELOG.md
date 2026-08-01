@@ -1,5 +1,51 @@
 # Changelog
 
+## [1.9.0-beta.1] - 2026-07-30
+
+### Added
+
+- Actor-scoped Agent Evaluation Lab for deterministic comparisons of Agents,
+  prompts, teams, guidance modes, and Mission versions against immutable inputs.
+- Eight transparent built-in rubrics, independent read-only evaluators,
+  criterion-level evidence, confidence, missing-evidence, disagreement, and
+  certification rules.
+- Pause/Continue-safe evaluation runs, sanitized trace inspection, immutable
+  version references, regression suites, a local Failure Library, and
+  evidence-based learning and team recommendations.
+- Immutable local Agent, Prompt, Team, Mission, and rubric snapshots with
+  exact-version provenance, rubric rollback/deprecation, and protected history.
+- Preview-only connected workflow plans and validated Codex Agent TOML export
+  with preview, round-trip parsing, checksum, and omitted-field reporting.
+- Transactional backup/import for all nine Version 1.9 evaluation domains with actor
+  isolation, pre-write candidate validation, atomic run/evidence/trace graphs,
+  bounds, quarantine, retention, tamper detection, immutable collision
+  protection, and an explicit imported-result revalidation flow.
+
+### Changed
+
+- Navigation, Help, backup, analytics governance, and release evidence now
+  include the Evaluation Lab while preserving Version 1.8 Missions and Teams.
+
+### Security and privacy
+
+- Version 1.9 performs no real-provider comparison and no external connector
+  write. Every beta result is labelled `Academy deterministic evaluation`.
+- Trace, analytics, previews, and exports exclude raw Mission content, secrets,
+  standalone provider tokens, credentials, unsupported permissions, and private
+  absolute or UNC paths.
+- Result certification is recomputed against the exact frozen rubric during
+  both repository save and load; internally re-checksummed forgeries are
+  quarantined instead of trusted.
+
+### Known limitations
+
+- Connected workflows are previews only. Codex export downloads a validated
+  TOML file but never installs it from the browser.
+- Local checksum validation detects accidental or local-record tampering; it is
+  not a cryptographic signature and does not establish authenticity against an
+  attacker who can rewrite both browser storage and its checksum; imported
+  evaluation results therefore require local revalidation.
+
 ## [1.8.0-beta.1] - 2026-07-29
 
 ### Added

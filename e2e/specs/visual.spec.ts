@@ -20,6 +20,172 @@ test.beforeEach(async ({ page }) => {
   await page.clock.setFixedTime(new Date("2026-07-26T12:00:00Z"));
 });
 
+async function createVisualEvaluation(page: Page, name: string): Promise<void> {
+  await page.goto("/evaluations/new");
+  await page.locator('input[maxlength="120"]').fill(name);
+  await page.getByRole("button", { name: /Create experiment draft|יצירת טיוטת ניסוי/ }).click();
+  await expect(page.getByTestId("evaluation-workspace")).toBeVisible();
+}
+
+async function completeVisualEvaluation(page: Page, name: string): Promise<string> {
+  await createVisualEvaluation(page, name);
+  const evaluationId = page.url().split("/").at(-1) ?? "";
+  await page.getByRole("button", { name: /Start run|התחלת הרצה/ }).click();
+  await page.getByRole("button", { name: /Complete deterministic evaluation|השלמת הערכה דטרמיניסטית/ }).click();
+  await expect(page.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "100");
+  return evaluationId;
+}
+
+async function runVisualSuite(page: Page): Promise<void> {
+  await page.goto("/evaluation-suites/react-accessibility");
+  await page.getByRole("button", { name: /Create accessibility suite|יצירת סדרת נגישות/ }).click();
+  await page.getByRole("button", { name: /Run all suite cases|הרצת כל מקרי הסדרה/ }).click();
+  await expect(page.getByRole("table")).toBeVisible();
+}
+
+test.describe("visual — Version 1.9 Agent Lab", () => {
+  test("Evaluation Arena Hebrew desktop", async ({ page }) => {
+    await page.goto("/evaluations");
+    await expect(page.getByTestId("evaluation-arena")).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v19-evaluation-arena-he-desktop.png", { fullPage: true });
+  });
+
+  test("Evaluation Arena English desktop", async ({ page }) => {
+    await startEnglish(page);
+    await page.goto("/evaluations");
+    await expect(page.getByRole("heading", { name: "Evaluation arena" })).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v19-evaluation-arena-en-desktop.png", { fullPage: true });
+  });
+
+  test("Evaluation Arena English mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await startEnglish(page);
+    await page.goto("/evaluations");
+    await expect(page.getByTestId("evaluation-arena")).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v19-evaluation-arena-en-mobile.png", { fullPage: true });
+  });
+
+  test("Evaluation Arena Hebrew mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/evaluations");
+    await expect(page.getByTestId("evaluation-arena")).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v19-evaluation-arena-he-mobile.png", { fullPage: true });
+  });
+
+  test("Rubric Builder Hebrew desktop", async ({ page }) => {
+    await page.goto("/evaluations/new");
+    await expect(page.locator(".evaluation-rubric")).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v19-rubric-builder-he-desktop.png", { fullPage: true });
+  });
+
+  test("Evaluation Builder English mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await startEnglish(page);
+    await page.goto("/evaluations/new");
+    await page.locator('input[maxlength="120"]').fill("Mobile prompt comparison");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v19-evaluation-builder-en-mobile.png", { fullPage: true });
+  });
+
+  test("Evaluation Builder Hebrew mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 568 });
+    await page.goto("/evaluations/new");
+    await page.locator('input[maxlength="120"]').fill("השוואת מובייל נגישה");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v19-evaluation-builder-he-mobile.png", { fullPage: true });
+  });
+
+  test("Evaluation running English desktop", async ({ page }) => {
+    await startEnglish(page);
+    await createVisualEvaluation(page, "Accessible React controlled run");
+    await page.getByRole("button", { name: "Start run" }).click();
+    await expect(page.getByText("Running", { exact: true })).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v19-evaluation-running-en-desktop.png", { fullPage: true, mask: dynamicMasks(page) });
+  });
+
+  test("Evaluation paused English desktop", async ({ page }) => {
+    await startEnglish(page);
+    await createVisualEvaluation(page, "Exact checkpoint comparison");
+    await page.getByRole("button", { name: "Start run" }).click();
+    await page.getByRole("button", { name: "Safe pause" }).click();
+    await expect(page.getByText("Paused", { exact: true })).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v19-evaluation-paused-en-desktop.png", { fullPage: true, mask: dynamicMasks(page) });
+  });
+
+  test("Evaluation completed results Hebrew desktop", async ({ page }) => {
+    const evaluationId = await completeVisualEvaluation(page, "השוואת React מושלמת");
+    await page.goto(`/evaluations/${evaluationId}/results`);
+    await expect(page.getByTestId("evaluation-results")).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v19-evaluation-results-he-desktop.png", { fullPage: true });
+  });
+
+  test("Evaluator disagreement English desktop", async ({ page }) => {
+    await startEnglish(page);
+    const evaluationId = await completeVisualEvaluation(page, "Evaluator disagreement review");
+    await page.goto(`/evaluations/${evaluationId}/results`);
+    const findings = page.locator(".evaluation-results-grid");
+    await expect(findings.locator(".evaluation-finding").first()).toBeVisible();
+    await stabilize(page);
+    await expect(findings).toHaveScreenshot("v19-evaluator-disagreement-en-desktop.png");
+  });
+
+  test("Run Trace Viewer Hebrew desktop", async ({ page }) => {
+    const evaluationId = await completeVisualEvaluation(page, "עקבות הערכה בטוחים");
+    await page.goto(`/evaluations/${evaluationId}/trace`);
+    await expect(page.getByTestId("evaluation-trace")).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v19-run-trace-he-desktop.png", { fullPage: true });
+  });
+
+  test("Regression Suites English desktop", async ({ page }) => {
+    await startEnglish(page);
+    await page.goto("/evaluation-suites");
+    await page.getByRole("button", { name: "Create controlled suite" }).click();
+    await expect(page.getByRole("link", { name: "Open suite" })).toBeVisible();
+    await expect(page.getByTestId("evaluation-suites")).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v19-regression-suites-en-desktop.png", { fullPage: true });
+  });
+
+  test("Blocking regression version diff English desktop", async ({ page }) => {
+    await startEnglish(page);
+    await runVisualSuite(page);
+    await expect(page.getByText("Publication blocked", { exact: true })).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v19-blocking-regression-version-diff-en-desktop.png", { fullPage: true });
+  });
+
+  test("Failure Case evidence English desktop", async ({ page }) => {
+    await startEnglish(page);
+    const evaluationId = await completeVisualEvaluation(page, "Failure evidence learning");
+    await page.goto(`/evaluations/${evaluationId}/results`);
+    await page.getByRole("button", { name: "Prepare failure case for review" }).click();
+    await page.getByRole("button", { name: "Confirm and save locally" }).click();
+    await expect(page.getByRole("status")).toBeVisible();
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v19-failure-case-en-desktop.png", { fullPage: true, mask: dynamicMasks(page) });
+  });
+
+  test("Connected preview and Codex export English desktop", async ({ page }) => {
+    await startEnglish(page);
+    const evaluationId = await completeVisualEvaluation(page, "Connected preview and Codex export");
+    await page.goto(`/evaluations/${evaluationId}/results`);
+    await page.getByRole("button", { name: "Generate Codex export" }).click();
+    await expect(page.getByRole("button", { name: "Download TOML" })).toBeVisible();
+    await expect(page.locator(".evaluation-preview")).toContainText("Unavailable");
+    await stabilize(page);
+    await expect(page).toHaveScreenshot("v19-connected-preview-codex-export-en-desktop.png", { fullPage: true });
+  });
+});
+
 test.describe("visual — Version 1.8 Agent Teams", () => {
   test("Mission Builder Hebrew desktop", async ({ page }) => {
     await page.goto("/missions/new");

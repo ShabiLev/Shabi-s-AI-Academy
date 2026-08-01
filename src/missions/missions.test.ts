@@ -3,6 +3,7 @@ import { agentCatalog, communitySource, skillCatalog, teamPresets } from "./cata
 import { createMission, deriveSkillLevel, missionFingerprint, transitionMission } from "./missionEngine";
 import { loadMissionRepository, missionStorageKeys, saveMissionRepository, type MissionRepositorySnapshot } from "./repository";
 import { validateContextPack, validateMissionAnalyticsEvent, validateTeam } from "./validation";
+import type { SkillEvidence } from "./types";
 
 function storage(seed: Record<string, string> = {}, failKey?: string) {
   const values = new Map(Object.entries(seed));
@@ -125,6 +126,27 @@ describe("Version 1.8 mission runtime", () => {
       { id: "e1", skillId: "quality", source: "lesson", sourceId: "lesson-1", completedAt: "now" },
       { id: "e2", skillId: "quality", source: "exercise", sourceId: "exercise-1", completedAt: "now" },
     ])).toBe("practised");
+  });
+
+  it("requires independent high-confidence evaluation evidence for mastery", () => {
+    const evaluation = (id: string, runId: string, evaluatorId: string, outcome: "practice" | "demonstrated", confidence: "low" | "high"): SkillEvidence => ({
+      id,
+      skillId: "qa",
+      source: "evaluation",
+      sourceId: runId,
+      completedAt: "2026-07-30T12:00:00.000Z",
+      outcome,
+      evaluatorId,
+      confidence,
+      evidenceIds: outcome === "demonstrated" ? [`proof-${id}`] : [],
+    });
+    expect(deriveSkillLevel([evaluation("e1", "run-1", "reality-checker", "practice", "low")])).toBe("practised");
+    expect(deriveSkillLevel([evaluation("e2", "run-1", "reality-checker", "demonstrated", "high")])).toBe("demonstrated");
+    expect(deriveSkillLevel([
+      evaluation("e3", "run-1", "reality-checker", "demonstrated", "high"),
+      evaluation("e4", "run-2", "security-evaluator", "demonstrated", "high"),
+      evaluation("e5", "run-3", "reality-checker", "demonstrated", "high"),
+    ])).toBe("mastered");
   });
 });
 

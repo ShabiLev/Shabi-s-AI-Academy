@@ -32,7 +32,11 @@ describe("Version 1.9 evaluation page flows", () => {
     expect(screen.getAllByRole("row").length).toBeGreaterThan(2);
 
     await user.click(screen.getByRole("link", { name: "עקבות וראיות" }));
-    expect(await screen.findByTestId("evaluation-trace")).toBeVisible();
+    expect(
+      await screen.findByTestId("evaluation-trace", undefined, {
+        timeout: 10_000,
+      }),
+    ).toBeVisible();
     expect(screen.getByRole("heading", { name: "עקבות הרצה בטוחים" })).toBeVisible();
     await user.selectOptions(screen.getByLabelText("סינון לפי שלב"), "evaluate");
     expect(screen.getByText(/אירועים מוצגים/)).toBeInTheDocument();

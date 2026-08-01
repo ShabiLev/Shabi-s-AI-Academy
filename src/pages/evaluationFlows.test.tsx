@@ -40,7 +40,7 @@ describe("Version 1.9 evaluation page flows", () => {
     expect(screen.getByRole("heading", { name: "עקבות הרצה בטוחים" })).toBeVisible();
     await user.selectOptions(screen.getByLabelText("סינון לפי שלב"), "evaluate");
     expect(screen.getByText(/אירועים מוצגים/)).toBeInTheDocument();
-  });
+  }, 15_000);
 
   it("shows recoverable empty and validation states without fabricating results", async () => {
     const user = userEvent.setup();

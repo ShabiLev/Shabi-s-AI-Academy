@@ -1,5 +1,5 @@
 import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, type ReactNode } from "react";
 import { AuthProvider } from "./auth/AuthContext";
 import { AppLayout } from "./components/layout/AppLayout";
 import { AgentsPage } from "./pages/AgentsPage";
@@ -45,7 +45,7 @@ import { NotFoundPage } from "./pages/NotFoundPage";
 import { AosCoreProvider } from "./aos-core";
 import { RadarDataProvider } from "./radar";
 import { GuestProfileProvider } from "./guest-profile";
-import { MissionProvider } from "./missions";
+import { MissionProvider, useMissions } from "./missions";
 import { EvaluationProvider } from "./evaluations";
 
 const RunHistoryPage = lazy(() => import("./pages/RunHistoryPage").then((module) => ({ default: module.RunHistoryPage })));
@@ -68,6 +68,11 @@ const ChangelogPage = lazy(() => import("./pages/ChangelogPage").then((module) =
 const DocumentationPage = lazy(() => import("./pages/DocumentationPage").then((module) => ({ default: module.DocumentationPage })));
 const ReleaseCenterPage = lazy(() => import("./pages/ReleaseCenterPage").then((module) => ({ default: module.ReleaseCenterPage })));
 const DeveloperModePage = lazy(() => import("./pages/DeveloperModePage").then((module) => ({ default: module.DeveloperModePage })));
+
+function ActorScopedEvaluationProvider({ children }: { children: ReactNode }) {
+  const { actorId } = useMissions();
+  return <EvaluationProvider actorId={actorId}>{children}</EvaluationProvider>;
+}
 const SearchPage = lazy(() => import("./pages/SearchPage").then((module) => ({ default: module.SearchPage })));
 const AssistantPage = lazy(() => import("./pages/AssistantPage").then((module) => ({ default: module.AssistantPage })));
 const WorkflowsPage = lazy(() => import("./pages/WorkflowsPage").then((module) => ({ default: module.WorkflowsPage })));
@@ -129,7 +134,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                   <RuntimeProvider>
                   <WorkspaceProvider>
                   <MissionProvider>
-                  <EvaluationProvider>
+                  <ActorScopedEvaluationProvider>
                   <CommandPaletteProvider>
                   <WorkflowProvider>
                   <AssistantProvider>
@@ -256,7 +261,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                   </AssistantProvider>
                   </WorkflowProvider>
                   </CommandPaletteProvider>
-                  </EvaluationProvider>
+                  </ActorScopedEvaluationProvider>
                   </MissionProvider>
                   </WorkspaceProvider>
                   </RuntimeProvider>

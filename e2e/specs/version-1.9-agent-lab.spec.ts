@@ -59,6 +59,7 @@ test("@v1.9 cross-browser Hebrew Agent comparison freezes two exact competitors"
   await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
   await expect(page.getByText(/Academy deterministic evaluation|הערכת Academy דטרמיניסטית/)).toBeVisible();
   const stored = await readEvaluationDomain(page, "evaluation-experiments");
+  expect(stored?.actorId).toBe("playwright-default");
   expect(stored?.items).toEqual(expect.arrayContaining([
     expect.objectContaining({
       id: evaluationId,

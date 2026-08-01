@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, type PropsWithChildren, useCallback, useContext, useMemo, useState } from "react";
+import { createContext, type PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { deterministicHash } from "./hash";
 import { createFailureCase as validateAndCreateFailureCase } from "./learning";
 import { createConnectedPreview as validateAndCreatePreview } from "./connectedPreview";
@@ -68,18 +68,35 @@ export function EvaluationProvider({
   children,
 }: PropsWithChildren<{ actorId?: string; storage?: Storage }>) {
   const normalizedActorId = normalizeEvaluationActorId(actorId);
-  const [snapshot, setSnapshot] = useState<EvaluationRepositorySnapshot>(() =>
-    withBuiltInRubrics(applyEvaluationRetention(loadEvaluationRepository(normalizedActorId, storage))));
+  const loadSnapshot = useCallback(() =>
+    withBuiltInRubrics(applyEvaluationRetention(loadEvaluationRepository(normalizedActorId, storage))),
+  [normalizedActorId, storage]);
+  const [repository, setRepository] = useState<{ actorId: string; snapshot: EvaluationRepositorySnapshot }>(() => ({
+    actorId: normalizedActorId,
+    snapshot: loadSnapshot(),
+  }));
+  const activeRepository = repository.actorId === normalizedActorId
+    ? repository
+    : { actorId: normalizedActorId, snapshot: loadSnapshot() };
+  const snapshot = activeRepository.snapshot;
+
+  useEffect(() => {
+    if (repository.actorId === normalizedActorId) return;
+    // Actor changes are an isolation boundary, not a repository merge.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setRepository({ actorId: normalizedActorId, snapshot: loadSnapshot() });
+  }, [loadSnapshot, normalizedActorId, repository.actorId]);
 
   const commit = useCallback((producer: (current: EvaluationRepositorySnapshot) => EvaluationRepositorySnapshot) => {
-    let result = snapshot;
-    setSnapshot((current) => {
-      result = producer(current);
+    let result = activeRepository.snapshot;
+    setRepository((current) => {
+      const currentSnapshot = current.actorId === normalizedActorId ? current.snapshot : loadSnapshot();
+      result = producer(currentSnapshot);
       if (!saveEvaluationRepository(normalizedActorId, result, storage)) throw new Error("Evaluation repository write failed.");
-      return result;
+      return { actorId: normalizedActorId, snapshot: result };
     });
     return result;
-  }, [normalizedActorId, snapshot, storage]);
+  }, [activeRepository.snapshot, loadSnapshot, normalizedActorId, storage]);
 
   const value = useMemo<EvaluationContextValue>(() => ({
     actorId: normalizedActorId,

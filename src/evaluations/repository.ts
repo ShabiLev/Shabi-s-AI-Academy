@@ -1,5 +1,6 @@
 import { builtInRubrics } from "./catalog";
 import { deterministicHash } from "./hash";
+import { calculateEvaluationResultChecksum } from "./runtime";
 import type {
   EntityVersion,
   EvaluationEvidence,
@@ -89,14 +90,21 @@ function validateRun(value: unknown, actorId: string): value is EvaluationRun {
   return run.schemaVersion === 1 && SAFE_ID.test(run.id) && run.actorId === actorId
     && SAFE_ID.test(run.experimentId) && ["running", "paused", "needs-evidence", "completed", "cancelled", "blocked"].includes(run.status)
     && /^fnv1a32-[a-f0-9]{8}$/.test(run.inputHash) && Array.isArray(run.frozenRefs)
-    && Array.isArray(run.resultIds) && run.resultIds.length <= 100 && Array.isArray(run.evidenceIds)
+    && Array.isArray(run.resultIds) && run.resultIds.length <= 100 && run.resultIds.every((id) => SAFE_ID.test(id))
+    && Array.isArray(run.evidenceIds) && run.evidenceIds.length <= 1_000 && run.evidenceIds.every((id) => SAFE_ID.test(id))
     && Array.isArray(run.results) && run.results.length <= 100
     && run.results.every((result) => result.schemaVersion === 1 && SAFE_ID.test(result.id)
       && result.runId === run.id && SAFE_ID.test(result.competitorId) && Number.isInteger(result.repetition)
       && result.repetition >= 0 && /^fnv1a32-[a-f0-9]{8}$/.test(result.resultChecksum)
       && Array.isArray(result.findings) && Array.isArray(result.evidence)
       && result.evidence.every((item) => validateEvidence(item, actorId))
+      && result.findings.every((finding) => Array.isArray(finding.evidenceIds)
+        && finding.evidenceIds.every((id) => result.evidence.some((item) => item.id === id)))
+      && calculateEvaluationResultChecksum(run.inputHash, result) === result.resultChecksum
       && isIsoDate(result.completedAt))
+    && run.resultIds.length === run.results.length
+    && run.resultIds.every((resultId, index) => run.results[index]?.id === resultId)
+    && run.evidenceIds.every((evidenceId) => run.results.some((result) => result.evidence.some((item) => item.id === evidenceId)))
     && isIsoDate(run.startedAt) && isIsoDate(run.updatedAt);
 }
 
@@ -224,12 +232,22 @@ export function applyEvaluationRetention(snapshot: EvaluationRepositorySnapshot,
   const cutoff = now - RETENTION_DAYS * 86_400_000;
   const recent = (date: string) => Date.parse(date) >= cutoff;
   const activeRunIds = new Set(snapshot.runs.filter((run) => !["completed", "cancelled"].includes(run.status)).map((run) => run.id));
+  const certifiedRuns = snapshot.runs.filter((run) =>
+    run.status === "completed" && run.results.some((result) => result.certification.status === "certified"));
+  const certifiedRunIds = new Set(certifiedRuns.map((run) => run.id));
+  const certifiedEvidenceIds = new Set(certifiedRuns.flatMap((run) =>
+    run.results
+      .filter((result) => result.certification.status === "certified")
+      .flatMap((result) => [
+        ...result.evidence.map((item) => item.id),
+        ...result.findings.flatMap((finding) => finding.evidenceIds),
+      ])));
   return {
     ...snapshot,
-    runs: snapshot.runs.filter((run) => activeRunIds.has(run.id) || recent(run.updatedAt)),
-    traces: snapshot.traces.filter((event) => activeRunIds.has(event.runId) || recent(event.timestamp)),
+    runs: snapshot.runs.filter((run) => activeRunIds.has(run.id) || certifiedRunIds.has(run.id) || recent(run.updatedAt)),
+    traces: snapshot.traces.filter((event) => activeRunIds.has(event.runId) || certifiedRunIds.has(event.runId) || recent(event.timestamp)),
     previews: snapshot.previews.filter((preview) => Date.parse(preview.expiresAt) > now),
-    evidence: snapshot.evidence.filter((item) => recent(item.createdAt)),
+    evidence: snapshot.evidence.filter((item) => certifiedEvidenceIds.has(item.id) || recent(item.createdAt)),
   };
 }
 

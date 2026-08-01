@@ -2,6 +2,7 @@ import { deterministicHash, deterministicSeed, immutableCopy } from "./hash";
 import { certifyFindings } from "./scoring";
 import { createTraceEvent } from "./trace";
 import type {
+  CertificationResult,
   DeterministicEvaluationOutput,
   EvaluationCompetitorResult,
   EvaluationEvidence,
@@ -14,6 +15,62 @@ import type {
 } from "./types";
 import { validateExperiment } from "./validation";
 import { hasVersionDrift } from "./versioning";
+
+interface EvaluationResultChecksumInput {
+  competitorRef: VersionedEntityRef;
+  repetition: number;
+  seed: string;
+  evaluatorIds: string[];
+  findings: EvaluationFinding[];
+  evidence: EvaluationEvidence[];
+  certification: CertificationResult;
+}
+
+export function calculateEvaluationResultChecksum(
+  inputHash: string,
+  result: EvaluationResultChecksumInput,
+): string {
+  const normalizeFinding = (finding: EvaluationFinding) => ({
+    criterionId: finding.criterionId,
+    evaluatorId: finding.evaluatorId,
+    implementationOwnerId: finding.implementationOwnerId ?? null,
+    status: finding.status,
+    score: finding.score ?? null,
+    confidence: finding.confidence,
+    summary: finding.summary,
+    evidenceHashes: finding.evidenceIds.map((id) =>
+      result.evidence.find((item) => item.id === id)?.contentHash ?? null),
+    missingEvidence: finding.missingEvidence,
+    remediation: finding.remediation,
+  });
+  return deterministicHash({
+    inputHash,
+    competitorRef: result.competitorRef,
+    repetition: result.repetition,
+    seed: result.seed,
+    evaluatorIds: result.evaluatorIds,
+    findings: result.findings.map(normalizeFinding),
+    evidence: result.evidence.map((item) => ({
+      type: item.type,
+      summary: item.summary,
+      contentHash: item.contentHash,
+      sourceActorId: item.sourceActorId,
+    })),
+    certification: {
+      status: result.certification.status,
+      score: result.certification.score ?? null,
+      passingScore: result.certification.passingScore,
+      criteria: result.certification.criteria.map((criterion) => ({
+        criterionId: criterion.criterionId,
+        status: criterion.status,
+        normalizedScore: criterion.normalizedScore ?? null,
+        weightedScore: criterion.weightedScore ?? null,
+        findings: criterion.findings.map(normalizeFinding),
+      })),
+      reasons: result.certification.reasons,
+    },
+  });
+}
 
 export function createExperiment(input: Omit<EvaluationExperiment, "schemaVersion" | "status" | "resultIds">): EvaluationExperiment {
   const experiment: EvaluationExperiment = { ...input, schemaVersion: 1, status: "draft", resultIds: [] };
@@ -217,23 +274,7 @@ export function executeDeterministicEvaluation(
         evidence.push(...generated.evidence);
       });
       const certification = certifyFindings(rubric, findings, evidence);
-      const checksumPayload = {
-        inputHash: run.inputHash,
-        competitorRef,
-        repetition,
-        seed: experiment.seed,
-        evaluatorIds: experiment.evaluatorIds,
-        findings: findings.map((finding) => ({
-          criterionId: finding.criterionId,
-          evaluatorId: finding.evaluatorId,
-          status: finding.status,
-          score: finding.score,
-          confidence: finding.confidence,
-          evidenceHashes: finding.evidenceIds.map((id) => evidence.find((item) => item.id === id)?.contentHash),
-        })),
-        certification: { status: certification.status, score: certification.score },
-      };
-      const result: EvaluationCompetitorResult = immutableCopy({
+      const resultWithoutChecksum = {
         schemaVersion: 1,
         id: `${run.id}-c${competitorIndex}-r${repetition}`,
         runId: run.id,
@@ -245,8 +286,11 @@ export function executeDeterministicEvaluation(
         findings,
         evidence,
         certification,
-        resultChecksum: deterministicHash(checksumPayload),
         completedAt: now,
+      } satisfies Omit<EvaluationCompetitorResult, "resultChecksum">;
+      const result: EvaluationCompetitorResult = immutableCopy({
+        ...resultWithoutChecksum,
+        resultChecksum: calculateEvaluationResultChecksum(run.inputHash, resultWithoutChecksum),
       });
       results.push(result);
       allEvidence.push(...evidence);

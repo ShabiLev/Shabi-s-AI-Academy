@@ -518,6 +518,33 @@ describe("bounded actor-scoped repository", () => {
     expect([...storage.values.keys()].some((item) => item.startsWith(`${key}:quarantine:`))).toBe(true);
   });
 
+  it("rejects a forged result even when the attacker recomputes the domain envelope checksum", () => {
+    const storage = new MemoryStorage();
+    const evaluation = experiment({ rubricId: "general-mission-quality" });
+    const evaluationRefs = refs.map((ref) => ref.entityId === "rubric" ? { ...ref, entityId: "general-mission-quality" } : ref);
+    const started = startExperiment(evaluation, evaluationRefs, "run-forgery", now).run;
+    const completed = executeDeterministicEvaluation(evaluation, started, builtInRubrics[0], later);
+    const snapshot = emptySnapshot();
+    snapshot.runs = [completed.run];
+    snapshot.evidence = completed.evidence;
+    snapshot.traces = completed.traces;
+    saveEvaluationRepository("actor-a", snapshot, storage, now);
+
+    const key = [...storage.values.keys()].find((item) => item.includes("evaluation-runs"))!;
+    const parsed = JSON.parse(storage.getItem(key)!);
+    parsed.items[0].results[0].certification.status = "blocked";
+    const base = {
+      schemaVersion: parsed.schemaVersion,
+      actorId: parsed.actorId,
+      items: parsed.items,
+      savedAt: parsed.savedAt,
+    };
+    parsed.checksum = deterministicHash(base);
+    storage.setItem(key, JSON.stringify(parsed));
+
+    expect(loadEvaluationRepository("actor-a", storage).runs).toEqual([]);
+  });
+
   it("rolls back a multi-domain write on quota failure", () => {
     const storage = new MemoryStorage();
     const before = emptySnapshot();
@@ -554,5 +581,35 @@ describe("bounded actor-scoped repository", () => {
     saveEvaluationRepository("actor-a", snapshot, storage, now);
     resetEvaluationDomain("actor-a", "experiments", storage);
     expect(loadEvaluationRepository("actor-a", storage).experiments).toEqual([]);
+  });
+
+  it("retains old certified runs, traces and evidence referenced by certified results", () => {
+    const evaluation = experiment({ rubricId: "general-mission-quality" });
+    const evaluationRefs = refs.map((ref) => ref.entityId === "rubric" ? { ...ref, entityId: "general-mission-quality" } : ref);
+    const started = startExperiment(evaluation, evaluationRefs, "run-certified-retention", now).run;
+    const completed = executeDeterministicEvaluation(evaluation, started, builtInRubrics[0], later);
+    const certifiedResult = {
+      ...completed.run.results[0],
+      certification: { ...completed.run.results[0].certification, status: "certified" as const },
+    };
+    const certifiedRun = {
+      ...completed.run,
+      results: [certifiedResult],
+      resultIds: [certifiedResult.id],
+      evidenceIds: certifiedResult.evidence.map((item) => item.id),
+      updatedAt: "2025-01-01T00:00:00.000Z",
+      completedAt: "2025-01-01T00:00:00.000Z",
+    };
+    const oldEvidence = certifiedResult.evidence.map((item) => ({ ...item, createdAt: "2025-01-01T00:00:00.000Z" }));
+    const oldTrace = { ...completed.traces[0], runId: certifiedRun.id, timestamp: "2025-01-01T00:00:00.000Z" };
+    const snapshot = emptySnapshot();
+    snapshot.runs = [certifiedRun];
+    snapshot.evidence = oldEvidence;
+    snapshot.traces = [oldTrace];
+
+    const retained = applyEvaluationRetention(snapshot, Date.parse("2026-07-30T10:00:00.000Z"));
+    expect(retained.runs).toHaveLength(1);
+    expect(retained.evidence).toHaveLength(oldEvidence.length);
+    expect(retained.traces).toHaveLength(1);
   });
 });

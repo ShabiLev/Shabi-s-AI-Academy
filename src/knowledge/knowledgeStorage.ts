@@ -1,8 +1,26 @@
-import type { KnowledgeDocument, KnowledgeInput, KnowledgeState } from "./types";
+import type { KnowledgeContextLink, KnowledgeDocument, KnowledgeInput, KnowledgeState } from "./types";
 export const KNOWLEDGE_STORAGE_KEY = "shabis-ai-academy.knowledge.v1"; export const MAX_KNOWLEDGE_BYTES = 1_000_000;
-export const emptyKnowledgeState = (): KnowledgeState => ({ schemaVersion: 1, documents: [] });
-const valid = (value: unknown): value is KnowledgeDocument => Boolean(value && typeof value === "object" && typeof (value as KnowledgeDocument).id === "string" && typeof (value as KnowledgeDocument).content === "string" && (value as KnowledgeDocument).size <= MAX_KNOWLEDGE_BYTES);
-export function loadKnowledgeState(): KnowledgeState { try { const parsed = JSON.parse(localStorage.getItem(KNOWLEDGE_STORAGE_KEY) ?? "null") as KnowledgeState | null; return parsed?.schemaVersion === 1 && Array.isArray(parsed.documents) ? { schemaVersion: 1, documents: parsed.documents.filter(valid) } : emptyKnowledgeState(); } catch { return emptyKnowledgeState(); } }
+export const emptyKnowledgeState = (): KnowledgeState => ({ schemaVersion: 2, documents: [], contextLinks: [] });
+const valid = (value: unknown): value is KnowledgeDocument => Boolean(value && typeof value === "object" && typeof (value as KnowledgeDocument).id === "string" && typeof (value as KnowledgeDocument).content === "string" && (value as KnowledgeDocument).size <= MAX_KNOWLEDGE_BYTES && Array.isArray((value as KnowledgeDocument).projectIds) && (value as KnowledgeDocument).projectIds.every((projectId) => typeof projectId === "string"));
+export function deriveContextLinks(documents: KnowledgeDocument[]): KnowledgeContextLink[] {
+  const seen = new Set<string>();
+  return documents.flatMap((document) => (Array.isArray(document.projectIds) ? document.projectIds : []).flatMap((projectId) => {
+    const id = `context-${document.id}-${projectId}`;
+    if (seen.has(id)) return [];
+    seen.add(id);
+    return [{ id, documentId: document.id, targetModule: "project" as const, targetId: projectId, createdAt: document.createdAt }];
+  }));
+}
+export function loadKnowledgeState(): KnowledgeState {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(KNOWLEDGE_STORAGE_KEY) ?? "null") as { schemaVersion?: number; documents?: unknown[] } | null;
+    if (!parsed || (parsed.schemaVersion !== 1 && parsed.schemaVersion !== 2) || !Array.isArray(parsed.documents)) return emptyKnowledgeState();
+    // contextLinks is always derived from documents' own projectIds, never trusted from storage —
+    // it is a computed projection, not independently-mutated state, so it can never drift out of sync.
+    const documents = parsed.documents.filter(valid);
+    return { schemaVersion: 2, documents, contextLinks: deriveContextLinks(documents) };
+  } catch { return emptyKnowledgeState(); }
+}
 export function saveKnowledgeState(state: KnowledgeState) { try { localStorage.setItem(KNOWLEDGE_STORAGE_KEY, JSON.stringify(state)); return true; } catch { return false; } }
 const hash = (value: string) => { let result = 2166136261; for (const char of value) result = Math.imul(result ^ char.charCodeAt(0), 16777619); return (result >>> 0).toString(16); };
 export function sanitizeFilename(name: string) { return name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 120); }

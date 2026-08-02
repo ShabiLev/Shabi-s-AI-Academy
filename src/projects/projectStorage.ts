@@ -1,3 +1,4 @@
+import type { Outcome } from "../outcomes/types";
 import type { Project, ProjectInput, ProjectLinkField, ProjectState } from "./types";
 export const PROJECT_STORAGE_KEY = "shabis-ai-academy.projects.v1";
 export const emptyProjectState = (): ProjectState => ({ schemaVersion: 2, projects: [] });
@@ -12,10 +13,10 @@ export function createProject(input: ProjectInput): Project { const now = new Da
 export function updateProject(project: Project, patch: Partial<Project>): Project { return { ...project, ...patch, id: project.id, version: project.version + 1, updatedAt: new Date().toISOString() }; }
 export function linkProjectItem(project: Project, field: ProjectLinkField, id: string): Project { if (project[field].includes(id)) return project; return updateProject(project, { [field]: [...project[field], id], activity: [{ id: crypto.randomUUID(), timestamp: new Date().toISOString(), summary: `Linked ${field.slice(0, -3)}` }, ...project.activity].slice(0, 50) }); }
 export function unlinkProjectItem(project: Project, field: ProjectLinkField, id: string): Project { return updateProject(project, { [field]: project[field].filter((value) => value !== id), activity: [{ id: crypto.randomUUID(), timestamp: new Date().toISOString(), summary: `Unlinked ${field.slice(0, -3)}` }, ...project.activity].slice(0, 50) }); }
-export function calculateProjectProgress(project: Project, outcomes: Array<{ id: string; status: string; verificationState: string; realityMode: string }>): number {
-  const linked = outcomes.filter((outcome) => project.outcomeIds.includes(outcome.id) && outcome.status !== "Archived");
+export function calculateProjectProgress(project: Project, outcomes: Array<Pick<Outcome, "id" | "status" | "verificationState" | "realityMode">>): number {
+  const linked = outcomes.filter((outcome) => project.outcomeIds.includes(outcome.id) && outcome.status !== "archived");
   if (!linked.length) return 0;
-  const score = linked.reduce((total, outcome) => total + (outcome.verificationState === "Verified" ? 1 : outcome.status === "Blocked" ? 0 : outcome.status === "Completed" ? (outcome.realityMode === "Simulated" ? 0.4 : 0.7) : outcome.status === "Needs evidence" ? 0.25 : 0.1), 0);
+  const score = linked.reduce((total, outcome) => total + (outcome.verificationState === "verified" ? 1 : outcome.status === "blocked" ? 0 : outcome.status === "completed" ? (outcome.realityMode === "simulated" ? 0.4 : 0.7) : outcome.status === "needs-evidence" ? 0.25 : 0.1), 0);
   const blockerPenalty = Math.min(0.5, project.blockers.length * 0.1);
   return Math.max(0, Math.min(100, Math.round((score / linked.length - blockerPenalty) * 100)));
 }

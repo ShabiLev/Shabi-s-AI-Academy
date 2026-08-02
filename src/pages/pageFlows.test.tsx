@@ -39,12 +39,25 @@ describe('Lesson quiz and completion', () => {
     expect(screen.getByRole('button', { name: 'בדיקת תשובות' })).toBeInTheDocument()
   })
 
-  it('marks a lesson complete', async () => {
+  it('rejects marking a lesson complete before the quiz is submitted', async () => {
     const user = userEvent.setup()
     renderApp('/lessons/ai-llm-agent')
     await demoLogin(user)
     await user.click(screen.getByRole('button', { name: 'סימון השיעור כהושלם' }))
-    expect(screen.getByRole('status')).toHaveTextContent('השיעור הושלם')
+    expect(screen.getByRole('alert')).toHaveTextContent('יש להשלים את השאלון שלמעלה לפני סימון השיעור כהושלם.')
+    expect(screen.queryByText('השיעור הושלם')).not.toBeInTheDocument()
+  })
+
+  it('marks a lesson complete once the quiz has been submitted as evidence', async () => {
+    const user = userEvent.setup()
+    renderApp('/lessons/ai-llm-agent')
+    await demoLogin(user)
+    await user.click(screen.getByRole('radio', { name: 'הקשר' }))
+    await user.click(screen.getByRole('radio', { name: 'נכון' }))
+    await user.click(screen.getByRole('radio', { name: 'אימות אנושי ותוצר שניתן לסקור' }))
+    await user.click(screen.getByRole('button', { name: 'בדיקת תשובות' }))
+    await user.click(screen.getByRole('button', { name: 'סימון השיעור כהושלם' }))
+    expect(screen.getByText('השיעור הושלם')).toBeInTheDocument()
   })
 
   it('saves a lesson draft locally and opens the Workshop with a prefilled sample', async () => {

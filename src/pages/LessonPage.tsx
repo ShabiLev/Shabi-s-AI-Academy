@@ -1,8 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { courseLessons, getLessonBySlug } from "../course/courseData";
 import { useCourseProgress } from "../course/CourseProgressContext";
+import { deterministicHash } from "../evaluations/hash";
 import { useLanguage } from "../i18n/LanguageContext";
+import { useOutcomes } from "../outcomes";
 import { ProgressBar } from "../components/common/ProgressBar";
 import { Quiz } from "../components/course/Quiz";
 import { promptUi } from "../prompts/uiText";
@@ -10,7 +12,10 @@ export function LessonPage() {
   const { lessonSlug = "" } = useParams(),
     lesson = getLessonBySlug(lessonSlug),
     { language, t } = useLanguage(),
-    { progress, startLesson, completeLesson, saveDraft } = useCourseProgress();
+    { progress, startLesson, completeLesson, saveDraft } = useCourseProgress(),
+    outcomesState = useOutcomes(),
+    [completionMessage, setCompletionMessage] = useState(""),
+    lessonOutcomeCreated = useRef(new Set<string>());
   useEffect(() => {
     if (
       lesson?.available &&
@@ -25,6 +30,40 @@ export function LessonPage() {
     progress.lessons,
     startLesson,
   ]);
+  const lessonRecord = lesson ? progress.lessons[lesson.id] : undefined;
+  // Derives at most one linked "Learning Result" Outcome once a Lesson is genuinely completed with
+  // real evidence (never from a bare "mark complete" click) — mirrors the Mission completion pattern.
+  useEffect(() => {
+    if (!lesson?.available || !lessonRecord?.completed || !lessonRecord.verified) return;
+    if (lessonOutcomeCreated.current.has(lesson.id)) return;
+    lessonOutcomeCreated.current.add(lesson.id);
+    if (outcomesState.outcomes.some((outcome) => outcome.sourceModule === "lesson" && outcome.sourceEntityId === lesson.id)) return;
+    const he = language === "he";
+    const created = outcomesState.create({
+      title: lesson.title[language], summary: lesson.summary[language], intent: lesson.title[language],
+      status: "ready", realityMode: "local", sourceModule: "lesson", sourceEntityId: lesson.id, resultType: "learning-result",
+      resultLocation: `/lessons/${lesson.slug}`,
+      usageInstructions: he ? "סקירת סיכום הלמידה ותרגול נוסף במידת הצורך." : "Review the learning summary and practice further if needed.",
+      nextActions: [{ id: "review", label: he ? "סקירת השיעור" : "Review the lesson", route: `/lessons/${lesson.slug}` }],
+      limitations: [he ? "מקומי בלבד; אינו מהווה תעודה רשמית." : "Local only; not a formal credential."],
+      deliverableIds: [], evidenceIds: [], verificationState: "unverified",
+    });
+    if (!created) return;
+    const now = new Date().toISOString();
+    const quizScore = lessonRecord.quizScore ?? 0;
+    outcomesState.addEvidence({
+      schemaVersion: 2, id: `evidence-${created.id}`, actorId: created.actorId, outcomeId: created.id,
+      evidenceType: "quiz-result",
+      summary: he ? `ציון שאלון: ${quizScore}/${lesson.quiz.length}` : `Quiz score: ${quizScore}/${lesson.quiz.length}`,
+      sourceEntityId: lesson.id, sourceEntityVersion: lesson.version,
+      contentHash: deterministicHash({ lessonId: lesson.id, quizScore }), verificationState: "verified",
+      createdAt: now, createdBy: created.actorId, verifiedAt: now,
+    });
+    outcomesState.update(created.id, { status: "completed" });
+  // Runs once per lesson reaching a genuinely verified completion; re-reading outcomesState here
+  // would refire the effect on every persisted mutation it makes — the ref latch guards duplication.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lesson?.id, lessonRecord?.completed, lessonRecord?.verified]);
   if (!lesson?.available)
     return (
       <div className="page lesson-not-found">
@@ -37,7 +76,7 @@ export function LessonPage() {
     );
   const available = courseLessons.filter((l) => l.available),
     index = available.findIndex((l) => l.id === lesson.id),
-    record = progress.lessons[lesson.id];
+    record = lessonRecord;
   return (
     <article className="page lesson-page">
       <nav className="breadcrumb" aria-label={t("lesson.breadcrumb")}>
@@ -179,9 +218,18 @@ export function LessonPage() {
         {record?.completed ? (
           <strong role="status">{t("lesson.completed")}</strong>
         ) : (
-          <button type="button" onClick={() => completeLesson(lesson.id)}>
-            {t("lesson.markComplete")}
-          </button>
+          <>
+            <button
+              type="button"
+              onClick={() => {
+                const ok = completeLesson(lesson.id, record?.quizScore !== undefined);
+                setCompletionMessage(ok ? "" : (language === "he" ? "יש להשלים את השאלון שלמעלה לפני סימון השיעור כהושלם." : "Complete the quiz above before marking this lesson complete."));
+              }}
+            >
+              {t("lesson.markComplete")}
+            </button>
+            {completionMessage && <p role="alert">{completionMessage}</p>}
+          </>
         )}
       </div>
       <nav className="lesson-pager" aria-label={t("lesson.breadcrumb")}>

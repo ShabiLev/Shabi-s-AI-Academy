@@ -16,7 +16,7 @@ interface Value {
   percent: number;
   getStatus: (id: string, a: boolean) => LessonStatus;
   startLesson: (id: string) => void;
-  completeLesson: (id: string) => void;
+  completeLesson: (id: string, hasEvidence: boolean) => boolean;
   saveQuizScore: (id: string, n: number) => void;
   saveDraft: (id: string, s: string) => void;
   resetProgress: () => void;
@@ -30,8 +30,8 @@ export function CourseProgressProvider({ children }: { children: ReactNode }) {
   ) =>
     setProgress((current) => {
       const now = new Date().toISOString();
-      const existing = current.lessons[id] ?? { started: true, completed: false, lastUpdated: now };
-      const next = {
+      const existing: CourseProgress["lessons"][string] = current.lessons[id] ?? { started: true, completed: false, lastUpdated: now };
+      const next: CourseProgress = {
         ...current,
         lastOpenedLessonId: id,
         lastUpdated: now,
@@ -67,7 +67,13 @@ export function CourseProgressProvider({ children }: { children: ReactNode }) {
               ? "in-progress"
               : "not-started",
       startLesson: (id) => change(id, {}),
-      completeLesson: (id) => change(id, { completed: true }),
+      // A Lesson can never be marked completed by an unsubstantiated click: the caller must supply
+      // real evidence (a submitted quiz, per LessonPage), and only then is it recorded as verified.
+      completeLesson: (id, hasEvidence) => {
+        if (!hasEvidence) return false;
+        change(id, { completed: true, verified: true });
+        return true;
+      },
       saveQuizScore: (id, quizScore) => change(id, { quizScore }),
       saveDraft: (id, draft) => change(id, { draft }),
       resetProgress: () => {

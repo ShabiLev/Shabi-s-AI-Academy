@@ -10,10 +10,13 @@ import {
   useMissions,
 } from "../missions";
 import { useLanguage } from "../i18n/LanguageContext";
+import { deterministicHash } from "../evaluations/hash";
+import { useOutcomes } from "../outcomes";
 
 export function TeamPage() {
   const { language } = useLanguage();
   const missions = useMissions();
+  const outcomesState = useOutcomes();
   const { missionId } = useParams();
   const scopedMission = missions.missions.find(
     (mission) => mission.id === missionId,
@@ -69,7 +72,59 @@ export function TeamPage() {
               </ul>
               <button
                 type="button"
-                onClick={() => missions.copyPreset(team.id)}
+                onClick={() => {
+                  const copy = missions.copyPreset(team.id);
+                  if (!copy) return;
+                  const teamTitle = copy.name[language];
+                  const usageInstructions = he
+                    ? "זוהי תכנית צוות מקומית; אין הרצה אוטומטית של סוכנים."
+                    : "This is a local team specification; no agent executes automatically.";
+                  const created = outcomesState.create({
+                    title: teamTitle,
+                    summary: copy.description[language] || teamTitle,
+                    intent: teamTitle,
+                    status: "ready",
+                    realityMode: "blueprint-only",
+                    sourceModule: "team",
+                    sourceEntityId: copy.id,
+                    resultType: "team-specification",
+                    resultLocation: "/team",
+                    usageInstructions,
+                    nextActions: [
+                      {
+                        id: "review",
+                        label: he ? "סקירת הצוותים שלי" : "Review My Teams",
+                        route: "/team",
+                      },
+                    ],
+                    limitations: [
+                      he
+                        ? "תכנית בלבד; ללא ביצוע מחובר."
+                        : "Blueprint only; no connected execution.",
+                    ],
+                    deliverableIds: [],
+                    evidenceIds: [],
+                    verificationState: "unverified",
+                  });
+                  if (!created) return;
+                  const now = new Date().toISOString();
+                  outcomesState.addDeliverable({
+                    schemaVersion: 2,
+                    id: `deliverable-${created.id}`,
+                    actorId: created.actorId,
+                    outcomeId: created.id,
+                    title: he ? "מפרט צוות" : "Team specification",
+                    resultType: "team-deliverable",
+                    location: "/team",
+                    usageInstructions,
+                    sourceEntityId: copy.id,
+                    contentHash: deterministicHash(copy),
+                    createdAt: now,
+                    updatedAt: now,
+                    version: 1,
+                  });
+                  outcomesState.update(created.id, { status: "completed" });
+                }}
               >
                 {he ? "העתקה לצוותים שלי" : "Copy to My Teams"}
               </button>

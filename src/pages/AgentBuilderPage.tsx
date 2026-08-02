@@ -3,16 +3,20 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useLanguage } from "../i18n/LanguageContext";
 import { useAgentLibrary } from "../agents/AgentLibraryContext";
 import { agentTemplates } from "../agents/agentTemplates";
+import { buildAgentBlueprint } from "../agents/agentBlueprint";
 import { agentUi, stepKeys, toolNames } from "../agents/agentUi";
 import { emptyAgent, toolCatalog, type AgentInput } from "../agents/types";
 import { evaluateAgent } from "../agents/agentQuality";
 import { validateAdvancedAgent } from "../builders";
+import { deterministicHash } from "../evaluations/hash";
+import { useOutcomes } from "../outcomes";
 export function AgentBuilderPage() {
   const { agentId } = useParams(),
     { language } = useLanguage(),
     ui = language === "he" ? "he" : "en",
     s = agentUi[ui],
     { state, get, create, update, saveDraft } = useAgentLibrary(),
+    outcomesLib = useOutcomes(),
     navigate = useNavigate(),
     source = new URLSearchParams(useLocation().search).get("source"),
     existing = agentId ? get(agentId) : undefined,
@@ -71,9 +75,51 @@ export function AgentBuilderPage() {
     missing.push(...validateAdvancedAgent(value).map((issue) => issueLabels[issue.code]?.[ui] ?? issue.code));
     setErrors(missing);
     if (missing.length) return;
-    const a = existing ? update(existing.id, value) : create(value);
-    if (a) navigate(`/agents/${a.id}`);
-  }, [create, existing, navigate, s.completion, s.goal, s.instructions, s.name, s.output, ui, update, value]);
+    if (existing) {
+      const a = update(existing.id, value);
+      if (a) navigate(`/agents/${a.id}`);
+      return;
+    }
+    const a = create(value);
+    const usageInstructions = ui === "he" ? "זוהי תכנית בלבד; אין הרצה אוטומטית של סוכן." : "This is a blueprint only; no agent executes automatically.";
+    const createdOutcome = outcomesLib.create({
+      title: a.name,
+      summary: a.description || a.name,
+      intent: value.goal || a.name,
+      status: "ready",
+      realityMode: "blueprint-only",
+      sourceModule: "agent",
+      sourceEntityId: a.id,
+      resultType: "agent-blueprint",
+      resultLocation: `/agents/${a.id}`,
+      usageInstructions,
+      nextActions: [{ id: "review", label: ui === "he" ? "סקירת התכנית" : "Review the blueprint", route: `/agents/${a.id}` }],
+      limitations: [ui === "he" ? "תכנית בלבד; לא מתבצע ביצוע חי." : "Blueprint only; no live execution occurs."],
+      deliverableIds: [],
+      evidenceIds: [],
+      verificationState: "unverified",
+    });
+    if (createdOutcome) {
+      const now = new Date().toISOString();
+      outcomesLib.addDeliverable({
+        schemaVersion: 2,
+        id: `deliverable-${createdOutcome.id}`,
+        actorId: createdOutcome.actorId,
+        outcomeId: createdOutcome.id,
+        title: ui === "he" ? "תכנית סוכן" : "Agent blueprint",
+        resultType: "agent-deliverable",
+        location: `/agents/${a.id}`,
+        usageInstructions,
+        sourceEntityId: a.id,
+        contentHash: deterministicHash(buildAgentBlueprint(a, ui)),
+        createdAt: now,
+        updatedAt: now,
+        version: 1,
+      });
+      outcomesLib.update(createdOutcome.id, { status: "completed" });
+    }
+    navigate(`/agents/${a.id}`);
+  }, [create, existing, navigate, outcomesLib, s.completion, s.goal, s.instructions, s.name, s.output, ui, update, value]);
   useEffect(() => {
     const saveCurrent = () => save();
     window.addEventListener("academy:save-current", saveCurrent);

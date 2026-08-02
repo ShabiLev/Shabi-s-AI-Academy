@@ -4,7 +4,7 @@ import { useAuth } from "../auth/AuthContext";
 import { useGuestProfile } from "../guest-profile";
 import { useWorkspace } from "../workspace";
 import { agentCatalog, skillCatalog, teamPresets } from "./catalog";
-import { createMission, deriveSkillProgress, transitionMission, type MissionAction } from "./missionEngine";
+import { createMission, deriveSkillProgress, transitionMission, type MissionAction, type MissionCompletionProofInput } from "./missionEngine";
 import { loadMissionRepository, resetMissionDomain, saveMissionRepository, type MissionRepositorySnapshot } from "./repository";
 import type { AgentTeam, ContextPack, ExecutionLevel, GuidanceMode, Mission, SkillEvidence, SkillProgress } from "./types";
 import { validateSkillEvidence, validateTeam } from "./validation";
@@ -26,7 +26,7 @@ interface MissionContextValue {
   recoveredDomains: string[];
   currentMission?: Mission;
   create: (input: CreateMissionInput) => Mission;
-  applyAction: (missionId: string, action: MissionAction) => { ok: boolean; reason?: string };
+  applyAction: (missionId: string, action: MissionAction, completionProof?: MissionCompletionProofInput) => { ok: boolean; reason?: string };
   copyPreset: (presetId: string) => AgentTeam | undefined;
   saveTeam: (team: AgentTeam) => boolean;
   createContextPack: (missionId: string, name: string, note: string) => ContextPack | undefined;
@@ -85,12 +85,12 @@ export function MissionProvider({ children }: { children: ReactNode }) {
       mutate((current) => track({ ...current, missions: [...current.missions, mission].slice(-100) }, "mission_created", input.executionLevel));
       return mission;
     },
-    applyAction: (missionId, action) => {
+    applyAction: (missionId, action, completionProof) => {
       let result: ReturnType<typeof transitionMission> | undefined;
       mutate((current) => {
         const mission = current.missions.find((item) => item.id === missionId);
         if (!mission) return current;
-        result = transitionMission(mission, action);
+        result = transitionMission(mission, action, undefined, undefined, completionProof);
         if (!result.ok && result.reason !== "resume-drift" && result.mission === mission) return current;
         const eventByAction = {
           "approve-plan": "mission_plan_approved",

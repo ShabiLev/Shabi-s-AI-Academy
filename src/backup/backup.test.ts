@@ -19,6 +19,7 @@ import {
   type EvaluationRepositorySnapshot,
   type VersionedEntityRef,
 } from "../evaluations";
+import { createOutcome, loadOutcomeRepository, saveOutcomeRepository } from "../outcomes";
 function memoryStorage(seed: Record<string, string> = {}, failKey = "") {
   const map = new Map(Object.entries(seed));
   return {
@@ -49,7 +50,7 @@ describe("complete Workspace backup", () => {
     expect(JSON.stringify(backup)).not.toContain("unrelated");
     expect(backup.checksum).toBe(
       checksumPayload({
-        schemaVersion: 2,
+        schemaVersion: 3,
         appVersion: "1.9.0-beta.1",
         actorId: "local-guest",
         exportedAt: "now",
@@ -226,6 +227,30 @@ describe("complete Workspace backup", () => {
       expect.arrayContaining([...domainNames]),
     );
     expect(backup.actorId).toBe(actor);
+  });
+  it("exports schema 3 Outcomes and transactionally rebinds them to the target actor", () => {
+    const source = memoryStorage({ "shabis-ai-academy:mission-actor:v1": "actor-a" });
+    const outcome = createOutcome({
+      actorId: "actor-a", createdBy: "actor-a", title: "Outcome", summary: "Local result", intent: "Create value",
+      status: "ready", realityMode: "local", sourceModule: "project", sourceEntityId: "project-1",
+      resultType: "project-outcome", resultLocation: "/projects/project-1", usageInstructions: "Review it.",
+      nextActions: [], limitations: ["Local only"], deliverableIds: [], evidenceIds: [], verificationState: "unverified",
+    }, () => "2026-08-01T12:00:00.000Z", () => "outcome-1");
+    expect(saveOutcomeRepository("actor-a", { outcomes: [outcome], deliverables: [], evidence: [] }, source, () => "2026-08-01T12:00:00.000Z")).toBe(true);
+    const backup = createWorkspaceBackup(source, () => "2026-08-01T12:01:00.000Z", "actor-a");
+    expect(backup.schemaVersion).toBe(3);
+    expect(backup.domainVersions.outcomes).toBe(2);
+    expect(backup.domains.outcomes).toBeDefined();
+
+    const target = memoryStorage();
+    const preview = previewWorkspaceImport(serializeWorkspaceBackup(backup), target, "actor-b");
+    expect(preview.valid).toBe(true);
+    expect(preview.ownershipTransfer).toBe(true);
+    const report = applyWorkspaceImport(preview, { outcomes: "replace" }, target, "actor-b");
+    expect(report.ok).toBe(true);
+    const restored = loadOutcomeRepository("actor-b", target);
+    expect(restored.outcomes[0]).toMatchObject({ id: "outcome-1", actorId: "actor-b", createdBy: "actor-b" });
+    expect(loadOutcomeRepository("actor-a", target).outcomes).toEqual([]);
   });
   it("rejects a partial protected evaluation graph before writing", () => {
     const savedAt = "2026-08-01T08:00:00.000Z";

@@ -23,6 +23,9 @@ export function MissionWorkspacePage() {
   const [packName, setPackName] = useState("");
   const [packNote, setPackNote] = useState("");
   const [teamExpanded, setTeamExpanded] = useState(false);
+  const [deliverableSummary, setDeliverableSummary] = useState("");
+  const [simulationAcknowledged, setSimulationAcknowledged] = useState(false);
+  const [blocker, setBlocker] = useState("");
   const he = language === "he";
   if (!mission) return <div className="page mission-empty"><h1>{he ? "המשימה לא נמצאה" : "Mission not found"}</h1><p>{he ? "ייתכן שהנתון הוסר או שייך לפרופיל מקומי אחר." : "It may have been removed or belong to another local actor."}</p><Link to="/missions">{he ? "חזרה למשימות" : "Back to missions"}</Link></div>;
   const team = [...teamPresets, ...missionState.teams].find((item) => item.id === mission.teamId);
@@ -34,8 +37,9 @@ export function MissionWorkspacePage() {
         : mission.status === "paused" ? "continue"
           : mission.status === "needs-input" || mission.status === "needs-work" ? "retry"
             : "complete-phase";
-    const result = missionState.applyAction(mission.id, action);
-    setMessage(result.ok ? (he ? "המעבר תועד בהצלחה." : "Transition recorded successfully.") : result.reason === "resume-drift" ? (he ? "זוהה שינוי מאז ההשהיה. נדרש קלט לפני המשך." : "State drift was detected. Input is required before continuing.") : (he ? `הפעולה נחסמה: ${result.reason ?? "מעבר לא תקין"}` : `Action blocked: ${result.reason ?? "invalid transition"}`));
+    const result = missionState.applyAction(mission.id, action, action === "complete-phase" ? { deliverableSummary, evidenceIds: [], simulationAcknowledged, blocker } : undefined);
+    if (result.ok && action === "complete-phase") { setDeliverableSummary(""); setSimulationAcknowledged(false); setBlocker(""); }
+    setMessage(result.ok ? (he ? "המעבר תועד בהצלחה." : "Transition recorded successfully.") : result.reason === "missing-completion-proof" ? (he ? "נדרש תוצר, ראיה, אישור מפורש לסימולציה או חוסם מתועד." : "Add a deliverable, evidence, explicit simulation acknowledgement, or a documented blocker.") : result.reason === "resume-drift" ? (he ? "זוהה שינוי מאז ההשהיה. נדרש קלט לפני המשך." : "State drift was detected. Input is required before continuing.") : (he ? `הפעולה נחסמה: ${result.reason ?? "מעבר לא תקין"}` : `Action blocked: ${result.reason ?? "invalid transition"}`));
   };
 
   return <div className="page mission-workspace-page" data-testid="mission-workspace">
@@ -50,6 +54,7 @@ export function MissionWorkspacePage() {
         <h2>{current.title[language]}</h2>
         <dl><div><dt>{he ? "בעל תפקיד" : "Owner"}</dt><dd>{agentCatalog.find((agent) => agent.id === current.ownerAgentId)?.name[language] ?? current.ownerAgentId}</dd></div><div><dt>{he ? "סוקר עצמאי" : "Independent reviewer"}</dt><dd>{agentCatalog.find((agent) => agent.id === current.reviewerAgentId)?.name[language] ?? (he ? "אישור משתמש" : "User approval")}</dd></div><div><dt>{he ? "שער" : "Gate"}</dt><dd>{gateLabel(current.gate, language)}</dd></div></dl>
         <p>{phaseInputLabel(current.inputSummary, language)}</p>
+        {mission.status === "running" && <fieldset className="mission-completion-proof"><legend>{he ? "הוכחת השלמת השלב" : "Phase completion proof"}</legend><label>{he ? "תוצר או סיכום עבודה" : "Deliverable or work summary"}<textarea value={deliverableSummary} maxLength={2000} onChange={(event) => setDeliverableSummary(event.target.value)} /></label><label><input type="checkbox" checked={simulationAcknowledged} onChange={(event) => setSimulationAcknowledged(event.target.checked)} />{he ? "אני מאשר/ת שזו סימולציה מקומית ולא ביצוע חי" : "I acknowledge this is a local simulation, not live execution"}</label><label>{he ? "חוסם מתועד (יחסום את המשימה במקום להשלים אותה)" : "Documented blocker (blocks instead of completing)"}<input value={blocker} maxLength={1000} onChange={(event) => setBlocker(event.target.value)} /></label></fieldset>}
         {!terminal && <div className="mission-actions"><button type="button" className="primary-button" onClick={act}>{actionLabel(mission.status, he)}</button>{mission.status === "running" && <><button type="button" onClick={() => { const result = missionState.applyAction(mission.id, "fail-phase"); setMessage(result.ok ? (he ? "כשל השער תועד; ניתן לתקן ולנסות שוב." : "Gate failure recorded; correct and retry.") : (he ? "תיעוד הכשל נכשל." : "Failure could not be recorded.")); }}>{he ? "סימון צורך בתיקון" : "Mark needs work"}</button><button type="button" onClick={() => { const result = missionState.applyAction(mission.id, "pause"); setMessage(result.ok ? (he ? "המשימה נשמרה בנקודת השלב המדויקת." : "Mission saved at the exact phase checkpoint.") : (he ? "ההשהיה נכשלה." : "Pause failed.")); }}>{he ? "השהיה" : "Pause"}</button></>}<button type="button" onClick={() => missionState.applyAction(mission.id, "cancel")}>{he ? "ביטול" : "Cancel"}</button></div>}
         {mission.blockedReason && <div role="alert" className="mission-alert">{blockedReasonLabel(mission.blockedReason, language)}</div>}
         <section className="context-pack-form"><h3>{he ? "חבילת הקשר" : "Context Pack"}</h3><p>{he ? "הערה מקומית מוגבלת; אינה נכנסת לניתוח שימוש." : "A bounded local note; it never enters analytics."}</p><label>{he ? "שם" : "Name"}<input value={packName} maxLength={120} onChange={(event) => setPackName(event.target.value)} /></label><label>{he ? "הערה" : "Note"}<textarea value={packNote} maxLength={2000} onChange={(event) => setPackNote(event.target.value)} /></label><button type="button" onClick={() => { const pack = missionState.createContextPack(mission.id, packName, packNote); if (pack) { setPackName(""); setPackNote(""); setMessage(he ? "חבילת ההקשר נשמרה וקושרה למשימה." : "Context Pack saved and linked to this mission."); } }}>{he ? "שמירת חבילה" : "Save pack"}</button></section>

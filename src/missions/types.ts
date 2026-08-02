@@ -113,6 +113,15 @@ export interface MissionEvidence {
   recordedAt: string;
 }
 
+export interface MissionPhaseProof {
+  phaseId: string;
+  deliverableSummary?: string;
+  evidenceIds: string[];
+  simulationAcknowledged: boolean;
+  blocker?: string;
+  recordedAt: string;
+}
+
 export interface PauseCheckpoint {
   phaseId: string;
   transitionCount: number;
@@ -136,6 +145,7 @@ export interface Mission {
   currentPhaseId?: string;
   transitionCount: number;
   evidence: MissionEvidence[];
+  phaseProofs?: MissionPhaseProof[];
   contextPackIds: string[];
   createdAt: string;
   updatedAt: string;

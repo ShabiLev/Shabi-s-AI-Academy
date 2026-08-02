@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { deterministicHash } from "../evaluations/hash";
 import { agentCatalog, blockedReasonLabel, evidenceKindLabel, executionLabel, gateLabel, guidanceLabel, missionStatusLabel, phaseInputLabel, phaseStatusLabel, teamPresets, useMissions, type GuidanceMode, type MissionStatus } from "../missions";
 import { useLanguage } from "../i18n/LanguageContext";
+import { useOutcomes } from "../outcomes";
 import { useProjects } from "../projects";
 
 const actionLabel = (status: MissionStatus, he: boolean) => {
@@ -17,6 +19,7 @@ export function MissionWorkspacePage() {
   const { language } = useLanguage();
   const missionState = useMissions();
   const projects = useProjects();
+  const outcomesState = useOutcomes();
   const navigate = useNavigate();
   const mission = missionState.missions.find((item) => item.id === missionId);
   const [message, setMessage] = useState("");
@@ -27,6 +30,86 @@ export function MissionWorkspacePage() {
   const [simulationAcknowledged, setSimulationAcknowledged] = useState(false);
   const [blocker, setBlocker] = useState("");
   const he = language === "he";
+  const outcomeCreationAttempted = useRef(new Set<string>());
+
+  // Derives at most one linked Outcome from a Mission's own recorded completion proof or documented
+  // blocker; it never fabricates substantiation the mission engine did not already require and gate.
+  // The ref latch (set synchronously before the read-then-write below) guards against React StrictMode's
+  // dev-only double effect invocation, which would otherwise re-run this same check against the same
+  // stale `outcomesState.outcomes` snapshot and create a duplicate Outcome for the same Mission.
+  useEffect(() => {
+    if (!mission || (mission.status !== "completed" && mission.status !== "blocked")) return;
+    if (outcomeCreationAttempted.current.has(mission.id)) return;
+    outcomeCreationAttempted.current.add(mission.id);
+    const alreadyLinked = outcomesState.outcomes.some((outcome) => outcome.sourceModule === "mission" && outcome.sourceEntityId === mission.id);
+    if (alreadyLinked) return;
+    const lastProof = mission.phaseProofs?.at(-1);
+    const realityMode = mission.executionLevel === "connected-execute" ? "not-connected" : mission.executionLevel === "local-execute" ? "local" : "simulated";
+    const nextActions = [{ id: "review", label: he ? "סקירת המשימה" : "Review the mission", route: `/missions/${mission.id}` }];
+    const limitations = [he ? "מקומי בלבד; לא בוצע ביצוע חי מחובר." : "Local only; no connected live execution occurred."];
+    const title = mission.title;
+    const summary = mission.interpretation.summary[language] || mission.title;
+    const intent = mission.interpretation.goal || mission.title;
+
+    if (mission.status === "blocked") {
+      outcomesState.create({
+        title, summary, intent, status: "blocked", realityMode,
+        sourceModule: "mission", sourceEntityId: mission.id, resultType: "mission-outcome", resultLocation: `/missions/${mission.id}`,
+        usageInstructions: he ? "יש לבדוק את החוסם המתועד לפני המשך המשימה." : "Review the documented blocker before continuing the mission.",
+        nextActions, limitations, deliverableIds: [], evidenceIds: [], verificationState: "unverified",
+        blockedReason: mission.blockedReason ? blockedReasonLabel(mission.blockedReason, language) : (lastProof?.blocker ?? (he ? "חוסם לא מתועד" : "Undocumented blocker")),
+      });
+      return;
+    }
+
+    if (lastProof?.simulationAcknowledged) {
+      outcomesState.create({
+        title, summary, intent, status: "completed", realityMode: "simulated",
+        sourceModule: "mission", sourceEntityId: mission.id, resultType: "mission-outcome", resultLocation: `/missions/${mission.id}`,
+        usageInstructions: he ? "זו הדמיה מקומית; יש לבצע ידנית כל פעולה נדרשת בעולם האמיתי." : "This is a local simulation; perform any required real-world action manually.",
+        nextActions, limitations, deliverableIds: [], evidenceIds: [], verificationState: "unverified",
+        simulationAcknowledgement: {
+          acknowledgedAt: lastProof.recordedAt,
+          acknowledgedBy: outcomesState.actorId,
+          statement: he ? "המשתמש אישר שזו הדמיה מקומית ולא ביצוע חי." : "The user acknowledged this was a local simulation, not live execution.",
+        },
+      });
+      return;
+    }
+
+    const created = outcomesState.create({
+      title, summary, intent, status: "ready", realityMode,
+      sourceModule: "mission", sourceEntityId: mission.id, resultType: "mission-outcome", resultLocation: `/missions/${mission.id}`,
+      usageInstructions: he ? "סקירת התוצר או הראיה שתועדו בהשלמת המשימה." : "Review the deliverable or evidence recorded at mission completion.",
+      nextActions, limitations, deliverableIds: [], evidenceIds: [], verificationState: "unverified",
+    });
+    if (!created) return;
+    const now = new Date().toISOString();
+    if (lastProof?.deliverableSummary) {
+      outcomesState.addDeliverable({
+        schemaVersion: 2, id: `deliverable-${created.id}`, actorId: created.actorId, outcomeId: created.id,
+        title: he ? "תוצר השלמת המשימה" : "Mission completion deliverable", resultType: "mission-deliverable",
+        location: `/missions/${mission.id}`,
+        usageInstructions: he ? "סקירת התוצר שתועד בהשלמת המשימה." : "Review the deliverable recorded at mission completion.",
+        sourceEntityId: mission.id, contentHash: deterministicHash(lastProof.deliverableSummary),
+        createdAt: now, updatedAt: now, version: 1,
+      });
+    } else if (lastProof?.evidenceIds.length) {
+      outcomesState.addEvidence({
+        schemaVersion: 2, id: `evidence-${created.id}`, actorId: created.actorId, outcomeId: created.id,
+        evidenceType: "mission-evidence-review",
+        summary: he ? `נסקרו ${lastProof.evidenceIds.length} פריטי ראיה מהמשימה.` : `Reviewed ${lastProof.evidenceIds.length} mission evidence item(s).`,
+        sourceEntityId: mission.id, sourceEntityVersion: Math.max(1, mission.transitionCount),
+        contentHash: deterministicHash(lastProof.evidenceIds), verificationState: "verified",
+        createdAt: now, createdBy: created.actorId, verifiedAt: now,
+      });
+    }
+    outcomesState.update(created.id, { status: "completed" });
+  // Deliberately keyed only on the mission completion/blocked transition, not on outcomesState: the ref
+  // latch above (not this dependency array) is what prevents duplicate creation.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mission?.status, mission?.id]);
+
   if (!mission) return <div className="page mission-empty"><h1>{he ? "המשימה לא נמצאה" : "Mission not found"}</h1><p>{he ? "ייתכן שהנתון הוסר או שייך לפרופיל מקומי אחר." : "It may have been removed or belong to another local actor."}</p><Link to="/missions">{he ? "חזרה למשימות" : "Back to missions"}</Link></div>;
   const team = [...teamPresets, ...missionState.teams].find((item) => item.id === mission.teamId);
   const current = mission.phases[mission.currentPhaseIndex];
@@ -60,6 +143,7 @@ export function MissionWorkspacePage() {
         <section className="context-pack-form"><h3>{he ? "חבילת הקשר" : "Context Pack"}</h3><p>{he ? "הערה מקומית מוגבלת; אינה נכנסת לניתוח שימוש." : "A bounded local note; it never enters analytics."}</p><label>{he ? "שם" : "Name"}<input value={packName} maxLength={120} onChange={(event) => setPackName(event.target.value)} /></label><label>{he ? "הערה" : "Note"}<textarea value={packNote} maxLength={2000} onChange={(event) => setPackNote(event.target.value)} /></label><button type="button" onClick={() => { const pack = missionState.createContextPack(mission.id, packName, packNote); if (pack) { setPackName(""); setPackNote(""); setMessage(he ? "חבילת ההקשר נשמרה וקושרה למשימה." : "Context Pack saved and linked to this mission."); } }}>{he ? "שמירת חבילה" : "Save pack"}</button></section>
         {mission.contextPackIds.length > 0 && <section aria-label={he ? "חבילות הקשר מקושרות" : "Linked Context Packs"}>{missionState.contextPacks.filter((pack) => mission.contextPackIds.includes(pack.id)).map((pack) => <article key={pack.id}><h3>{pack.name[language]}</h3><dl><div><dt>{he ? "רגישות" : "Sensitivity"}</dt><dd>{pack.sensitivity}</dd></div><div><dt>{he ? "טריות" : "Freshness"}</dt><dd>{pack.freshness}</dd></div><div><dt>{he ? "בעלים" : "Owner"}</dt><dd>{he ? "הפרופיל המקומי הנוכחי" : "Current local profile"}</dd></div><div><dt>{he ? "גודל" : "Size"}</dt><dd>{pack.sizeBytes} bytes</dd></div><div><dt>{he ? "סטטוס אימות" : "Validation"}</dt><dd>{pack.validationStatus}</dd></div></dl></article>)}</section>}
         {mission.learningSummary && <section className="mission-learning-summary"><h3>{he ? "מה למדת" : "What you learned"}</h3><p>{mission.learningSummary.summary[language]}</p><Link to={mission.learningSummary.nextPracticeRoute}>{he ? "תרגול מומלץ הבא" : "Recommended next practice"}</Link></section>}
+        {(() => { const outcome = outcomesState.outcomes.find((item) => item.sourceModule === "mission" && item.sourceEntityId === mission.id); return outcome && <section className="mission-outcome-link"><h3>{he ? "תוצאת המשימה" : "Mission outcome"}</h3><Link to={`/outcomes/${outcome.id}`}>{outcome.title}</Link></section>; })()}
         <div className="mission-secondary-actions">
           <button type="button" onClick={() => {
             const blob = new Blob([JSON.stringify({ schemaVersion: 1, exportedAt: new Date().toISOString(), mission }, null, 2)], { type: "application/json" });

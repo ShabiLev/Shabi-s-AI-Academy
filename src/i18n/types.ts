@@ -32,6 +32,7 @@ export type TranslationKey =
   | "nav.agentPlayground"
   | "nav.runs"
   | "nav.projects"
+  | "nav.outcomes"
   | "nav.knowledge"
   | "nav.journey"
   | "nav.roadmap"

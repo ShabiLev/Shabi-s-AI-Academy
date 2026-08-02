@@ -25,6 +25,7 @@ const beginner: NavigationItem[] = [
   { to: "/prompts", label: "nav.prompts", icon: "prompts" },
   { to: "/agents", label: "nav.agents", icon: "agents" },
   { to: "/projects", label: "nav.projects", icon: "projects" },
+  { to: "/outcomes", label: "nav.outcomes", icon: "projects" },
   { to: "/radar", label: "nav.radar", icon: "radar" },
   { to: "/history", label: "nav.history", icon: "clock" },
   { to: "/help", label: "nav.help", icon: "lessons" },

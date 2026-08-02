@@ -1330,6 +1330,77 @@
     "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
   },
   {
+    "route": "/outcomes",
+    "pageId": "outcomes",
+    "title": "Outcomes",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary outcomes task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Outcomes",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:outcomes",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
+    "route": "/outcomes/:outcomeId",
+    "pageId": "outcomes.by-outcomeId",
+    "title": "Outcomes - Details",
+    "accessRequirement": "guest-or-authenticated",
+    "supportedLanguages": [
+      "he",
+      "en"
+    ],
+    "experienceModes": [
+      "beginner",
+      "advanced"
+    ],
+    "primaryTask": "Complete the primary outcomes - details task",
+    "primaryAction": "Open or continue the primary content",
+    "secondaryActions": [
+      "Open contextual Help",
+      "Navigate to a related page",
+      "Return to the logical parent"
+    ],
+    "expectedControls": [
+      "primary action",
+      "navigation",
+      "help"
+    ],
+    "expectedEmptyState": "Explains why no data is shown and provides a safe next action",
+    "expectedLoadingState": "Communicates progress without exposing a blank page or allowing duplicate submission",
+    "expectedErrorState": "Explains impact and provides retry, cancel, or safe recovery",
+    "expectedMobileBehavior": "Single-column, touch-reachable, no horizontal overflow, overlays contained in viewport",
+    "expectedDesktopBehavior": "Readable content hierarchy, active navigation, bounded line length, no overlap",
+    "expectedBreadcrumb": "Dashboard > Outcomes > Outcomes - Details",
+    "expectedHelpContent": "Purpose, primary task, terminology, and recovery guidance in Hebrew and English",
+    "expectedAnalyticsEvent": "page_view:outcomes.by-outcomeId",
+    "visualBaselineRequirement": "Hebrew desktop, English desktop, mobile, and representative complex state",
+    "accessibilityRequirement": "WCAG 2.2 AA semantics, keyboard access, visible focus, status announcements, and 200% zoom support"
+  },
+  {
     "route": "/projects/:projectId",
     "pageId": "projects.by-projectId",
     "title": "Projects - Details",

@@ -65,7 +65,7 @@ export function validateOutcome(value: unknown, actorId?: string): value is Outc
     && timestamp(item.createdAt) && timestamp(item.updatedAt) && ID.test(item.createdBy)
     && SOURCE_MODULES.has(item.sourceModule) && ID.test(item.sourceEntityId)
     && (item.projectId === undefined || ID.test(item.projectId)) && bounded(item.resultType, 80)
-    && bounded(item.resultLocation, 1_000) && bounded(item.usageInstructions, 4_000, true)
+    && bounded(item.resultLocation, 1_000) && item.resultLocation.startsWith("/") && bounded(item.usageInstructions, 4_000, true)
     && Array.isArray(item.nextActions) && item.nextActions.length <= 20
     && item.nextActions.every((action) => Boolean(action) && ID.test(action.id) && bounded(action.label, 200)
       && (action.route === undefined || (bounded(action.route, 500) && action.route.startsWith("/"))))

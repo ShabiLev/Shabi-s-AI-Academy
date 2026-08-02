@@ -6,6 +6,7 @@ import {
   outcomeStorageKey,
   saveOutcomeRepository,
   sanitizeOutcomeStore,
+  validateOutcome,
   validateOutcomeClaims,
   type Deliverable,
   type Outcome,
@@ -82,6 +83,12 @@ describe("actor-scoped outcomes", () => {
     const storage = memoryStorage({ [outcomeStorageKey("actor-a")]: JSON.stringify({ ...store, savedAt: "2026-08-02T12:00:00.000Z" }) });
     expect(loadOutcomeRepository("actor-a", storage).recovered).toBe(true);
     expect(storage.values.has(`${outcomeStorageKey("actor-a")}:quarantine`)).toBe(true);
+  });
+
+  it("rejects a resultLocation that is not an internal app route, closing an unsanchored-link vector", () => {
+    expect(validateOutcome({ ...baseOutcome(), resultLocation: "javascript:alert(1)" })).toBe(false);
+    expect(validateOutcome({ ...baseOutcome(), resultLocation: "https://example.com" })).toBe(false);
+    expect(validateOutcome(baseOutcome())).toBe(true);
   });
 
   it("rejects duplicate IDs on application writes instead of silently overwriting them", () => {

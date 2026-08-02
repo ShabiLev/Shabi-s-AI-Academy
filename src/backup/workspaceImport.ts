@@ -2,6 +2,8 @@ import { deterministicHash } from "../evaluations/hash";
 import { calculateEvaluationResultChecksum } from "../evaluations/runtime";
 import type { EvaluationCompetitorResult } from "../evaluations/types";
 import { evaluationStorageKeys, loadEvaluationRepository } from "../evaluations/repository";
+import { calculateOutcomeStoreChecksum, normalizeOutcomeActorId, sanitizeOutcomeStore } from "../outcomes/repository";
+import type { OutcomeStore } from "../outcomes/types";
 import { BACKUP_MAX_BYTES, checksumPayload, containsSecretLikeKey, containsSecretLikeValue, normalizeBackupActorId, resolveBackupDomainKeys } from "./workspaceBackup";
 import type { BackupDomain, ImportPreviewDomain, ImportStrategy, WorkspaceBackup, WorkspaceImportPreview, WorkspaceImportReport } from "./types";
 
@@ -26,8 +28,8 @@ function envelopeWithoutChecksum(backup: WorkspaceBackup) {
 }
 function validateBackup(backup: WorkspaceBackup | undefined, storage: Pick<Storage, "getItem">, targetActorId?: string): string[] {
   const errors: string[] = [];
-  if (!backup || ![1, 2].includes(backup.schemaVersion) || !backup.domains || typeof backup.domains !== "object"
-    || (backup.schemaVersion === 2 && typeof backup.actorId !== "string")
+  if (!backup || ![1, 2, 3].includes(backup.schemaVersion) || !backup.domains || typeof backup.domains !== "object"
+    || (backup.schemaVersion >= 2 && typeof backup.actorId !== "string")
     || (backup.actorId !== undefined && (typeof backup.actorId !== "string" || normalizeBackupActorId(backup.actorId) !== backup.actorId))) return ["invalid-schema"];
   if (containsSecretLikeKey(backup?.domains)) errors.push("secret-shaped-key");
   if (containsSecretLikeValue(backup?.domains)) errors.push("secret-like-value");
@@ -36,7 +38,7 @@ function validateBackup(backup: WorkspaceBackup | undefined, storage: Pick<Stora
   const supported = resolveBackupDomainKeys(storage, targetActorId);
   if (Object.keys(backup?.domains ?? {}).some((domain) => !(domain in supported))) errors.push("unsupported-domain");
   if (!backup.domainVersions || typeof backup.domainVersions !== "object"
-    || Object.keys(backup.domains).some((domain) => backup.domainVersions[domain as BackupDomain] !== 1)) errors.push("unsupported-domain-version");
+    || Object.keys(backup.domains).some((domain) => backup.domainVersions[domain as BackupDomain] !== (domain === "outcomes" ? 2 : 1))) errors.push("unsupported-domain-version");
   const evaluationDomains: Partial<Record<BackupDomain, string>> = {
     evaluationRubrics: "rubrics", evaluationExperiments: "experiments", evaluationRuns: "runs", evaluationSuites: "suites",
     failureLibrary: "failures", entityVersions: "versions", connectedPreviews: "previews", evaluationEvidence: "evidence", evaluationTraces: "traces",
@@ -53,6 +55,10 @@ function validateBackup(backup: WorkspaceBackup | undefined, storage: Pick<Stora
   const graphDomains: BackupDomain[] = ["evaluationRuns", "evaluationEvidence", "evaluationTraces"];
   const graphPresent = graphDomains.filter((domain) => Object.prototype.hasOwnProperty.call(backup.domains, domain));
   if (graphPresent.length > 0 && graphPresent.length !== graphDomains.length) errors.push("incomplete-evaluation-graph");
+  if (Object.prototype.hasOwnProperty.call(backup.domains, "outcomes")) {
+    const outcome = sanitizeOutcomeStore(backup.domains.outcomes, normalizeOutcomeActorId(backup.actorId ?? "local-guest"));
+    if (!outcome.store || outcome.errors.length > 0) errors.push("invalid-domain:outcomes");
+  }
   return errors;
 }
 export function previewWorkspaceImport(raw: string, storage: Pick<Storage,"getItem"> = localStorage, targetActorId?: string): WorkspaceImportPreview {
@@ -98,7 +104,7 @@ function mergeValues(existing: unknown, incoming: unknown, preserveExisting = fa
   return result;
 }
 const immutableDomains = new Set<BackupDomain>(["evaluationRuns", "evaluationSuites", "entityVersions", "evaluationEvidence", "evaluationTraces"]);
-const actorScopedDomains = new Set<BackupDomain>(["missions", "agentTeams", "skillMap", "contextPacks", "missionAnalytics", "evaluationRubrics", "evaluationExperiments", "evaluationRuns", "evaluationSuites", "failureLibrary", "entityVersions", "connectedPreviews", "evaluationEvidence", "evaluationTraces"]);
+const actorScopedDomains = new Set<BackupDomain>(["missions", "agentTeams", "skillMap", "contextPacks", "missionAnalytics", "evaluationRubrics", "evaluationExperiments", "evaluationRuns", "evaluationSuites", "failureLibrary", "entityVersions", "connectedPreviews", "evaluationEvidence", "evaluationTraces", "outcomes"]);
 function rebindActor(value: unknown, actorId: string): unknown {
   if (Array.isArray(value)) return value.map((item) => rebindActor(item, actorId));
   if (!value || typeof value !== "object") return value;
@@ -146,6 +152,26 @@ function prepareImportedRuns(value: unknown, actorId: string): unknown {
     ? { ...base, checksum: deterministicHash(base) }
     : { ...envelope, items };
 }
+function prepareImportedOutcomes(value: unknown, actorId: string): OutcomeStore {
+  if (!value || typeof value !== "object") throw new Error("invalid-outcome-domain");
+  const source = value as OutcomeStore;
+  const safeActor = normalizeOutcomeActorId(actorId);
+  const outcomes = Array.isArray(source.outcomes) ? source.outcomes.map((item) => ({
+    ...item,
+    actorId: safeActor,
+    createdBy: safeActor,
+    ...(item.simulationAcknowledgement
+      ? { simulationAcknowledgement: { ...item.simulationAcknowledgement, acknowledgedBy: safeActor } }
+      : {}),
+  })) : [];
+  const deliverables = Array.isArray(source.deliverables) ? source.deliverables.map((item) => ({ ...item, actorId: safeActor })) : [];
+  const evidence = Array.isArray(source.evidence) ? source.evidence.map((item) => ({ ...item, actorId: safeActor, createdBy: safeActor })) : [];
+  const base = { schemaVersion: 2 as const, actorId: safeActor, outcomes, deliverables, evidence, savedAt: source.savedAt };
+  const rebound: OutcomeStore = { ...base, checksum: calculateOutcomeStoreChecksum(base) };
+  const sanitized = sanitizeOutcomeStore(rebound, safeActor);
+  if (!sanitized.store || sanitized.errors.length > 0) throw new Error("invalid-outcome-domain");
+  return sanitized.store;
+}
 export function applyWorkspaceImport(preview: WorkspaceImportPreview, strategies: Partial<Record<BackupDomain,ImportStrategy>>, storage: Pick<Storage,"getItem"|"setItem"|"removeItem"> = localStorage, targetActorId?: string): WorkspaceImportReport {
   const validationErrors = validateBackup(preview.backup, storage, targetActorId);
   if (!preview.valid || !preview.backup || validationErrors.length > 0) return { ok: false, imported: [], skipped: [], errors: [...new Set([...preview.errors, ...validationErrors])], rolledBack: false };
@@ -167,6 +193,7 @@ export function applyWorkspaceImport(preview: WorkspaceImportPreview, strategies
       if (!key || strategy === "skip") { skipped.push(domain); continue; }
       const preparedIncoming = domain === "evaluationRuns"
         ? prepareImportedRuns(incoming, safeTargetActor)
+        : domain === "outcomes" ? prepareImportedOutcomes(incoming, safeTargetActor)
         : actorScopedDomains.has(domain) ? rebindActor(incoming, safeTargetActor) : incoming;
       let value = preparedIncoming;
       if ((strategy === "merge" || immutableDomains.has(domain)) && domain !== "settings") {
@@ -174,7 +201,8 @@ export function applyWorkspaceImport(preview: WorkspaceImportPreview, strategies
         try { existing = JSON.parse(storage.getItem(key) ?? "null"); } catch { existing = undefined; }
         value = mergeValues(existing, preparedIncoming, immutableDomains.has(domain));
       }
-      if (actorScopedDomains.has(domain)) value = rebindActor(value, safeTargetActor);
+      if (domain === "outcomes") value = prepareImportedOutcomes(value, safeTargetActor);
+      else if (actorScopedDomains.has(domain)) value = rebindActor(value, safeTargetActor);
       staged.set(key, domain === "settings" ? String(value) : JSON.stringify(value));
       imported.push(domain);
     }
@@ -195,6 +223,11 @@ export function applyWorkspaceImport(preview: WorkspaceImportPreview, strategies
         || run.status === "completed" && !repository.traces.some((trace) => trace.runId === run.id))
         || repository.traces.some((trace) => !runIds.has(trace.runId))) throw new Error("invalid-evaluation-graph");
     }
+    const outcomeKey = resolveBackupDomainKeys(storage, safeTargetActor).outcomes;
+    if (staged.has(outcomeKey)) {
+      const outcome = sanitizeOutcomeStore(JSON.parse(staged.get(outcomeKey)!), safeTargetActor);
+      if (!outcome.store || outcome.errors.length > 0) throw new Error("invalid-outcome-domain");
+    }
     for (const [key, value] of staged) {
       snapshots.set(key, storage.getItem(key));
       storage.setItem(key, value);
@@ -204,7 +237,7 @@ export function applyWorkspaceImport(preview: WorkspaceImportPreview, strategies
     for (const [key, value] of snapshots) {
       try { if (value === null) storage.removeItem(key); else storage.setItem(key, value); } catch { /* best effort after a failed transaction */ }
     }
-    const reason = error instanceof Error && ["invalid-evaluation-domain", "invalid-evaluation-graph"].includes(error.message) ? error.message : "write-failed";
+    const reason = error instanceof Error && ["invalid-evaluation-domain", "invalid-evaluation-graph", "invalid-outcome-domain"].includes(error.message) ? error.message : "write-failed";
     return { ok: false, imported: [], skipped: [], errors: [reason], rolledBack: snapshots.size > 0 };
   }
 }

@@ -468,6 +468,30 @@
     ]
   },
   {
+    "route": "/outcomes",
+    "pageId": "outcomes",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/outcomes",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
+    "route": "/outcomes/:outcomeId",
+    "pageId": "outcomes.by-outcomeId",
+    "group": "workspace",
+    "production": true,
+    "parameterExample": "/outcomes/test-outcome",
+    "access": "guest-or-authenticated",
+    "routerModes": [
+      "browser",
+      "hash"
+    ]
+  },
+  {
     "route": "/knowledge",
     "pageId": "knowledge",
     "group": "workspace",

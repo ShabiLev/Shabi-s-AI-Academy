@@ -23,7 +23,7 @@ const paused = (): Mission => transitionMission(running(), "pause", CLOCK).missi
 
 const completed = (): Mission => {
   let mission = running();
-  while (mission.status === "running") mission = transitionMission(mission, "complete-phase", CLOCK).mission;
+  while (mission.status === "running") mission = transitionMission(mission, "complete-phase", CLOCK, undefined, { evidenceIds: [], simulationAcknowledged: true }).mission;
   return mission;
 };
 

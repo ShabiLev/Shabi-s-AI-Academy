@@ -107,6 +107,7 @@
     "test:guest-profile": "vitest run src/guest-profile/repository.test.ts",
     "test:personalization": "vitest run src/radar/personalization.test.ts",
     "test:version-1.9": "vitest run src/evaluations/evaluations.test.ts src/components/evaluations/evaluationComponents.test.tsx src/backup/backup.test.ts src/workspace/workspace.test.ts src/workspace/workspaceContext.test.tsx && playwright test e2e/specs/version-1.9-agent-lab.spec.ts --project=\"Desktop Chromium\"",
+    "test:version-2.0": "vitest run src/outcomes/outcomes.test.ts src/outcomes/presentation.test.ts src/outcomes/OutcomeContext.test.tsx src/components/outcomes/outcomeComponents.test.tsx src/projects/projects.test.ts src/workflows/workflows.test.ts src/missions/missions.test.ts src/backup/backup.test.ts src/knowledge/knowledge.test.ts src/course/progress.test.ts src/pages/outcomeFlows.test.tsx src/pages/promptOutcomeFlows.test.tsx src/pages/agentOutcomeFlows.test.tsx src/pages/teamOutcomeFlows.test.tsx src/pages/workflowOutcomeFlows.test.tsx src/pages/knowledgeOutcomeFlows.test.tsx src/pages/lessonOutcomeFlows.test.tsx src/pages/pageFlows.test.tsx",
     "test:version-1.7": "npm run test:radar-ingestion && vitest run src/guest-profile/repository.test.ts src/radar/records.test.ts src/radar/personalization.test.ts",
     "test:aos-core": "vitest run src/aos-core/aosCore.test.ts",
     "test:version-1.5": "vitest run src/radar/records.test.ts src/aos-core/aosCore.test.ts src/components/workspace/NotificationCenter.test.tsx src/components/profile/RecentItems.test.tsx",

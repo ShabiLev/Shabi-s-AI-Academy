@@ -24,6 +24,7 @@ import { PromptCatalogPage } from "./pages/PromptCatalogPage";
 import { PromptCatalogDetailsPage } from "./pages/PromptCatalogDetailsPage";
 import { RuntimeProvider } from "./runtime/RuntimeContext";
 import { ProjectProvider } from "./projects";
+import { OutcomeProvider } from "./outcomes";
 import { KnowledgeProvider } from "./knowledge";
 import { CommandPaletteProvider } from "./commands";
 import { AssistantProvider } from "./assistant";
@@ -58,6 +59,8 @@ const PromptPlaygroundPage = lazy(() => import("./pages/PromptPlaygroundPage").t
 const AgentPlaygroundPage = lazy(() => import("./pages/AgentPlaygroundPage").then((module) => ({ default: module.AgentPlaygroundPage })));
 const ProjectFormPage = lazy(() => import("./pages/ProjectFormPage").then((module) => ({ default: module.ProjectFormPage })));
 const ProjectDetailsPage = lazy(() => import("./pages/ProjectDetailsPage").then((module) => ({ default: module.ProjectDetailsPage })));
+const OutcomesPage = lazy(() => import("./pages/OutcomesPage").then((module) => ({ default: module.OutcomesPage })));
+const OutcomeDetailPage = lazy(() => import("./pages/OutcomeDetailPage").then((module) => ({ default: module.OutcomeDetailPage })));
 const KnowledgePage = lazy(() => import("./pages/KnowledgePage").then((module) => ({ default: module.KnowledgePage })));
 const KnowledgeFormPage = lazy(() => import("./pages/KnowledgeFormPage").then((module) => ({ default: module.KnowledgeFormPage })));
 const KnowledgeDetailsPage = lazy(() => import("./pages/KnowledgeDetailsPage").then((module) => ({ default: module.KnowledgeDetailsPage })));
@@ -130,6 +133,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
           <PromptLibraryProvider>
             <AgentLibraryProvider>
               <ProjectProvider>
+                <OutcomeProvider>
                 <KnowledgeProvider>
                   <RuntimeProvider>
                   <WorkspaceProvider>
@@ -202,6 +206,8 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                     <Route path="projects/new" element={<Suspense fallback={null}><ProjectFormPage /></Suspense>} />
                     <Route path="projects/:projectId" element={<Suspense fallback={null}><ProjectDetailsPage /></Suspense>} />
                     <Route path="projects/:projectId/settings" element={<Suspense fallback={null}><ProjectFormPage /></Suspense>} />
+                    <Route path="outcomes" element={<Suspense fallback={null}><OutcomesPage /></Suspense>} />
+                    <Route path="outcomes/:outcomeId" element={<Suspense fallback={null}><OutcomeDetailPage /></Suspense>} />
                     <Route path="knowledge" element={<Suspense fallback={null}><KnowledgePage /></Suspense>} />
                     <Route path="knowledge/new" element={<Suspense fallback={null}><KnowledgeFormPage /></Suspense>} />
                     <Route path="knowledge/:documentId" element={<Suspense fallback={null}><KnowledgeDetailsPage /></Suspense>} />
@@ -266,6 +272,7 @@ export function App({ routerMode = configuredRouterMode }: AppProps) {
                   </WorkspaceProvider>
                   </RuntimeProvider>
                 </KnowledgeProvider>
+                </OutcomeProvider>
               </ProjectProvider>
             </AgentLibraryProvider>
           </PromptLibraryProvider>

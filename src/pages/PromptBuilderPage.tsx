@@ -4,8 +4,11 @@ import { useLanguage } from "../i18n/LanguageContext";
 import { usePromptLibrary } from "../prompts/PromptLibraryContext";
 import { categories, emptyInput, type PromptInput } from "../prompts/types";
 import { categoryLabels, promptUi } from "../prompts/uiText";
+import { buildPrompt } from "../prompts/promptTemplate";
 import { PromptPreview } from "../components/prompts/PromptPreview";
 import { evaluatePromptDimensions, evaluatePromptTestCase } from "../builders";
+import { deterministicHash } from "../evaluations/hash";
+import { useOutcomes } from "../outcomes";
 const samples: PromptInput[] = [
   {
     ...emptyInput,
@@ -56,6 +59,7 @@ export function PromptBuilderPage() {
     ui = language === "he" ? "he" : "en",
     s = promptUi[ui],
     { state, get, create, update, saveDraft } = usePromptLibrary(),
+    { create: createOutcome, addDeliverable, update: updateOutcome } = useOutcomes(),
     source = new URLSearchParams(useLocation().search).get("source"),
     navigate = useNavigate(),
     existing = promptId ? get(promptId) : undefined,
@@ -114,8 +118,65 @@ export function PromptBuilderPage() {
     if (!value.task.trim()) next.task = s.required;
     setErrors(next);
     if (Object.keys(next).length) return;
-    const p = existing ? update(existing.id, value) : create(value);
-    if (p) navigate(`/prompts/${p.id}`);
+    if (existing) {
+      const p = update(existing.id, value);
+      if (p) navigate(`/prompts/${p.id}`);
+      return;
+    }
+    const p = create(value);
+    const outcome = createOutcome({
+      title: p.title,
+      summary: p.description || p.title,
+      intent: value.task || p.title,
+      status: "ready",
+      realityMode: "local",
+      sourceModule: "prompt",
+      sourceEntityId: p.id,
+      resultType: "prompt-result",
+      resultLocation: `/prompts/${p.id}`,
+      usageInstructions:
+        ui === "he"
+          ? "סקירת הפרומפט, העתקה או ייצוא."
+          : "Review, copy, or export this prompt.",
+      nextActions: [
+        {
+          id: "review",
+          label: ui === "he" ? "סקירת הפרומפט" : "Review the prompt",
+          route: `/prompts/${p.id}`,
+        },
+      ],
+      limitations: [
+        ui === "he"
+          ? "מקומי בלבד; לא נשלח לספק."
+          : "Local only; not sent to any provider.",
+      ],
+      deliverableIds: [],
+      evidenceIds: [],
+      verificationState: "unverified",
+    });
+    if (outcome) {
+      const now = new Date().toISOString();
+      addDeliverable({
+        schemaVersion: 2,
+        id: `deliverable-${outcome.id}`,
+        actorId: outcome.actorId,
+        outcomeId: outcome.id,
+        title: ui === "he" ? "פרומפט שמור" : "Saved prompt",
+        resultType: "prompt-deliverable",
+        location: `/prompts/${p.id}`,
+        usageInstructions:
+          ui === "he"
+            ? "סקירת הפרומפט השמור."
+            : "Review the saved prompt.",
+        sourceEntityId: p.id,
+        contentHash: deterministicHash(buildPrompt(p, ui)),
+        createdAt: now,
+        updatedAt: now,
+        version: 1,
+      });
+      updateOutcome(outcome.id, { status: "completed" });
+    }
+    navigate(`/prompts/${p.id}`);
   };
   return (
     <div className="page prompt-builder-page">

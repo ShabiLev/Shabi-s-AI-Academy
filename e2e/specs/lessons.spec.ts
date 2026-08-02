@@ -28,6 +28,13 @@ test("opening marks progress and completion survives refresh", async ({
   page,
 }) => {
   await login(page, "/lessons/ai-llm-agent");
+  // Completion now requires real evidence — the submitted quiz — not a bare click.
+  await page.getByRole("radio", { name: "הקשר" }).check();
+  await page.getByRole("radio", { name: "נכון", exact: true }).check();
+  await page
+    .getByRole("radio", { name: "אימות אנושי ותוצר שניתן לסקור" })
+    .check();
+  await page.getByRole("button", { name: "בדיקת תשובות" }).click();
   await page.getByRole("button", { name: "סימון השיעור כהושלם" }).click();
   await page.reload();
   await page.goto("/lessons");

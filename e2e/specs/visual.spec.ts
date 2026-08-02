@@ -261,7 +261,10 @@ test.describe("visual — Version 1.8 Agent Teams", () => {
     await page.getByRole("button", { name: "Create mission for review" }).click();
     await page.getByRole("button", { name: "Approve plan" }).click();
     await page.getByRole("button", { name: "Start" }).click();
-    for (let phase = 0; phase < 4; phase += 1) await page.getByRole("button", { name: "Complete simulated phase" }).click();
+    for (let phase = 0; phase < 4; phase += 1) {
+      await page.getByLabel("I acknowledge this is a local simulation, not live execution").check();
+      await page.getByRole("button", { name: "Complete simulated phase" }).click();
+    }
     await stabilize(page);
     await expect(page).toHaveScreenshot("v18-mission-completed-en-desktop.png", { fullPage: true, mask: dynamicMasks(page) });
   });

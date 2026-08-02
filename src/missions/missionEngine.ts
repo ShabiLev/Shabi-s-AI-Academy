@@ -6,6 +6,7 @@ import type {
   Mission,
   MissionEvidence,
   MissionInterpretation,
+  MissionPhaseProof,
   MissionPhase,
   SkillEvidence,
   SkillLevel,
@@ -13,6 +14,7 @@ import type {
 } from "./types";
 
 export type MissionAction = "approve-plan" | "start" | "pause" | "continue" | "complete-phase" | "fail-phase" | "retry" | "provide-input" | "cancel";
+export type MissionCompletionProofInput = Pick<MissionPhaseProof, "deliverableSummary" | "evidenceIds" | "simulationAcknowledged" | "blocker">;
 
 const nowIso = () => new Date().toISOString();
 const makeId = (prefix: string) => `${prefix}-${crypto.randomUUID()}`;
@@ -142,10 +144,10 @@ export function createMission(input: {
 export interface TransitionResult {
   mission: Mission;
   ok: boolean;
-  reason?: "invalid-transition" | "connected-disabled" | "self-approval" | "resume-drift";
+  reason?: "invalid-transition" | "connected-disabled" | "self-approval" | "resume-drift" | "missing-completion-proof";
 }
 
-export function transitionMission(mission: Mission, action: MissionAction, now = nowIso(), expectedFingerprint?: string): TransitionResult {
+export function transitionMission(mission: Mission, action: MissionAction, now = nowIso(), expectedFingerprint?: string, completionProof?: MissionCompletionProofInput): TransitionResult {
   if (mission.status === "completed" || mission.status === "cancelled" || mission.status === "blocked") return { mission, ok: false, reason: "invalid-transition" };
   if (mission.executionLevel === "connected-execute" && action === "start") return { mission: { ...mission, status: "blocked", blockedReason: "execution-level-unavailable", updatedAt: now }, ok: false, reason: "connected-disabled" };
   const phases = mission.phases.map((phase) => ({ ...phase }));
@@ -186,7 +188,18 @@ export function transitionMission(mission: Mission, action: MissionAction, now =
   }
   if (action === "complete-phase" && mission.status === "running") {
     if (current.reviewerAgentId === current.ownerAgentId) return { mission, ok: false, reason: "self-approval" };
-    phases[mission.currentPhaseIndex] = { ...current, status: "passed", completedAt: now, outputSummary: `Deterministic ${mission.executionLevel} output reviewed at phase ${current.id}.` };
+    const cleanDeliverable = completionProof?.deliverableSummary?.trim().slice(0, 2_000);
+    const cleanBlocker = completionProof?.blocker?.trim().slice(0, 1_000);
+    const evidenceIds = (completionProof?.evidenceIds ?? []).filter((id) => mission.evidence.some((item) => item.id === id));
+    const simulationAcknowledged = completionProof?.simulationAcknowledged === true && ["simulate", "dry-run", "explain"].includes(mission.executionLevel);
+    if (!cleanDeliverable && !cleanBlocker && !evidenceIds.length && !simulationAcknowledged) return { mission, ok: false, reason: "missing-completion-proof" };
+    const proof: MissionPhaseProof = { phaseId: current.id, deliverableSummary: cleanDeliverable, evidenceIds, simulationAcknowledged, blocker: cleanBlocker, recordedAt: now };
+    if (cleanBlocker) {
+      phases[mission.currentPhaseIndex] = { ...current, status: "paused", completedAt: now, outputSummary: cleanBlocker };
+      return { ok: true, mission: { ...nextBase, phases, status: "blocked", blockedReason: cleanBlocker, phaseProofs: [...(mission.phaseProofs ?? []), proof], evidence: [...mission.evidence, evidence(current.id, "gate", "INFO", "תועד חוסם מפורש; המשימה לא סומנה כהושלמה.", "An explicit blocker was recorded; the Mission was not marked completed.", now)] } };
+    }
+    const proofSummary = cleanDeliverable ?? (evidenceIds.length ? "Referenced evidence reviewed." : "Simulation explicitly acknowledged by the user.");
+    phases[mission.currentPhaseIndex] = { ...current, status: "passed", completedAt: now, outputSummary: proofSummary };
     const final = mission.currentPhaseIndex === phases.length - 1;
     const nextIndex = final ? mission.currentPhaseIndex : mission.currentPhaseIndex + 1;
     if (!final) phases[nextIndex] = { ...phases[nextIndex], status: "active", startedAt: now };
@@ -197,6 +210,7 @@ export function transitionMission(mission: Mission, action: MissionAction, now =
       currentPhaseIndex: nextIndex,
       currentPhaseId: phases[nextIndex].id,
       completedAt: final ? now : undefined,
+      phaseProofs: [...(mission.phaseProofs ?? []), proof],
       learningSummary: final ? {
         summary: { he: "תרגלת תזמור צוות, עצירות אישור ואימות מבוסס ראיות.", en: "You practised team orchestration, approval stops, and evidence-based validation." },
         demonstratedSkillIds: ["orchestration", "qa"],

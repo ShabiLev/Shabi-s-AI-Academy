@@ -61,7 +61,7 @@ describe("Version 1.8 mission runtime", () => {
     mission = transitionMission(mission, "start", "2026-07-29T08:02:00.000Z").mission;
     expect(mission.status).toBe("running");
     expect(mission.phases.filter((phase) => phase.status === "active")).toHaveLength(1);
-    while (mission.status === "running") mission = transitionMission(mission, "complete-phase").mission;
+    while (mission.status === "running") mission = transitionMission(mission, "complete-phase", undefined, undefined, { evidenceIds: [], simulationAcknowledged: true }).mission;
     expect(mission.status).toBe("completed");
     expect(mission.evidence.some((item) => item.kind === "learning" && item.result === "PASS")).toBe(true);
   });
@@ -80,6 +80,16 @@ describe("Version 1.8 mission runtime", () => {
     const rejected = transitionMission(drifted, "continue");
     expect(rejected.reason).toBe("resume-drift");
     expect(rejected.mission.status).toBe("needs-input");
+  });
+
+  it("rejects click-only completion and records a documented blocker without claiming completion", () => {
+    let mission = createMission({ actorId, goal: "Require an honest result" });
+    mission = transitionMission(transitionMission(mission, "approve-plan").mission, "start").mission;
+    expect(transitionMission(mission, "complete-phase").reason).toBe("missing-completion-proof");
+    const blocked = transitionMission(mission, "complete-phase", undefined, undefined, { evidenceIds: [], simulationAcknowledged: false, blocker: "External approval is missing" });
+    expect(blocked.mission.status).toBe("blocked");
+    expect(blocked.mission.completedAt).toBeUndefined();
+    expect(blocked.mission.phaseProofs?.at(-1)?.blocker).toBe("External approval is missing");
   });
 
   it("blocks unavailable execution and self-approval", () => {

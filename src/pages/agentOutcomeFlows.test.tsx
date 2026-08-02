@@ -55,5 +55,7 @@ describe("Version 2.0 Agent Blueprint Outcome experience", () => {
     expect(await screen.findByRole("heading", { level: 1, name: "תוצאות עבודה" })).toBeVisible();
     expect(screen.getByRole("heading", { level: 2, name: "סוכן בדיקה" })).toBeVisible();
     expect(screen.getByText("תכנית בלבד")).toBeInTheDocument();
-  });
+  // The 12-step wizard involves many sequential typing/click interactions; under coverage
+  // instrumentation on a loaded CI runner this can exceed the default 5000ms test timeout.
+  }, 15_000);
 });

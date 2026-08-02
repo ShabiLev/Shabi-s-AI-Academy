@@ -123,6 +123,7 @@ test("completed Mission produces a learning summary and evidence-backed Skill Ma
   await page.getByRole("button", { name: /Approve plan|אישור התכנית/ }).click();
   await page.getByRole("button", { name: /Start|התחלה/ }).click();
   for (let phase = 0; phase < 4; phase += 1) {
+    await page.getByLabel(/I acknowledge this is a local simulation, not live execution|אני מאשר\/ת שזו סימולציה מקומית ולא ביצוע חי/).check();
     await page.getByRole("button", { name: /Complete simulated phase|השלמת השלב המדומה/ }).click();
   }
   await expect(page.locator(".mission-heading .mission-status")).toContainText(/הושלמה|Completed/);

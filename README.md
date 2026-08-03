@@ -1,6 +1,6 @@
 # Shabi's AI Academy
 
-Shabi's AI Academy is a bilingual, local-first AI learning and building workspace. The active release candidate is **Version 1.9.0-beta.1**, which adds the deterministic Agent Evaluation Lab, transparent rubrics, immutable comparisons, regression suites, safe connected-action previews, and validated Codex export while preserving Version 1.8 Missions and Agent Teams — see [`.agent/README.md`](.agent/README.md).
+Shabi's AI Academy is a bilingual, local-first AI learning and building workspace. The current released version is **Version 2.0.0**, which adds Outcome tracking for Value, Outcome, and Usability across Agents, Teams, Prompts, Workflows, Knowledge, and Lessons, a Mission completion-proof gate, and the Outcomes list/detail experience, while preserving Version 1.9's deterministic Agent Evaluation Lab and earlier Missions and Agent Teams — see [`.agent/README.md`](.agent/README.md).
 
 The AI Workspace connects 45 open bilingual lessons, 250 structured prompts in 11 packs, 32 immutable starter-agent templates, personal builders, Playgrounds, Projects, Knowledge Base, Global Search, Command Palette, Local Assistant, deterministic workflows, activity analytics, notifications, and complete backup. Mock and Dry Run are executable; Live remains intentionally disabled and no browser API key input exists.
 

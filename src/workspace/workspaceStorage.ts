@@ -1,10 +1,10 @@
 import { ANALYTICS_EVENT_TYPES, type AnalyticsEvent, type EntityActivity, type EntityPreference, type WorkspaceNotification, type WorkspaceState } from "./types";
 export const WORKSPACE_STORAGE_KEY = "shabis-ai-academy:workspace:v1"; export const WORKSPACE_MAX_BYTES = 1_500_000;
-const empty = (): WorkspaceState => ({ schemaVersion: 1, appVersion: "1.9.0-beta.1", analyticsEnabled: false, activities: [], preferences: [], notifications: [], analytics: [] });
+const empty = (): WorkspaceState => ({ schemaVersion: 1, appVersion: "2.0.0", analyticsEnabled: false, activities: [], preferences: [], notifications: [], analytics: [] });
 const records = <T>(value: unknown, valid: (item: Record<string, unknown>) => boolean, max: number): T[] => Array.isArray(value) ? value.filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === "object" && valid(item)).slice(-max) as T[] : [];
 const COARSE_CATEGORY = /^[a-z0-9][a-z0-9._-]{0,39}$/i;
 export const sanitizeAnalyticsCategory = (value: unknown): string | undefined => typeof value === "string" && COARSE_CATEGORY.test(value) ? value : undefined;
-export function parseWorkspaceState(value: unknown): WorkspaceState { if (!value || typeof value !== "object") return empty(); const state = value as Record<string, unknown>; return { schemaVersion: 1, appVersion: "1.9.0-beta.1", analyticsEnabled: state.analyticsEnabled === true,
+export function parseWorkspaceState(value: unknown): WorkspaceState { if (!value || typeof value !== "object") return empty(); const state = value as Record<string, unknown>; return { schemaVersion: 1, appVersion: "2.0.0", analyticsEnabled: state.analyticsEnabled === true,
   activities: records<EntityActivity>(state.activities, (item) => typeof item.id === "string" && typeof item.entityId === "string" && typeof item.title === "string" && typeof item.route === "string" && item.route.startsWith("/"), 200),
   preferences: records<EntityPreference>(state.preferences, (item) => typeof item.entityId === "string" && typeof item.favorite === "boolean" && typeof item.pinned === "boolean", 500),
   notifications: records<WorkspaceNotification>(state.notifications, (item) => typeof item.id === "string" && typeof item.read === "boolean" && Boolean(item.title) && Boolean(item.message), 100),

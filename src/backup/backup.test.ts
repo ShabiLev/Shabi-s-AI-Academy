@@ -51,7 +51,7 @@ describe("complete Workspace backup", () => {
     expect(backup.checksum).toBe(
       checksumPayload({
         schemaVersion: 3,
-        appVersion: "1.9.0-beta.1",
+        appVersion: "2.0.0",
         actorId: "local-guest",
         exportedAt: "now",
         domainVersions: backup.domainVersions,

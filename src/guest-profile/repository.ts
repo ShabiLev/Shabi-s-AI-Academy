@@ -194,7 +194,7 @@ export function exportGuestProfile(profile: GuestProfile, now = nowIso): GuestPr
   const envelope = {
     schemaVersion: 1 as const,
     kind: "shabis-ai-academy-guest-profile" as const,
-    appVersion: "1.9.0-beta.1",
+    appVersion: "2.0.0",
     exportedAt: now(),
     profile,
   };

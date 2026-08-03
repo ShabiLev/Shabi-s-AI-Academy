@@ -7,6 +7,7 @@ import { Icon } from '../common/Icon'
 import { AssistantSidebar } from '../assistant/AssistantSidebar'
 import { useAssistant } from '../../assistant'
 import { PageIntroduction } from '../../guidance'
+import { appMetadata } from '../../config/appMetadata'
 
 export function AppLayout() {
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -52,7 +53,7 @@ export function AppLayout() {
     <div className="app-column" aria-hidden={drawerOpen || undefined}>
       <Header ref={menuButtonRef} onOpenMenu={() => setDrawerOpen(true)} />
       <main id="main-content" tabIndex={-1}><PageIntroduction /><Outlet /></main>
-      <footer><strong>{t('brand.name')}</strong><span>{t('footer.version')}</span><Link to="/about">About / אודות</Link><span>{t('footer.builtWhileLearning')}</span></footer>
+      <footer><strong>{t('brand.name')}</strong><span>{t('footer.version')} {appMetadata.version}</span><Link to="/about">About / אודות</Link><span>{t('footer.builtWhileLearning')}</span></footer>
     </div>
     <AssistantSidebar />
     {drawerOpen && <div className="drawer-layer" role="presentation">

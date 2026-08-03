@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "../i18n/LanguageContext";
 import { helpSections } from "../help/helpData";
 import { searchHelp } from "../help/helpSearch";
+import { appMetadata } from "../config/appMetadata";
 export function HowToPage() {
   const { language } = useLanguage(),
     ui = language === "he" ? "he" : "en",
@@ -102,8 +103,8 @@ export function HowToPage() {
         </h2>
         <p>
           {ui === "he"
-            ? "בגרסה 1.9.0-beta.1 פלט Simulate והערכות Academy הם דטרמיניסטיים, ופעולה מחוברת היא תצוגה מקדימה בלבד. מידע אינו נשלח החוצה וכלים חיצוניים אינם מופעלים."
-            : "In Version 1.9.0-beta.1, Simulate and Academy evaluation output is deterministic, and connected actions are preview-only. No data is sent externally and no real tool is executed."}
+            ? `בגרסה ${appMetadata.version} פלט Simulate והערכות Academy הם דטרמיניסטיים, ופעולה מחוברת היא תצוגה מקדימה בלבד. מידע אינו נשלח החוצה וכלים חיצוניים אינם מופעלים.`
+            : `In Version ${appMetadata.version}, Simulate and Academy evaluation output is deterministic, and connected actions are preview-only. No data is sent externally and no real tool is executed.`}
         </p>
       </section>
     </div>

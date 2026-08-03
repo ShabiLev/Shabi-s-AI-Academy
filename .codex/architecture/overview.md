@@ -2,15 +2,17 @@
 
 ## Purpose
 
-Define the controlling system shape for Shabi's AI Academy 1.9.0-beta.1 and its post-release follow-up.
+Define the controlling system shape for Shabi's AI Academy 2.0.0 and its post-release follow-up.
 
 ## Current state
 
 The application is a React + TypeScript + Vite single-page application with
 public and protected routes. It provides bilingual learning, local builders,
-Version 1.8 Agent Teams and Missions, and a Version 1.9 deterministic Agent
-Evaluation Lab. There is no production evaluation backend or live model
-provider. Connected workflows remain preview-only.
+Version 1.8 Agent Teams and Missions, a Version 1.9 deterministic Agent
+Evaluation Lab, and a Version 2.0 Outcome domain tracking Value, Outcome, and
+Usability across builders, with a Mission completion-proof gate. There is no
+production evaluation backend or live model provider. Connected workflows
+remain preview-only.
 
 ## Decision
 

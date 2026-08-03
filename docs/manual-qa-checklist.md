@@ -1,5 +1,16 @@
 # Manual QA checklist
 
+For 2.0.0, manually review the Outcomes list and Outcome detail pages,
+Reality status (blueprint/not-connected/verified), evidence status,
+limitations, and next actions across Agent, Team, Prompt, Workflow,
+Knowledge, and Lesson outcomes, the Mission completion-proof gate (a Mission
+cannot reach Completed without acknowledged simulation proof), the new
+Outcomes sidebar entry, and the Outcomes Help Center articles, in
+Hebrew/English and desktop/mobile. Confirm the footer and About page show
+Version 2.0.0, no page still shows a beta label for the current release, and
+the Version 1.9 Evaluation Lab and earlier Missions/Teams flows remain
+usable.
+
 For 1.9.0-beta.1, manually review the Evaluation Arena, Rubric Builder,
 running/paused/completed/needs-evidence states, criterion evidence,
 disagreement, sanitized trace, regression suite, Failure Case, connected

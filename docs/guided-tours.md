@@ -1,6 +1,6 @@
 # WALK ME product walkthrough
 
-Version 1.9.0-beta.1 preserves the Version 1.7 global eight-step product walkthrough across Mission and Evaluation routes. It replaces module banners and independent page tours; no commercial WalkMe SDK is included.
+Version 2.0.0 preserves the Version 1.7 global eight-step product walkthrough across Mission and Evaluation routes. It replaces module banners and independent page tours; no commercial WalkMe SDK is included.
 
 ## Lifecycle
 

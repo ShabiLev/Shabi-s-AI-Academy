@@ -1,5 +1,63 @@
 # Changelog
 
+## [2.0.0] - 2026-08-02
+
+### Added
+
+- Outcome domain (create, add deliverable, add evidence, update status) wired
+  into Agent, Team, Prompt, Workflow, Knowledge, and Lesson builders, so
+  completing real work in any of those flows creates or updates a linked,
+  actor-scoped Outcome.
+- Outcomes list and Outcome detail pages with Reality status (blueprint / not
+  connected / verified with evidence), evidence status, limitations, and
+  recommended next actions.
+- Outcomes entry in the primary sidebar navigation and new Help Center
+  articles covering the Outcomes list and Outcome detail experience, in
+  Hebrew and English.
+- A Mission completion-proof gate: a Mission can no longer reach the
+  Completed state without an explicit simulation-acknowledgement or
+  deliverable/evidence proof.
+
+### Changed
+
+- Version reporting now uses a single stable release: `2.0.0`, with the
+  `-beta.N` prerelease tag dropped. The application footer, About page,
+  Developer Mode, Release Center, and Live-execution-disabled messages all
+  derive from the same `appMetadata.version` source.
+- Knowledge Base migrated to schema 2 with context links derived from each
+  document's own linked projects, kept in sync on create/update/remove.
+- Course/Lesson progress now gates completion on real evidence rather than a
+  simulated click, consistent with the Mission completion-proof gate.
+
+### Fixed
+
+- The application no longer reports `1.9.0-beta.1` after the Version 2.0
+  deployment — every visible and stored version reference (footer, About
+  page, Developer Mode, Release Center, AOS manifest, and locally-stamped
+  record metadata) now reads `2.0.0`.
+- The Mission visual-regression spec previously marked a Mission "Completed"
+  in its baseline screenshot without ever providing completion proof, which
+  masked the same gap the completion-proof gate now closes; the spec was
+  corrected to acknowledge simulation proof before asserting completion.
+
+### Security and privacy
+
+- The Outcome domain is fully local and actor-scoped: localStorage keys are
+  namespaced per normalized actor ID, malformed or foreign-actor records are
+  quarantined rather than trusted, and all outcome text is rendered as plain
+  JSX (no `dangerouslySetInnerHTML`/`innerHTML` anywhere in the domain).
+- `deterministicHash` remains a non-cryptographic content/dedup checksum and
+  is never used for authentication or token purposes.
+- No new external network calls were introduced; Live execution remains
+  disabled and unavailable in this version.
+
+### Known limitations
+
+- Outcome evidence and deliverables are local-only; there is no server-side
+  verification of claimed outcomes.
+- The Outcomes experience does not yet cover every builder in the app —
+  coverage matches the domains listed above.
+
 ## [1.9.0-beta.1] - 2026-07-30
 
 ### Added

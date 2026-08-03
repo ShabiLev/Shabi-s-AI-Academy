@@ -32,9 +32,13 @@
 ### Fixed
 
 - The application no longer reports `1.9.0-beta.1` after the Version 2.0
-  deployment — every visible and stored version reference (footer, About
-  page, Developer Mode, Release Center, AOS manifest, and locally-stamped
-  record metadata) now reads `2.0.0`.
+  deployment — every version reference this repository's own versioning
+  policy (`.agent/release/versioning.md`) treats as authoritative (footer,
+  About page, Developer Mode, Release Center, AOS manifest, and
+  locally-stamped record metadata) now reads `2.0.0`. `.codex/README.md`'s
+  "Current released application" / "Active release candidate" lines are a
+  separate, intentionally frozen Sprint 7 Kit-tracking anchor per
+  `.codex/standards/versioning.md` and were out of scope for this fix.
 - The Mission visual-regression spec previously marked a Mission "Completed"
   in its baseline screenshot without ever providing completion proof, which
   masked the same gap the completion-proof gate now closes; the spec was
